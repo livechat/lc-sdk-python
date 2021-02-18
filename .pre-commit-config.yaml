@@ -1,0 +1,41 @@
+repos:
+- repo: https://github.com/pre-commit/mirrors-isort
+  rev: v5.7.0
+  hooks:
+    - id: isort
+      language: python
+- repo: https://github.com/pre-commit/mirrors-yapf
+  rev: v0.30.0
+  hooks:
+    - id: yapf
+      args: [--in-place,
+             --style google]
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.4.0
+  hooks:
+    - id: requirements-txt-fixer
+    - id: check-yaml
+    - id: check-json
+    - id: pretty-format-json
+      args: [--autofix,
+             --indent=4,
+             --no-sort-keys]
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+    - id: double-quote-string-fixer
+- repo: https://github.com/pre-commit/mirrors-pylint
+  rev: v2.6.0
+  hooks:
+    - id: pylint
+      args: [--disable=import-error,
+             --disable=line-too-long,
+             --disable=too-many-public-methods,
+             --disable=too-many-lines,
+             --disable=too-many-locals,
+             --disable=duplicate-code,
+             --disable=logging-fstring-interpolation]
+- repo: https://gitlab.com/pycqa/flake8
+  rev: '3.8.4'
+  hooks:
+    - id: flake8
+      args: ['--ignore=E501']
