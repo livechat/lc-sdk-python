@@ -107,7 +107,7 @@ class WebsocketClient:
     def _receive(self, request_id: str, expected_responses=1) -> dict:
         ''' Receive data from WebSocket.
                Args:
-                    request_id (dict): String which shows request_id for matching request with response.
+                    request_id (str): String which shows request_id for matching request with response.
                     expected_responses (int): Which states how many response messages should be returned, default value should be set to 1.
                Returns:
                     dict: Dictionary with response.
