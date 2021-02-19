@@ -1,9 +1,11 @@
 
 
-def parse_url_and_return_origin(url) -> str:
+def parse_url_and_return_origin(url: str) -> str:
     ''' Parse url and return correct origin.
            Args:
                 url(str): String which defines environment.
+           Returns:
+                str: String with correct origin depends on environment.
     '''
     domain = 'livechatinc.com'
     if 'labs' in url:

@@ -62,11 +62,12 @@ class WebsocketClient:
                     f'Exception caught while closing the WebSocket: {error}.'
                 )
 
-    def send(self,
-             request):
+    def send(self, request: dict) -> dict:
         ''' Send request via WebSocket.
                Args:
                     request (dict): Dictionary which is being converted to payload.
+               Returns:
+                    dict: Dictionary with response.
         '''
         responses = {}
         if self.websocket.connected:
@@ -103,11 +104,13 @@ class WebsocketClient:
             sleep(1)
             keep_alive_counter += 1
 
-    def _receive(self, request_id, expected_responses=1):
+    def _receive(self, request_id: str, expected_responses=1) -> dict:
         ''' Receive data from WebSocket.
                Args:
                     request_id (dict): String which shows request_id for matching request with response.
                     expected_responses (int): Which states how many response messages should be returned, default value should be set to 1.
+               Returns:
+                    dict: Dictionary with response.
         '''
         all_responses = {
             'response': None,
