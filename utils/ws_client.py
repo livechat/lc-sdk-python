@@ -14,7 +14,7 @@ from websocket import (WebSocketException, WebSocketTimeoutException,
                 WebSocketBadStatusException, WebSocketAddressException)
 from utils.tools import parse_url_and_return_origin
 import random
-
+from timeit import default_timer as timer
 
 class WebsocketClient:
     ''' WebSocket synchronous client based on websocket-client module. '''
@@ -30,7 +30,10 @@ class WebsocketClient:
 
 
     def open(self, keep_alive=True):
-        ''' Open WebSocket connection. '''
+        ''' Open WebSocket connection.
+                Args:
+                    keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+        '''
         try:
             self.websocket = websocket.create_connection(
                 self.url,
@@ -46,7 +49,7 @@ class WebsocketClient:
         else:
             if keep_alive:
                 self.keep_alive = True
-            threading.Thread(target=self._keep_ws_alive).start()
+                threading.Thread(target=self._keep_ws_alive).start()
 
     def close(self):
         ''' Close WebSocket connection. '''
@@ -61,15 +64,18 @@ class WebsocketClient:
 
     def send(self,
              request):
-        ''' Send request via WebSocket. '''
+        ''' Send request via WebSocket.
+               Args:
+                    request (dict): Dictionary which is being converted to payload.
+        '''
         responses = {}
         if self.websocket.connected:
-            request.update({'request_id': str(random.randint(1, 9999999999))})
+            request_id = str(random.randint(1, 9999999999))
+            request.update({'request_id': request_id})
             request_json = json.dumps(request, indent=4)
             self.logger.info(f'\nREQUEST:\n{request_json}')
             self.websocket.send(request_json)
-            sleep(self.timeout)
-            responses = self._receive(request)
+            responses = self._receive(request_id)
             self.logger.info(
                     f'\nRESPONSES:\n{json.dumps(responses, indent=4)}'
             )
@@ -97,13 +103,18 @@ class WebsocketClient:
             sleep(1)
             keep_alive_counter += 1
 
-    def _receive(self, request, expected_responses=1):
-        ''' Receive data from WebSocket. '''
+    def _receive(self, request_id, expected_responses=1):
+        ''' Receive data from WebSocket.
+               Args:
+                    request_id (dict): String which shows request_id for matching request with response.
+                    expected_responses (int): Which states how many response messages should be returned, default value should be set to 1.
+        '''
         all_responses = {
             'response': None,
             'pushes': []
         }
-        for _ in range(70):
+        start = timer()
+        while timer() - start < 5:
             if self.websocket.connected:
                 try:
                     response = json.loads(self.websocket.recv())
@@ -111,7 +122,7 @@ class WebsocketClient:
                         WebSocketConnectionClosedException) as error:
                     self.logger.critical(f'Exception caught while collecting responses: {error}.')
                 else:
-                    if response.get('request_id') == request.get('request_id'):
+                    if response.get('request_id') == request_id:
                         if response.get('type') == 'response':
                             all_responses['response'] = response
                         else:
