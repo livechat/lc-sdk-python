@@ -11,7 +11,7 @@
 
 ###  get_client
 
-\+ **CustomerRTM.get_client**(`token`:string, `license`: string): *TBD*
+\+ **CustomerRTM.get_client**(`token`:TBD, `license`: TBD): *TBD*
 
 *Defined in TBD
 
@@ -172,7 +172,7 @@ ___
 
 ###  get_chat
 
-▸ **get_chat**(`chat_id`:  TBD, `thread_id?`:  TBD): *TBD*
+▸ **get_chat**(`chat_id`:  TBD, `thread_id`:  TBD): *TBD*
 
 *Defined in TBD*
 
@@ -183,7 +183,7 @@ It returns a thread that the current Customer has access to in a given chat.
 Name | Type | Description |
 ------ | ------ | ------ |
 `chat_id` |  TBD | ID of a chat to get |
-`thread_id?` |  TBD | thread ID to get (if not provided, last thread is returned)  |
+`thread_id` |  TBD | thread ID to get (if not provided, last thread is returned)  |
 
 **Returns:** *TBD*
 
@@ -253,7 +253,7 @@ ___
 
 ###  list_chats
 
-▸ **list_chats**(`opts?`: TBD): *TBD*
+▸ **list_chats**(`opts`: TBD): *TBD*
 
 *Defined in TBD*
 
@@ -263,7 +263,7 @@ It returns summaries of the chats a Customer participated in.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`opts?` | TBD | set of filters and pagination to limit returned entries  |
+`opts` | TBD | set of filters and pagination to limit returned entries  |
 
 **Returns:** *TBD*
 
@@ -287,7 +287,7 @@ Name | Type | Description |
 
 ###  list_threads
 
-▸ **list_threads**(`chat_id`: string, `opts?`: TBD): *TBD*
+▸ **list_threads**(`chat_id`: TBD, `opts`: TBD): *TBD*
 
 *Defined in TBD*
 
@@ -298,7 +298,7 @@ Returns threads that the current Customer has access to in a given chat.
 Name | Type | Description |
 ------ | ------ | ------ |
 `chat_id` |  TBD | chat ID to get threads from |
-`opts?` | TBD | additional options like pagination and sorting  |
+`opts` | TBD | additional options like pagination and sorting  |
 
 **Returns:** *TBD*
 
@@ -359,7 +359,7 @@ Name | Type | Description |
 
 ###  send_event
 
-▸ **send_event**(`chat_id`:  TBD, `event`: TBD, `attach_to_last_thread?`: TBD): *TBD*
+▸ **send_event**(`chat_id`:  TBD, `event`: TBD, `attach_to_last_thread`: TBD): *TBD*
 
 *Defined in TBD*
 
@@ -373,7 +373,7 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `chat_id` |  TBD | chat to send event to |
 `event` | TBD | Event object |
-`attach_to_last_thread?` |  TBD | if true, adds event to last inactive thread  |
+`attach_to_last_thread` |  TBD | if True, adds event to last inactive thread  |
 
 **Returns:** *TBD*
 
@@ -436,7 +436,7 @@ ___
 
 ###  start_chat
 
-▸ **start_chat**(`opts?`: TBD): *TBD*
+▸ **start_chat**(`opts`: TBD): *TBD*
 
 *Defined in TBD*
 
@@ -446,7 +446,7 @@ Starts a chat
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`opts?` | TBD | options like initial chat data or continuous switch  |
+`opts` | TBD | options like initial chat data or continuous switch  |
 
 **Returns:** *TBD*
 

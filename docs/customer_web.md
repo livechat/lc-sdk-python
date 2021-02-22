@@ -9,7 +9,7 @@
 
 ###  get_client
 
-\+ **CustomerWEB.get_client**(`token`:string, `license`: string): *TBD*
+\+ **CustomerWEB.get_client**(`token`:TBD, `license`: TBD): *TBD*
 
 *Defined in TBD
 
@@ -208,7 +208,7 @@ It returns a thread that the current Customer has access to in a given chat.
 Name | Type | Description |
 ------ | ------ | ------ |
 `chat_id` | TBD | ID of a chat to get |
-`thread_id?` | TBD| thread ID to get (if not provided, last thread is returned)  |
+`thread_id` | TBD| thread ID to get (if not provided, last thread is returned)  |
 
 **Returns:** *TBD*
 
@@ -238,7 +238,7 @@ Returns an empty ticket form of a prechat or postchat survey.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`group_id` | TBD | = group id to get form for |
+`group_id` | TBD | group id to get form for |
 `type` | TBD | prechat or postchat  |
 
 **Returns:** *TBD*
@@ -278,7 +278,7 @@ ___
 
 ###  list_chats
 
-▸ **list_chats**(`opts?`: TBD): *TBD*
+▸ **list_chats**(`opts`: TBD): *TBD*
 
 *Defined in TBD*
 
@@ -288,7 +288,7 @@ It returns summaries of the chats a Customer participated in.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`opts?` | TBD | set of filters and pagination to limit returned entries  |
+`opts` | TBD | set of filters and pagination to limit returned entries  |
 
 **Returns:** *TBD*
 
@@ -308,8 +308,8 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `license_id` | TBD | ID of license to return properties of |
 `group_id` | TBD | ID of group to return properties of |
-`namespace?` | TBD | property namespace |
-`name?` | TBD | property name  |
+`namespace` | TBD | property namespace |
+`name` | TBD | property name  |
 
 **Returns:** *TBD*
 
@@ -346,8 +346,8 @@ Returns the properties of a given license. It only returns the properties a Cust
 Name | Type | Description |
 ------ | ------ | ------ |
 `license_id` | TBD | ID of license to return properties of |
-`namespace?` | TBD| property namespace |
-`name?` | TBD | property name  |
+`namespace` | TBD| property namespace |
+`name` | TBD | property name  |
 
 **Returns:** *TBD*
 
@@ -355,7 +355,7 @@ ___
 
 ###  list_threads
 
-▸ **list_threads**(`chat_id`: string, `opts?`: TBD): *TBD*
+▸ **list_threads**(`chat_id`: TBD, `opts`: TBD): *TBD*
 
 *Defined in TBD*
 
@@ -366,7 +366,7 @@ Returns threads that the current Customer has access to in a given chat.
 Name | Type | Description |
 ------ | ------ | ------ |
 `chat_id` | TBD | chat ID to get threads from |
-`opts?` | TBD| additional options like pagination and sorting  |
+`opts` | TBD| additional options like pagination and sorting  |
 
 **Returns:** *TBD*
 
@@ -409,7 +409,7 @@ Name | Type | Description |
 
 ###  send_event
 
-▸ **send_event**(`chat_id`: TBD, `event`: TBD), `attach_to_last_thread?`: TBD): *TBD*
+▸ **send_event**(`chat_id`: TBD, `event`: TBD), `attach_to_last_thread`: TBD): *TBD*
 
 *Defined in TBD*
 
@@ -423,7 +423,7 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `chat_id` | TBD | chat to send event to |
 `event` | TBD | Event object |
-`attach_to_last_thread` | TBD | if true, adds event to last inactive thread  |
+`attach_to_last_thread` | TBD | if True, adds event to last inactive thread  |
 
 **Returns:** *TBD*
 
@@ -478,7 +478,7 @@ Sets session fields for Customer.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`session_fields` | object[] | fields to set in form of object enclosed key:value pairs  |
+`session_fields` | TBD | fields to set in form of object enclosed key:value pairs  |
 
 **Returns:** *TBD*
 
@@ -551,9 +551,9 @@ Updates event properties
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`chat_id` | string | chat ID of event to update |
-`thread_id` | string | thread ID of event to update |
-`event_id` | string | event to update properties |
+`chat_id` | TBD | chat ID of event to update |
+`thread_id` | TBD | thread ID of event to update |
+`event_id` | TBD | event to update properties |
 `properties` | TBD | properties to update  |
 
 **Returns:** *TBD*
