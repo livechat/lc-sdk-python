@@ -1,4 +1,4 @@
-# Class: RTM
+# Class: CustomerRTM
 
 ## Index
 
