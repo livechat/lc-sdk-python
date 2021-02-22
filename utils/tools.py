@@ -1,3 +1,6 @@
+'''
+Helper methods which are used within sdk.
+'''
 
 
 def parse_url_and_return_origin(url: str) -> str:

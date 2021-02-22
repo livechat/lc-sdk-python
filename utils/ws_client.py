@@ -19,7 +19,7 @@ from timeit import default_timer as timer
 class WebsocketClient:
     ''' WebSocket synchronous client based on websocket-client module. '''
 
-    def __init__(self, url, timeout=2):
+    def __init__(self, url, timeout: int=2):
         self.url = url
         self.timeout = timeout
         self.websocket = None
@@ -29,7 +29,7 @@ class WebsocketClient:
         self.logger.setLevel(logging.INFO)
 
 
-    def open(self, keep_alive=True):
+    def open(self, keep_alive: bool=True) -> None:
         ''' Open WebSocket connection.
                 Args:
                     keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
@@ -51,7 +51,7 @@ class WebsocketClient:
                 self.keep_alive = True
                 threading.Thread(target=self._keep_ws_alive).start()
 
-    def close(self):
+    def close(self) -> None:
         ''' Close WebSocket connection. '''
         self.keep_alive = False
         if self.websocket.connected:
@@ -84,8 +84,8 @@ class WebsocketClient:
             self.logger.info('send() : WebSocket connection is closed.')
         return responses
 
-    def _keep_ws_alive(self):
-        ''' Method which keeps WebSocket alive. '''
+    def _keep_ws_alive(self) -> None:
+        ''' Ping WebSocket connection to keep it alive. '''
         keep_alive_counter = 0
         while self.keep_alive:
             if self.websocket.connected and keep_alive_counter % 10 == 0:
@@ -104,7 +104,7 @@ class WebsocketClient:
             sleep(1)
             keep_alive_counter += 1
 
-    def _receive(self, request_id: str, expected_responses=1) -> dict:
+    def _receive(self, request_id: str, expected_responses: int =1) -> dict:
         ''' Receive data from WebSocket.
                Args:
                     request_id (str): String which shows request_id for matching request with response.
@@ -142,8 +142,3 @@ class WebsocketClient:
             else:
                 break
         return all_responses
-
-
-
-
-
