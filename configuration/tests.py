@@ -70,9 +70,9 @@ def test_get_api_client_with_development_environments(env):
     assert conf_api.api_url == f'https://api.{env}.livechatinc.com/v{version}/configuration/action'
 
 
-def test_send_request_without_payload(conf_api_client):
-    ''' Test if it's possible to send a request via Configuration API client
-        without payload provided. '''
+def test_send_request(conf_api_client):
+    ''' Test if it's possible to send a basic request via Configuration API
+        client. '''
     assert conf_api_client.get_agent().json() == {
         'error': {
             'type': 'authentication',
