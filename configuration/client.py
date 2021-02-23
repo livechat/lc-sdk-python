@@ -15,7 +15,7 @@ class ConfigurationApi:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
                 version (str): API's version.
-                env (str): API's environment.
+                env (str): API's environment. Defaults to `production`.
 
             Returns:
                 API client object for specified version based on
