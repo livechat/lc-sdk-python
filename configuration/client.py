@@ -571,7 +571,6 @@ class ConfigurationApi(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/get_group', json=payload)
 
-
 # Properties
 
     def register_property(self,
@@ -794,6 +793,159 @@ class ConfigurationApi(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/delete_group_properties',
+                                 json=payload)
+
+
+# Webhooks
+
+    def register_webhook(self,
+                         action: str = None,
+                         secret_key: str = None,
+                         url: str = None,
+                         additional_data: list = None,
+                         description: str = None,
+                         filters: dict = None,
+                         owner_client_id: str = None,
+                         type: str = None,
+                         payload: dict = None) -> requests.Response:
+        ''' Registers a webhook for the Client ID (application) provided in the request.
+
+            Args:
+                action (str): The action that triggers sending a webhook.
+                secret_key (str): The secret key sent in webhooks to verify the source of a webhook.
+                url (str): Destination URL for the webhook.
+                additional_data (list): Additional data arriving with the webhook.
+                description (str): 	Webhook description.
+                filters (dict): Filters to check if a webhook should be triggered.
+                owner_client_id (str): The Client ID for which the webhook will be registered.
+                type (str): `bot` or `license`.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/register_webhook',
+                                 json=payload)
+
+    def list_webhooks(self,
+                      owner_client_id: str = None,
+                      payload: dict = None) -> requests.Response:
+        ''' Lists all webhooks registered for the given Client ID.
+
+            Args:
+                owner_client_id (str): The webhook owner (the Client ID for which the webhook is registered).
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/list_webhooks', json=payload)
+
+    def unregister_webhook(self,
+                           id: str = None,
+                           owner_client_id: str = None,
+                           payload: dict = None) -> requests.Response:
+        ''' Unregisters a webhook previously registered for a Client ID (application).
+
+            Args:
+                id (str): Webhook's ID.
+                owner_client_id (str): The webhook owner (the Client ID for which the webhook is registered).
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/unregister_webhook',
+                                 json=payload)
+
+    def list_webhook_names(self,
+                           version: str = None,
+                           payload: dict = None) -> requests.Response:
+        ''' Lists all webhooks that are supported in a given API version. This method requires no authorization.
+
+            Args:
+                version (str): API's version. Defaults to the current stable API version.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/list_webhook_names',
+                                 json=payload)
+
+    def enable_license_webhooks(self,
+                                owner_client_id: str = None,
+                                payload: dict = None) -> requests.Response:
+        ''' Enables the webhooks registered for a given Client ID (application)
+            for the license associated with the access token used in the request.
+
+            Args:
+                owner_client_id (str): The webhook owner (the Client ID for which the webhook is registered).
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/enable_license_webhooks',
+                                 json=payload)
+
+    def disable_license_webhooks(self,
+                                 owner_client_id: str = None,
+                                 payload: dict = None) -> requests.Response:
+        ''' Disables the enabled webhooks.
+
+            Args:
+                owner_client_id (str): Required when authorizing via PATs; ignored otherwise.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/disable_license_webhooks',
+                                 json=payload)
+
+    def get_license_webhooks_state(self,
+                                   owner_client_id: str = None,
+                                   payload: dict = None) -> requests.Response:
+        ''' Gets the state of the webhooks registered for a given Client ID (application)
+            on the license associated with the access token used in the request.
+
+            Args:
+                owner_client_id (str): Required when authorizing via PATs; ignored otherwise.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/get_license_webhooks_state',
                                  json=payload)
 
 
