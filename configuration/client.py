@@ -9,13 +9,14 @@ import requests
 from utils.tools import prepare_payload
 
 
-class ConfigurationApi:
-    ''' Main class that allows specific client retrieval. '''
+class ClientInterface:
+    ''' Interface class that allows retrieval of client for specific Configuration
+        API version. '''
     @staticmethod
     def get_api_client(token: str,
                        version: str,
                        base_url: str = 'api.livechatinc.com'):
-        ''' Returns client for specific API version.
+        ''' Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
@@ -24,7 +25,7 @@ class ConfigurationApi:
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
 
             Returns:
-                ConfigurationApiInterface: API client object for specified version.
+                ConfigurationApi: API client object for specified version.
 
             Raises:
                 ValueError: If the specified version does not exist.
@@ -36,12 +37,9 @@ class ConfigurationApi:
         return client
 
 
-class ConfigurationApiInterface(metaclass=ABCMeta):
-    ''' Abstract interface class. '''
-    def __init__(self,
-                 token: str,
-                 version: str,
-                 base_url: str = 'api.livechatinc.com'):
+class ConfigurationApi(metaclass=ABCMeta):
+    ''' Main class containing API methods. '''
+    def __init__(self, token: str, version: str, base_url: str):
         self.api_url = f'https://{base_url}/v{version}/configuration/action'
         self.session = requests.Session()
         self.session.headers.update({'Authorization': token})
@@ -799,6 +797,6 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                  json=payload)
 
 
-class Version33(ConfigurationApiInterface):
+class Version33(ConfigurationApi):
     ''' Configuration API version 3.3 class. '''
     pass
