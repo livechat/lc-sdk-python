@@ -84,8 +84,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -104,8 +104,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -124,8 +124,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -164,8 +164,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -182,8 +182,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -200,8 +200,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -218,8 +218,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -236,8 +236,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -298,8 +298,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                             It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -317,8 +317,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -339,8 +339,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -372,8 +372,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -390,8 +390,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -422,8 +422,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -442,8 +442,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -462,8 +462,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -486,8 +486,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -510,8 +510,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -528,8 +528,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -546,8 +546,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -566,8 +566,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -601,8 +601,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -622,8 +622,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -645,8 +645,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -664,8 +664,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -684,8 +684,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -705,8 +705,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -724,8 +724,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -746,8 +746,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -769,8 +769,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -790,8 +790,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                                   response to an HTTP request.
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
