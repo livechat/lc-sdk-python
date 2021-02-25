@@ -6,7 +6,7 @@ from abc import ABCMeta
 
 import requests
 
-from utils.tools import prepare_payload
+from utils.helpers import prepare_payload
 
 
 class ClientInterface:
@@ -14,14 +14,14 @@ class ClientInterface:
         API version. '''
     @staticmethod
     def get_api_client(token: str,
-                       version: str,
+                       version: str = '3.3',
                        base_url: str = 'api.livechatinc.com'):
         ''' Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API's version.
+                version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -30,8 +30,7 @@ class ClientInterface:
             Raises:
                 ValueError: If the specified version does not exist.
         '''
-        versions = {'3.3': Version33(token, '3.3', base_url)}
-        client = versions.get(version)
+        client = {'3.3': Version33(token, '3.3', base_url)}.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
         return client

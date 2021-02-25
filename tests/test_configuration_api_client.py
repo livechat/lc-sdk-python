@@ -10,7 +10,7 @@ from configuration.client import ClientInterface
 @pytest.fixture
 def conf_api_client():
     ''' Fixture returning Configuration API client. '''
-    return ClientInterface.get_api_client(token='test', version='3.3')
+    return ClientInterface.get_api_client(token='test')
 
 
 def test_get_api_client_without_args():
@@ -19,16 +19,7 @@ def test_get_api_client_without_args():
         ClientInterface.get_api_client()
     assert str(
         exception.value
-    ) == "get_api_client() missing 2 required positional arguments: 'token' and 'version'"
-
-
-def test_get_api_client_without_version():
-    ''' Test if TypeError raised without version. '''
-    with pytest.raises(TypeError) as exception:
-        ClientInterface.get_api_client(token='test')
-    assert str(
-        exception.value
-    ) == "get_api_client() missing 1 required positional argument: 'version'"
+    ) == "get_api_client() missing 1 required positional argument: 'token'"
 
 
 def test_get_api_client_without_token():
