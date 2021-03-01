@@ -39,17 +39,21 @@ from utils.ws_client import WebsocketClient
 
 class CustomerRTM:
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
+
     @staticmethod
     def get_client(license_id: int = None,
                    version: str = &#39;3.3&#39;,
                    base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
+
             Args:
-                license_id (int): License id.
+                license_id (int): License ID.
                 version (str): API&#39;s version. Defaults to `3.3`.
                 base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+
             Returns:
                 CustomerRTMInterface: API client object for specified version.
+
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
@@ -66,29 +70,32 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def __init__(self, license_id, version, url):
         if not license_id or not isinstance(license_id, int):
             raise ValueError(
-                &#39;Pipe was not opened. Something`s wrong with your `license_id`.&#39;
+                    &#39;Pipe was not opened. Something`s wrong with your `license_id`.&#39;
             )
         self.ws = WebsocketClient(
-            url=
-            f&#39;wss://{url}/v{version}/customer/rtm/ws?license_id={license_id}&#39;)
+                url=
+                f&#39;wss://{url}/v{version}/customer/rtm/ws?license_id={license_id}&#39;)
         self.ws.open()
 
     def open_connection(self) -&gt; None:
-        &#39;&#39;&#39; Method opens WebSocket connection. &#39;&#39;&#39;
+        &#39;&#39;&#39; Opens WebSocket connection. &#39;&#39;&#39;
         self.ws.open()
 
     def close_connection(self) -&gt; None:
-        &#39;&#39;&#39; Method closes WebSocket connection. &#39;&#39;&#39;
+        &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
         self.ws.close()
 
     def login(self, token: str = None, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Logs in customer.
-                  Args:
-                       token (str) : OAuth token from the Customer&#39;s account.
-                       payload (dict):  Payload contains custom `login` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                token (str) : OAuth token from the Customer&#39;s account.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})
@@ -98,13 +105,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                             group_ids: list = None,
                             payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Lists statuses of groups.
-                  Args:
-                      all (bool): If set to True, you will get statuses of all the groups.
-                      group_ids (list): A table of a groups&#39; IDs.
-                      payload (dict): Payload contains custom `list_group_statuses` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                all (bool): If set to True, you will get statuses of all the groups.
+                group_ids (list): A table of a groups&#39; IDs.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -118,14 +128,17 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    continuous: bool = None,
                    payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Starts a chat.
-                  Args:
-                       chat (dict): Chat object.
-                       active (bool): When set to false, creates an inactive thread; default: true.
-                       continuous (bool): Starts chat as continuous (online group is not required); default: false.
-                       payload (dict): Payload contains custom `start_chat` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat (dict): Chat object.
+                active (bool): When set to False, creates an inactive thread; default: True.
+                continuous (bool): Starts chat as continuous (online group is not required); default: False.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;start_chat&#39;, &#39;payload&#39;: payload})
@@ -135,15 +148,18 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                     active: bool = None,
                     continuous: bool = None,
                     payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39;Restarts an archived chat.
-                  Args:
-                       chat (dict): Chat object.
-                       active (bool): When set to false, creates an inactive thread; default: true.
-                       continuous (bool): Sets a chat to the continuous mode. When unset, leaves the mode unchanged.
-                       payload (dict): Payload contains custom `resume_chat` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+        &#39;&#39;&#39; Restarts an archived chat.
+
+            Args:
+                chat (dict): Chat object.
+                active (bool): When set to false, creates an inactive thread; default: true.
+                continuous (bool): Sets a chat to the continuous mode. When unset, leaves the mode unchanged.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})
@@ -153,13 +169,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                  thread_id: str = None,
                  payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; It returns a thread that the current Customer has access to in a given chat.
-                  Args:
-                      chat_id (str): ID of a chat to get.
-                      thread_id (str): Thread ID to get. Default: the latest thread (if exists).
-                      payload (dict): Payload contains custom `get_chat` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of a chat to get.
+                thread_id (str): Thread ID to get. Default: the latest thread (if exists).
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_chat&#39;, &#39;payload&#39;: payload})
@@ -170,14 +189,18 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    page_id: str = None,
                    payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; It returns summaries of the chats a Customer participated in.
-                  Args:
-                      limit (int): Chat limit. Default: 10, maximum: 25.
-                      sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the creation date of its last thread.
-                      page_id (str): Page id.
-                      payload (dict): Payload contains custom `list_chats` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                limit (int): Chat limit. Default: 10, maximum: 25.
+                sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
+                        creation date of its last thread.
+                page_id (str): Page ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;list_chats&#39;, &#39;payload&#39;: payload})
@@ -190,28 +213,36 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                      min_events_count: int = None,
                      payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; It returns threads that the current Customer has access to in a given chat.
-                  Args:
-                      chat_id (str): Chat ID to get threads from.
-                      sort_order (str): Possible values: asc - oldest threads first and desc - newest threads first (default).
-                      limit (int): Default: 3, maximum: 100.
-                      page_id (str): Page id.
-                      min_events_count (int):Range: 1-100; Specifies the minimum number of events to be returned in the response.
-                      payload (dict): Payload contains custom `list_threads` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): Chat ID to get threads from.
+                sort_order (str): Possible values: asc - oldest threads first and desc
+                        newest threads first (default).
+                limit (int): Default: 3, maximum: 100.
+                page_id (str): Page ID.
+                min_events_count (int):Range: 1-100; Specifies the minimum number of
+                        events to be returned in the response.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;list_threads&#39;, &#39;payload&#39;: payload})
 
     def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
-                  Args:
-                      id (str): Chat ID to deactivate.
-                      payload (dict): Payload contains custom `deactivate_chat` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                id (str): Chat ID to deactivate.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})
@@ -222,14 +253,17 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    attach_to_last_thread: bool = None,
                    payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends an Event object.
-                   Args:
-                       chat_id (str): Id of the chat you want to send the message to.
-                       event (dict): Event object.
-                       attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
-                       payload (dict): Payload contains custom `send_event` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to send the message to.
+                event (dict): Event object.
+                attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})
@@ -239,33 +273,39 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         sneak_peek_text: str = None,
                         payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends a sneak peek to a chat.
-                 Args:
-                       chat_id (str): Id of the chat to send a sneak peek to.
-                       sneak_peek_text (str): Sneak peek text.
-                       payload (dict): Payload contains custom `send_sneak_peek` object.
-                  Returns:
-                    dict: Dictionary with response.
-           &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat to send a sneak peek to.
+                sneak_peek_text (str): Sneak peek text.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;send_sneak_peek&#39;, &#39;payload&#39;: payload})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
-                                   event_id: str = None,
                                    thread_id: str = None,
+                                   event_id: str = None,
                                    postback: dict = None,
                                    payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends rich message postback.
-                 Args:
-                       chat_id (str): Id of the chat to send a rich message to.
-                       thread_id (str): Id of the thread.
-                       event_id (str): Id of the event.
-                       postback (dict): Postback object.
-                       payload (dict): Payload contains custom `send_rich_message_postback` object.
-                  Returns:
-                    dict: Dictionary with response.
-           &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat to send a rich message to.
+                thread_id (str): ID of the thread.
+                event_id (str): ID of the event.
+                postback (dict): Postback object.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -278,13 +318,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         unique_id: str = None,
                         payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Marks an incoming greeting as seen.
-                  Args:
-                      greeting_id (int): Number representing type of a greeting.
-                      unique_id (str): Specific greeting event ID.
-                      payload (dict): Payload contains custom `accept_greeting` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                greeting_id (int): Number representing type of a greeting.
+                unique_id (str): Specific greeting event ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;accept_greeting&#39;, &#39;payload&#39;: payload})
@@ -293,24 +336,30 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         unique_id: str = None,
                         payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Cancels a greeting.
-                  Args:
-                      unique_id (str): Specific greeting event ID.
-                      payload (dict): Payload contains custom `cancel_greeting` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                unique_id (str): Specific greeting event ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;cancel_greeting&#39;, &#39;payload&#39;: payload})
 
     def get_url_info(self, url: str = None, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; It returns the info on a given URL.
-                  Args:
-                      url (str): URL to get info about.
-                      payload (dict): Payload contains custom `get_url_info` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                url (str): URL to get info about.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_url_info&#39;, &#39;payload&#39;: payload})
@@ -320,24 +369,30 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                  type: str = None,
                  payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
-                  Args:
-                      group_id (int): Id of the group from which you want the form.
-                      type (str): Form type. Possible values: prechat or postchat.
-                      payload (dict): Payload contains custom `get_form` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                group_id (int): ID of the group from which you want the form.
+                type (str): Form type. Possible values: prechat or postchat.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_form&#39;, &#39;payload&#39;: payload})
 
     def get_predicted_agent(self, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
-                  Args:
-                       payload (dict): Payload contains custom data.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         return self.ws.send({
             &#39;action&#39;: &#39;get_predicted_agent&#39;,
             &#39;payload&#39;: {} if payload is None else payload
@@ -348,13 +403,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                             seen_up_to: str = None,
                             payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Marks events as seen by agent.
-                  Args:
-                       chat_id (str): Chat to mark events.
-                       seen_up_to (str): Date up to which mark events - RFC 3339 date-time format.
-                       payload (dict): Payload contains custom `mark_events_as_seen` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): Chat to mark events.
+                seen_up_to (str): Date up to which mark events - RFC 3339 date-time format.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -364,11 +422,14 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 
     def get_customer(self, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Returns the info about the customer requesting it.
-                  Args:
-                       payload (dict): Payload contains custom data.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         return self.ws.send({
             &#39;action&#39;: &#39;get_customer&#39;,
             &#39;payload&#39;: {} if payload is None else payload
@@ -378,18 +439,22 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         name: str = None,
                         email: str = None,
                         avatar: str = None,
-                        session_fields: dict = None,
+                        session_fields: list = None,
                         payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates customer&#39;s properties.
-                  Args:
-                       name (str): Customer`s name.
-                       email (str): Customer`s email.
-                       avatar (str): Customer`s avatar.
-                       session_fields (list): An array of custom object-enclosed key:value pairs. Respects the order of items.
-                       payload (dict): Payload contains custom `update_customer` object..
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                name (str): Customer`s name.
+                email (str): Customer`s email.
+                avatar (str): Customer`s avatar.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                        Respects the order of items.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;update_customer&#39;, &#39;payload&#39;: payload})
@@ -399,13 +464,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                              title: str = None,
                              payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates customer&#39;s page.
-                  Args:
-                       url (str): Customer`s url.
-                       title (str): Customer`s page title.
-                       payload (dict): Payload contains custom `update_customer_page` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                url (str): Customer`s url.
+                title (str): Customer`s page title.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -417,12 +485,15 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                     session_fields: list = None,
                                     payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sets customer&#39;s session fields.
-                  Args:
-                       session_fields (list): List of custom object-enclosed key:value pairs.
-                       payload (dict): Payload contains custom `set_customer_session_fields` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                session_fields (list): List of custom object-enclosed key:value pairs.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -435,13 +506,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                properties: dict = None,
                                payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deletes chat properties.
-                  Args:
-                      id (str): Id of the chat you want to delete properties of.
-                      properties (dict): Chat properties to delete.
-                      payload (dict): Payload contains custom `delete_chat_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                id (str): ID of the chat you want to delete properties of.
+                properties (dict): Chat properties to delete.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -454,13 +528,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                properties: dict = None,
                                payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates chat properties.
-                  Args:
-                      id (str): Id of the chat you to set a property for.
-                      properties (dict): Chat properties to set.
-                      payload (dict): Payload contains custom `update_chat_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                id (str): ID of the chat you to set a property for.
+                properties (dict): Chat properties to set.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -474,14 +551,17 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                  properties: dict = None,
                                  payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deletes thread properties.
-                  Args:
-                      chat_id (str): Id of the chat you want to delete the properties of.
-                      thread_id (str): Id of the thread you want to delete the properties of.
-                      properties (dict): Thread properties to delete.
-                      payload (dict): Payload contains custom `delete_thread_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to delete the properties of.
+                thread_id (str): ID of the thread you want to delete the properties of.
+                properties (dict): Thread properties to delete.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -495,14 +575,17 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                  properties: dict = None,
                                  payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates thread properties.
-                  Args:
-                      chat_id (str): Id of the chat you want to set properties for.
-                      thread_id (str): Id of the thread you want to set properties for.
-                      properties (dict): Chat properties to set.
-                      payload (dict): Payload contains custom `update_thread_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to set properties for.
+                thread_id (str): ID of the thread you want to set properties for.
+                properties (dict): Chat properties to set.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -517,15 +600,18 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                 properties: dict = None,
                                 payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deletes event properties.
-                  Args:
-                      chat_id (str): Id of the chat you want to delete the properties of.
-                      thread_id (str): Id of the thread you want to delete the properties of.
-                      event_id (str): Id of the event you want to delete the properties of.
-                      properties (dict): Event properties to delete.
-                      payload (dict): Payload contains custom `delete_event_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to delete the properties of.
+                thread_id (str): ID of the thread you want to delete the properties of.
+                event_id (str): ID of the event you want to delete the properties of.
+                properties (dict): Event properties to delete.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -540,15 +626,18 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                 properties: dict = None,
                                 payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates event properties.
-                  Args:
-                      chat_id (str): Id of the chat you want to set properties for.
-                      thread_id (str): Id of the thread you want to set properties for.
-                      event_id (str): Id of the event you want to set properties for.
-                      properties (dict): Chat properties to set.
-                      payload (dict): Payload contains custom update_event_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to set properties for.
+                thread_id (str): ID of the thread you want to set properties for.
+                event_id (str): ID of the event you want to set properties for.
+                properties (dict): Chat properties to set.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -582,17 +671,21 @@ class CustomerRTM33(CustomerRTMInterface):
 </summary>
 <pre><code class="python">class CustomerRTM:
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
+
     @staticmethod
     def get_client(license_id: int = None,
                    version: str = &#39;3.3&#39;,
                    base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
+
             Args:
-                license_id (int): License id.
+                license_id (int): License ID.
                 version (str): API&#39;s version. Defaults to `3.3`.
                 base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+
             Returns:
                 CustomerRTMInterface: API client object for specified version.
+
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
@@ -613,7 +706,7 @@ class CustomerRTM33(CustomerRTMInterface):
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>License id.</dd>
+<dd>License ID.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
 <dd>API's version. Defaults to <code>3.3</code>.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
@@ -638,12 +731,15 @@ def get_client(license_id: int = None,
                version: str = &#39;3.3&#39;,
                base_url: str = &#39;api.livechatinc.com&#39;):
     &#39;&#39;&#39; Returns client for specific Customer RTM version.
+
         Args:
-            license_id (int): License id.
+            license_id (int): License ID.
             version (str): API&#39;s version. Defaults to `3.3`.
             base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+
         Returns:
             CustomerRTMInterface: API client object for specified version.
+
         Raises:
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
@@ -727,29 +823,32 @@ def get_client(license_id: int = None,
     def __init__(self, license_id, version, url):
         if not license_id or not isinstance(license_id, int):
             raise ValueError(
-                &#39;Pipe was not opened. Something`s wrong with your `license_id`.&#39;
+                    &#39;Pipe was not opened. Something`s wrong with your `license_id`.&#39;
             )
         self.ws = WebsocketClient(
-            url=
-            f&#39;wss://{url}/v{version}/customer/rtm/ws?license_id={license_id}&#39;)
+                url=
+                f&#39;wss://{url}/v{version}/customer/rtm/ws?license_id={license_id}&#39;)
         self.ws.open()
 
     def open_connection(self) -&gt; None:
-        &#39;&#39;&#39; Method opens WebSocket connection. &#39;&#39;&#39;
+        &#39;&#39;&#39; Opens WebSocket connection. &#39;&#39;&#39;
         self.ws.open()
 
     def close_connection(self) -&gt; None:
-        &#39;&#39;&#39; Method closes WebSocket connection. &#39;&#39;&#39;
+        &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
         self.ws.close()
 
     def login(self, token: str = None, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Logs in customer.
-                  Args:
-                       token (str) : OAuth token from the Customer&#39;s account.
-                       payload (dict):  Payload contains custom `login` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                token (str) : OAuth token from the Customer&#39;s account.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})
@@ -759,13 +858,16 @@ def get_client(license_id: int = None,
                             group_ids: list = None,
                             payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Lists statuses of groups.
-                  Args:
-                      all (bool): If set to True, you will get statuses of all the groups.
-                      group_ids (list): A table of a groups&#39; IDs.
-                      payload (dict): Payload contains custom `list_group_statuses` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                all (bool): If set to True, you will get statuses of all the groups.
+                group_ids (list): A table of a groups&#39; IDs.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -779,14 +881,17 @@ def get_client(license_id: int = None,
                    continuous: bool = None,
                    payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Starts a chat.
-                  Args:
-                       chat (dict): Chat object.
-                       active (bool): When set to false, creates an inactive thread; default: true.
-                       continuous (bool): Starts chat as continuous (online group is not required); default: false.
-                       payload (dict): Payload contains custom `start_chat` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat (dict): Chat object.
+                active (bool): When set to False, creates an inactive thread; default: True.
+                continuous (bool): Starts chat as continuous (online group is not required); default: False.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;start_chat&#39;, &#39;payload&#39;: payload})
@@ -796,15 +901,18 @@ def get_client(license_id: int = None,
                     active: bool = None,
                     continuous: bool = None,
                     payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39;Restarts an archived chat.
-                  Args:
-                       chat (dict): Chat object.
-                       active (bool): When set to false, creates an inactive thread; default: true.
-                       continuous (bool): Sets a chat to the continuous mode. When unset, leaves the mode unchanged.
-                       payload (dict): Payload contains custom `resume_chat` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+        &#39;&#39;&#39; Restarts an archived chat.
+
+            Args:
+                chat (dict): Chat object.
+                active (bool): When set to false, creates an inactive thread; default: true.
+                continuous (bool): Sets a chat to the continuous mode. When unset, leaves the mode unchanged.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})
@@ -814,13 +922,16 @@ def get_client(license_id: int = None,
                  thread_id: str = None,
                  payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; It returns a thread that the current Customer has access to in a given chat.
-                  Args:
-                      chat_id (str): ID of a chat to get.
-                      thread_id (str): Thread ID to get. Default: the latest thread (if exists).
-                      payload (dict): Payload contains custom `get_chat` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of a chat to get.
+                thread_id (str): Thread ID to get. Default: the latest thread (if exists).
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_chat&#39;, &#39;payload&#39;: payload})
@@ -831,14 +942,18 @@ def get_client(license_id: int = None,
                    page_id: str = None,
                    payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; It returns summaries of the chats a Customer participated in.
-                  Args:
-                      limit (int): Chat limit. Default: 10, maximum: 25.
-                      sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the creation date of its last thread.
-                      page_id (str): Page id.
-                      payload (dict): Payload contains custom `list_chats` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                limit (int): Chat limit. Default: 10, maximum: 25.
+                sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
+                        creation date of its last thread.
+                page_id (str): Page ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;list_chats&#39;, &#39;payload&#39;: payload})
@@ -851,28 +966,36 @@ def get_client(license_id: int = None,
                      min_events_count: int = None,
                      payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; It returns threads that the current Customer has access to in a given chat.
-                  Args:
-                      chat_id (str): Chat ID to get threads from.
-                      sort_order (str): Possible values: asc - oldest threads first and desc - newest threads first (default).
-                      limit (int): Default: 3, maximum: 100.
-                      page_id (str): Page id.
-                      min_events_count (int):Range: 1-100; Specifies the minimum number of events to be returned in the response.
-                      payload (dict): Payload contains custom `list_threads` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): Chat ID to get threads from.
+                sort_order (str): Possible values: asc - oldest threads first and desc
+                        newest threads first (default).
+                limit (int): Default: 3, maximum: 100.
+                page_id (str): Page ID.
+                min_events_count (int):Range: 1-100; Specifies the minimum number of
+                        events to be returned in the response.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;list_threads&#39;, &#39;payload&#39;: payload})
 
     def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
-                  Args:
-                      id (str): Chat ID to deactivate.
-                      payload (dict): Payload contains custom `deactivate_chat` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                id (str): Chat ID to deactivate.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})
@@ -883,14 +1006,17 @@ def get_client(license_id: int = None,
                    attach_to_last_thread: bool = None,
                    payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends an Event object.
-                   Args:
-                       chat_id (str): Id of the chat you want to send the message to.
-                       event (dict): Event object.
-                       attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
-                       payload (dict): Payload contains custom `send_event` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to send the message to.
+                event (dict): Event object.
+                attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})
@@ -900,33 +1026,39 @@ def get_client(license_id: int = None,
                         sneak_peek_text: str = None,
                         payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends a sneak peek to a chat.
-                 Args:
-                       chat_id (str): Id of the chat to send a sneak peek to.
-                       sneak_peek_text (str): Sneak peek text.
-                       payload (dict): Payload contains custom `send_sneak_peek` object.
-                  Returns:
-                    dict: Dictionary with response.
-           &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat to send a sneak peek to.
+                sneak_peek_text (str): Sneak peek text.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;send_sneak_peek&#39;, &#39;payload&#39;: payload})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
-                                   event_id: str = None,
                                    thread_id: str = None,
+                                   event_id: str = None,
                                    postback: dict = None,
                                    payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends rich message postback.
-                 Args:
-                       chat_id (str): Id of the chat to send a rich message to.
-                       thread_id (str): Id of the thread.
-                       event_id (str): Id of the event.
-                       postback (dict): Postback object.
-                       payload (dict): Payload contains custom `send_rich_message_postback` object.
-                  Returns:
-                    dict: Dictionary with response.
-           &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat to send a rich message to.
+                thread_id (str): ID of the thread.
+                event_id (str): ID of the event.
+                postback (dict): Postback object.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -939,13 +1071,16 @@ def get_client(license_id: int = None,
                         unique_id: str = None,
                         payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Marks an incoming greeting as seen.
-                  Args:
-                      greeting_id (int): Number representing type of a greeting.
-                      unique_id (str): Specific greeting event ID.
-                      payload (dict): Payload contains custom `accept_greeting` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                greeting_id (int): Number representing type of a greeting.
+                unique_id (str): Specific greeting event ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;accept_greeting&#39;, &#39;payload&#39;: payload})
@@ -954,24 +1089,30 @@ def get_client(license_id: int = None,
                         unique_id: str = None,
                         payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Cancels a greeting.
-                  Args:
-                      unique_id (str): Specific greeting event ID.
-                      payload (dict): Payload contains custom `cancel_greeting` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                unique_id (str): Specific greeting event ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;cancel_greeting&#39;, &#39;payload&#39;: payload})
 
     def get_url_info(self, url: str = None, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; It returns the info on a given URL.
-                  Args:
-                      url (str): URL to get info about.
-                      payload (dict): Payload contains custom `get_url_info` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                url (str): URL to get info about.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_url_info&#39;, &#39;payload&#39;: payload})
@@ -981,24 +1122,30 @@ def get_client(license_id: int = None,
                  type: str = None,
                  payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
-                  Args:
-                      group_id (int): Id of the group from which you want the form.
-                      type (str): Form type. Possible values: prechat or postchat.
-                      payload (dict): Payload contains custom `get_form` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                group_id (int): ID of the group from which you want the form.
+                type (str): Form type. Possible values: prechat or postchat.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_form&#39;, &#39;payload&#39;: payload})
 
     def get_predicted_agent(self, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
-                  Args:
-                       payload (dict): Payload contains custom data.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         return self.ws.send({
             &#39;action&#39;: &#39;get_predicted_agent&#39;,
             &#39;payload&#39;: {} if payload is None else payload
@@ -1009,13 +1156,16 @@ def get_client(license_id: int = None,
                             seen_up_to: str = None,
                             payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Marks events as seen by agent.
-                  Args:
-                       chat_id (str): Chat to mark events.
-                       seen_up_to (str): Date up to which mark events - RFC 3339 date-time format.
-                       payload (dict): Payload contains custom `mark_events_as_seen` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): Chat to mark events.
+                seen_up_to (str): Date up to which mark events - RFC 3339 date-time format.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1025,11 +1175,14 @@ def get_client(license_id: int = None,
 
     def get_customer(self, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Returns the info about the customer requesting it.
-                  Args:
-                       payload (dict): Payload contains custom data.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         return self.ws.send({
             &#39;action&#39;: &#39;get_customer&#39;,
             &#39;payload&#39;: {} if payload is None else payload
@@ -1039,18 +1192,22 @@ def get_client(license_id: int = None,
                         name: str = None,
                         email: str = None,
                         avatar: str = None,
-                        session_fields: dict = None,
+                        session_fields: list = None,
                         payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates customer&#39;s properties.
-                  Args:
-                       name (str): Customer`s name.
-                       email (str): Customer`s email.
-                       avatar (str): Customer`s avatar.
-                       session_fields (list): An array of custom object-enclosed key:value pairs. Respects the order of items.
-                       payload (dict): Payload contains custom `update_customer` object..
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                name (str): Customer`s name.
+                email (str): Customer`s email.
+                avatar (str): Customer`s avatar.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                        Respects the order of items.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;update_customer&#39;, &#39;payload&#39;: payload})
@@ -1060,13 +1217,16 @@ def get_client(license_id: int = None,
                              title: str = None,
                              payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates customer&#39;s page.
-                  Args:
-                       url (str): Customer`s url.
-                       title (str): Customer`s page title.
-                       payload (dict): Payload contains custom `update_customer_page` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                url (str): Customer`s url.
+                title (str): Customer`s page title.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1078,12 +1238,15 @@ def get_client(license_id: int = None,
                                     session_fields: list = None,
                                     payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sets customer&#39;s session fields.
-                  Args:
-                       session_fields (list): List of custom object-enclosed key:value pairs.
-                       payload (dict): Payload contains custom `set_customer_session_fields` object.
-                  Returns:
-                    dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                session_fields (list): List of custom object-enclosed key:value pairs.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1096,13 +1259,16 @@ def get_client(license_id: int = None,
                                properties: dict = None,
                                payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deletes chat properties.
-                  Args:
-                      id (str): Id of the chat you want to delete properties of.
-                      properties (dict): Chat properties to delete.
-                      payload (dict): Payload contains custom `delete_chat_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                id (str): ID of the chat you want to delete properties of.
+                properties (dict): Chat properties to delete.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1115,13 +1281,16 @@ def get_client(license_id: int = None,
                                properties: dict = None,
                                payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates chat properties.
-                  Args:
-                      id (str): Id of the chat you to set a property for.
-                      properties (dict): Chat properties to set.
-                      payload (dict): Payload contains custom `update_chat_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                id (str): ID of the chat you to set a property for.
+                properties (dict): Chat properties to set.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1135,14 +1304,17 @@ def get_client(license_id: int = None,
                                  properties: dict = None,
                                  payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deletes thread properties.
-                  Args:
-                      chat_id (str): Id of the chat you want to delete the properties of.
-                      thread_id (str): Id of the thread you want to delete the properties of.
-                      properties (dict): Thread properties to delete.
-                      payload (dict): Payload contains custom `delete_thread_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to delete the properties of.
+                thread_id (str): ID of the thread you want to delete the properties of.
+                properties (dict): Thread properties to delete.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1156,14 +1328,17 @@ def get_client(license_id: int = None,
                                  properties: dict = None,
                                  payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates thread properties.
-                  Args:
-                      chat_id (str): Id of the chat you want to set properties for.
-                      thread_id (str): Id of the thread you want to set properties for.
-                      properties (dict): Chat properties to set.
-                      payload (dict): Payload contains custom `update_thread_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to set properties for.
+                thread_id (str): ID of the thread you want to set properties for.
+                properties (dict): Chat properties to set.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1178,15 +1353,18 @@ def get_client(license_id: int = None,
                                 properties: dict = None,
                                 payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deletes event properties.
-                  Args:
-                      chat_id (str): Id of the chat you want to delete the properties of.
-                      thread_id (str): Id of the thread you want to delete the properties of.
-                      event_id (str): Id of the event you want to delete the properties of.
-                      properties (dict): Event properties to delete.
-                      payload (dict): Payload contains custom `delete_event_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to delete the properties of.
+                thread_id (str): ID of the thread you want to delete the properties of.
+                event_id (str): ID of the event you want to delete the properties of.
+                properties (dict): Event properties to delete.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1201,15 +1379,18 @@ def get_client(license_id: int = None,
                                 properties: dict = None,
                                 payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Updates event properties.
-                  Args:
-                      chat_id (str): Id of the chat you want to set properties for.
-                      thread_id (str): Id of the thread you want to set properties for.
-                      event_id (str): Id of the event you want to set properties for.
-                      properties (dict): Chat properties to set.
-                      payload (dict): Payload contains custom update_event_properties` object.
-                  Returns:
-                      dict: Dictionary with response.
-          &#39;&#39;&#39;
+
+            Args:
+                chat_id (str): ID of the chat you want to set properties for.
+                thread_id (str): ID of the thread you want to set properties for.
+                event_id (str): ID of the event you want to set properties for.
+                properties (dict): Chat properties to set.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({
@@ -1235,7 +1416,8 @@ def get_client(license_id: int = None,
 <dt><strong><code>unique_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Specific greeting event ID.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>accept_greeting</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1251,13 +1433,16 @@ def get_client(license_id: int = None,
                     unique_id: str = None,
                     payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Marks an incoming greeting as seen.
-              Args:
-                  greeting_id (int): Number representing type of a greeting.
-                  unique_id (str): Specific greeting event ID.
-                  payload (dict): Payload contains custom `accept_greeting` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            greeting_id (int): Number representing type of a greeting.
+            unique_id (str): Specific greeting event ID.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;accept_greeting&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1273,7 +1458,8 @@ def get_client(license_id: int = None,
 <dt><strong><code>unique_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Specific greeting event ID.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>cancel_greeting</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1288,12 +1474,15 @@ def get_client(license_id: int = None,
                     unique_id: str = None,
                     payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Cancels a greeting.
-              Args:
-                  unique_id (str): Specific greeting event ID.
-                  payload (dict): Payload contains custom `cancel_greeting` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            unique_id (str): Specific greeting event ID.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;cancel_greeting&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1303,13 +1492,13 @@ def get_client(license_id: int = None,
 <span>def <span class="ident">close_connection</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Method closes WebSocket connection.</p></div>
+<div class="desc"><p>Closes WebSocket connection.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def close_connection(self) -&gt; None:
-    &#39;&#39;&#39; Method closes WebSocket connection. &#39;&#39;&#39;
+    &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
     self.ws.close()</code></pre>
 </details>
 </dd>
@@ -1323,7 +1512,8 @@ def get_client(license_id: int = None,
 <dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Chat ID to deactivate.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>deactivate_chat</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1336,12 +1526,15 @@ def get_client(license_id: int = None,
 </summary>
 <pre><code class="python">def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
-              Args:
-                  id (str): Chat ID to deactivate.
-                  payload (dict): Payload contains custom `deactivate_chat` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            id (str): Chat ID to deactivate.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1355,11 +1548,12 @@ def get_client(license_id: int = None,
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the chat you want to delete properties of.</dd>
+<dd>ID of the chat you want to delete properties of.</dd>
 <dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Chat properties to delete.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>delete_chat_properties</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1375,13 +1569,16 @@ def get_client(license_id: int = None,
                            properties: dict = None,
                            payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Deletes chat properties.
-              Args:
-                  id (str): Id of the chat you want to delete properties of.
-                  properties (dict): Chat properties to delete.
-                  payload (dict): Payload contains custom `delete_chat_properties` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            id (str): ID of the chat you want to delete properties of.
+            properties (dict): Chat properties to delete.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -1398,15 +1595,16 @@ def get_client(license_id: int = None,
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the chat you want to delete the properties of.</dd>
+<dd>ID of the chat you want to delete the properties of.</dd>
 <dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the thread you want to delete the properties of.</dd>
+<dd>ID of the thread you want to delete the properties of.</dd>
 <dt><strong><code>event_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the event you want to delete the properties of.</dd>
+<dd>ID of the event you want to delete the properties of.</dd>
 <dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Event properties to delete.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>delete_event_properties</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1424,15 +1622,18 @@ def get_client(license_id: int = None,
                             properties: dict = None,
                             payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Deletes event properties.
-              Args:
-                  chat_id (str): Id of the chat you want to delete the properties of.
-                  thread_id (str): Id of the thread you want to delete the properties of.
-                  event_id (str): Id of the event you want to delete the properties of.
-                  properties (dict): Event properties to delete.
-                  payload (dict): Payload contains custom `delete_event_properties` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): ID of the chat you want to delete the properties of.
+            thread_id (str): ID of the thread you want to delete the properties of.
+            event_id (str): ID of the event you want to delete the properties of.
+            properties (dict): Event properties to delete.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -1449,13 +1650,14 @@ def get_client(license_id: int = None,
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the chat you want to delete the properties of.</dd>
+<dd>ID of the chat you want to delete the properties of.</dd>
 <dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the thread you want to delete the properties of.</dd>
+<dd>ID of the thread you want to delete the properties of.</dd>
 <dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Thread properties to delete.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>delete_thread_properties</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1472,14 +1674,17 @@ def get_client(license_id: int = None,
                              properties: dict = None,
                              payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Deletes thread properties.
-              Args:
-                  chat_id (str): Id of the chat you want to delete the properties of.
-                  thread_id (str): Id of the thread you want to delete the properties of.
-                  properties (dict): Thread properties to delete.
-                  payload (dict): Payload contains custom `delete_thread_properties` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): ID of the chat you want to delete the properties of.
+            thread_id (str): ID of the thread you want to delete the properties of.
+            properties (dict): Thread properties to delete.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -1500,7 +1705,8 @@ def get_client(license_id: int = None,
 <dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Thread ID to get. Default: the latest thread (if exists).</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>get_chat</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1516,13 +1722,16 @@ def get_client(license_id: int = None,
              thread_id: str = None,
              payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; It returns a thread that the current Customer has access to in a given chat.
-              Args:
-                  chat_id (str): ID of a chat to get.
-                  thread_id (str): Thread ID to get. Default: the latest thread (if exists).
-                  payload (dict): Payload contains custom `get_chat` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): ID of a chat to get.
+            thread_id (str): Thread ID to get. Default: the latest thread (if exists).
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;get_chat&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1536,7 +1745,8 @@ def get_client(license_id: int = None,
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom data.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1549,11 +1759,14 @@ def get_client(license_id: int = None,
 </summary>
 <pre><code class="python">def get_customer(self, payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Returns the info about the customer requesting it.
-              Args:
-                   payload (dict): Payload contains custom data.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     return self.ws.send({
         &#39;action&#39;: &#39;get_customer&#39;,
         &#39;payload&#39;: {} if payload is None else payload
@@ -1568,11 +1781,12 @@ def get_client(license_id: int = None,
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>Id of the group from which you want the form.</dd>
+<dd>ID of the group from which you want the form.</dd>
 <dt><strong><code>type</code></strong> :&ensp;<code>str</code></dt>
 <dd>Form type. Possible values: prechat or postchat.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>get_form</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1588,13 +1802,16 @@ def get_client(license_id: int = None,
              type: str = None,
              payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
-              Args:
-                  group_id (int): Id of the group from which you want the form.
-                  type (str): Form type. Possible values: prechat or postchat.
-                  payload (dict): Payload contains custom `get_form` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            group_id (int): ID of the group from which you want the form.
+            type (str): Form type. Possible values: prechat or postchat.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;get_form&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1608,7 +1825,8 @@ def get_client(license_id: int = None,
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom data.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1621,11 +1839,14 @@ def get_client(license_id: int = None,
 </summary>
 <pre><code class="python">def get_predicted_agent(self, payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
-              Args:
-                   payload (dict): Payload contains custom data.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     return self.ws.send({
         &#39;action&#39;: &#39;get_predicted_agent&#39;,
         &#39;payload&#39;: {} if payload is None else payload
@@ -1642,7 +1863,8 @@ def get_client(license_id: int = None,
 <dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
 <dd>URL to get info about.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>get_url_info</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1655,12 +1877,15 @@ def get_client(license_id: int = None,
 </summary>
 <pre><code class="python">def get_url_info(self, url: str = None, payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; It returns the info on a given URL.
-              Args:
-                  url (str): URL to get info about.
-                  payload (dict): Payload contains custom `get_url_info` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            url (str): URL to get info about.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;get_url_info&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1676,11 +1901,13 @@ def get_client(license_id: int = None,
 <dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
 <dd>Chat limit. Default: 10, maximum: 25.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: asc, desc (default). Chat summaries are sorted by the creation date of its last thread.</dd>
+<dd>Possible values: asc, desc (default). Chat summaries are sorted by the
+creation date of its last thread.</dd>
 <dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Page id.</dd>
+<dd>Page ID.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>list_chats</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1697,14 +1924,18 @@ def get_client(license_id: int = None,
                page_id: str = None,
                payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; It returns summaries of the chats a Customer participated in.
-              Args:
-                  limit (int): Chat limit. Default: 10, maximum: 25.
-                  sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the creation date of its last thread.
-                  page_id (str): Page id.
-                  payload (dict): Payload contains custom `list_chats` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            limit (int): Chat limit. Default: 10, maximum: 25.
+            sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
+                    creation date of its last thread.
+            page_id (str): Page ID.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;list_chats&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1722,7 +1953,8 @@ def get_client(license_id: int = None,
 <dt><strong><code>group_ids</code></strong> :&ensp;<code>list</code></dt>
 <dd>A table of a groups' IDs.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>list_group_statuses</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1738,13 +1970,16 @@ def get_client(license_id: int = None,
                         group_ids: list = None,
                         payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Lists statuses of groups.
-              Args:
-                  all (bool): If set to True, you will get statuses of all the groups.
-                  group_ids (list): A table of a groups&#39; IDs.
-                  payload (dict): Payload contains custom `list_group_statuses` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            all (bool): If set to True, you will get statuses of all the groups.
+            group_ids (list): A table of a groups&#39; IDs.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -1763,14 +1998,17 @@ def get_client(license_id: int = None,
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Chat ID to get threads from.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: asc - oldest threads first and desc - newest threads first (default).</dd>
+<dd>Possible values: asc - oldest threads first and desc
+newest threads first (default).</dd>
 <dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
 <dd>Default: 3, maximum: 100.</dd>
 <dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Page id.</dd>
-<dt>min_events_count (int):Range: 1-100; Specifies the minimum number of events to be returned in the response.</dt>
+<dd>Page ID.</dd>
+<dt>min_events_count (int):Range: 1-100; Specifies the minimum number of</dt>
+<dt>events to be returned in the response.</dt>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>list_threads</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1789,16 +2027,21 @@ def get_client(license_id: int = None,
                  min_events_count: int = None,
                  payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; It returns threads that the current Customer has access to in a given chat.
-              Args:
-                  chat_id (str): Chat ID to get threads from.
-                  sort_order (str): Possible values: asc - oldest threads first and desc - newest threads first (default).
-                  limit (int): Default: 3, maximum: 100.
-                  page_id (str): Page id.
-                  min_events_count (int):Range: 1-100; Specifies the minimum number of events to be returned in the response.
-                  payload (dict): Payload contains custom `list_threads` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): Chat ID to get threads from.
+            sort_order (str): Possible values: asc - oldest threads first and desc
+                    newest threads first (default).
+            limit (int): Default: 3, maximum: 100.
+            page_id (str): Page ID.
+            min_events_count (int):Range: 1-100; Specifies the minimum number of
+                    events to be returned in the response.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;list_threads&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1813,7 +2056,8 @@ def get_client(license_id: int = None,
 <dl>
 <dt>token (str) : OAuth token from the Customer's account.</dt>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>login</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1826,12 +2070,15 @@ def get_client(license_id: int = None,
 </summary>
 <pre><code class="python">def login(self, token: str = None, payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Logs in customer.
-              Args:
-                   token (str) : OAuth token from the Customer&#39;s account.
-                   payload (dict):  Payload contains custom `login` object.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            token (str) : OAuth token from the Customer&#39;s account.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1849,7 +2096,8 @@ def get_client(license_id: int = None,
 <dt><strong><code>seen_up_to</code></strong> :&ensp;<code>str</code></dt>
 <dd>Date up to which mark events - RFC 3339 date-time format.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>mark_events_as_seen</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1865,13 +2113,16 @@ def get_client(license_id: int = None,
                         seen_up_to: str = None,
                         payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Marks events as seen by agent.
-              Args:
-                   chat_id (str): Chat to mark events.
-                   seen_up_to (str): Date up to which mark events - RFC 3339 date-time format.
-                   payload (dict): Payload contains custom `mark_events_as_seen` object.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): Chat to mark events.
+            seen_up_to (str): Date up to which mark events - RFC 3339 date-time format.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -1884,13 +2135,13 @@ def get_client(license_id: int = None,
 <span>def <span class="ident">open_connection</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Method opens WebSocket connection.</p></div>
+<div class="desc"><p>Opens WebSocket connection.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def open_connection(self) -&gt; None:
-    &#39;&#39;&#39; Method opens WebSocket connection. &#39;&#39;&#39;
+    &#39;&#39;&#39; Opens WebSocket connection. &#39;&#39;&#39;
     self.ws.open()</code></pre>
 </details>
 </dd>
@@ -1908,7 +2159,8 @@ def get_client(license_id: int = None,
 <dt><strong><code>continuous</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Sets a chat to the continuous mode. When unset, leaves the mode unchanged.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>resume_chat</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1924,15 +2176,18 @@ def get_client(license_id: int = None,
                 active: bool = None,
                 continuous: bool = None,
                 payload: dict = None) -&gt; dict:
-    &#39;&#39;&#39;Restarts an archived chat.
-              Args:
-                   chat (dict): Chat object.
-                   active (bool): When set to false, creates an inactive thread; default: true.
-                   continuous (bool): Sets a chat to the continuous mode. When unset, leaves the mode unchanged.
-                   payload (dict): Payload contains custom `resume_chat` object.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+    &#39;&#39;&#39; Restarts an archived chat.
+
+        Args:
+            chat (dict): Chat object.
+            active (bool): When set to false, creates an inactive thread; default: true.
+            continuous (bool): Sets a chat to the continuous mode. When unset, leaves the mode unchanged.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -1942,12 +2197,19 @@ def get_client(license_id: int = None,
 <span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sends an Event object.
-Args:
-chat_id (str): Id of the chat you want to send the message to.
-event (dict): Event object.
-attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
-payload (dict): Payload contains custom <code>send_event</code> object.</p>
+<div class="desc"><p>Sends an Event object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat you want to send the message to.</dd>
+<dt><strong><code>event</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Event object.</dd>
+<dt><strong><code>attach_to_last_thread</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Flag which states if event object should be added to last thread.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>dict</code></dt>
@@ -1963,59 +2225,69 @@ payload (dict): Payload contains custom <code>send_event</code> object.</p>
                attach_to_last_thread: bool = None,
                payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Sends an Event object.
-               Args:
-                   chat_id (str): Id of the chat you want to send the message to.
-                   event (dict): Event object.
-                   attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
-                   payload (dict): Payload contains custom `send_event` object.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): ID of the chat you want to send the message to.
+            event (dict): Event object.
+            attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
 <dt id="customer_rtm.CustomerRTMInterface.send_rich_message_postback"><code class="name flex">
-<span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, event_id: str = None, thread_id: str = None, postback: dict = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, postback: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends rich message postback.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the chat to send a rich message to.</dd>
+<dd>ID of the chat to send a rich message to.</dd>
 <dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the thread.</dd>
+<dd>ID of the thread.</dd>
 <dt><strong><code>event_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the event.</dd>
+<dd>ID of the event.</dd>
 <dt><strong><code>postback</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Postback object.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>send_rich_message_postback</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
-<p>Returns:
-dict: Dictionary with response.</p></div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with response.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def send_rich_message_postback(self,
                                chat_id: str = None,
-                               event_id: str = None,
                                thread_id: str = None,
+                               event_id: str = None,
                                postback: dict = None,
                                payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Sends rich message postback.
-             Args:
-                   chat_id (str): Id of the chat to send a rich message to.
-                   thread_id (str): Id of the thread.
-                   event_id (str): Id of the event.
-                   postback (dict): Postback object.
-                   payload (dict): Payload contains custom `send_rich_message_postback` object.
-              Returns:
-                dict: Dictionary with response.
-       &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): ID of the chat to send a rich message to.
+            thread_id (str): ID of the thread.
+            event_id (str): ID of the event.
+            postback (dict): Postback object.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -2032,14 +2304,18 @@ dict: Dictionary with response.</p></div>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the chat to send a sneak peek to.</dd>
+<dd>ID of the chat to send a sneak peek to.</dd>
 <dt><strong><code>sneak_peek_text</code></strong> :&ensp;<code>str</code></dt>
 <dd>Sneak peek text.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>send_sneak_peek</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
-<p>Returns:
-dict: Dictionary with response.</p></div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with response.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -2049,13 +2325,16 @@ dict: Dictionary with response.</p></div>
                     sneak_peek_text: str = None,
                     payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Sends a sneak peek to a chat.
-             Args:
-                   chat_id (str): Id of the chat to send a sneak peek to.
-                   sneak_peek_text (str): Sneak peek text.
-                   payload (dict): Payload contains custom `send_sneak_peek` object.
-              Returns:
-                dict: Dictionary with response.
-       &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): ID of the chat to send a sneak peek to.
+            sneak_peek_text (str): Sneak peek text.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;send_sneak_peek&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -2071,7 +2350,8 @@ dict: Dictionary with response.</p></div>
 <dt><strong><code>session_fields</code></strong> :&ensp;<code>list</code></dt>
 <dd>List of custom object-enclosed key:value pairs.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>set_customer_session_fields</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2086,12 +2366,15 @@ dict: Dictionary with response.</p></div>
                                 session_fields: list = None,
                                 payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Sets customer&#39;s session fields.
-              Args:
-                   session_fields (list): List of custom object-enclosed key:value pairs.
-                   payload (dict): Payload contains custom `set_customer_session_fields` object.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            session_fields (list): List of custom object-enclosed key:value pairs.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -2110,11 +2393,12 @@ dict: Dictionary with response.</p></div>
 <dt><strong><code>chat</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Chat object.</dd>
 <dt><strong><code>active</code></strong> :&ensp;<code>bool</code></dt>
-<dd>When set to false, creates an inactive thread; default: true.</dd>
+<dd>When set to False, creates an inactive thread; default: True.</dd>
 <dt><strong><code>continuous</code></strong> :&ensp;<code>bool</code></dt>
-<dd>Starts chat as continuous (online group is not required); default: false.</dd>
+<dd>Starts chat as continuous (online group is not required); default: False.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>start_chat</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2131,14 +2415,17 @@ dict: Dictionary with response.</p></div>
                continuous: bool = None,
                payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Starts a chat.
-              Args:
-                   chat (dict): Chat object.
-                   active (bool): When set to false, creates an inactive thread; default: true.
-                   continuous (bool): Starts chat as continuous (online group is not required); default: false.
-                   payload (dict): Payload contains custom `start_chat` object.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat (dict): Chat object.
+            active (bool): When set to False, creates an inactive thread; default: True.
+            continuous (bool): Starts chat as continuous (online group is not required); default: False.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;start_chat&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -2152,11 +2439,12 @@ dict: Dictionary with response.</p></div>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the chat you to set a property for.</dd>
+<dd>ID of the chat you to set a property for.</dd>
 <dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Chat properties to set.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>update_chat_properties</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2172,13 +2460,16 @@ dict: Dictionary with response.</p></div>
                            properties: dict = None,
                            payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Updates chat properties.
-              Args:
-                  id (str): Id of the chat you to set a property for.
-                  properties (dict): Chat properties to set.
-                  payload (dict): Payload contains custom `update_chat_properties` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            id (str): ID of the chat you to set a property for.
+            properties (dict): Chat properties to set.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -2188,7 +2479,7 @@ dict: Dictionary with response.</p></div>
 </details>
 </dd>
 <dt id="customer_rtm.CustomerRTMInterface.update_customer"><code class="name flex">
-<span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: dict = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates customer's properties.</p>
@@ -2201,9 +2492,11 @@ dict: Dictionary with response.</p></div>
 <dt><strong><code>avatar</code></strong> :&ensp;<code>str</code></dt>
 <dd>Customer`s avatar.</dd>
 <dt><strong><code>session_fields</code></strong> :&ensp;<code>list</code></dt>
-<dd>An array of custom object-enclosed key:value pairs. Respects the order of items.</dd>
+<dd>An array of custom object-enclosed key:value pairs.
+Respects the order of items.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>update_customer</code> object..</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2218,18 +2511,22 @@ dict: Dictionary with response.</p></div>
                     name: str = None,
                     email: str = None,
                     avatar: str = None,
-                    session_fields: dict = None,
+                    session_fields: list = None,
                     payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Updates customer&#39;s properties.
-              Args:
-                   name (str): Customer`s name.
-                   email (str): Customer`s email.
-                   avatar (str): Customer`s avatar.
-                   session_fields (list): An array of custom object-enclosed key:value pairs. Respects the order of items.
-                   payload (dict): Payload contains custom `update_customer` object..
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            name (str): Customer`s name.
+            email (str): Customer`s email.
+            avatar (str): Customer`s avatar.
+            session_fields (list): An array of custom object-enclosed key:value pairs.
+                    Respects the order of items.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;update_customer&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -2247,7 +2544,8 @@ dict: Dictionary with response.</p></div>
 <dt><strong><code>title</code></strong> :&ensp;<code>str</code></dt>
 <dd>Customer`s page title.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>update_customer_page</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2263,13 +2561,16 @@ dict: Dictionary with response.</p></div>
                          title: str = None,
                          payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Updates customer&#39;s page.
-              Args:
-                   url (str): Customer`s url.
-                   title (str): Customer`s page title.
-                   payload (dict): Payload contains custom `update_customer_page` object.
-              Returns:
-                dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            url (str): Customer`s url.
+            title (str): Customer`s page title.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -2286,15 +2587,16 @@ dict: Dictionary with response.</p></div>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the chat you want to set properties for.</dd>
+<dd>ID of the chat you want to set properties for.</dd>
 <dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the thread you want to set properties for.</dd>
+<dd>ID of the thread you want to set properties for.</dd>
 <dt><strong><code>event_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the event you want to set properties for.</dd>
+<dd>ID of the event you want to set properties for.</dd>
 <dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Chat properties to set.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom update_event_properties` object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2312,15 +2614,18 @@ dict: Dictionary with response.</p></div>
                             properties: dict = None,
                             payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Updates event properties.
-              Args:
-                  chat_id (str): Id of the chat you want to set properties for.
-                  thread_id (str): Id of the thread you want to set properties for.
-                  event_id (str): Id of the event you want to set properties for.
-                  properties (dict): Chat properties to set.
-                  payload (dict): Payload contains custom update_event_properties` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): ID of the chat you want to set properties for.
+            thread_id (str): ID of the thread you want to set properties for.
+            event_id (str): ID of the event you want to set properties for.
+            properties (dict): Chat properties to set.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
@@ -2337,13 +2642,14 @@ dict: Dictionary with response.</p></div>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the chat you want to set properties for.</dd>
+<dd>ID of the chat you want to set properties for.</dd>
 <dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Id of the thread you want to set properties for.</dd>
+<dd>ID of the thread you want to set properties for.</dd>
 <dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Chat properties to set.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Payload contains custom <code>update_thread_properties</code> object.</dd>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2360,14 +2666,17 @@ dict: Dictionary with response.</p></div>
                              properties: dict = None,
                              payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Updates thread properties.
-              Args:
-                  chat_id (str): Id of the chat you want to set properties for.
-                  thread_id (str): Id of the thread you want to set properties for.
-                  properties (dict): Chat properties to set.
-                  payload (dict): Payload contains custom `update_thread_properties` object.
-              Returns:
-                  dict: Dictionary with response.
-      &#39;&#39;&#39;
+
+        Args:
+            chat_id (str): ID of the chat you want to set properties for.
+            thread_id (str): ID of the thread you want to set properties for.
+            properties (dict): Chat properties to set.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({
