@@ -1,0 +1,2961 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>client API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>client</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from abc import ABCMeta, abstractmethod
+import requests
+import typing
+
+from utils.helpers import prepare_payload
+
+
+class CustomerWebApiInterface:
+    &#39;&#39;&#39; Interface class that allows retrieval of client for specific Customer Web
+        API version. &#39;&#39;&#39;
+
+    @staticmethod
+    def get_client(license_id: int,
+                   access_token: str,
+                   version: str = &#39;3.3&#39;,
+                   base_url: str = &#39;api.livechatinc.com&#39;):
+        &#39;&#39;&#39; Returns client for specific API version.
+
+            Args:
+                token (str): Full token with type (Bearer/Basic) that will be
+                                used as `Authorization` header in requests to API.
+                version (str): API&#39;s version.
+                env (str): API&#39;s environment.
+
+            Returns:
+                API client object for specified version based on
+                `CustomerWebApiInterface`.
+
+            Raises:
+                ValueError: If the specified version does not exist.
+        &#39;&#39;&#39;
+        client = {
+            &#39;3.3&#39;: Version33(license_id, access_token, version, base_url)
+        }.get(version)
+        if not client:
+            raise ValueError(&#39;Provided version does not exist.&#39;)
+        return client
+
+
+class CustomerWebApi(metaclass=ABCMeta):
+    &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
+
+    def __init__(self, license_id: str, access_token: str, version: str, base_url: str):
+        self.api_url = f&#39;https://{base_url}/v{version}/customer/action&#39;
+        self.session = requests.Session()
+        self.session.headers.update({&#39;Authorization&#39;: access_token})
+        self.license_id = license_id
+
+# Chats
+
+    def list_chats(self, payload: dict = None, limit: int = None, sort_order: str = None, page_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns summaries of the chats a Customer participated in.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                limit (int): Limit of results per page. Default: 10, maximum: 25.
+                sort_order (str): Possible values: asc, desc (default).
+                                  Chat summaries are sorted by the creation date of its last thread.
+                page_id (str): ID of the page with paginated results.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_chats?license_id={self.license_id}&#39;, json=payload)
+
+    def list_threads(self, payload: dict = None, chat_id: str = None, sort_order: str = None, page_id: str = None, min_events_count: int = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns threads that the current Customer has access to in a given chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat for which threads are to be listed.
+                limit (str): Limit of results per page. Default: 10, maximum: 25.
+                sort_order (str): Possible values: asc, desc (default).
+                                  Chat summaries are sorted by the creation date of its last thread.
+                page_id (str): ID of the page with paginated results.
+                min_events_count (int): Range: 1-100;
+                    Specifies the minimum number of events to be returned in the response.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_threads?license_id={self.license_id}&#39;, json=payload)
+
+    def get_chat(self, payload: dict = None, chat_id: str = None, thread_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns a thread that the current Customer has access to in a given chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat for which thread is to be returned.
+                thread_id (str): ID of the thread to show. Default: the latest thread (if exists)
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_chat?license_id={self.license_id}&#39;, json=payload)
+
+    def start_chat(self, payload: dict = None, chat: dict = None, active: bool = None, continuous: bool = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Starts a chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat (dict): Dict containing chat properties, access and thread.
+                active (bool): When set to False, creates an inactive thread; default: True.
+                continuous (bool): Starts chat as continuous (online group is not required); default: False.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/start_chat?license_id={self.license_id}&#39;, json=payload)
+
+    def resume_chat(self, payload: dict = None, chat: dict = None, active: bool = None, continuous: bool = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Restarts an archived chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat (dict): Dict containing chat properties, access and thread.
+                active (bool): When set to False, creates an inactive thread; default: True.
+                continuous (bool): Starts chat as continuous (online group is not required); default: False.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/resume_chat?license_id={self.license_id}&#39;, json=payload)
+
+    def deactivate_chat(self, payload: dict = None, id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+            Sending messages to this thread will no longer be possible.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                id (str): ID of chat to be deactivated.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/deactivate_chat?license_id={self.license_id}&#39;, json=payload)
+
+# Configuration
+
+    def get_dynamic_configuration(self, payload: dict = None, group_id: int = None, url: str = None, channel_type: str = None, test: bool = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the dynamic configuration of a given group.
+            It provides data to call Get Configuration and Get Localization.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                group_id (int): The ID of the group that you want to get a dynamic configuration for. ID of the default group is used if not provided.
+                url (str): The URL that you want to get a dynamic configuration for.
+                channel_type (str): The channel type that you want to get a dynamic configuration for.
+                test (bool): Treats a dynamic configuration request as a test.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+           &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_dynamic_configuration?license_id={self.license_id}&#39;, json=payload)
+
+    def get_configuration(self, payload: dict = None, group_id: int = None, version: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the configuration of a given group in a given version. Contains data based on which the Chat Widget can be built.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                group_id (int): The ID of the group that you want to get a configuration for.
+                version (str): The version that you want to get a configuration for.
+                               Returned from Get Dynamic Configuration as the config_version parameter.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+         &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_configuration?license_id={self.license_id}&#39;, json=payload)
+
+# Events
+
+    def send_event(self, payload: dict = None, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Sends an Event object. Use this method to send a message by specifying the Message event type in the request.
+            The method updates the requester&#39;s `events_seen_up_to` as if they&#39;ve seen all chat events.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (int): ID of the chat that you to send a message to.
+                event (dict): The event object.
+                attach_to_last_thread (bool): The flag is ignored for active chats.
+                                              For inactive chats:
+                                              True – the event will be added to the last thread;
+                                              False – the request will fail. Default: False.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/send_event?license_id={self.license_id}&#39;, json=payload)
+
+    def upload_file(self, payload: dict = None, file: typing.BinaryIO = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in `send_event`.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                file (typing.BinaryIO): File-like object with file to upload (Maximum size: 10MB).
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/upload_file?license_id={self.license_id}&#39;, json=payload)
+
+    def send_rich_message_postback(self, payload: dict = None, chat_id: str = None, event_id: str = None, postback: dict = None, thread_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Sends a rich message postback.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat to send rich message postback to.
+                event_id (str): ID of the event related to the rich message postback.
+                postback (dict): Object containing postback data (id, toggled).
+                thread_id (str): ID of the thread to send rich message postback to.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/send_rich_message_postback?license_id={self.license_id}&#39;, json=payload)
+
+    def send_sneak_peek(self, payload: dict = None, chat_id: str = None, sneak_peek_text: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Sends a sneak peek to a chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat to send a sneak peek to.
+                sneak_peek_text (str): Sneak peek text.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/send_sneak_peek?license_id={self.license_id}&#39;, json=payload)
+
+# Localization
+
+    def get_localization(self, payload: dict = None, group_id: int = None, language: str = None, version: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the localization of a given language and group in a given version. Contains translated phrases for the Chat Widget.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                group_id (int): ID of the group that you want to get a localization for.
+                language (str): The language that you want to get a localization for.
+                version (str): The version that you want to get a localization for.
+                               Returned from `get_dynamic_configuration` as the `localization_version` parameter.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_localization?license_id={self.license_id}&#39;, json=payload)
+
+# Properties
+
+    def update_chat_properties(self, payload: dict = None, id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates chat properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                id (str): ID of the chat you to set a property for.
+                properties (dict): Chat properties to set.
+                                   You should stick to the general properties format and include namespace, property name and value.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_chat_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def delete_chat_properties(self, payload: dict = None, id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deletes chat properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                id (str): ID of the chat you want to delete properties of.
+                properties (dict): Chat properties to delete.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/delete_chat_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def update_thread_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates chat thread properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat you to set properties for.
+                thread_id (str): ID of the thread you want to set properties for.
+                properties (dict): Thread properties to set.
+                                   You should stick to the general properties format and include namespace, property name and value.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_thread_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def delete_thread_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deletes chat thread properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat you want to delete the properties of.
+                thread_id (str): ID of the thread you want to delete the properties of.
+                properties (dict): Thread properties to delete.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/delete_thread_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def update_event_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates event properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat you to set properties for.
+                thread_id (str): ID of the thread you want to set properties for.
+                event_id (str): ID of the event you want to set properties for.
+                properties (dict): Thread properties to set.
+                                   You should stick to the general properties format and include namespace, property name and value.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_event_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def delete_event_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deletes event properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat you to delete the properties for.
+                thread_id (str): ID of the thread you want to delete the properties for.
+                event_id (str): ID of the event you want to delete the properties for.
+                properties (dict): Event properties to delete.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/delete_event_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def list_license_properties(self, payload: dict = None, namespace: str = None, name: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params[&#39;namespace&#39;] = namespace
+        if name:
+            params[&#39;name&#39;] = name
+        params[&#39;license_id&#39;] = self.license_id
+        return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;, json=payload, params=params)
+
+    def list_group_properties(self, payload: dict = None, group_id: int = None, namespace: str = None, name: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                group_id (int): ID of the group you want to return the properties of.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params[&#39;namespace&#39;] = namespace
+        if name:
+            params[&#39;name&#39;] = name
+        if group_id:
+            params[&#39;id&#39;] = group_id
+        params[&#39;license_id&#39;] = self.license_id
+        return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;, json=payload, params=params)
+
+# Customers
+
+    def get_customer(self, payload: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the info about the Customer requesting it.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        payload = {} if payload is None else payload
+        return self.session.post(f&#39;{self.api_url}/get_customer?license_id={self.license_id}&#39;, json=payload)
+
+    def update_customer(self, payload: dict = None, name: str = None, email: str = None, avatar: str = None, session_fields: list = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates Customer&#39;s properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                name (str): Name of the customer.
+                email (str): Email of the customer.
+                avatar (str): The URL of the Customer&#39;s avatar.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                                       Respects the order of items.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_customer?license_id={self.license_id}&#39;, json=payload)
+
+    def set_customer_session_fields(self, payload: dict = None, session_fields: list = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates Customer&#39;s session fields.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                                       Respects the order of items. Max keys: 100.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/set_customer_session_fields?license_id={self.license_id}&#39;, json=payload)
+
+# Status
+
+    def list_group_statuses(self, payload: dict = None, all: bool = None, group_ids: list = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns object with info about current routing statuses of agent groups.
+            One of the optional parameters needs to be included in the request.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                all (bool): If set to True, you will get statuses of all the groups.
+                group_ids (list): A table of groups&#39; IDs
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_group_statuses?license_id={self.license_id}&#39;, json=payload)
+
+# Other
+
+    def check_goals(self, payload: dict = None, session_fields: list = None, group_id: int = None, page_url: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Customer can use this method to trigger checking if goals were achieved.
+            Then, Agents receive the information. You should call this method to provide goals parameters for the server
+            when the customers limit is reached. Works only for offline Customers.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                group_id (int): Group ID to check the goals for.
+                page_url (str): URL of the page to check the goals for.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/check_goals?license_id={self.license_id}&#39;, json=payload)
+
+    def get_form(self, payload: dict = None, group_id: int = None, type: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                group_id (int): ID of the group from which you want the form.
+                type (str): Form type; possible values: prechat or postchat.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_form?license_id={self.license_id}&#39;, json=payload)
+
+    def get_predicted_agent(self, payload: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+            To use this method, the Customer needs to be logged in, which can be done via the `login` method.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        payload = {} if payload is None else payload
+        return self.session.post(f&#39;{self.api_url}/get_predicted_agent?license_id={self.license_id}&#39;, json=payload)
+
+    def get_url_info(self, payload: dict = None, url: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the info on a given URL.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                url (str): Valid website URL.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_url_info?license_id={self.license_id}&#39;, json=payload)
+
+    def mark_events_as_seen(self, payload: dict = None, chat_id: str = None, seen_up_to: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates `seen_up_to` value for a given chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat to update `seen_up_to`.
+                seen_up_to (str): RFC 3339 date-time format.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/mark_events_as_seen?license_id={self.license_id}&#39;, json=payload)
+
+    def accept_greeting(self, payload: dict = None, greeting_id: int = None, unique_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Marks an incoming greeting as seen.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                greeting_id (int): ID of the greeting configured within the license to accept.
+                unique_id (str): ID of the greeting to accept. You can get it from the `incoming_greeting` push.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/accept_greeting?license_id={self.license_id}&#39;, json=payload)
+
+    def cancel_greeting(self, payload: dict = None, unique_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Cancels a greeting (an invitation to the chat).
+            For example, Customers could cancel greetings by minimalizing the chat widget with a greeting.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                unique_id (str): ID of the greeting to cancel. You can get it from the `incoming_greeting` push.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/cancel_greeting?license_id={self.license_id}&#39;, json=payload)
+
+
+class Version33(CustomerWebApi):
+    pass</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="client.CustomerWebApi"><code class="flex name class">
+<span>class <span class="ident">CustomerWebApi</span></span>
+<span>(</span><span>license_id: str, access_token: str, version: str, base_url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Main class containing API methods.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CustomerWebApi(metaclass=ABCMeta):
+    &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
+
+    def __init__(self, license_id: str, access_token: str, version: str, base_url: str):
+        self.api_url = f&#39;https://{base_url}/v{version}/customer/action&#39;
+        self.session = requests.Session()
+        self.session.headers.update({&#39;Authorization&#39;: access_token})
+        self.license_id = license_id
+
+# Chats
+
+    def list_chats(self, payload: dict = None, limit: int = None, sort_order: str = None, page_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns summaries of the chats a Customer participated in.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                limit (int): Limit of results per page. Default: 10, maximum: 25.
+                sort_order (str): Possible values: asc, desc (default).
+                                  Chat summaries are sorted by the creation date of its last thread.
+                page_id (str): ID of the page with paginated results.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_chats?license_id={self.license_id}&#39;, json=payload)
+
+    def list_threads(self, payload: dict = None, chat_id: str = None, sort_order: str = None, page_id: str = None, min_events_count: int = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns threads that the current Customer has access to in a given chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat for which threads are to be listed.
+                limit (str): Limit of results per page. Default: 10, maximum: 25.
+                sort_order (str): Possible values: asc, desc (default).
+                                  Chat summaries are sorted by the creation date of its last thread.
+                page_id (str): ID of the page with paginated results.
+                min_events_count (int): Range: 1-100;
+                    Specifies the minimum number of events to be returned in the response.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_threads?license_id={self.license_id}&#39;, json=payload)
+
+    def get_chat(self, payload: dict = None, chat_id: str = None, thread_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns a thread that the current Customer has access to in a given chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat for which thread is to be returned.
+                thread_id (str): ID of the thread to show. Default: the latest thread (if exists)
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_chat?license_id={self.license_id}&#39;, json=payload)
+
+    def start_chat(self, payload: dict = None, chat: dict = None, active: bool = None, continuous: bool = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Starts a chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat (dict): Dict containing chat properties, access and thread.
+                active (bool): When set to False, creates an inactive thread; default: True.
+                continuous (bool): Starts chat as continuous (online group is not required); default: False.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/start_chat?license_id={self.license_id}&#39;, json=payload)
+
+    def resume_chat(self, payload: dict = None, chat: dict = None, active: bool = None, continuous: bool = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Restarts an archived chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat (dict): Dict containing chat properties, access and thread.
+                active (bool): When set to False, creates an inactive thread; default: True.
+                continuous (bool): Starts chat as continuous (online group is not required); default: False.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/resume_chat?license_id={self.license_id}&#39;, json=payload)
+
+    def deactivate_chat(self, payload: dict = None, id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+            Sending messages to this thread will no longer be possible.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                id (str): ID of chat to be deactivated.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/deactivate_chat?license_id={self.license_id}&#39;, json=payload)
+
+# Configuration
+
+    def get_dynamic_configuration(self, payload: dict = None, group_id: int = None, url: str = None, channel_type: str = None, test: bool = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the dynamic configuration of a given group.
+            It provides data to call Get Configuration and Get Localization.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                group_id (int): The ID of the group that you want to get a dynamic configuration for. ID of the default group is used if not provided.
+                url (str): The URL that you want to get a dynamic configuration for.
+                channel_type (str): The channel type that you want to get a dynamic configuration for.
+                test (bool): Treats a dynamic configuration request as a test.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+           &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_dynamic_configuration?license_id={self.license_id}&#39;, json=payload)
+
+    def get_configuration(self, payload: dict = None, group_id: int = None, version: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the configuration of a given group in a given version. Contains data based on which the Chat Widget can be built.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                group_id (int): The ID of the group that you want to get a configuration for.
+                version (str): The version that you want to get a configuration for.
+                               Returned from Get Dynamic Configuration as the config_version parameter.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+         &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_configuration?license_id={self.license_id}&#39;, json=payload)
+
+# Events
+
+    def send_event(self, payload: dict = None, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Sends an Event object. Use this method to send a message by specifying the Message event type in the request.
+            The method updates the requester&#39;s `events_seen_up_to` as if they&#39;ve seen all chat events.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (int): ID of the chat that you to send a message to.
+                event (dict): The event object.
+                attach_to_last_thread (bool): The flag is ignored for active chats.
+                                              For inactive chats:
+                                              True – the event will be added to the last thread;
+                                              False – the request will fail. Default: False.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/send_event?license_id={self.license_id}&#39;, json=payload)
+
+    def upload_file(self, payload: dict = None, file: typing.BinaryIO = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in `send_event`.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                file (typing.BinaryIO): File-like object with file to upload (Maximum size: 10MB).
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/upload_file?license_id={self.license_id}&#39;, json=payload)
+
+    def send_rich_message_postback(self, payload: dict = None, chat_id: str = None, event_id: str = None, postback: dict = None, thread_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Sends a rich message postback.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat to send rich message postback to.
+                event_id (str): ID of the event related to the rich message postback.
+                postback (dict): Object containing postback data (id, toggled).
+                thread_id (str): ID of the thread to send rich message postback to.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/send_rich_message_postback?license_id={self.license_id}&#39;, json=payload)
+
+    def send_sneak_peek(self, payload: dict = None, chat_id: str = None, sneak_peek_text: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Sends a sneak peek to a chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat to send a sneak peek to.
+                sneak_peek_text (str): Sneak peek text.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/send_sneak_peek?license_id={self.license_id}&#39;, json=payload)
+
+# Localization
+
+    def get_localization(self, payload: dict = None, group_id: int = None, language: str = None, version: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the localization of a given language and group in a given version. Contains translated phrases for the Chat Widget.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                group_id (int): ID of the group that you want to get a localization for.
+                language (str): The language that you want to get a localization for.
+                version (str): The version that you want to get a localization for.
+                               Returned from `get_dynamic_configuration` as the `localization_version` parameter.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_localization?license_id={self.license_id}&#39;, json=payload)
+
+# Properties
+
+    def update_chat_properties(self, payload: dict = None, id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates chat properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                id (str): ID of the chat you to set a property for.
+                properties (dict): Chat properties to set.
+                                   You should stick to the general properties format and include namespace, property name and value.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_chat_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def delete_chat_properties(self, payload: dict = None, id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deletes chat properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                id (str): ID of the chat you want to delete properties of.
+                properties (dict): Chat properties to delete.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/delete_chat_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def update_thread_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates chat thread properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat you to set properties for.
+                thread_id (str): ID of the thread you want to set properties for.
+                properties (dict): Thread properties to set.
+                                   You should stick to the general properties format and include namespace, property name and value.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_thread_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def delete_thread_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deletes chat thread properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat you want to delete the properties of.
+                thread_id (str): ID of the thread you want to delete the properties of.
+                properties (dict): Thread properties to delete.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/delete_thread_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def update_event_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates event properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat you to set properties for.
+                thread_id (str): ID of the thread you want to set properties for.
+                event_id (str): ID of the event you want to set properties for.
+                properties (dict): Thread properties to set.
+                                   You should stick to the general properties format and include namespace, property name and value.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_event_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def delete_event_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deletes event properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat you to delete the properties for.
+                thread_id (str): ID of the thread you want to delete the properties for.
+                event_id (str): ID of the event you want to delete the properties for.
+                properties (dict): Event properties to delete.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/delete_event_properties?license_id={self.license_id}&#39;, json=payload)
+
+    def list_license_properties(self, payload: dict = None, namespace: str = None, name: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params[&#39;namespace&#39;] = namespace
+        if name:
+            params[&#39;name&#39;] = name
+        params[&#39;license_id&#39;] = self.license_id
+        return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;, json=payload, params=params)
+
+    def list_group_properties(self, payload: dict = None, group_id: int = None, namespace: str = None, name: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                group_id (int): ID of the group you want to return the properties of.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params[&#39;namespace&#39;] = namespace
+        if name:
+            params[&#39;name&#39;] = name
+        if group_id:
+            params[&#39;id&#39;] = group_id
+        params[&#39;license_id&#39;] = self.license_id
+        return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;, json=payload, params=params)
+
+# Customers
+
+    def get_customer(self, payload: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the info about the Customer requesting it.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        payload = {} if payload is None else payload
+        return self.session.post(f&#39;{self.api_url}/get_customer?license_id={self.license_id}&#39;, json=payload)
+
+    def update_customer(self, payload: dict = None, name: str = None, email: str = None, avatar: str = None, session_fields: list = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates Customer&#39;s properties.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                name (str): Name of the customer.
+                email (str): Email of the customer.
+                avatar (str): The URL of the Customer&#39;s avatar.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                                       Respects the order of items.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_customer?license_id={self.license_id}&#39;, json=payload)
+
+    def set_customer_session_fields(self, payload: dict = None, session_fields: list = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates Customer&#39;s session fields.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                                       Respects the order of items. Max keys: 100.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/set_customer_session_fields?license_id={self.license_id}&#39;, json=payload)
+
+# Status
+
+    def list_group_statuses(self, payload: dict = None, all: bool = None, group_ids: list = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns object with info about current routing statuses of agent groups.
+            One of the optional parameters needs to be included in the request.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                all (bool): If set to True, you will get statuses of all the groups.
+                group_ids (list): A table of groups&#39; IDs
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_group_statuses?license_id={self.license_id}&#39;, json=payload)
+
+# Other
+
+    def check_goals(self, payload: dict = None, session_fields: list = None, group_id: int = None, page_url: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Customer can use this method to trigger checking if goals were achieved.
+            Then, Agents receive the information. You should call this method to provide goals parameters for the server
+            when the customers limit is reached. Works only for offline Customers.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                group_id (int): Group ID to check the goals for.
+                page_url (str): URL of the page to check the goals for.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/check_goals?license_id={self.license_id}&#39;, json=payload)
+
+    def get_form(self, payload: dict = None, group_id: int = None, type: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                group_id (int): ID of the group from which you want the form.
+                type (str): Form type; possible values: prechat or postchat.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_form?license_id={self.license_id}&#39;, json=payload)
+
+    def get_predicted_agent(self, payload: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+            To use this method, the Customer needs to be logged in, which can be done via the `login` method.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        payload = {} if payload is None else payload
+        return self.session.post(f&#39;{self.api_url}/get_predicted_agent?license_id={self.license_id}&#39;, json=payload)
+
+    def get_url_info(self, payload: dict = None, url: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Returns the info on a given URL.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                url (str): Valid website URL.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_url_info?license_id={self.license_id}&#39;, json=payload)
+
+    def mark_events_as_seen(self, payload: dict = None, chat_id: str = None, seen_up_to: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Updates `seen_up_to` value for a given chat.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                chat_id (str): ID of the chat to update `seen_up_to`.
+                seen_up_to (str): RFC 3339 date-time format.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/mark_events_as_seen?license_id={self.license_id}&#39;, json=payload)
+
+    def accept_greeting(self, payload: dict = None, greeting_id: int = None, unique_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Marks an incoming greeting as seen.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                greeting_id (int): ID of the greeting configured within the license to accept.
+                unique_id (str): ID of the greeting to accept. You can get it from the `incoming_greeting` push.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/accept_greeting?license_id={self.license_id}&#39;, json=payload)
+
+    def cancel_greeting(self, payload: dict = None, unique_id: str = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Cancels a greeting (an invitation to the chat).
+            For example, Customers could cancel greetings by minimalizing the chat widget with a greeting.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                unique_id (str): ID of the greeting to cancel. You can get it from the `incoming_greeting` push.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/cancel_greeting?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="client.Version33" href="#client.Version33">Version33</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="client.CustomerWebApi.accept_greeting"><code class="name flex">
+<span>def <span class="ident">accept_greeting</span></span>(<span>self, payload: dict = None, greeting_id: int = None, unique_id: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Marks an incoming greeting as seen.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>greeting_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>ID of the greeting configured within the license to accept.</dd>
+<dt><strong><code>unique_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the greeting to accept. You can get it from the <code>incoming_greeting</code> push.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def accept_greeting(self, payload: dict = None, greeting_id: int = None, unique_id: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Marks an incoming greeting as seen.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            greeting_id (int): ID of the greeting configured within the license to accept.
+            unique_id (str): ID of the greeting to accept. You can get it from the `incoming_greeting` push.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/accept_greeting?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.cancel_greeting"><code class="name flex">
+<span>def <span class="ident">cancel_greeting</span></span>(<span>self, payload: dict = None, unique_id: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Cancels a greeting (an invitation to the chat).
+For example, Customers could cancel greetings by minimalizing the chat widget with a greeting.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>unique_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the greeting to cancel. You can get it from the <code>incoming_greeting</code> push.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cancel_greeting(self, payload: dict = None, unique_id: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Cancels a greeting (an invitation to the chat).
+        For example, Customers could cancel greetings by minimalizing the chat widget with a greeting.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            unique_id (str): ID of the greeting to cancel. You can get it from the `incoming_greeting` push.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/cancel_greeting?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.check_goals"><code class="name flex">
+<span>def <span class="ident">check_goals</span></span>(<span>self, payload: dict = None, session_fields: list = None, group_id: int = None, page_url: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Customer can use this method to trigger checking if goals were achieved.
+Then, Agents receive the information. You should call this method to provide goals parameters for the server
+when the customers limit is reached. Works only for offline Customers. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>session_fields</code></strong> :&ensp;<code>list</code></dt>
+<dd>An array of custom object-enclosed key:value pairs.</dd>
+<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>Group ID to check the goals for.</dd>
+<dt><strong><code>page_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL of the page to check the goals for.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_goals(self, payload: dict = None, session_fields: list = None, group_id: int = None, page_url: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Customer can use this method to trigger checking if goals were achieved.
+        Then, Agents receive the information. You should call this method to provide goals parameters for the server
+        when the customers limit is reached. Works only for offline Customers.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            session_fields (list): An array of custom object-enclosed key:value pairs.
+            group_id (int): Group ID to check the goals for.
+            page_url (str): URL of the page to check the goals for.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/check_goals?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.deactivate_chat"><code class="name flex">
+<span>def <span class="ident">deactivate_chat</span></span>(<span>self, payload: dict = None, id: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deactivates a chat by closing the currently open thread.
+Sending messages to this thread will no longer be possible.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of chat to be deactivated.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def deactivate_chat(self, payload: dict = None, id: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+        Sending messages to this thread will no longer be possible.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            id (str): ID of chat to be deactivated.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/deactivate_chat?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.delete_chat_properties"><code class="name flex">
+<span>def <span class="ident">delete_chat_properties</span></span>(<span>self, payload: dict = None, id: str = None, properties: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deletes chat properties.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat you want to delete properties of.</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Chat properties to delete.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_chat_properties(self, payload: dict = None, id: str = None, properties: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Deletes chat properties.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            id (str): ID of the chat you want to delete properties of.
+            properties (dict): Chat properties to delete.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/delete_chat_properties?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.delete_event_properties"><code class="name flex">
+<span>def <span class="ident">delete_event_properties</span></span>(<span>self, payload: dict = None, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deletes event properties.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat you to delete the properties for.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread you want to delete the properties for.</dd>
+<dt><strong><code>event_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the event you want to delete the properties for.</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Event properties to delete. </dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_event_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Deletes event properties.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat you to delete the properties for.
+            thread_id (str): ID of the thread you want to delete the properties for.
+            event_id (str): ID of the event you want to delete the properties for.
+            properties (dict): Event properties to delete.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/delete_event_properties?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.delete_thread_properties"><code class="name flex">
+<span>def <span class="ident">delete_thread_properties</span></span>(<span>self, payload: dict = None, chat_id: str = None, thread_id: str = None, properties: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deletes chat thread properties.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat you want to delete the properties of.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread you want to delete the properties of.</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Thread properties to delete.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_thread_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, properties: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Deletes chat thread properties.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat you want to delete the properties of.
+            thread_id (str): ID of the thread you want to delete the properties of.
+            properties (dict): Thread properties to delete.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/delete_thread_properties?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.get_chat"><code class="name flex">
+<span>def <span class="ident">get_chat</span></span>(<span>self, payload: dict = None, chat_id: str = None, thread_id: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a thread that the current Customer has access to in a given chat. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat for which thread is to be returned.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread to show. Default: the latest thread (if exists)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_chat(self, payload: dict = None, chat_id: str = None, thread_id: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns a thread that the current Customer has access to in a given chat.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat for which thread is to be returned.
+            thread_id (str): ID of the thread to show. Default: the latest thread (if exists)
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_chat?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.get_configuration"><code class="name flex">
+<span>def <span class="ident">get_configuration</span></span>(<span>self, payload: dict = None, group_id: int = None, version: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the configuration of a given group in a given version. Contains data based on which the Chat Widget can be built.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>The ID of the group that you want to get a configuration for.</dd>
+<dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
+<dd>The version that you want to get a configuration for.
+Returned from Get Dynamic Configuration as the config_version parameter.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_configuration(self, payload: dict = None, group_id: int = None, version: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns the configuration of a given group in a given version. Contains data based on which the Chat Widget can be built.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            group_id (int): The ID of the group that you want to get a configuration for.
+            version (str): The version that you want to get a configuration for.
+                           Returned from Get Dynamic Configuration as the config_version parameter.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+     &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_configuration?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.get_customer"><code class="name flex">
+<span>def <span class="ident">get_customer</span></span>(<span>self, payload: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the info about the Customer requesting it.
+</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_customer(self, payload: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns the info about the Customer requesting it.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    payload = {} if payload is None else payload
+    return self.session.post(f&#39;{self.api_url}/get_customer?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.get_dynamic_configuration"><code class="name flex">
+<span>def <span class="ident">get_dynamic_configuration</span></span>(<span>self, payload: dict = None, group_id: int = None, url: str = None, channel_type: str = None, test: bool = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the dynamic configuration of a given group.
+It provides data to call Get Configuration and Get Localization. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>The ID of the group that you want to get a dynamic configuration for. ID of the default group is used if not provided.</dd>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The URL that you want to get a dynamic configuration for.</dd>
+<dt><strong><code>channel_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>The channel type that you want to get a dynamic configuration for.</dd>
+<dt><strong><code>test</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Treats a dynamic configuration request as a test.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dynamic_configuration(self, payload: dict = None, group_id: int = None, url: str = None, channel_type: str = None, test: bool = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns the dynamic configuration of a given group.
+        It provides data to call Get Configuration and Get Localization.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            group_id (int): The ID of the group that you want to get a dynamic configuration for. ID of the default group is used if not provided.
+            url (str): The URL that you want to get a dynamic configuration for.
+            channel_type (str): The channel type that you want to get a dynamic configuration for.
+            test (bool): Treats a dynamic configuration request as a test.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+       &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_dynamic_configuration?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.get_form"><code class="name flex">
+<span>def <span class="ident">get_form</span></span>(<span>self, payload: dict = None, group_id: int = None, type: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns an empty ticket form of a prechat or postchat survey.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>ID of the group from which you want the form.</dd>
+<dt><strong><code>type</code></strong> :&ensp;<code>str</code></dt>
+<dd>Form type; possible values: prechat or postchat.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_form(self, payload: dict = None, group_id: int = None, type: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            group_id (int): ID of the group from which you want the form.
+            type (str): Form type; possible values: prechat or postchat.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_form?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.get_localization"><code class="name flex">
+<span>def <span class="ident">get_localization</span></span>(<span>self, payload: dict = None, group_id: int = None, language: str = None, version: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the localization of a given language and group in a given version. Contains translated phrases for the Chat Widget.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>ID of the group that you want to get a localization for.</dd>
+<dt><strong><code>language</code></strong> :&ensp;<code>str</code></dt>
+<dd>The language that you want to get a localization for.</dd>
+<dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
+<dd>The version that you want to get a localization for.
+Returned from <code>get_dynamic_configuration</code> as the <code>localization_version</code> parameter.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_localization(self, payload: dict = None, group_id: int = None, language: str = None, version: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns the localization of a given language and group in a given version. Contains translated phrases for the Chat Widget.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            group_id (int): ID of the group that you want to get a localization for.
+            language (str): The language that you want to get a localization for.
+            version (str): The version that you want to get a localization for.
+                           Returned from `get_dynamic_configuration` as the `localization_version` parameter.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_localization?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.get_predicted_agent"><code class="name flex">
+<span>def <span class="ident">get_predicted_agent</span></span>(<span>self, payload: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+To use this method, the Customer needs to be logged in, which can be done via the <code>login</code> method.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_predicted_agent(self, payload: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+        To use this method, the Customer needs to be logged in, which can be done via the `login` method.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    payload = {} if payload is None else payload
+    return self.session.post(f&#39;{self.api_url}/get_predicted_agent?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.get_url_info"><code class="name flex">
+<span>def <span class="ident">get_url_info</span></span>(<span>self, payload: dict = None, url: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the info on a given URL. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>Valid website URL.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_url_info(self, payload: dict = None, url: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns the info on a given URL.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            url (str): Valid website URL.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_url_info?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.list_chats"><code class="name flex">
+<span>def <span class="ident">list_chats</span></span>(<span>self, payload: dict = None, limit: int = None, sort_order: str = None, page_id: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns summaries of the chats a Customer participated in.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
+<dd>Limit of results per page. Default: 10, maximum: 25.</dd>
+<dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: asc, desc (default).
+Chat summaries are sorted by the creation date of its last thread.</dd>
+<dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the page with paginated results.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_chats(self, payload: dict = None, limit: int = None, sort_order: str = None, page_id: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns summaries of the chats a Customer participated in.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            limit (int): Limit of results per page. Default: 10, maximum: 25.
+            sort_order (str): Possible values: asc, desc (default).
+                              Chat summaries are sorted by the creation date of its last thread.
+            page_id (str): ID of the page with paginated results.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/list_chats?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.list_group_properties"><code class="name flex">
+<span>def <span class="ident">list_group_properties</span></span>(<span>self, payload: dict = None, group_id: int = None, namespace: str = None, name: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the properties of a given group. It only returns the properties a Customer has access to. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.</dd>
+<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>ID of the group you want to return the properties of.</dd>
+<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property namespace to retrieve.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property name.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_group_properties(self, payload: dict = None, group_id: int = None, namespace: str = None, name: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+            group_id (int): ID of the group you want to return the properties of.
+            namespace (str): Property namespace to retrieve.
+            name (str): Property name.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = {}
+    params = {}
+    if namespace:
+        params[&#39;namespace&#39;] = namespace
+    if name:
+        params[&#39;name&#39;] = name
+    if group_id:
+        params[&#39;id&#39;] = group_id
+    params[&#39;license_id&#39;] = self.license_id
+    return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;, json=payload, params=params)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.list_group_statuses"><code class="name flex">
+<span>def <span class="ident">list_group_statuses</span></span>(<span>self, payload: dict = None, all: bool = None, group_ids: list = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns object with info about current routing statuses of agent groups.
+One of the optional parameters needs to be included in the request.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>all</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If set to True, you will get statuses of all the groups.</dd>
+<dt><strong><code>group_ids</code></strong> :&ensp;<code>list</code></dt>
+<dd>A table of groups' IDs</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_group_statuses(self, payload: dict = None, all: bool = None, group_ids: list = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns object with info about current routing statuses of agent groups.
+        One of the optional parameters needs to be included in the request.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            all (bool): If set to True, you will get statuses of all the groups.
+            group_ids (list): A table of groups&#39; IDs
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/list_group_statuses?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.list_license_properties"><code class="name flex">
+<span>def <span class="ident">list_license_properties</span></span>(<span>self, payload: dict = None, namespace: str = None, name: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the properties of a given license. It only returns the properties a Customer has access to. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.</dd>
+<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property namespace to retrieve.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property name.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_license_properties(self, payload: dict = None, namespace: str = None, name: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+            namespace (str): Property namespace to retrieve.
+            name (str): Property name.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = {}
+    params = {}
+    if namespace:
+        params[&#39;namespace&#39;] = namespace
+    if name:
+        params[&#39;name&#39;] = name
+    params[&#39;license_id&#39;] = self.license_id
+    return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;, json=payload, params=params)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.list_threads"><code class="name flex">
+<span>def <span class="ident">list_threads</span></span>(<span>self, payload: dict = None, chat_id: str = None, sort_order: str = None, page_id: str = None, min_events_count: int = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns threads that the current Customer has access to in a given chat.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat for which threads are to be listed.</dd>
+<dt><strong><code>limit</code></strong> :&ensp;<code>str</code></dt>
+<dd>Limit of results per page. Default: 10, maximum: 25.</dd>
+<dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: asc, desc (default).
+Chat summaries are sorted by the creation date of its last thread.</dd>
+<dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the page with paginated results.</dd>
+<dt><strong><code>min_events_count</code></strong> :&ensp;<code>int</code></dt>
+<dd>Range: 1-100;
+Specifies the minimum number of events to be returned in the response. </dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_threads(self, payload: dict = None, chat_id: str = None, sort_order: str = None, page_id: str = None, min_events_count: int = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Returns threads that the current Customer has access to in a given chat.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat for which threads are to be listed.
+            limit (str): Limit of results per page. Default: 10, maximum: 25.
+            sort_order (str): Possible values: asc, desc (default).
+                              Chat summaries are sorted by the creation date of its last thread.
+            page_id (str): ID of the page with paginated results.
+            min_events_count (int): Range: 1-100;
+                Specifies the minimum number of events to be returned in the response.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/list_threads?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.mark_events_as_seen"><code class="name flex">
+<span>def <span class="ident">mark_events_as_seen</span></span>(<span>self, payload: dict = None, chat_id: str = None, seen_up_to: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates <code>seen_up_to</code> value for a given chat. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat to update <code>seen_up_to</code>.</dd>
+<dt><strong><code>seen_up_to</code></strong> :&ensp;<code>str</code></dt>
+<dd>RFC 3339 date-time format.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mark_events_as_seen(self, payload: dict = None, chat_id: str = None, seen_up_to: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Updates `seen_up_to` value for a given chat.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat to update `seen_up_to`.
+            seen_up_to (str): RFC 3339 date-time format.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/mark_events_as_seen?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.resume_chat"><code class="name flex">
+<span>def <span class="ident">resume_chat</span></span>(<span>self, payload: dict = None, chat: dict = None, active: bool = None, continuous: bool = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Restarts an archived chat.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dict containing chat properties, access and thread.</dd>
+<dt><strong><code>active</code></strong> :&ensp;<code>bool</code></dt>
+<dd>When set to False, creates an inactive thread; default: True.</dd>
+<dt><strong><code>continuous</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Starts chat as continuous (online group is not required); default: False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def resume_chat(self, payload: dict = None, chat: dict = None, active: bool = None, continuous: bool = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Restarts an archived chat.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat (dict): Dict containing chat properties, access and thread.
+            active (bool): When set to False, creates an inactive thread; default: True.
+            continuous (bool): Starts chat as continuous (online group is not required); default: False.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/resume_chat?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.send_event"><code class="name flex">
+<span>def <span class="ident">send_event</span></span>(<span>self, payload: dict = None, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends an Event object. Use this method to send a message by specifying the Message event type in the request.
+The method updates the requester's <code>events_seen_up_to</code> as if they've seen all chat events.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>ID of the chat that you to send a message to.</dd>
+<dt><strong><code>event</code></strong> :&ensp;<code>dict</code></dt>
+<dd>The event object.</dd>
+<dt><strong><code>attach_to_last_thread</code></strong> :&ensp;<code>bool</code></dt>
+<dd>The flag is ignored for active chats.
+For inactive chats:
+True – the event will be added to the last thread;
+False – the request will fail. Default: False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_event(self, payload: dict = None, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Sends an Event object. Use this method to send a message by specifying the Message event type in the request.
+        The method updates the requester&#39;s `events_seen_up_to` as if they&#39;ve seen all chat events.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (int): ID of the chat that you to send a message to.
+            event (dict): The event object.
+            attach_to_last_thread (bool): The flag is ignored for active chats.
+                                          For inactive chats:
+                                          True – the event will be added to the last thread;
+                                          False – the request will fail. Default: False.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/send_event?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.send_rich_message_postback"><code class="name flex">
+<span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, payload: dict = None, chat_id: str = None, event_id: str = None, postback: dict = None, thread_id: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends a rich message postback. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat to send rich message postback to.</dd>
+<dt><strong><code>event_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the event related to the rich message postback.</dd>
+<dt><strong><code>postback</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Object containing postback data (id, toggled).</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread to send rich message postback to.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_rich_message_postback(self, payload: dict = None, chat_id: str = None, event_id: str = None, postback: dict = None, thread_id: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Sends a rich message postback.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat to send rich message postback to.
+            event_id (str): ID of the event related to the rich message postback.
+            postback (dict): Object containing postback data (id, toggled).
+            thread_id (str): ID of the thread to send rich message postback to.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/send_rich_message_postback?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.send_sneak_peek"><code class="name flex">
+<span>def <span class="ident">send_sneak_peek</span></span>(<span>self, payload: dict = None, chat_id: str = None, sneak_peek_text: str = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends a sneak peek to a chat. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat to send a sneak peek to.</dd>
+<dt><strong><code>sneak_peek_text</code></strong> :&ensp;<code>str</code></dt>
+<dd>Sneak peek text.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_sneak_peek(self, payload: dict = None, chat_id: str = None, sneak_peek_text: str = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Sends a sneak peek to a chat.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat to send a sneak peek to.
+            sneak_peek_text (str): Sneak peek text.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/send_sneak_peek?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.set_customer_session_fields"><code class="name flex">
+<span>def <span class="ident">set_customer_session_fields</span></span>(<span>self, payload: dict = None, session_fields: list = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates Customer's session fields. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>session_fields</code></strong> :&ensp;<code>list</code></dt>
+<dd>An array of custom object-enclosed key:value pairs.
+Respects the order of items. Max keys: 100.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_customer_session_fields(self, payload: dict = None, session_fields: list = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Updates Customer&#39;s session fields.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            session_fields (list): An array of custom object-enclosed key:value pairs.
+                                   Respects the order of items. Max keys: 100.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/set_customer_session_fields?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.start_chat"><code class="name flex">
+<span>def <span class="ident">start_chat</span></span>(<span>self, payload: dict = None, chat: dict = None, active: bool = None, continuous: bool = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Starts a chat.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dict containing chat properties, access and thread.</dd>
+<dt><strong><code>active</code></strong> :&ensp;<code>bool</code></dt>
+<dd>When set to False, creates an inactive thread; default: True.</dd>
+<dt><strong><code>continuous</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Starts chat as continuous (online group is not required); default: False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start_chat(self, payload: dict = None, chat: dict = None, active: bool = None, continuous: bool = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Starts a chat.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat (dict): Dict containing chat properties, access and thread.
+            active (bool): When set to False, creates an inactive thread; default: True.
+            continuous (bool): Starts chat as continuous (online group is not required); default: False.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/start_chat?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.update_chat_properties"><code class="name flex">
+<span>def <span class="ident">update_chat_properties</span></span>(<span>self, payload: dict = None, id: str = None, properties: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates chat properties.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat you to set a property for.</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Chat properties to set.
+You should stick to the general properties format and include namespace, property name and value.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_chat_properties(self, payload: dict = None, id: str = None, properties: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Updates chat properties.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            id (str): ID of the chat you to set a property for.
+            properties (dict): Chat properties to set.
+                               You should stick to the general properties format and include namespace, property name and value.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/update_chat_properties?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.update_customer"><code class="name flex">
+<span>def <span class="ident">update_customer</span></span>(<span>self, payload: dict = None, name: str = None, email: str = None, avatar: str = None, session_fields: list = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates Customer's properties. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the customer.</dd>
+<dt><strong><code>email</code></strong> :&ensp;<code>str</code></dt>
+<dd>Email of the customer.</dd>
+<dt><strong><code>avatar</code></strong> :&ensp;<code>str</code></dt>
+<dd>The URL of the Customer's avatar.</dd>
+<dt><strong><code>session_fields</code></strong> :&ensp;<code>list</code></dt>
+<dd>An array of custom object-enclosed key:value pairs.
+Respects the order of items.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_customer(self, payload: dict = None, name: str = None, email: str = None, avatar: str = None, session_fields: list = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Updates Customer&#39;s properties.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            name (str): Name of the customer.
+            email (str): Email of the customer.
+            avatar (str): The URL of the Customer&#39;s avatar.
+            session_fields (list): An array of custom object-enclosed key:value pairs.
+                                   Respects the order of items.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/update_customer?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.update_event_properties"><code class="name flex">
+<span>def <span class="ident">update_event_properties</span></span>(<span>self, payload: dict = None, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates event properties.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat you to set properties for.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread you want to set properties for.</dd>
+<dt><strong><code>event_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the event you want to set properties for.</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Thread properties to set.
+You should stick to the general properties format and include namespace, property name and value.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_event_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Updates event properties.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat you to set properties for.
+            thread_id (str): ID of the thread you want to set properties for.
+            event_id (str): ID of the event you want to set properties for.
+            properties (dict): Thread properties to set.
+                               You should stick to the general properties format and include namespace, property name and value.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/update_event_properties?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.update_thread_properties"><code class="name flex">
+<span>def <span class="ident">update_thread_properties</span></span>(<span>self, payload: dict = None, chat_id: str = None, thread_id: str = None, properties: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates chat thread properties.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat you to set properties for.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread you want to set properties for.</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Thread properties to set.
+You should stick to the general properties format and include namespace, property name and value.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_thread_properties(self, payload: dict = None, chat_id: str = None, thread_id: str = None, properties: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Updates chat thread properties.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            chat_id (str): ID of the chat you to set properties for.
+            thread_id (str): ID of the thread you want to set properties for.
+            properties (dict): Thread properties to set.
+                               You should stick to the general properties format and include namespace, property name and value.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/update_thread_properties?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebApi.upload_file"><code class="name flex">
+<span>def <span class="ident">upload_file</span></span>(<span>self, payload: dict = None, file: <class 'BinaryIO'> = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in <code>send_event</code>.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>file</code></strong> :&ensp;<code>typing.BinaryIO</code></dt>
+<dd>File-like object with file to upload (Maximum size: 10MB).</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def upload_file(self, payload: dict = None, file: typing.BinaryIO = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in `send_event`.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            file (typing.BinaryIO): File-like object with file to upload (Maximum size: 10MB).
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/upload_file?license_id={self.license_id}&#39;, json=payload)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="client.CustomerWebApiInterface"><code class="flex name class">
+<span>class <span class="ident">CustomerWebApiInterface</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interface class that allows retrieval of client for specific Customer Web
+API version.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CustomerWebApiInterface:
+    &#39;&#39;&#39; Interface class that allows retrieval of client for specific Customer Web
+        API version. &#39;&#39;&#39;
+
+    @staticmethod
+    def get_client(license_id: int,
+                   access_token: str,
+                   version: str = &#39;3.3&#39;,
+                   base_url: str = &#39;api.livechatinc.com&#39;):
+        &#39;&#39;&#39; Returns client for specific API version.
+
+            Args:
+                token (str): Full token with type (Bearer/Basic) that will be
+                                used as `Authorization` header in requests to API.
+                version (str): API&#39;s version.
+                env (str): API&#39;s environment.
+
+            Returns:
+                API client object for specified version based on
+                `CustomerWebApiInterface`.
+
+            Raises:
+                ValueError: If the specified version does not exist.
+        &#39;&#39;&#39;
+        client = {
+            &#39;3.3&#39;: Version33(license_id, access_token, version, base_url)
+        }.get(version)
+        if not client:
+            raise ValueError(&#39;Provided version does not exist.&#39;)
+        return client</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="client.CustomerWebApiInterface.get_client"><code class="name flex">
+<span>def <span class="ident">get_client</span></span>(<span>license_id: int, access_token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns client for specific API version. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>token</code></strong> :&ensp;<code>str</code></dt>
+<dd>Full token with type (Bearer/Basic) that will be
+used as <code>Authorization</code> header in requests to API.</dd>
+<dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
+<dd>API's version.</dd>
+<dt><strong><code>env</code></strong> :&ensp;<code>str</code></dt>
+<dd>API's environment.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>API client object for specified version based on
+<code><a title="client.CustomerWebApiInterface" href="#client.CustomerWebApiInterface">CustomerWebApiInterface</a></code>.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>If the specified version does not exist.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_client(license_id: int,
+               access_token: str,
+               version: str = &#39;3.3&#39;,
+               base_url: str = &#39;api.livechatinc.com&#39;):
+    &#39;&#39;&#39; Returns client for specific API version.
+
+        Args:
+            token (str): Full token with type (Bearer/Basic) that will be
+                            used as `Authorization` header in requests to API.
+            version (str): API&#39;s version.
+            env (str): API&#39;s environment.
+
+        Returns:
+            API client object for specified version based on
+            `CustomerWebApiInterface`.
+
+        Raises:
+            ValueError: If the specified version does not exist.
+    &#39;&#39;&#39;
+    client = {
+        &#39;3.3&#39;: Version33(license_id, access_token, version, base_url)
+    }.get(version)
+    if not client:
+        raise ValueError(&#39;Provided version does not exist.&#39;)
+    return client</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="client.Version33"><code class="flex name class">
+<span>class <span class="ident">Version33</span></span>
+<span>(</span><span>license_id: str, access_token: str, version: str, base_url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Main class containing API methods.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Version33(CustomerWebApi):
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="client.CustomerWebApi" href="#client.CustomerWebApi">CustomerWebApi</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="client.CustomerWebApi" href="#client.CustomerWebApi">CustomerWebApi</a></b></code>:
+<ul class="hlist">
+<li><code><a title="client.CustomerWebApi.accept_greeting" href="#client.CustomerWebApi.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="client.CustomerWebApi.cancel_greeting" href="#client.CustomerWebApi.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="client.CustomerWebApi.check_goals" href="#client.CustomerWebApi.check_goals">check_goals</a></code></li>
+<li><code><a title="client.CustomerWebApi.deactivate_chat" href="#client.CustomerWebApi.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.CustomerWebApi.delete_chat_properties" href="#client.CustomerWebApi.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.delete_event_properties" href="#client.CustomerWebApi.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.delete_thread_properties" href="#client.CustomerWebApi.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_chat" href="#client.CustomerWebApi.get_chat">get_chat</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_configuration" href="#client.CustomerWebApi.get_configuration">get_configuration</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_customer" href="#client.CustomerWebApi.get_customer">get_customer</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_dynamic_configuration" href="#client.CustomerWebApi.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_form" href="#client.CustomerWebApi.get_form">get_form</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_localization" href="#client.CustomerWebApi.get_localization">get_localization</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_predicted_agent" href="#client.CustomerWebApi.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_url_info" href="#client.CustomerWebApi.get_url_info">get_url_info</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_chats" href="#client.CustomerWebApi.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_group_properties" href="#client.CustomerWebApi.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_group_statuses" href="#client.CustomerWebApi.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_license_properties" href="#client.CustomerWebApi.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_threads" href="#client.CustomerWebApi.list_threads">list_threads</a></code></li>
+<li><code><a title="client.CustomerWebApi.mark_events_as_seen" href="#client.CustomerWebApi.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.CustomerWebApi.resume_chat" href="#client.CustomerWebApi.resume_chat">resume_chat</a></code></li>
+<li><code><a title="client.CustomerWebApi.send_event" href="#client.CustomerWebApi.send_event">send_event</a></code></li>
+<li><code><a title="client.CustomerWebApi.send_rich_message_postback" href="#client.CustomerWebApi.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="client.CustomerWebApi.send_sneak_peek" href="#client.CustomerWebApi.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="client.CustomerWebApi.set_customer_session_fields" href="#client.CustomerWebApi.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="client.CustomerWebApi.start_chat" href="#client.CustomerWebApi.start_chat">start_chat</a></code></li>
+<li><code><a title="client.CustomerWebApi.update_chat_properties" href="#client.CustomerWebApi.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.update_customer" href="#client.CustomerWebApi.update_customer">update_customer</a></code></li>
+<li><code><a title="client.CustomerWebApi.update_event_properties" href="#client.CustomerWebApi.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.update_thread_properties" href="#client.CustomerWebApi.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.upload_file" href="#client.CustomerWebApi.upload_file">upload_file</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="client.CustomerWebApi" href="#client.CustomerWebApi">CustomerWebApi</a></code></h4>
+<ul class="">
+<li><code><a title="client.CustomerWebApi.accept_greeting" href="#client.CustomerWebApi.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="client.CustomerWebApi.cancel_greeting" href="#client.CustomerWebApi.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="client.CustomerWebApi.check_goals" href="#client.CustomerWebApi.check_goals">check_goals</a></code></li>
+<li><code><a title="client.CustomerWebApi.deactivate_chat" href="#client.CustomerWebApi.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.CustomerWebApi.delete_chat_properties" href="#client.CustomerWebApi.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.delete_event_properties" href="#client.CustomerWebApi.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.delete_thread_properties" href="#client.CustomerWebApi.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_chat" href="#client.CustomerWebApi.get_chat">get_chat</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_configuration" href="#client.CustomerWebApi.get_configuration">get_configuration</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_customer" href="#client.CustomerWebApi.get_customer">get_customer</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_dynamic_configuration" href="#client.CustomerWebApi.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_form" href="#client.CustomerWebApi.get_form">get_form</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_localization" href="#client.CustomerWebApi.get_localization">get_localization</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_predicted_agent" href="#client.CustomerWebApi.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="client.CustomerWebApi.get_url_info" href="#client.CustomerWebApi.get_url_info">get_url_info</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_chats" href="#client.CustomerWebApi.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_group_properties" href="#client.CustomerWebApi.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_group_statuses" href="#client.CustomerWebApi.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_license_properties" href="#client.CustomerWebApi.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.list_threads" href="#client.CustomerWebApi.list_threads">list_threads</a></code></li>
+<li><code><a title="client.CustomerWebApi.mark_events_as_seen" href="#client.CustomerWebApi.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.CustomerWebApi.resume_chat" href="#client.CustomerWebApi.resume_chat">resume_chat</a></code></li>
+<li><code><a title="client.CustomerWebApi.send_event" href="#client.CustomerWebApi.send_event">send_event</a></code></li>
+<li><code><a title="client.CustomerWebApi.send_rich_message_postback" href="#client.CustomerWebApi.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="client.CustomerWebApi.send_sneak_peek" href="#client.CustomerWebApi.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="client.CustomerWebApi.set_customer_session_fields" href="#client.CustomerWebApi.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="client.CustomerWebApi.start_chat" href="#client.CustomerWebApi.start_chat">start_chat</a></code></li>
+<li><code><a title="client.CustomerWebApi.update_chat_properties" href="#client.CustomerWebApi.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.update_customer" href="#client.CustomerWebApi.update_customer">update_customer</a></code></li>
+<li><code><a title="client.CustomerWebApi.update_event_properties" href="#client.CustomerWebApi.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.update_thread_properties" href="#client.CustomerWebApi.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebApi.upload_file" href="#client.CustomerWebApi.upload_file">upload_file</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="client.CustomerWebApiInterface" href="#client.CustomerWebApiInterface">CustomerWebApiInterface</a></code></h4>
+<ul class="">
+<li><code><a title="client.CustomerWebApiInterface.get_client" href="#client.CustomerWebApiInterface.get_client">get_client</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="client.Version33" href="#client.Version33">Version33</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
