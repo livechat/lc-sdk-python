@@ -2,6 +2,8 @@
 Client for WebSocket connections.
 '''
 
+# pylint: disable=R1702
+
 import json
 import logging
 import random
@@ -21,7 +23,7 @@ from utils.helpers import parse_url_and_return_origin
 
 class WebsocketClient:
     ''' WebSocket synchronous client based on websocket-client module. '''
-    def __init__(self, url, timeout: int = 2):
+    def __init__(self, url: str, timeout: int = 2):
         self.url = url
         self.timeout = timeout
         self.websocket = None
