@@ -11,8 +11,8 @@ from utils.helpers import prepare_payload
 
 
 # pylint: disable=R0903
-class CustomerWebApiInterface:
-    ''' Interface class that allows retrieval of client for specific Customer Web
+class CustomerWeb:
+    ''' Allows retrieval of client for specific Customer Web
         API version. '''
     @staticmethod
     def get_client(license_id: int,
@@ -25,7 +25,7 @@ class CustomerWebApiInterface:
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
                 version (str): API's version.
-                env (str): API's environment.
+                base_url (str): API's base url. Defaults to `api.livechatinc.com`.
 
             Returns:
                 API client object for specified version based on
@@ -42,7 +42,7 @@ class CustomerWebApiInterface:
         return client
 
 
-class CustomerWebApi(metaclass=ABCMeta):
+class CustomerWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
     def __init__(self, license_id: str, access_token: str, version: str,
                  base_url: str):
@@ -81,6 +81,7 @@ class CustomerWebApi(metaclass=ABCMeta):
     def list_threads(self,
                      payload: dict = None,
                      chat_id: str = None,
+                     limit: str = None,
                      sort_order: str = None,
                      page_id: str = None,
                      min_events_count: int = None) -> requests.Response:
@@ -581,10 +582,9 @@ class CustomerWebApi(metaclass=ABCMeta):
                 requests.Response: The Response object from `requests` library,
                                    which contains a server’s response to an HTTP request.
         '''
-        payload = {} if payload is None else payload
         return self.session.post(
             f'{self.api_url}/get_customer?license_id={self.license_id}',
-            json=payload)
+            json={} if payload is None else payload)
 
     def update_customer(self,
                         payload: dict = None,
@@ -723,10 +723,9 @@ class CustomerWebApi(metaclass=ABCMeta):
                 requests.Response: The Response object from `requests` library,
                                    which contains a server’s response to an HTTP request.
         '''
-        payload = {} if payload is None else payload
         return self.session.post(
             f'{self.api_url}/get_predicted_agent?license_id={self.license_id}',
-            json=payload)
+            json={} if payload is None else payload)
 
     def get_url_info(self,
                      payload: dict = None,
@@ -810,5 +809,5 @@ class CustomerWebApi(metaclass=ABCMeta):
             json=payload)
 
 
-class Version33(CustomerWebApi):
+class Version33(CustomerWebInterface):
     ''' Customer API version 3.3 class. '''
