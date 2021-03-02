@@ -4,19 +4,19 @@
 
 import pytest
 
-from configuration.client import ClientInterface
+from configuration.client import ConfigurationApi
 
 
 @pytest.fixture
 def conf_api_client():
     ''' Fixture returning Configuration API client. '''
-    return ClientInterface.get_api_client(token='test')
+    return ConfigurationApi.get_api_client(token='test')
 
 
 def test_get_api_client_without_args():
     ''' Test if TypeError raised without args. '''
     with pytest.raises(TypeError) as exception:
-        ClientInterface.get_api_client()
+        ConfigurationApi.get_api_client()
     assert str(
         exception.value
     ) == "get_api_client() missing 1 required positional argument: 'token'"
@@ -25,7 +25,7 @@ def test_get_api_client_without_args():
 def test_get_api_client_without_token():
     ''' Test if TypeError raised without token. '''
     with pytest.raises(TypeError) as exception:
-        ClientInterface.get_api_client(version='test')
+        ConfigurationApi.get_api_client(version='test')
     assert str(
         exception.value
     ) == "get_api_client() missing 1 required positional argument: 'token'"
@@ -34,7 +34,7 @@ def test_get_api_client_without_token():
 def test_get_api_client_with_non_existing_version():
     ''' Test if ValueError raised for non-existing version. '''
     with pytest.raises(ValueError) as exception:
-        ClientInterface.get_api_client(token='test', version='test')
+        ConfigurationApi.get_api_client(token='test', version='test')
     assert str(exception.value) == 'Provided version does not exist.'
 
 
@@ -46,7 +46,7 @@ def test_get_api_client_with_valid_args(conf_api_client):
 
 def test_send_request(conf_api_client):
     ''' Test if it's possible to send a basic request via Configuration API
-        client. '''
+        client with arbitrary chosen method. '''
     assert conf_api_client.get_agent().json() == {
         'error': {
             'type': 'authentication',

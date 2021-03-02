@@ -9,7 +9,7 @@ import requests
 from utils.helpers import prepare_payload
 
 
-class ClientInterface:
+class ConfigurationApi:
     ''' Interface class that allows retrieval of client for specific Configuration
         API version. '''
     @staticmethod
@@ -36,7 +36,7 @@ class ClientInterface:
         return client
 
 
-class ConfigurationApi(metaclass=ABCMeta):
+class ConfigurationApiInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
     def __init__(self, token: str, version: str, base_url: str):
         self.api_url = f'https://{base_url}/v{version}/configuration/action'
@@ -948,6 +948,6 @@ class ConfigurationApi(metaclass=ABCMeta):
                                  json=payload)
 
 
-class Version33(ConfigurationApi):
+class Version33(ConfigurationApiInterface):
     ''' Configuration API version 3.3 class. '''
     pass
