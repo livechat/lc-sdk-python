@@ -4,7 +4,7 @@
 
 import pytest
 
-from customer.rtm.customer_rtm import CustomerRTM
+from customer.rtm.client import CustomerRTM
 
 LICENSE_ID = 10386012
 
