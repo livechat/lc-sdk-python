@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>Configuration API client implementation.</title>
+<title>client API documentation</title>
 <meta name="description" content="Configuration API client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -38,19 +38,19 @@ import requests
 from utils.helpers import prepare_payload
 
 
-class ClientInterface:
-    &#39;&#39;&#39; Interface class that allows retrieval of client for specific Configuration
+class ConfigurationApi:
+    &#39;&#39;&#39; Main class that allows retrieval of client for specific Configuration
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_api_client(token: str,
-                       version: str,
+                       version: str = &#39;3.3&#39;,
                        base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API&#39;s version.
+                version (str): API&#39;s version. Defaults to `3.3`.
                 base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -59,15 +59,16 @@ class ClientInterface:
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
-        versions = {&#39;3.3&#39;: Version33(token, &#39;3.3&#39;, base_url)}
-        client = versions.get(version)
+        client = {
+            &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url)
+        }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
         return client
 
 
-class ConfigurationApi(metaclass=ABCMeta):
-    &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
+class ConfigurationApiInterface(metaclass=ABCMeta):
+    &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
     def __init__(self, token: str, version: str, base_url: str):
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = requests.Session()
@@ -978,8 +979,8 @@ class ConfigurationApi(metaclass=ABCMeta):
                                  json=payload)
 
 
-class Version33(ConfigurationApi):
-    &#39;&#39;&#39; Configuration API version 3.3 class. &#39;&#39;&#39;
+class ConfigurationApi33(ConfigurationApiInterface):
+    &#39;&#39;&#39; Configuration API client in version 3.3 class. &#39;&#39;&#39;
     pass</code></pre>
 </details>
 </section>
@@ -992,29 +993,29 @@ class Version33(ConfigurationApi):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="client.ClientInterface"><code class="flex name class">
-<span>class <span class="ident">ClientInterface</span></span>
+<dt id="client.ConfigurationApi"><code class="flex name class">
+<span>class <span class="ident">ConfigurationApi</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Interface class that allows retrieval of client for specific Configuration
+<div class="desc"><p>Main class that allows retrieval of client for specific Configuration
 API version.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ClientInterface:
-    &#39;&#39;&#39; Interface class that allows retrieval of client for specific Configuration
+<pre><code class="python">class ConfigurationApi:
+    &#39;&#39;&#39; Main class that allows retrieval of client for specific Configuration
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_api_client(token: str,
-                       version: str,
+                       version: str = &#39;3.3&#39;,
                        base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API&#39;s version.
+                version (str): API&#39;s version. Defaults to `3.3`.
                 base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -1023,16 +1024,17 @@ API version.</p></div>
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
-        versions = {&#39;3.3&#39;: Version33(token, &#39;3.3&#39;, base_url)}
-        client = versions.get(version)
+        client = {
+            &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url)
+        }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
         return client</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="client.ClientInterface.get_api_client"><code class="name flex">
-<span>def <span class="ident">get_api_client</span></span>(<span>token: str, version: str, base_url: str = 'api.livechatinc.com')</span>
+<dt id="client.ConfigurationApi.get_api_client"><code class="name flex">
+<span>def <span class="ident">get_api_client</span></span>(<span>token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -1042,7 +1044,7 @@ API version.</p></div>
 <dd>Full token with type (Bearer/Basic) that will be
 used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's version.</dd>
+<dd>API's version. Defaults to <code>3.3</code>.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
 <dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
 </dl>
@@ -1062,14 +1064,14 @@ used as <code>Authorization</code> header in requests to API.</dd>
 </summary>
 <pre><code class="python">@staticmethod
 def get_api_client(token: str,
-                   version: str,
+                   version: str = &#39;3.3&#39;,
                    base_url: str = &#39;api.livechatinc.com&#39;):
     &#39;&#39;&#39; Returns client for specific Configuration API version.
 
         Args:
             token (str): Full token with type (Bearer/Basic) that will be
                          used as `Authorization` header in requests to API.
-            version (str): API&#39;s version.
+            version (str): API&#39;s version. Defaults to `3.3`.
             base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
         Returns:
@@ -1078,8 +1080,9 @@ def get_api_client(token: str,
         Raises:
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
-    versions = {&#39;3.3&#39;: Version33(token, &#39;3.3&#39;, base_url)}
-    client = versions.get(version)
+    client = {
+        &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url)
+    }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)
     return client</code></pre>
@@ -1087,18 +1090,84 @@ def get_api_client(token: str,
 </dd>
 </dl>
 </dd>
-<dt id="client.ConfigurationApi"><code class="flex name class">
-<span>class <span class="ident">ConfigurationApi</span></span>
+<dt id="client.ConfigurationApi33"><code class="flex name class">
+<span>class <span class="ident">ConfigurationApi33</span></span>
 <span>(</span><span>token: str, version: str, base_url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Main class containing API methods.</p></div>
+<div class="desc"><p>Configuration API client in version 3.3 class.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ConfigurationApi(metaclass=ABCMeta):
-    &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
+<pre><code class="python">class ConfigurationApi33(ConfigurationApiInterface):
+    &#39;&#39;&#39; Configuration API client in version 3.3 class. &#39;&#39;&#39;
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
+<ul class="hlist">
+<li><code><a title="client.ConfigurationApiInterface.add_auto_access" href="#client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.approve_agent" href="#client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_agent" href="#client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_bot" href="#client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_group" href="#client.ConfigurationApiInterface.create_group">create_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_agent" href="#client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_auto_access" href="#client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_bot" href="#client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_group" href="#client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_group_properties" href="#client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_license_properties" href="#client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.disable_license_webhooks" href="#client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.enable_license_webhooks" href="#client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_agent" href="#client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_bot" href="#client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_group" href="#client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_license_webhooks_state" href="#client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_agents" href="#client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_auto_accesses" href="#client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_bots" href="#client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_group_properties" href="#client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_groups" href="#client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_license_properties" href="#client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_properties" href="#client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_webhook_names" href="#client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_webhooks" href="#client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.publish_property" href="#client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.reorder_auto_access" href="#client.ConfigurationApiInterface.reorder_auto_access">reorder_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_license_properties" href="#client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="client.ConfigurationApiInterface"><code class="flex name class">
+<span>class <span class="ident">ConfigurationApiInterface</span></span>
+<span>(</span><span>token: str, version: str, base_url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interface class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConfigurationApiInterface(metaclass=ABCMeta):
+    &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
     def __init__(self, token: str, version: str, base_url: str):
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = requests.Session()
@@ -2010,11 +2079,11 @@ def get_api_client(token: str,
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="client.Version33" href="#client.Version33">Version33</a></li>
+<li><a title="client.ConfigurationApi33" href="#client.ConfigurationApi33">ConfigurationApi33</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="client.ConfigurationApi.add_auto_access"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.add_auto_access"><code class="name flex">
 <span>def <span class="ident">add_auto_access</span></span>(<span>self, access: dict = None, conditions: dict = None, description: str = None, next_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2071,7 +2140,7 @@ response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.approve_agent"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.approve_agent"><code class="name flex">
 <span>def <span class="ident">approve_agent</span></span>(<span>self, id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2113,7 +2182,7 @@ response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/approve_agent&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.create_agent"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.create_agent"><code class="name flex">
 <span>def <span class="ident">create_agent</span></span>(<span>self, id: str = None, name: str = None, role: str = None, avatar_path: str = None, job_title: str = None, mobile: str = None, max_chats_count: int = None, awaiting_approval: bool = None, groups: list = None, notifications: list = None, email_subscriptions: list = None, work_scheduler: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2205,7 +2274,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/create_agent&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.create_bot"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.create_bot"><code class="name flex">
 <span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2271,7 +2340,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/create_bot&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.create_group"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.create_group"><code class="name flex">
 <span>def <span class="ident">create_group</span></span>(<span>self, name: str = None, language_code: str = None, agent_priorities: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2321,7 +2390,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/create_group&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.delete_agent"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.delete_agent"><code class="name flex">
 <span>def <span class="ident">delete_agent</span></span>(<span>self, id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2363,7 +2432,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/delete_agent&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.delete_auto_access"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.delete_auto_access"><code class="name flex">
 <span>def <span class="ident">delete_auto_access</span></span>(<span>self, id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2406,7 +2475,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.delete_bot"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.delete_bot"><code class="name flex">
 <span>def <span class="ident">delete_bot</span></span>(<span>self, id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2448,7 +2517,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/delete_bot&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.delete_group"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.delete_group"><code class="name flex">
 <span>def <span class="ident">delete_group</span></span>(<span>self, id: int = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2490,7 +2559,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/delete_group&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.delete_group_properties"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.delete_group_properties"><code class="name flex">
 <span>def <span class="ident">delete_group_properties</span></span>(<span>self, id: int = None, properties: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2537,7 +2606,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.delete_license_properties"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.delete_license_properties"><code class="name flex">
 <span>def <span class="ident">delete_license_properties</span></span>(<span>self, properties: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2580,7 +2649,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.disable_license_webhooks"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.disable_license_webhooks"><code class="name flex">
 <span>def <span class="ident">disable_license_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2623,7 +2692,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.enable_license_webhooks"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.enable_license_webhooks"><code class="name flex">
 <span>def <span class="ident">enable_license_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2668,7 +2737,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.get_agent"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.get_agent"><code class="name flex">
 <span>def <span class="ident">get_agent</span></span>(<span>self, id: str = None, fields: list = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2714,7 +2783,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/get_agent&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.get_bot"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.get_bot"><code class="name flex">
 <span>def <span class="ident">get_bot</span></span>(<span>self, id: str = None, fields: list = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2760,7 +2829,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/get_bot&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.get_group"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.get_group"><code class="name flex">
 <span>def <span class="ident">get_group</span></span>(<span>self, id: int = None, fields: list = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2806,7 +2875,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/get_group&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.get_license_webhooks_state"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.get_license_webhooks_state"><code class="name flex">
 <span>def <span class="ident">get_license_webhooks_state</span></span>(<span>self, owner_client_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2851,7 +2920,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_agents"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_agents"><code class="name flex">
 <span>def <span class="ident">list_agents</span></span>(<span>self, filters: dict = None, fields: list = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2897,7 +2966,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/list_agents&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_auto_accesses"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_auto_accesses"><code class="name flex">
 <span>def <span class="ident">list_auto_accesses</span></span>(<span>self, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2932,7 +3001,7 @@ which contains a server’s response to an HTTP request.</p></div>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_bots"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_bots"><code class="name flex">
 <span>def <span class="ident">list_bots</span></span>(<span>self, all: bool = None, fields: list = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -2978,7 +3047,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/list_bots&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_group_properties"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_group_properties"><code class="name flex">
 <span>def <span class="ident">list_group_properties</span></span>(<span>self, id: int = None, namespace: str = None, name_prefix: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3029,7 +3098,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_groups"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_groups"><code class="name flex">
 <span>def <span class="ident">list_groups</span></span>(<span>self, fields: list = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3071,7 +3140,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/list_groups&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_license_properties"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_license_properties"><code class="name flex">
 <span>def <span class="ident">list_license_properties</span></span>(<span>self, namespace: str = None, name_prefix: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3118,7 +3187,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_properties"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_properties"><code class="name flex">
 <span>def <span class="ident">list_properties</span></span>(<span>self, owner_client_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3161,7 +3230,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_webhook_names"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_webhook_names"><code class="name flex">
 <span>def <span class="ident">list_webhook_names</span></span>(<span>self, version: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3204,7 +3273,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.list_webhooks"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.list_webhooks"><code class="name flex">
 <span>def <span class="ident">list_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3246,7 +3315,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/list_webhooks&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.publish_property"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.publish_property"><code class="name flex">
 <span>def <span class="ident">publish_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, access_type: list = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3297,7 +3366,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.register_property"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.register_property"><code class="name flex">
 <span>def <span class="ident">register_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, type: str = None, access: dict = None, description: str = None, domain: list = None, range: dict = None, default_value: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3368,7 +3437,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.register_webhook"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.register_webhook"><code class="name flex">
 <span>def <span class="ident">register_webhook</span></span>(<span>self, action: str = None, secret_key: str = None, url: str = None, additional_data: list = None, description: str = None, filters: dict = None, owner_client_id: str = None, type: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3441,7 +3510,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.reorder_auto_access"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.reorder_auto_access"><code class="name flex">
 <span>def <span class="ident">reorder_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3490,7 +3559,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.request_agent_unsuspension"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.request_agent_unsuspension"><code class="name flex">
 <span>def <span class="ident">request_agent_unsuspension</span></span>(<span>self, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3531,7 +3600,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.suspend_agent"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.suspend_agent"><code class="name flex">
 <span>def <span class="ident">suspend_agent</span></span>(<span>self, id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3573,7 +3642,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/suspend_agent&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.unregister_property"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.unregister_property"><code class="name flex">
 <span>def <span class="ident">unregister_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3620,7 +3689,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.unregister_webhook"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.unregister_webhook"><code class="name flex">
 <span>def <span class="ident">unregister_webhook</span></span>(<span>self, id: str = None, owner_client_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3667,7 +3736,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.unsuspend_agent"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.unsuspend_agent"><code class="name flex">
 <span>def <span class="ident">unsuspend_agent</span></span>(<span>self, id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3710,7 +3779,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.update_agent"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.update_agent"><code class="name flex">
 <span>def <span class="ident">update_agent</span></span>(<span>self, id: str = None, name: str = None, role: str = None, avatar_path: str = None, job_title: str = None, mobile: str = None, max_chats_count: int = None, groups: list = None, notifications: list = None, email_subscriptions: list = None, work_scheduler: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3796,7 +3865,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/update_agent&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.update_bot"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.update_bot"><code class="name flex">
 <span>def <span class="ident">update_bot</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3866,7 +3935,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/update_bot&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.update_group"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.update_group"><code class="name flex">
 <span>def <span class="ident">update_group</span></span>(<span>self, id: int = None, name: str = None, language_code: str = None, agent_priorities: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3920,7 +3989,7 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/update_group&#39;, json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.update_group_properties"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.update_group_properties"><code class="name flex">
 <span>def <span class="ident">update_group_properties</span></span>(<span>self, group_id: int = None, properties: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -3969,7 +4038,7 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApi.update_license_properties"><code class="name flex">
+<dt id="client.ConfigurationApiInterface.update_license_properties"><code class="name flex">
 <span>def <span class="ident">update_license_properties</span></span>(<span>self, properties: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
@@ -4016,72 +4085,6 @@ which contains a server’s response to an HTTP request.</dd>
 </dd>
 </dl>
 </dd>
-<dt id="client.Version33"><code class="flex name class">
-<span>class <span class="ident">Version33</span></span>
-<span>(</span><span>token: str, version: str, base_url: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Configuration API version 3.3 class.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Version33(ConfigurationApi):
-    &#39;&#39;&#39; Configuration API version 3.3 class. &#39;&#39;&#39;
-    pass</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="client.ConfigurationApi" href="#client.ConfigurationApi">ConfigurationApi</a></li>
-</ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="client.ConfigurationApi" href="#client.ConfigurationApi">ConfigurationApi</a></b></code>:
-<ul class="hlist">
-<li><code><a title="client.ConfigurationApi.add_auto_access" href="#client.ConfigurationApi.add_auto_access">add_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApi.approve_agent" href="#client.ConfigurationApi.approve_agent">approve_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.create_agent" href="#client.ConfigurationApi.create_agent">create_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.create_bot" href="#client.ConfigurationApi.create_bot">create_bot</a></code></li>
-<li><code><a title="client.ConfigurationApi.create_group" href="#client.ConfigurationApi.create_group">create_group</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_agent" href="#client.ConfigurationApi.delete_agent">delete_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_auto_access" href="#client.ConfigurationApi.delete_auto_access">delete_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_bot" href="#client.ConfigurationApi.delete_bot">delete_bot</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_group" href="#client.ConfigurationApi.delete_group">delete_group</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_group_properties" href="#client.ConfigurationApi.delete_group_properties">delete_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_license_properties" href="#client.ConfigurationApi.delete_license_properties">delete_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.disable_license_webhooks" href="#client.ConfigurationApi.disable_license_webhooks">disable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApi.enable_license_webhooks" href="#client.ConfigurationApi.enable_license_webhooks">enable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApi.get_agent" href="#client.ConfigurationApi.get_agent">get_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.get_bot" href="#client.ConfigurationApi.get_bot">get_bot</a></code></li>
-<li><code><a title="client.ConfigurationApi.get_group" href="#client.ConfigurationApi.get_group">get_group</a></code></li>
-<li><code><a title="client.ConfigurationApi.get_license_webhooks_state" href="#client.ConfigurationApi.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_agents" href="#client.ConfigurationApi.list_agents">list_agents</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_auto_accesses" href="#client.ConfigurationApi.list_auto_accesses">list_auto_accesses</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_bots" href="#client.ConfigurationApi.list_bots">list_bots</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_group_properties" href="#client.ConfigurationApi.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_groups" href="#client.ConfigurationApi.list_groups">list_groups</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_license_properties" href="#client.ConfigurationApi.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_properties" href="#client.ConfigurationApi.list_properties">list_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_webhook_names" href="#client.ConfigurationApi.list_webhook_names">list_webhook_names</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_webhooks" href="#client.ConfigurationApi.list_webhooks">list_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApi.publish_property" href="#client.ConfigurationApi.publish_property">publish_property</a></code></li>
-<li><code><a title="client.ConfigurationApi.register_property" href="#client.ConfigurationApi.register_property">register_property</a></code></li>
-<li><code><a title="client.ConfigurationApi.register_webhook" href="#client.ConfigurationApi.register_webhook">register_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApi.reorder_auto_access" href="#client.ConfigurationApi.reorder_auto_access">reorder_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApi.request_agent_unsuspension" href="#client.ConfigurationApi.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
-<li><code><a title="client.ConfigurationApi.suspend_agent" href="#client.ConfigurationApi.suspend_agent">suspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.unregister_property" href="#client.ConfigurationApi.unregister_property">unregister_property</a></code></li>
-<li><code><a title="client.ConfigurationApi.unregister_webhook" href="#client.ConfigurationApi.unregister_webhook">unregister_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApi.unsuspend_agent" href="#client.ConfigurationApi.unsuspend_agent">unsuspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_agent" href="#client.ConfigurationApi.update_agent">update_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_bot" href="#client.ConfigurationApi.update_bot">update_bot</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_group" href="#client.ConfigurationApi.update_group">update_group</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_group_properties" href="#client.ConfigurationApi.update_group_properties">update_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_license_properties" href="#client.ConfigurationApi.update_license_properties">update_license_properties</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
 </dl>
 </section>
 </article>
@@ -4094,58 +4097,58 @@ which contains a server’s response to an HTTP request.</dd>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="client.ClientInterface" href="#client.ClientInterface">ClientInterface</a></code></h4>
-<ul class="">
-<li><code><a title="client.ClientInterface.get_api_client" href="#client.ClientInterface.get_api_client">get_api_client</a></code></li>
-</ul>
-</li>
-<li>
 <h4><code><a title="client.ConfigurationApi" href="#client.ConfigurationApi">ConfigurationApi</a></code></h4>
 <ul class="">
-<li><code><a title="client.ConfigurationApi.add_auto_access" href="#client.ConfigurationApi.add_auto_access">add_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApi.approve_agent" href="#client.ConfigurationApi.approve_agent">approve_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.create_agent" href="#client.ConfigurationApi.create_agent">create_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.create_bot" href="#client.ConfigurationApi.create_bot">create_bot</a></code></li>
-<li><code><a title="client.ConfigurationApi.create_group" href="#client.ConfigurationApi.create_group">create_group</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_agent" href="#client.ConfigurationApi.delete_agent">delete_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_auto_access" href="#client.ConfigurationApi.delete_auto_access">delete_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_bot" href="#client.ConfigurationApi.delete_bot">delete_bot</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_group" href="#client.ConfigurationApi.delete_group">delete_group</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_group_properties" href="#client.ConfigurationApi.delete_group_properties">delete_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.delete_license_properties" href="#client.ConfigurationApi.delete_license_properties">delete_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.disable_license_webhooks" href="#client.ConfigurationApi.disable_license_webhooks">disable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApi.enable_license_webhooks" href="#client.ConfigurationApi.enable_license_webhooks">enable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApi.get_agent" href="#client.ConfigurationApi.get_agent">get_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.get_bot" href="#client.ConfigurationApi.get_bot">get_bot</a></code></li>
-<li><code><a title="client.ConfigurationApi.get_group" href="#client.ConfigurationApi.get_group">get_group</a></code></li>
-<li><code><a title="client.ConfigurationApi.get_license_webhooks_state" href="#client.ConfigurationApi.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_agents" href="#client.ConfigurationApi.list_agents">list_agents</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_auto_accesses" href="#client.ConfigurationApi.list_auto_accesses">list_auto_accesses</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_bots" href="#client.ConfigurationApi.list_bots">list_bots</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_group_properties" href="#client.ConfigurationApi.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_groups" href="#client.ConfigurationApi.list_groups">list_groups</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_license_properties" href="#client.ConfigurationApi.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_properties" href="#client.ConfigurationApi.list_properties">list_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_webhook_names" href="#client.ConfigurationApi.list_webhook_names">list_webhook_names</a></code></li>
-<li><code><a title="client.ConfigurationApi.list_webhooks" href="#client.ConfigurationApi.list_webhooks">list_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApi.publish_property" href="#client.ConfigurationApi.publish_property">publish_property</a></code></li>
-<li><code><a title="client.ConfigurationApi.register_property" href="#client.ConfigurationApi.register_property">register_property</a></code></li>
-<li><code><a title="client.ConfigurationApi.register_webhook" href="#client.ConfigurationApi.register_webhook">register_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApi.reorder_auto_access" href="#client.ConfigurationApi.reorder_auto_access">reorder_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApi.request_agent_unsuspension" href="#client.ConfigurationApi.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
-<li><code><a title="client.ConfigurationApi.suspend_agent" href="#client.ConfigurationApi.suspend_agent">suspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.unregister_property" href="#client.ConfigurationApi.unregister_property">unregister_property</a></code></li>
-<li><code><a title="client.ConfigurationApi.unregister_webhook" href="#client.ConfigurationApi.unregister_webhook">unregister_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApi.unsuspend_agent" href="#client.ConfigurationApi.unsuspend_agent">unsuspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_agent" href="#client.ConfigurationApi.update_agent">update_agent</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_bot" href="#client.ConfigurationApi.update_bot">update_bot</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_group" href="#client.ConfigurationApi.update_group">update_group</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_group_properties" href="#client.ConfigurationApi.update_group_properties">update_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApi.update_license_properties" href="#client.ConfigurationApi.update_license_properties">update_license_properties</a></code></li>
+<li><code><a title="client.ConfigurationApi.get_api_client" href="#client.ConfigurationApi.get_api_client">get_api_client</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="client.Version33" href="#client.Version33">Version33</a></code></h4>
+<h4><code><a title="client.ConfigurationApi33" href="#client.ConfigurationApi33">ConfigurationApi33</a></code></h4>
+</li>
+<li>
+<h4><code><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></code></h4>
+<ul class="">
+<li><code><a title="client.ConfigurationApiInterface.add_auto_access" href="#client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.approve_agent" href="#client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_agent" href="#client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_bot" href="#client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_group" href="#client.ConfigurationApiInterface.create_group">create_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_agent" href="#client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_auto_access" href="#client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_bot" href="#client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_group" href="#client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_group_properties" href="#client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_license_properties" href="#client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.disable_license_webhooks" href="#client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.enable_license_webhooks" href="#client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_agent" href="#client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_bot" href="#client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_group" href="#client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_license_webhooks_state" href="#client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_agents" href="#client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_auto_accesses" href="#client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_bots" href="#client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_group_properties" href="#client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_groups" href="#client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_license_properties" href="#client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_properties" href="#client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_webhook_names" href="#client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_webhooks" href="#client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.publish_property" href="#client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.reorder_auto_access" href="#client.ConfigurationApiInterface.reorder_auto_access">reorder_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_license_properties" href="#client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
+</ul>
 </li>
 </ul>
 </li>

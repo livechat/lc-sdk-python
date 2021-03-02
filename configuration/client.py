@@ -9,8 +9,8 @@ import requests
 from utils.helpers import prepare_payload
 
 
-class ClientInterface:
-    ''' Interface class that allows retrieval of client for specific Configuration
+class ConfigurationApi:
+    ''' Main class that allows retrieval of client for specific Configuration
         API version. '''
     @staticmethod
     def get_api_client(token: str,
@@ -30,14 +30,16 @@ class ClientInterface:
             Raises:
                 ValueError: If the specified version does not exist.
         '''
-        client = {'3.3': Version33(token, '3.3', base_url)}.get(version)
+        client = {
+            '3.3': ConfigurationApi33(token, '3.3', base_url)
+        }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
         return client
 
 
-class ConfigurationApi(metaclass=ABCMeta):
-    ''' Main class containing API methods. '''
+class ConfigurationApiInterface(metaclass=ABCMeta):
+    ''' Interface class. '''
     def __init__(self, token: str, version: str, base_url: str):
         self.api_url = f'https://{base_url}/v{version}/configuration/action'
         self.session = requests.Session()
@@ -948,6 +950,6 @@ class ConfigurationApi(metaclass=ABCMeta):
                                  json=payload)
 
 
-class Version33(ConfigurationApi):
-    ''' Configuration API version 3.3 class. '''
+class ConfigurationApi33(ConfigurationApiInterface):
+    ''' Configuration API client in version 3.3 class. '''
     pass
