@@ -53,7 +53,7 @@ class CustomerWeb:
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
-                version (str): API&#39;s version.
+                version (str): API&#39;s version. Defaults to `3.3`.
                 base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -64,7 +64,7 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: Version33(license_id, access_token, version, base_url)
+            &#39;3.3&#39;: CustomerWeb33(license_id, access_token, version, base_url)
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -73,7 +73,6 @@ class CustomerWeb:
 
 class CustomerWebInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
-
     def __init__(self, license_id: str, access_token: str, version: str,
                  base_url: str):
         self.api_url = f&#39;https://{base_url}/v{version}/customer/action&#39;
@@ -577,12 +576,10 @@ class CustomerWebInterface(metaclass=ABCMeta):
                               payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
             Args:
-                payload (dict): Custom payload to be used as request&#39;s data.
                 group_id (int): ID of the group you want to return the properties of.
                 namespace (str): Property namespace to retrieve.
                 name (str): Property name.
                 payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -603,8 +600,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
 
 # Customers
 
-    def get_customer(self,
-                     payload: dict = None) -&gt; requests.Response:
+    def get_customer(self, payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns the info about the Customer requesting it.
 
             Args:
@@ -646,10 +642,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
             f&#39;{self.api_url}/update_customer?license_id={self.license_id}&#39;,
             json=payload)
 
-    def set_customer_session_fields(
-        self,
-        session_fields: list = None,
-            payload: dict = None) -&gt; requests.Response:
+    def set_customer_session_fields(self,
+                                    session_fields: list = None,
+                                    payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Updates Customer&#39;s session fields.
 
             Args:
@@ -744,8 +739,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
             f&#39;{self.api_url}/get_form?license_id={self.license_id}&#39;,
             json=payload)
 
-    def get_predicted_agent(self,
-                            payload: dict = None) -&gt; requests.Response:
+    def get_predicted_agent(self, payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
             To use this method, the Customer needs to be logged in, which can be done via the `login` method.
 
@@ -843,7 +837,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
             json=payload)
 
 
-class Version33(CustomerWebInterface):
+class CustomerWeb33(CustomerWebInterface):
     &#39;&#39;&#39; Customer API version 3.3 class. &#39;&#39;&#39;</code></pre>
 </details>
 </section>
@@ -879,7 +873,7 @@ API version.</p></div>
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
-                version (str): API&#39;s version.
+                version (str): API&#39;s version. Defaults to `3.3`.
                 base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -890,7 +884,7 @@ API version.</p></div>
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: Version33(license_id, access_token, version, base_url)
+            &#39;3.3&#39;: CustomerWeb33(license_id, access_token, version, base_url)
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -909,7 +903,7 @@ API version.</p></div>
 <dd>Full token with type (Bearer/Basic) that will be
 used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's version.</dd>
+<dd>API's version. Defaults to <code>3.3</code>.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
 <dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
 </dl>
@@ -935,7 +929,7 @@ def get_client(license_id: int,
         Args:
             token (str): Full token with type (Bearer/Basic) that will be
                             used as `Authorization` header in requests to API.
-            version (str): API&#39;s version.
+            version (str): API&#39;s version. Defaults to `3.3`.
             base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
         Returns:
@@ -946,7 +940,7 @@ def get_client(license_id: int,
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-        &#39;3.3&#39;: Version33(license_id, access_token, version, base_url)
+        &#39;3.3&#39;: CustomerWeb33(license_id, access_token, version, base_url)
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -954,6 +948,63 @@ def get_client(license_id: int,
 </details>
 </dd>
 </dl>
+</dd>
+<dt id="client.CustomerWeb33"><code class="flex name class">
+<span>class <span class="ident">CustomerWeb33</span></span>
+<span>(</span><span>license_id: str, access_token: str, version: str, base_url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Customer API version 3.3 class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CustomerWeb33(CustomerWebInterface):
+    &#39;&#39;&#39; Customer API version 3.3 class. &#39;&#39;&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
+<ul class="hlist">
+<li><code><a title="client.CustomerWebInterface.accept_greeting" href="#client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="client.CustomerWebInterface.cancel_greeting" href="#client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="client.CustomerWebInterface.check_goals" href="#client.CustomerWebInterface.check_goals">check_goals</a></code></li>
+<li><code><a title="client.CustomerWebInterface.deactivate_chat" href="#client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_chat_properties" href="#client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_event_properties" href="#client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_thread_properties" href="#client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_chat" href="#client.CustomerWebInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_configuration" href="#client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_customer" href="#client.CustomerWebInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_dynamic_configuration" href="#client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_form" href="#client.CustomerWebInterface.get_form">get_form</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_localization" href="#client.CustomerWebInterface.get_localization">get_localization</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_properties" href="#client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.CustomerWebInterface.resume_chat" href="#client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_event" href="#client.CustomerWebInterface.send_event">send_event</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_rich_message_postback" href="#client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_sneak_peek" href="#client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="client.CustomerWebInterface.set_customer_session_fields" href="#client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="client.CustomerWebInterface.start_chat" href="#client.CustomerWebInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_chat_properties" href="#client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_customer" href="#client.CustomerWebInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_event_properties" href="#client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_thread_properties" href="#client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.upload_file" href="#client.CustomerWebInterface.upload_file">upload_file</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="client.CustomerWebInterface"><code class="flex name class">
 <span>class <span class="ident">CustomerWebInterface</span></span>
@@ -967,7 +1018,6 @@ def get_client(license_id: int,
 </summary>
 <pre><code class="python">class CustomerWebInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
-
     def __init__(self, license_id: str, access_token: str, version: str,
                  base_url: str):
         self.api_url = f&#39;https://{base_url}/v{version}/customer/action&#39;
@@ -1471,12 +1521,10 @@ def get_client(license_id: int,
                               payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
             Args:
-                payload (dict): Custom payload to be used as request&#39;s data.
                 group_id (int): ID of the group you want to return the properties of.
                 namespace (str): Property namespace to retrieve.
                 name (str): Property name.
                 payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -1497,8 +1545,7 @@ def get_client(license_id: int,
 
 # Customers
 
-    def get_customer(self,
-                     payload: dict = None) -&gt; requests.Response:
+    def get_customer(self, payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns the info about the Customer requesting it.
 
             Args:
@@ -1540,10 +1587,9 @@ def get_client(license_id: int,
             f&#39;{self.api_url}/update_customer?license_id={self.license_id}&#39;,
             json=payload)
 
-    def set_customer_session_fields(
-        self,
-        session_fields: list = None,
-            payload: dict = None) -&gt; requests.Response:
+    def set_customer_session_fields(self,
+                                    session_fields: list = None,
+                                    payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Updates Customer&#39;s session fields.
 
             Args:
@@ -1638,8 +1684,7 @@ def get_client(license_id: int,
             f&#39;{self.api_url}/get_form?license_id={self.license_id}&#39;,
             json=payload)
 
-    def get_predicted_agent(self,
-                            payload: dict = None) -&gt; requests.Response:
+    def get_predicted_agent(self, payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
             To use this method, the Customer needs to be logged in, which can be done via the `login` method.
 
@@ -1738,7 +1783,7 @@ def get_client(license_id: int,
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="client.Version33" href="#client.Version33">Version33</a></li>
+<li><a title="client.CustomerWeb33" href="#client.CustomerWeb33">CustomerWeb33</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
@@ -2208,8 +2253,7 @@ which contains a server’s response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_customer(self,
-                 payload: dict = None) -&gt; requests.Response:
+<pre><code class="python">def get_customer(self, payload: dict = None) -&gt; requests.Response:
     &#39;&#39;&#39; Returns the info about the Customer requesting it.
 
         Args:
@@ -2406,8 +2450,7 @@ which contains a server’s response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_predicted_agent(self,
-                        payload: dict = None) -&gt; requests.Response:
+<pre><code class="python">def get_predicted_agent(self, payload: dict = None) -&gt; requests.Response:
     &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
         To use this method, the Customer needs to be logged in, which can be done via the `login` method.
 
@@ -2528,8 +2571,6 @@ which contains a server’s response to an HTTP request.</dd>
 <div class="desc"><p>Returns the properties of a given group. It only returns the properties a Customer has access to.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.</dd>
 <dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
 <dd>ID of the group you want to return the properties of.</dd>
 <dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
@@ -2537,8 +2578,7 @@ which contains a server’s response to an HTTP request.</dd>
 <dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
 <dd>Property name.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
+<dd>Custom payload to be used as request's data.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2557,12 +2597,10 @@ which contains a server’s response to an HTTP request.</dd>
                           payload: dict = None) -&gt; requests.Response:
     &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
         Args:
-            payload (dict): Custom payload to be used as request&#39;s data.
             group_id (int): ID of the group you want to return the properties of.
             namespace (str): Property namespace to retrieve.
             name (str): Property name.
             payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
 
         Returns:
             requests.Response: The Response object from `requests` library,
@@ -3031,10 +3069,9 @@ which contains a server’s response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def set_customer_session_fields(
-    self,
-    session_fields: list = None,
-        payload: dict = None) -&gt; requests.Response:
+<pre><code class="python">def set_customer_session_fields(self,
+                                session_fields: list = None,
+                                payload: dict = None) -&gt; requests.Response:
     &#39;&#39;&#39; Updates Customer&#39;s session fields.
 
         Args:
@@ -3368,63 +3405,6 @@ which contains a server’s response to an HTTP request.</dd>
 </dd>
 </dl>
 </dd>
-<dt id="client.Version33"><code class="flex name class">
-<span>class <span class="ident">Version33</span></span>
-<span>(</span><span>license_id: str, access_token: str, version: str, base_url: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Customer API version 3.3 class.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Version33(CustomerWebInterface):
-    &#39;&#39;&#39; Customer API version 3.3 class. &#39;&#39;&#39;</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></li>
-</ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
-<ul class="hlist">
-<li><code><a title="client.CustomerWebInterface.accept_greeting" href="#client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="client.CustomerWebInterface.cancel_greeting" href="#client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="client.CustomerWebInterface.check_goals" href="#client.CustomerWebInterface.check_goals">check_goals</a></code></li>
-<li><code><a title="client.CustomerWebInterface.deactivate_chat" href="#client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.CustomerWebInterface.delete_chat_properties" href="#client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.delete_event_properties" href="#client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.delete_thread_properties" href="#client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_chat" href="#client.CustomerWebInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_configuration" href="#client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_customer" href="#client.CustomerWebInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_dynamic_configuration" href="#client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_form" href="#client.CustomerWebInterface.get_form">get_form</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_localization" href="#client.CustomerWebInterface.get_localization">get_localization</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.CustomerWebInterface.list_group_properties" href="#client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.CustomerWebInterface.resume_chat" href="#client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.CustomerWebInterface.send_event" href="#client.CustomerWebInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.CustomerWebInterface.send_rich_message_postback" href="#client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.CustomerWebInterface.send_sneak_peek" href="#client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="client.CustomerWebInterface.set_customer_session_fields" href="#client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="client.CustomerWebInterface.start_chat" href="#client.CustomerWebInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.CustomerWebInterface.update_chat_properties" href="#client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.update_customer" href="#client.CustomerWebInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.CustomerWebInterface.update_event_properties" href="#client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.update_thread_properties" href="#client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.upload_file" href="#client.CustomerWebInterface.upload_file">upload_file</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
 </dl>
 </section>
 </article>
@@ -3441,6 +3421,9 @@ which contains a server’s response to an HTTP request.</dd>
 <ul class="">
 <li><code><a title="client.CustomerWeb.get_client" href="#client.CustomerWeb.get_client">get_client</a></code></li>
 </ul>
+</li>
+<li>
+<h4><code><a title="client.CustomerWeb33" href="#client.CustomerWeb33">CustomerWeb33</a></code></h4>
 </li>
 <li>
 <h4><code><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></code></h4>
@@ -3478,9 +3461,6 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.CustomerWebInterface.update_thread_properties" href="#client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.upload_file" href="#client.CustomerWebInterface.upload_file">upload_file</a></code></li>
 </ul>
-</li>
-<li>
-<h4><code><a title="client.Version33" href="#client.Version33">Version33</a></code></h4>
 </li>
 </ul>
 </li>
