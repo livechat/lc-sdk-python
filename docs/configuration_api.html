@@ -39,7 +39,7 @@ from utils.helpers import prepare_payload
 
 
 class ConfigurationApi:
-    &#39;&#39;&#39; Interface class that allows retrieval of client for specific Configuration
+    &#39;&#39;&#39; Main class that allows retrieval of client for specific Configuration
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_api_client(token: str,
@@ -68,7 +68,7 @@ class ConfigurationApi:
 
 
 class ConfigurationApiInterface(metaclass=ABCMeta):
-    &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
+    &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
     def __init__(self, token: str, version: str, base_url: str):
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = requests.Session()
@@ -997,14 +997,14 @@ class ConfigurationApi33(ConfigurationApiInterface):
 <span>class <span class="ident">ConfigurationApi</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Interface class that allows retrieval of client for specific Configuration
+<div class="desc"><p>Main class that allows retrieval of client for specific Configuration
 API version.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ConfigurationApi:
-    &#39;&#39;&#39; Interface class that allows retrieval of client for specific Configuration
+    &#39;&#39;&#39; Main class that allows retrieval of client for specific Configuration
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_api_client(token: str,
@@ -1161,13 +1161,13 @@ def get_api_client(token: str,
 <span>(</span><span>token: str, version: str, base_url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Main class containing API methods.</p></div>
+<div class="desc"><p>Interface class.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ConfigurationApiInterface(metaclass=ABCMeta):
-    &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
+    &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
     def __init__(self, token: str, version: str, base_url: str):
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = requests.Session()
