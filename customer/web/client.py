@@ -24,7 +24,7 @@ class CustomerWeb:
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
-                version (str): API's version.
+                version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -35,7 +35,7 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': Version33(license_id, access_token, version, base_url)
+            '3.3': CustomerWeb33(license_id, access_token, version, base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -547,12 +547,10 @@ class CustomerWebInterface(metaclass=ABCMeta):
                               payload: dict = None) -> requests.Response:
         ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
             Args:
-                payload (dict): Custom payload to be used as request's data.
                 group_id (int): ID of the group you want to return the properties of.
                 namespace (str): Property namespace to retrieve.
                 name (str): Property name.
                 payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -810,5 +808,5 @@ class CustomerWebInterface(metaclass=ABCMeta):
             json=payload)
 
 
-class Version33(CustomerWebInterface):
+class CustomerWeb33(CustomerWebInterface):
     ''' Customer API version 3.3 class. '''
