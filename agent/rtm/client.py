@@ -46,136 +46,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
         ''' Closes WebSocket connection. '''
         self.ws.close()
 
-    def login(self,
-              token: str = None,
-              timezone: str = None,
-              reconnect: bool = None,
-              push_notifications: dict = None,
-              application: dict = None,
-              away: bool = None,
-              customer_push_level: str = None,
-              payload: dict = None) -> dict:
-        ''' Logs in agent.
-
-            Args:
-                token (str): OAuth token from the Agent's account.
-                timezone (str): Agent's timezone.
-                reconnect (bool): Reconnecting sets the status to the
-                        last known state instead of the default one.
-                push_notifications (dict): Push notifications for the requested token.
-                application (dict): Object containing information related to
-                        the application's name and version.
-                away (bool): When True, the connection is set to the away state.
-                        Defaults to False.
-                customer_push_level (str): Possible values: my, engaged, online.
-                        Defaults to my if login creates the first session;
-                        otherwise it preserves the current customer_push_level.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'login', 'payload': payload})
-
-    def logout(self, payload: dict = None) -> dict:
-        ''' Logs out agent.
-
-            Args:
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        return self.ws.send({
-            'action': 'logout',
-            'payload': {} if payload is None else payload
-        })
-
-    def change_push_notifications(self,
-                                  firebase_token: str = None,
-                                  platform: str = None,
-                                  enabled: bool = None,
-                                  payload: dict = None) -> dict:
-        ''' Changes the firebase push notifications properties.
-
-            Args:
-                firebase_token (str): Firebase device token.
-                platform (str): OS platform. Possible values: ios, android.
-                enabled (bool): Enable or disable push notifications for the requested token.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'change_push_notifications',
-            'payload': payload
-        })
-
-    def set_routing_status(self,
-                           status: str = None,
-                           agent_id: str = None,
-                           payload: dict = None) -> dict:
-        ''' Changes the status of an Agent or a Bot Agent.
-
-            Args:
-                status (str): For Agents: accepting_chats or not_accepting_chats.
-                        For Bot Agents: accepting_chats, not_accepting_chats, or offline.
-                agent_id (str): If not specified, the requester's status will be updated.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'set_routing_status',
-            'payload': payload
-        })
-
-    def set_away_status(self, away: bool = None, payload: dict = None) -> dict:
-        ''' Sets an Agent's connection to the away state.
-
-            Args:
-                away (bool): A flag.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'set_away_status', 'payload': payload})
-
-    def list_routing_statuses(self,
-                              filters: dict = None,
-                              payload: dict = None) -> dict:
-        ''' Returns the current routing status of each agent selected by the provided filters.
-
-            Args:
-                filters (dict): Filters object.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'list_routing_statuses',
-            'payload': payload
-        })
+# Chats
 
     def list_chats(self,
                    filters: dict = None,
@@ -186,10 +57,11 @@ class AgentRTMInterface(metaclass=ABCMeta):
         ''' Returns summaries of the chats an Agent has access to.
 
             Args:
-                filters (dict): Filters object.
+                filters (dict): Possible request filters. Mustn't change between requests for subsequent pages.
+                        Otherwise, the behavior is undefined.
                 sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
                         creation date of its last thread.
-                limit (int): Chat limit. Default: 10, maximum: 100.
+                limit (int): Chats limit per page. Default: 10, maximum: 100.
                 page_id (str): Page ID.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
@@ -333,53 +205,6 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'deactivate_chat', 'payload': payload})
 
-    def send_event(self,
-                   chat_id: str = None,
-                   event: dict = None,
-                   attach_to_last_thread: bool = None,
-                   payload: dict = None) -> dict:
-        ''' Sends an Event object.
-
-            Args:
-                chat_id (str): ID of the chat you want to send the message to.
-                event (dict): Event object.
-                attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'send_event', 'payload': payload})
-
-    def send_rich_message_postback(self,
-                                   chat_id: str = None,
-                                   thread_id: str = None,
-                                   event_id: str = None,
-                                   postback: dict = None,
-                                   payload: dict = None) -> dict:
-        ''' Sends rich message postback.
-
-            Args:
-                chat_id (str): ID of the chat to send a rich message to.
-                thread_id (str): ID of the thread.
-                event_id (str): ID of the event.
-                postback (dict): Postback object.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'send_rich_message_postback',
-            'payload': payload
-        })
-
     def follow_chat(self, id: str = None, payload: dict = None) -> dict:
         ''' Marks a chat as followed.
 
@@ -409,6 +234,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'unfollow_chat', 'payload': payload})
+
+# Chat access
 
     def grant_chat_access(self,
                           id: str = None,
@@ -478,13 +305,16 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'transfer_chat', 'payload': payload})
 
+# Chat users
+
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
                          user_type: str = None,
                          require_active_thread: bool = None,
                          payload: dict = None) -> dict:
-        ''' Adds a user to the chat.
+        ''' Adds a user to the chat. You can't add more than
+            one customer user type to the chat.
 
             Args:
                 chat_id (str): Chat ID.
@@ -525,6 +355,58 @@ class AgentRTMInterface(metaclass=ABCMeta):
             'action': 'remove_user_from_chat',
             'payload': payload
         })
+
+# Events
+
+    def send_event(self,
+                   chat_id: str = None,
+                   event: dict = None,
+                   attach_to_last_thread: bool = None,
+                   payload: dict = None) -> dict:
+        ''' Sends an Event object.
+
+            Args:
+                chat_id (str): ID of the chat you want to send the message to.
+                event (dict): Event object.
+                attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
+                        The flag is ignored for active chats.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'send_event', 'payload': payload})
+
+    def send_rich_message_postback(self,
+                                   chat_id: str = None,
+                                   thread_id: str = None,
+                                   event_id: str = None,
+                                   postback: dict = None,
+                                   payload: dict = None) -> dict:
+        ''' Sends rich message postback.
+
+            Args:
+                chat_id (str): ID of the chat to send a rich message to.
+                thread_id (str): ID of the thread.
+                event_id (str): ID of the event.
+                postback (dict): Postback object.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'send_rich_message_postback',
+            'payload': payload
+        })
+
+# Properties
 
     def update_chat_properties(self,
                                id: str = None,
@@ -670,6 +552,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
             'payload': payload
         })
 
+# Thread tags
+
     def tag_thread(self,
                    chat_id: str = None,
                    thread_id: str = None,
@@ -711,6 +595,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'untag_thread', 'payload': payload})
+
+# Customers
 
     def get_customer(self, id: str = None, payload: dict = None) -> dict:
         ''' Returns the info about the Customer with a given ID.
@@ -857,6 +743,141 @@ class AgentRTMInterface(metaclass=ABCMeta):
             'payload': payload
         })
 
+# Status
+
+    def login(self,
+              token: str = None,
+              timezone: str = None,
+              reconnect: bool = None,
+              push_notifications: dict = None,
+              application: dict = None,
+              away: bool = None,
+              customer_push_level: str = None,
+              payload: dict = None) -> dict:
+        ''' Logs in agent.
+
+            Args:
+                token (str): OAuth token from the Agent's account.
+                timezone (str): Agent's timezone.
+                reconnect (bool): Reconnecting sets the status to the
+                        last known state instead of the default one.
+                push_notifications (dict): Push notifications for the requested token.
+                application (dict): Object containing information related to
+                        the application's name and version.
+                away (bool): When True, the connection is set to the away state.
+                        Defaults to False.
+                customer_push_level (str): Possible values: my, engaged, online.
+                        Defaults to my if login creates the first session;
+                        otherwise it preserves the current customer_push_level.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'login', 'payload': payload})
+
+    def change_push_notifications(self,
+                                  firebase_token: str = None,
+                                  platform: str = None,
+                                  enabled: bool = None,
+                                  payload: dict = None) -> dict:
+        ''' Changes the firebase push notifications properties.
+
+            Args:
+                firebase_token (str): Firebase device token.
+                platform (str): OS platform. Possible values: ios, android.
+                enabled (bool): Enable or disable push notifications for the requested token.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'change_push_notifications',
+            'payload': payload
+        })
+
+    def set_routing_status(self,
+                           status: str = None,
+                           agent_id: str = None,
+                           payload: dict = None) -> dict:
+        ''' Changes the status of an Agent or a Bot Agent.
+
+            Args:
+                status (str): For Agents: accepting_chats or not_accepting_chats.
+                        For Bot Agents: accepting_chats, not_accepting_chats, or offline.
+                agent_id (str): If not specified, the requester's status will be updated.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'set_routing_status',
+            'payload': payload
+        })
+
+    def set_away_status(self, away: bool = None, payload: dict = None) -> dict:
+        ''' Sets an Agent's connection to the away state.
+
+            Args:
+                away (bool): A flag.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'set_away_status', 'payload': payload})
+
+    def logout(self, payload: dict = None) -> dict:
+        ''' Logs out agent.
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        return self.ws.send({
+            'action': 'logout',
+            'payload': {} if payload is None else payload
+        })
+
+    def list_routing_statuses(self,
+                              filters: dict = None,
+                              payload: dict = None) -> dict:
+        ''' Returns the current routing status of each agent selected by the provided filters.
+
+            Args:
+                filters (dict): Filters object.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'list_routing_statuses',
+            'payload': payload
+        })
+
+# Other
+
     def mark_events_as_seen(self,
                             chat_id: str = None,
                             seen_up_to: str = None,
@@ -947,4 +968,3 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
 class AgentRTM33(AgentRTMInterface):
     ''' AgentRTM version 3.3 class. '''
-    pass
