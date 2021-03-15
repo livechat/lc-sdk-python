@@ -81,8 +81,8 @@ class AgentWebInterface(metaclass=ABCMeta):
 
     def list_chats(self,
                    filters: dict = None,
-                   limit: int = None,
                    sort_order: str = None,
+                   limit: int = None,
                    page_id: str = None,
                    payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
@@ -91,10 +91,10 @@ class AgentWebInterface(metaclass=ABCMeta):
                 filters (dict): Possible request filters. Mustn&#39;t change between
                                 requests for subsequent pages. Otherwise,
                                 the behavior is undefined.
-                limit (int): Limit of results per page. Default: 10, maximum: 100.
                 sort_order (str): Possible values: asc, desc (default).
                                   Chat summaries are sorted by the creation
                                   date of its last thread.
+                limit (int): Limit of results per page. Default: 10, maximum: 100.
                 page_id (str): ID of the page with paginated results.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided
@@ -110,8 +110,8 @@ class AgentWebInterface(metaclass=ABCMeta):
 
     def list_threads(self,
                      chat_id: str = None,
-                     limit: str = None,
                      sort_order: str = None,
+                     limit: str = None,
                      page_id: str = None,
                      min_events_count: int = None,
                      filters: dict = None,
@@ -120,11 +120,12 @@ class AgentWebInterface(metaclass=ABCMeta):
 
             Args:
                 chat_id (str): ID of the chat for which threads are to be listed.
-                limit (str): Limit of results per page. Default: 3, maximum: 100.
                 sort_order (str): Possible values: asc, desc (default).
+                limit (str): Limit of results per page. Default: 3, maximum: 100.
                 page_id (str): ID of the page with paginated results.
                 min_events_count (int): Range: 1-100;
-                    Specifies the minimum number of events to be returned in the response.
+                                        Specifies the minimum number of events
+                                        to be returned in the response.
                 filters (dict): Possible request filters.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
@@ -158,22 +159,22 @@ class AgentWebInterface(metaclass=ABCMeta):
         return self.session.post(f&#39;{self.api_url}/get_chat&#39;, json=payload)
 
     def list_archives(self,
-                      limit: str = None,
-                      sort_order: str = None,
-                      highlights: dict = None,
-                      page_id: str = None,
                       filters: dict = None,
+                      page_id: str = None,
+                      sort_order: str = None,
+                      limit: str = None,
+                      highlights: dict = None,
                       payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns a list of the chats an Agent has access to.
             Together with a chat, the events of one thread from this chat are returned.
 
             Args:
-                limit (str): Limit of results per page. Default: 10, maximum: 100.
+                filters (dict): Possible request filters.
+                page_id (str): ID of the page with paginated results.
                 sort_order (str): Possible values: asc, desc (default).
                                   Chat summaries are sorted by the creation date
                                   of its last thread.
-                page_id (str): ID of the page with paginated results.
-                filters (dict): Possible request filters.
+                limit (str): Limit of results per page. Default: 10, maximum: 100.
                 highlights (dict): Use it to highlight the match of filters.query.
                                    To enable highlights with default parameters,
                                    pass an empty object.
@@ -373,7 +374,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                 user_id (str): user ID.
                 user_type (str): Possible values: agent or customer.
                 require_active_thread (bool): If true, it adds a user to a chat
-                         only if that chat has an active thread; default false.
+                                              only if that chat has an active
+                                              thread; default false.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
 
@@ -680,22 +682,22 @@ class AgentWebInterface(metaclass=ABCMeta):
         return self.session.post(f&#39;{self.api_url}/get_customer&#39;, json=payload)
 
     def list_customers(self,
+                       page_id: str = None,
                        limit: str = None,
                        sort_order: str = None,
                        sort_by: str = None,
-                       page_id: str = None,
                        filters: dict = None,
                        payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns the list of Customers.
 
             Args:
+                page_id (str): ID of the page with paginated results.
                 limit (str): Limit of results per page. Default: 10, maximum: 100.
                 sort_order (str): Possible values: asc, desc (default).
                 sort_by (str): When sorting by fields other than created_at, the entries
                                with identical values will be additionally sorted by their
                                creation time. Possible values: created_at (default),
                                threads_count, visits_count, agent_last_event, customer_last_event.
-                page_id (str): ID of the page with paginated results.
                 filters (dict): Possible request filters.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
@@ -1152,8 +1154,8 @@ def get_client(access_token: str,
 
     def list_chats(self,
                    filters: dict = None,
-                   limit: int = None,
                    sort_order: str = None,
+                   limit: int = None,
                    page_id: str = None,
                    payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
@@ -1162,10 +1164,10 @@ def get_client(access_token: str,
                 filters (dict): Possible request filters. Mustn&#39;t change between
                                 requests for subsequent pages. Otherwise,
                                 the behavior is undefined.
-                limit (int): Limit of results per page. Default: 10, maximum: 100.
                 sort_order (str): Possible values: asc, desc (default).
                                   Chat summaries are sorted by the creation
                                   date of its last thread.
+                limit (int): Limit of results per page. Default: 10, maximum: 100.
                 page_id (str): ID of the page with paginated results.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided
@@ -1181,8 +1183,8 @@ def get_client(access_token: str,
 
     def list_threads(self,
                      chat_id: str = None,
-                     limit: str = None,
                      sort_order: str = None,
+                     limit: str = None,
                      page_id: str = None,
                      min_events_count: int = None,
                      filters: dict = None,
@@ -1191,11 +1193,12 @@ def get_client(access_token: str,
 
             Args:
                 chat_id (str): ID of the chat for which threads are to be listed.
-                limit (str): Limit of results per page. Default: 3, maximum: 100.
                 sort_order (str): Possible values: asc, desc (default).
+                limit (str): Limit of results per page. Default: 3, maximum: 100.
                 page_id (str): ID of the page with paginated results.
                 min_events_count (int): Range: 1-100;
-                    Specifies the minimum number of events to be returned in the response.
+                                        Specifies the minimum number of events
+                                        to be returned in the response.
                 filters (dict): Possible request filters.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
@@ -1229,22 +1232,22 @@ def get_client(access_token: str,
         return self.session.post(f&#39;{self.api_url}/get_chat&#39;, json=payload)
 
     def list_archives(self,
-                      limit: str = None,
-                      sort_order: str = None,
-                      highlights: dict = None,
-                      page_id: str = None,
                       filters: dict = None,
+                      page_id: str = None,
+                      sort_order: str = None,
+                      limit: str = None,
+                      highlights: dict = None,
                       payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns a list of the chats an Agent has access to.
             Together with a chat, the events of one thread from this chat are returned.
 
             Args:
-                limit (str): Limit of results per page. Default: 10, maximum: 100.
+                filters (dict): Possible request filters.
+                page_id (str): ID of the page with paginated results.
                 sort_order (str): Possible values: asc, desc (default).
                                   Chat summaries are sorted by the creation date
                                   of its last thread.
-                page_id (str): ID of the page with paginated results.
-                filters (dict): Possible request filters.
+                limit (str): Limit of results per page. Default: 10, maximum: 100.
                 highlights (dict): Use it to highlight the match of filters.query.
                                    To enable highlights with default parameters,
                                    pass an empty object.
@@ -1444,7 +1447,8 @@ def get_client(access_token: str,
                 user_id (str): user ID.
                 user_type (str): Possible values: agent or customer.
                 require_active_thread (bool): If true, it adds a user to a chat
-                         only if that chat has an active thread; default false.
+                                              only if that chat has an active
+                                              thread; default false.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
 
@@ -1751,22 +1755,22 @@ def get_client(access_token: str,
         return self.session.post(f&#39;{self.api_url}/get_customer&#39;, json=payload)
 
     def list_customers(self,
+                       page_id: str = None,
                        limit: str = None,
                        sort_order: str = None,
                        sort_by: str = None,
-                       page_id: str = None,
                        filters: dict = None,
                        payload: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Returns the list of Customers.
 
             Args:
+                page_id (str): ID of the page with paginated results.
                 limit (str): Limit of results per page. Default: 10, maximum: 100.
                 sort_order (str): Possible values: asc, desc (default).
                 sort_by (str): When sorting by fields other than created_at, the entries
                                with identical values will be additionally sorted by their
                                creation time. Possible values: created_at (default),
                                threads_count, visits_count, agent_last_event, customer_last_event.
-                page_id (str): ID of the page with paginated results.
                 filters (dict): Possible request filters.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
@@ -2049,7 +2053,8 @@ def get_client(access_token: str,
 <dd>Possible values: agent or customer.</dd>
 <dt><strong><code>require_active_thread</code></strong> :&ensp;<code>bool</code></dt>
 <dd>If true, it adds a user to a chat
-only if that chat has an active thread; default false.</dd>
+only if that chat has an active
+thread; default false.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -2077,7 +2082,8 @@ which contains a server’s response to an HTTP request.</dd>
             user_id (str): user ID.
             user_type (str): Possible values: agent or customer.
             require_active_thread (bool): If true, it adds a user to a chat
-                     only if that chat has an active thread; default false.
+                                          only if that chat has an active
+                                          thread; default false.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
 
@@ -2667,23 +2673,23 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.AgentWebInterface.list_archives"><code class="name flex">
-<span>def <span class="ident">list_archives</span></span>(<span>self, limit: str = None, sort_order: str = None, highlights: dict = None, page_id: str = None, filters: dict = None, payload: dict = None) ‑> requests.models.Response</span>
+<span>def <span class="ident">list_archives</span></span>(<span>self, filters: dict = None, page_id: str = None, sort_order: str = None, limit: str = None, highlights: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns a list of the chats an Agent has access to.
 Together with a chat, the events of one thread from this chat are returned.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>limit</code></strong> :&ensp;<code>str</code></dt>
-<dd>Limit of results per page. Default: 10, maximum: 100.</dd>
+<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Possible request filters.</dd>
+<dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the page with paginated results.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: asc, desc (default).
 Chat summaries are sorted by the creation date
 of its last thread.</dd>
-<dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the page with paginated results.</dd>
-<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Possible request filters.</dd>
+<dt><strong><code>limit</code></strong> :&ensp;<code>str</code></dt>
+<dd>Limit of results per page. Default: 10, maximum: 100.</dd>
 <dt><strong><code>highlights</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Use it to highlight the match of filters.query.
 To enable highlights with default parameters,
@@ -2703,22 +2709,22 @@ which contains a server’s response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def list_archives(self,
-                  limit: str = None,
-                  sort_order: str = None,
-                  highlights: dict = None,
-                  page_id: str = None,
                   filters: dict = None,
+                  page_id: str = None,
+                  sort_order: str = None,
+                  limit: str = None,
+                  highlights: dict = None,
                   payload: dict = None) -&gt; requests.Response:
     &#39;&#39;&#39; Returns a list of the chats an Agent has access to.
         Together with a chat, the events of one thread from this chat are returned.
 
         Args:
-            limit (str): Limit of results per page. Default: 10, maximum: 100.
+            filters (dict): Possible request filters.
+            page_id (str): ID of the page with paginated results.
             sort_order (str): Possible values: asc, desc (default).
                               Chat summaries are sorted by the creation date
                               of its last thread.
-            page_id (str): ID of the page with paginated results.
-            filters (dict): Possible request filters.
+            limit (str): Limit of results per page. Default: 10, maximum: 100.
             highlights (dict): Use it to highlight the match of filters.query.
                                To enable highlights with default parameters,
                                pass an empty object.
@@ -2735,7 +2741,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.AgentWebInterface.list_chats"><code class="name flex">
-<span>def <span class="ident">list_chats</span></span>(<span>self, filters: dict = None, limit: int = None, sort_order: str = None, page_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
+<span>def <span class="ident">list_chats</span></span>(<span>self, filters: dict = None, sort_order: str = None, limit: int = None, page_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns summaries of the chats an Agent has access to.</p>
@@ -2745,12 +2751,12 @@ which contains a server’s response to an HTTP request.</dd>
 <dd>Possible request filters. Mustn't change between
 requests for subsequent pages. Otherwise,
 the behavior is undefined.</dd>
-<dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
-<dd>Limit of results per page. Default: 10, maximum: 100.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: asc, desc (default).
 Chat summaries are sorted by the creation
 date of its last thread.</dd>
+<dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
+<dd>Limit of results per page. Default: 10, maximum: 100.</dd>
 <dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the page with paginated results.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
@@ -2770,8 +2776,8 @@ which contains a server’s response to an HTTP request.</dd>
 </summary>
 <pre><code class="python">def list_chats(self,
                filters: dict = None,
-               limit: int = None,
                sort_order: str = None,
+               limit: int = None,
                page_id: str = None,
                payload: dict = None) -&gt; requests.Response:
     &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
@@ -2780,10 +2786,10 @@ which contains a server’s response to an HTTP request.</dd>
             filters (dict): Possible request filters. Mustn&#39;t change between
                             requests for subsequent pages. Otherwise,
                             the behavior is undefined.
-            limit (int): Limit of results per page. Default: 10, maximum: 100.
             sort_order (str): Possible values: asc, desc (default).
                               Chat summaries are sorted by the creation
                               date of its last thread.
+            limit (int): Limit of results per page. Default: 10, maximum: 100.
             page_id (str): ID of the page with paginated results.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided
@@ -2799,12 +2805,14 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.AgentWebInterface.list_customers"><code class="name flex">
-<span>def <span class="ident">list_customers</span></span>(<span>self, limit: str = None, sort_order: str = None, sort_by: str = None, page_id: str = None, filters: dict = None, payload: dict = None) ‑> requests.models.Response</span>
+<span>def <span class="ident">list_customers</span></span>(<span>self, page_id: str = None, limit: str = None, sort_order: str = None, sort_by: str = None, filters: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the list of Customers.</p>
 <h2 id="args">Args</h2>
 <dl>
+<dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the page with paginated results.</dd>
 <dt><strong><code>limit</code></strong> :&ensp;<code>str</code></dt>
 <dd>Limit of results per page. Default: 10, maximum: 100.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
@@ -2814,8 +2822,6 @@ which contains a server’s response to an HTTP request.</dd>
 with identical values will be additionally sorted by their
 creation time. Possible values: created_at (default),
 threads_count, visits_count, agent_last_event, customer_last_event.</dd>
-<dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the page with paginated results.</dd>
 <dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Possible request filters.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
@@ -2833,22 +2839,22 @@ which contains a server’s response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def list_customers(self,
+                   page_id: str = None,
                    limit: str = None,
                    sort_order: str = None,
                    sort_by: str = None,
-                   page_id: str = None,
                    filters: dict = None,
                    payload: dict = None) -&gt; requests.Response:
     &#39;&#39;&#39; Returns the list of Customers.
 
         Args:
+            page_id (str): ID of the page with paginated results.
             limit (str): Limit of results per page. Default: 10, maximum: 100.
             sort_order (str): Possible values: asc, desc (default).
             sort_by (str): When sorting by fields other than created_at, the entries
                            with identical values will be additionally sorted by their
                            creation time. Possible values: created_at (default),
                            threads_count, visits_count, agent_last_event, customer_last_event.
-            page_id (str): ID of the page with paginated results.
             filters (dict): Possible request filters.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
@@ -2907,7 +2913,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.AgentWebInterface.list_threads"><code class="name flex">
-<span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, limit: str = None, sort_order: str = None, page_id: str = None, min_events_count: int = None, filters: dict = None, payload: dict = None) ‑> requests.models.Response</span>
+<span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, sort_order: str = None, limit: str = None, page_id: str = None, min_events_count: int = None, filters: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns threads that the current Agent has access to in a given chat.</p>
@@ -2915,15 +2921,16 @@ which contains a server’s response to an HTTP request.</dd>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the chat for which threads are to be listed.</dd>
-<dt><strong><code>limit</code></strong> :&ensp;<code>str</code></dt>
-<dd>Limit of results per page. Default: 3, maximum: 100.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: asc, desc (default).</dd>
+<dt><strong><code>limit</code></strong> :&ensp;<code>str</code></dt>
+<dd>Limit of results per page. Default: 3, maximum: 100.</dd>
 <dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the page with paginated results.</dd>
 <dt><strong><code>min_events_count</code></strong> :&ensp;<code>int</code></dt>
 <dd>Range: 1-100;
-Specifies the minimum number of events to be returned in the response.</dd>
+Specifies the minimum number of events
+to be returned in the response.</dd>
 <dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Possible request filters.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
@@ -2942,8 +2949,8 @@ which contains a server’s response to an HTTP request.</dd>
 </summary>
 <pre><code class="python">def list_threads(self,
                  chat_id: str = None,
-                 limit: str = None,
                  sort_order: str = None,
+                 limit: str = None,
                  page_id: str = None,
                  min_events_count: int = None,
                  filters: dict = None,
@@ -2952,11 +2959,12 @@ which contains a server’s response to an HTTP request.</dd>
 
         Args:
             chat_id (str): ID of the chat for which threads are to be listed.
-            limit (str): Limit of results per page. Default: 3, maximum: 100.
             sort_order (str): Possible values: asc, desc (default).
+            limit (str): Limit of results per page. Default: 3, maximum: 100.
             page_id (str): ID of the page with paginated results.
             min_events_count (int): Range: 1-100;
-                Specifies the minimum number of events to be returned in the response.
+                                    Specifies the minimum number of events
+                                    to be returned in the response.
             filters (dict): Possible request filters.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
