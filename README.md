@@ -10,7 +10,7 @@ For protocol documentation of LiveChat APIs, please go to [Livechat Platform Doc
 
 Agent Chat API:
 * [RTM API](https://livechat.github.io/lc-sdk-python/agent_rtm.html)
-* WEB API - will be added soon...
+* [WEB API](https://livechat.github.io/lc-sdk-python/agent_web.html)
 
 Customer Chat API:
 * [RTM API](https://livechat.github.io/lc-sdk-python/customer_rtm.html)
