@@ -43,7 +43,7 @@ def test_get_client_with_non_existing_version():
 
 def test_get_client_with_valid_args(agent_web_api_client):
     ''' Test if production API URL is used and token is added to headers for valid args. '''
-    assert agent_web_api_client.api_url == 'https://api.livechatinc.com/v3.3/agent/action'
+    assert agent_web_api_client.api_url == 'https://api.livechatinc.com/v30.30/agent/action'
     assert agent_web_api_client.session.headers.get(
         'Authorization') == ACCESS_TOKEN_INVALID
 
