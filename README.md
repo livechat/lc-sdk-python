@@ -34,4 +34,4 @@ pip install lc-sdk-python
 
 ## About LiveChat
 
-LiveChat is an online customer service software with live support, help desk software, and web analytics capabilities. It's used by more than 30,000 companies all over the world. For more info, check out [LiveChat](https://livechat.com/).
+LiveChat is an online customer service software with live support, help desk software, and web analytics capabilities. It's used by more than 32,000 companies all over the world. For more info, check out [LiveChat](https://livechat.com/).
