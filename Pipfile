@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 requests = "2.25.1"
 websocket-client= "0.57.0"
+websockets = "8.1"
 
 [dev-packages]
 pre-commit = "2.10.1"
