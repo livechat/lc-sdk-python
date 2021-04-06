@@ -28,6 +28,95 @@ Management:
 pip install lc-sdk-python
 ```
 
+## Usage
+
+### Agent RTM API usage example
+
+Basic example on how to login as an agent and change routing status to `not_accepting_chats`.
+
+First, create your AgentRTM client and log in:
+```python
+>>> from livechat.agent import AgentRTM
+>>> my_agent = AgentRTM.get_client()
+>>> my_agent.open_connection()
+>>> my_agent.login(token='Bearer <your bearer token>')
+INFO:root:
+REQUEST:
+{
+    "action": "login",
+    "payload": {
+        "token": "Bearer <your bearer token>
+    },
+    "request_id": "5571081909"
+}
+INFO:root:
+RESPONSES:
+{
+    "response": {
+        "request_id": "5571081909",
+        "action": "login",
+        "type": "response",
+        "payload": {
+            ...
+        },
+        "success": true
+    },
+    "pushes": []
+}
+```
+
+Now you can change the routing status of the agent:
+
+```python
+>>> my_agent.set_routing_status(status='not_accepting_chats')
+INFO:root:
+REQUEST:
+{
+    "action": "set_routing_status",
+    "payload": {
+        "status": "not_accepting_chats"
+    },
+    "request_id": "8214452850"
+}
+INFO:root:
+RESPONSES:
+{
+    "response": {
+        "request_id": "8214452850",
+        "action": "set_routing_status",
+        "type": "response",
+        "payload": {},
+        "success": true
+        ...
+    }
+}
+```
+
+Finally, log out:
+
+```python
+>>> my_agent.logout()
+INFO:root:
+REQUEST:
+{
+    "action": "logout",
+    "payload": {},
+    "request_id": "629300202"
+}
+INFO:root:
+RESPONSES:
+{
+    "response": {
+        "request_id": "629300202",
+        "action": "logout",
+        "type": "response",
+        "success": true
+    },
+    "pushes": []
+}
+```
+
+
 ## Feedback
 
 ​If you find any bugs or have trouble implementing the code on your own, please create an issue or contact us via e-mail: apiteam.qa@livechat.com.
