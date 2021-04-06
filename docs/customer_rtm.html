@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>client API documentation</title>
+<title>livechat.customer.rtm.client API documentation</title>
 <meta name="description" content="Customer RTM client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>client</code></h1>
+<h1 class="title">Module <code>livechat.customer.rtm.client</code></h1>
 </header>
 <section id="section-intro">
 <p>Customer RTM client implementation.</p>
@@ -82,7 +82,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                 origin (dict): Specifies origin while creating websocket connection.
         &#39;&#39;&#39;
         if origin:
-           self.ws.open(origin=origin)
+            self.ws.open(origin=origin)
         else:
             self.ws.open()
 
@@ -665,7 +665,7 @@ class CustomerRTM33(CustomerRTMInterface):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="client.CustomerRTM"><code class="flex name class">
+<dt id="livechat.customer.rtm.client.CustomerRTM"><code class="flex name class">
 <span>class <span class="ident">CustomerRTM</span></span>
 </code></dt>
 <dd>
@@ -702,7 +702,7 @@ class CustomerRTM33(CustomerRTMInterface):
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="client.CustomerRTM.get_client"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTM.get_client"><code class="name flex">
 <span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, version: str = '3.3', base_url: str = 'api.livechatinc.com')</span>
 </code></dt>
 <dd>
@@ -718,7 +718,7 @@ class CustomerRTM33(CustomerRTMInterface):
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></code></dt>
+<dt><code><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></code></dt>
 <dd>API client object for specified version.</dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -757,7 +757,7 @@ def get_client(license_id: int = None,
 </dd>
 </dl>
 </dd>
-<dt id="client.CustomerRTM33"><code class="flex name class">
+<dt id="livechat.customer.rtm.client.CustomerRTM33"><code class="flex name class">
 <span>class <span class="ident">CustomerRTM33</span></span>
 <span>(</span><span>license_id, version, url)</span>
 </code></dt>
@@ -773,46 +773,46 @@ def get_client(license_id: int = None,
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></li>
+<li><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></li>
 </ul>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></b></code>:
+<li><code><b><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></b></code>:
 <ul class="hlist">
-<li><code><a title="client.CustomerRTMInterface.accept_greeting" href="#client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.cancel_greeting" href="#client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.close_connection" href="#client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.deactivate_chat" href="#client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_chat_properties" href="#client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_event_properties" href="#client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_thread_properties" href="#client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_chat" href="#client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_customer" href="#client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_form" href="#client.CustomerRTMInterface.get_form">get_form</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_predicted_agent" href="#client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_url_info" href="#client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_chats" href="#client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_group_statuses" href="#client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_threads" href="#client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.login" href="#client.CustomerRTMInterface.login">login</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.mark_events_as_seen" href="#client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.open_connection" href="#client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.resume_chat" href="#client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_event" href="#client.CustomerRTMInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_rich_message_postback" href="#client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_sneak_peek" href="#client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.set_customer_session_fields" href="#client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.start_chat" href="#client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_chat_properties" href="#client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer" href="#client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer_page" href="#client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_event_properties" href="#client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_thread_properties" href="#client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.close_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_form" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_form">get_form</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_url_info" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_chats" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_threads" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.login" href="#livechat.customer.rtm.client.CustomerRTMInterface.login">login</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen" href="#livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.open_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.resume_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_event" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_event">send_event</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields" href="#livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.start_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="client.CustomerRTMInterface"><code class="flex name class">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface"><code class="flex name class">
 <span>class <span class="ident">CustomerRTMInterface</span></span>
 <span>(</span><span>license_id, version, url)</span>
 </code></dt>
@@ -840,7 +840,7 @@ def get_client(license_id: int = None,
                 origin (dict): Specifies origin while creating websocket connection.
         &#39;&#39;&#39;
         if origin:
-           self.ws.open(origin=origin)
+            self.ws.open(origin=origin)
         else:
             self.ws.open()
 
@@ -1410,11 +1410,11 @@ def get_client(license_id: int = None,
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="client.CustomerRTM33" href="#client.CustomerRTM33">CustomerRTM33</a></li>
+<li><a title="livechat.customer.rtm.client.CustomerRTM33" href="#livechat.customer.rtm.client.CustomerRTM33">CustomerRTM33</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="client.CustomerRTMInterface.accept_greeting"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting"><code class="name flex">
 <span>def <span class="ident">accept_greeting</span></span>(<span>self, greeting_id: int = None, unique_id: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1458,7 +1458,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;accept_greeting&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.cancel_greeting"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting"><code class="name flex">
 <span>def <span class="ident">cancel_greeting</span></span>(<span>self, unique_id: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1498,7 +1498,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;cancel_greeting&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.close_connection"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.close_connection"><code class="name flex">
 <span>def <span class="ident">close_connection</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
@@ -1512,7 +1512,7 @@ It overrides all other parameters provided for the method.</dd>
     self.ws.close()</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.deactivate_chat"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat"><code class="name flex">
 <span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1550,7 +1550,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.delete_chat_properties"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties"><code class="name flex">
 <span>def <span class="ident">delete_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1597,7 +1597,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.delete_event_properties"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties"><code class="name flex">
 <span>def <span class="ident">delete_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1652,7 +1652,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.delete_thread_properties"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties"><code class="name flex">
 <span>def <span class="ident">delete_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1703,7 +1703,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_chat"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_chat"><code class="name flex">
 <span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1747,7 +1747,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;get_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_customer"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_customer"><code class="name flex">
 <span>def <span class="ident">get_customer</span></span>(<span>self, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1783,7 +1783,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_form"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_form"><code class="name flex">
 <span>def <span class="ident">get_form</span></span>(<span>self, group_id: int = None, type: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1827,7 +1827,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;get_form&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_predicted_agent"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent"><code class="name flex">
 <span>def <span class="ident">get_predicted_agent</span></span>(<span>self, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1863,7 +1863,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_url_info"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_url_info"><code class="name flex">
 <span>def <span class="ident">get_url_info</span></span>(<span>self, url: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1901,7 +1901,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;get_url_info&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.list_chats"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.list_chats"><code class="name flex">
 <span>def <span class="ident">list_chats</span></span>(<span>self, limit: int = None, sort_order: str = None, page_id: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1951,7 +1951,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;list_chats&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.list_group_statuses"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses"><code class="name flex">
 <span>def <span class="ident">list_group_statuses</span></span>(<span>self, all: bool = None, group_ids: list = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -1998,7 +1998,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.list_threads"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.list_threads"><code class="name flex">
 <span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, sort_order: str = None, limit: int = None, page_id: str = None, min_events_count: int = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2057,7 +2057,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;list_threads&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.login"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.login"><code class="name flex">
 <span>def <span class="ident">login</span></span>(<span>self, token: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2094,7 +2094,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.mark_events_as_seen"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen"><code class="name flex">
 <span>def <span class="ident">mark_events_as_seen</span></span>(<span>self, chat_id: str = None, seen_up_to: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2141,7 +2141,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.open_connection"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.open_connection"><code class="name flex">
 <span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None) ‑> NoneType</span>
 </code></dt>
 <dd>
@@ -2162,12 +2162,12 @@ It overrides all other parameters provided for the method.</dd>
             origin (dict): Specifies origin while creating websocket connection.
     &#39;&#39;&#39;
     if origin:
-       self.ws.open(origin=origin)
+        self.ws.open(origin=origin)
     else:
         self.ws.open()</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.resume_chat"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.resume_chat"><code class="name flex">
 <span>def <span class="ident">resume_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2215,7 +2215,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.send_event"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.send_event"><code class="name flex">
 <span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2263,7 +2263,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.send_rich_message_postback"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback"><code class="name flex">
 <span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, postback: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2318,7 +2318,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.send_sneak_peek"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek"><code class="name flex">
 <span>def <span class="ident">send_sneak_peek</span></span>(<span>self, chat_id: str = None, sneak_peek_text: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2362,7 +2362,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;send_sneak_peek&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.set_customer_session_fields"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields"><code class="name flex">
 <span>def <span class="ident">set_customer_session_fields</span></span>(<span>self, session_fields: list = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2405,7 +2405,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.start_chat"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.start_chat"><code class="name flex">
 <span>def <span class="ident">start_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2453,7 +2453,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;start_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_chat_properties"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties"><code class="name flex">
 <span>def <span class="ident">update_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2500,7 +2500,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_customer"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_customer"><code class="name flex">
 <span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2554,7 +2554,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;update_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_customer_page"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page"><code class="name flex">
 <span>def <span class="ident">update_customer_page</span></span>(<span>self, url: str = None, title: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2601,7 +2601,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_event_properties"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties"><code class="name flex">
 <span>def <span class="ident">update_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2656,7 +2656,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_thread_properties"><code class="name flex">
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties"><code class="name flex">
 <span>def <span class="ident">update_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2718,49 +2718,54 @@ It overrides all other parameters provided for the method.</dd>
 <ul></ul>
 </div>
 <ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="livechat.customer.rtm" href="index.html">livechat.customer.rtm</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="client.CustomerRTM" href="#client.CustomerRTM">CustomerRTM</a></code></h4>
+<h4><code><a title="livechat.customer.rtm.client.CustomerRTM" href="#livechat.customer.rtm.client.CustomerRTM">CustomerRTM</a></code></h4>
 <ul class="">
-<li><code><a title="client.CustomerRTM.get_client" href="#client.CustomerRTM.get_client">get_client</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTM.get_client" href="#livechat.customer.rtm.client.CustomerRTM.get_client">get_client</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="client.CustomerRTM33" href="#client.CustomerRTM33">CustomerRTM33</a></code></h4>
+<h4><code><a title="livechat.customer.rtm.client.CustomerRTM33" href="#livechat.customer.rtm.client.CustomerRTM33">CustomerRTM33</a></code></h4>
 </li>
 <li>
-<h4><code><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></code></h4>
+<h4><code><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></code></h4>
 <ul class="">
-<li><code><a title="client.CustomerRTMInterface.accept_greeting" href="#client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.cancel_greeting" href="#client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.close_connection" href="#client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.deactivate_chat" href="#client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_chat_properties" href="#client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_event_properties" href="#client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_thread_properties" href="#client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_chat" href="#client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_customer" href="#client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_form" href="#client.CustomerRTMInterface.get_form">get_form</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_predicted_agent" href="#client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_url_info" href="#client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_chats" href="#client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_group_statuses" href="#client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_threads" href="#client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.login" href="#client.CustomerRTMInterface.login">login</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.mark_events_as_seen" href="#client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.open_connection" href="#client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.resume_chat" href="#client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_event" href="#client.CustomerRTMInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_rich_message_postback" href="#client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_sneak_peek" href="#client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.set_customer_session_fields" href="#client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.start_chat" href="#client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_chat_properties" href="#client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer" href="#client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer_page" href="#client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_event_properties" href="#client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_thread_properties" href="#client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.close_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_form" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_form">get_form</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_url_info" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_chats" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_threads" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.login" href="#livechat.customer.rtm.client.CustomerRTMInterface.login">login</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen" href="#livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.open_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.resume_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_event" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_event">send_event</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields" href="#livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.start_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
 </ul>
 </li>
 </ul>
