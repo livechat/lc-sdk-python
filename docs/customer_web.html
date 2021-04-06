@@ -80,6 +80,32 @@ class CustomerWebInterface(metaclass=ABCMeta):
         self.session.headers.update({&#39;Authorization&#39;: access_token})
         self.license_id = license_id
 
+
+    def modify_header(self, header: dict = None) -&gt; None:
+        &#39;&#39;&#39; Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        &#39;&#39;&#39;
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str = None) -&gt; None:
+        &#39;&#39;&#39; Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        &#39;&#39;&#39;
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -&gt; dict:
+        &#39;&#39;&#39; Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        &#39;&#39;&#39;
+        return self.session.headers
+
 # Chats
 
     def list_chats(self,
@@ -982,6 +1008,7 @@ def get_client(license_id: int,
 <li><code><a title="client.CustomerWebInterface.get_customer" href="#client.CustomerWebInterface.get_customer">get_customer</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_dynamic_configuration" href="#client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_form" href="#client.CustomerWebInterface.get_form">get_form</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_headers" href="#client.CustomerWebInterface.get_headers">get_headers</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_localization" href="#client.CustomerWebInterface.get_localization">get_localization</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
@@ -991,6 +1018,8 @@ def get_client(license_id: int,
 <li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
 <li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="client.CustomerWebInterface.remove_header" href="#client.CustomerWebInterface.remove_header">remove_header</a></code></li>
 <li><code><a title="client.CustomerWebInterface.resume_chat" href="#client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
 <li><code><a title="client.CustomerWebInterface.send_event" href="#client.CustomerWebInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.CustomerWebInterface.send_rich_message_postback" href="#client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
@@ -1024,6 +1053,32 @@ def get_client(license_id: int,
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: access_token})
         self.license_id = license_id
+
+
+    def modify_header(self, header: dict = None) -&gt; None:
+        &#39;&#39;&#39; Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        &#39;&#39;&#39;
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str = None) -&gt; None:
+        &#39;&#39;&#39; Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        &#39;&#39;&#39;
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -&gt; dict:
+        &#39;&#39;&#39; Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        &#39;&#39;&#39;
+        return self.session.headers
 
 # Chats
 
@@ -2375,6 +2430,29 @@ which contains a server’s response to an HTTP request.</dd>
         json=payload)</code></pre>
 </details>
 </dd>
+<dt id="client.CustomerWebInterface.get_headers"><code class="name flex">
+<span>def <span class="ident">get_headers</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns current header values in session object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Response which presents current header values in session object.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_headers(self) -&gt; dict:
+    &#39;&#39;&#39; Returns current header values in session object.
+
+        Returns:
+            dict: Response which presents current header values in session object.
+    &#39;&#39;&#39;
+    return self.session.headers</code></pre>
+</details>
+</dd>
 <dt id="client.CustomerWebInterface.get_localization"><code class="name flex">
 <span>def <span class="ident">get_localization</span></span>(<span>self, group_id: int = None, language: str = None, version: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
@@ -2830,6 +2908,53 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(
         f&#39;{self.api_url}/mark_events_as_seen?license_id={self.license_id}&#39;,
         json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebInterface.modify_header"><code class="name flex">
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modifies provided header in session object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>header</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Header which needs to be modified.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def modify_header(self, header: dict = None) -&gt; None:
+    &#39;&#39;&#39; Modifies provided header in session object.
+
+        Args:
+            header (dict): Header which needs to be modified.
+    &#39;&#39;&#39;
+    self.session.headers.update(header)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebInterface.remove_header"><code class="name flex">
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes provided header from session object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>Key which needs to be removed from the header.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_header(self, key: str = None) -&gt; None:
+    &#39;&#39;&#39; Removes provided header from session object.
+
+        Args:
+            key (str): Key which needs to be removed from the header.
+    &#39;&#39;&#39;
+    if key in self.session.headers:
+        del self.session.headers[key]</code></pre>
 </details>
 </dd>
 <dt id="client.CustomerWebInterface.resume_chat"><code class="name flex">
@@ -3440,6 +3565,7 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.CustomerWebInterface.get_customer" href="#client.CustomerWebInterface.get_customer">get_customer</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_dynamic_configuration" href="#client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_form" href="#client.CustomerWebInterface.get_form">get_form</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_headers" href="#client.CustomerWebInterface.get_headers">get_headers</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_localization" href="#client.CustomerWebInterface.get_localization">get_localization</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
@@ -3449,6 +3575,8 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
 <li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="client.CustomerWebInterface.remove_header" href="#client.CustomerWebInterface.remove_header">remove_header</a></code></li>
 <li><code><a title="client.CustomerWebInterface.resume_chat" href="#client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
 <li><code><a title="client.CustomerWebInterface.send_event" href="#client.CustomerWebInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.CustomerWebInterface.send_rich_message_postback" href="#client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>

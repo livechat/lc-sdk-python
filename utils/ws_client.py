@@ -37,7 +37,7 @@ class WebsocketClient:
                     origin (dict): Specifies origin while creating websocket connection.
         '''
         try:
-            if origin is not None:
+            if origin:
                 self.websocket = websocket.create_connection(
                         self.url,
                         self.timeout,

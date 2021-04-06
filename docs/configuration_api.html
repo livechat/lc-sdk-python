@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Configuration <code>API</code></h1>
+<h1 class="title">Module <code>client</code></h1>
 </header>
 <section id="section-intro">
 <p>Configuration API client implementation.</p>
@@ -73,6 +73,31 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: token})
+
+    def modify_header(self, header: dict = None) -&gt; None:
+        &#39;&#39;&#39; Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        &#39;&#39;&#39;
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str = None) -&gt; None:
+        &#39;&#39;&#39; Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        &#39;&#39;&#39;
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -&gt; dict:
+        &#39;&#39;&#39; Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        &#39;&#39;&#39;
+        return self.session.headers
 
 # Agents
 
@@ -1128,6 +1153,7 @@ def get_api_client(token: str,
 <li><code><a title="client.ConfigurationApiInterface.get_agent" href="#client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.get_bot" href="#client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.get_group" href="#client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_headers" href="#client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.get_license_webhooks_state" href="#client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.list_agents" href="#client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.list_auto_accesses" href="#client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
@@ -1138,9 +1164,11 @@ def get_api_client(token: str,
 <li><code><a title="client.ConfigurationApiInterface.list_properties" href="#client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.list_webhook_names" href="#client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.list_webhooks" href="#client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.modify_header" href="#client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.publish_property" href="#client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.reorder_auto_access" href="#client.ConfigurationApiInterface.reorder_auto_access">reorder_auto_access</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
@@ -1172,6 +1200,31 @@ def get_api_client(token: str,
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: token})
+
+    def modify_header(self, header: dict = None) -&gt; None:
+        &#39;&#39;&#39; Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        &#39;&#39;&#39;
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str = None) -&gt; None:
+        &#39;&#39;&#39; Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        &#39;&#39;&#39;
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -&gt; dict:
+        &#39;&#39;&#39; Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        &#39;&#39;&#39;
+        return self.session.headers
 
 # Agents
 
@@ -2875,6 +2928,29 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/get_group&#39;, json=payload)</code></pre>
 </details>
 </dd>
+<dt id="client.ConfigurationApiInterface.get_headers"><code class="name flex">
+<span>def <span class="ident">get_headers</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns current header values in session object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Response which presents current header values in session object.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_headers(self) -&gt; dict:
+    &#39;&#39;&#39; Returns current header values in session object.
+
+        Returns:
+            dict: Response which presents current header values in session object.
+    &#39;&#39;&#39;
+    return self.session.headers</code></pre>
+</details>
+</dd>
 <dt id="client.ConfigurationApiInterface.get_license_webhooks_state"><code class="name flex">
 <span>def <span class="ident">get_license_webhooks_state</span></span>(<span>self, owner_client_id: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
@@ -3315,6 +3391,29 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/list_webhooks&#39;, json=payload)</code></pre>
 </details>
 </dd>
+<dt id="client.ConfigurationApiInterface.modify_header"><code class="name flex">
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modifies provided header in session object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>header</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Header which needs to be modified.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def modify_header(self, header: dict = None) -&gt; None:
+    &#39;&#39;&#39; Modifies provided header in session object.
+
+        Args:
+            header (dict): Header which needs to be modified.
+    &#39;&#39;&#39;
+    self.session.headers.update(header)</code></pre>
+</details>
+</dd>
 <dt id="client.ConfigurationApiInterface.publish_property"><code class="name flex">
 <span>def <span class="ident">publish_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, access_type: list = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
@@ -3508,6 +3607,30 @@ which contains a server’s response to an HTTP request.</dd>
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/register_webhook&#39;,
                              json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.ConfigurationApiInterface.remove_header"><code class="name flex">
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes provided header from session object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>Key which needs to be removed from the header.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_header(self, key: str = None) -&gt; None:
+    &#39;&#39;&#39; Removes provided header from session object.
+
+        Args:
+            key (str): Key which needs to be removed from the header.
+    &#39;&#39;&#39;
+    if key in self.session.headers:
+        del self.session.headers[key]</code></pre>
 </details>
 </dd>
 <dt id="client.ConfigurationApiInterface.reorder_auto_access"><code class="name flex">
@@ -4124,6 +4247,7 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.ConfigurationApiInterface.get_agent" href="#client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.get_bot" href="#client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.get_group" href="#client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_headers" href="#client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.get_license_webhooks_state" href="#client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.list_agents" href="#client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.list_auto_accesses" href="#client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
@@ -4134,9 +4258,11 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.ConfigurationApiInterface.list_properties" href="#client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.list_webhook_names" href="#client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.list_webhooks" href="#client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.modify_header" href="#client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.publish_property" href="#client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.reorder_auto_access" href="#client.ConfigurationApiInterface.reorder_auto_access">reorder_auto_access</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
