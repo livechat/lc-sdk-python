@@ -5,8 +5,8 @@
 import typing
 from abc import ABCMeta
 
-from utils.helpers import prepare_payload
-from utils.ws_client import WebsocketClient
+from livechat.utils.helpers import prepare_payload
+from livechat.utils.ws_client import WebsocketClient
 
 
 class AgentRTM:
@@ -874,6 +874,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
             'action': 'list_routing_statuses',
             'payload': payload
         })
+
 
 # Other
 

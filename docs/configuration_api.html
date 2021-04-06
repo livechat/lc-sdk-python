@@ -35,14 +35,14 @@ from abc import ABCMeta
 
 import requests
 
-from utils.helpers import prepare_payload
+from livechat.utils.helpers import prepare_payload
 
 
 class ConfigurationApi:
     &#39;&#39;&#39; Main class that allows retrieval of client for specific Configuration
         API version. &#39;&#39;&#39;
     @staticmethod
-    def get_api_client(token: str,
+    def get_client(token: str,
                        version: str = &#39;3.3&#39;,
                        base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Configuration API version.
@@ -1032,7 +1032,7 @@ API version.</p></div>
     &#39;&#39;&#39; Main class that allows retrieval of client for specific Configuration
         API version. &#39;&#39;&#39;
     @staticmethod
-    def get_api_client(token: str,
+    def get_client(token: str,
                        version: str = &#39;3.3&#39;,
                        base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Configuration API version.
@@ -1058,8 +1058,8 @@ API version.</p></div>
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="client.ConfigurationApi.get_api_client"><code class="name flex">
-<span>def <span class="ident">get_api_client</span></span>(<span>token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com')</span>
+<dt id="client.ConfigurationApi.get_client"><code class="name flex">
+<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -1088,7 +1088,7 @@ used as <code>Authorization</code> header in requests to API.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def get_api_client(token: str,
+def get_client(token: str,
                    version: str = &#39;3.3&#39;,
                    base_url: str = &#39;api.livechatinc.com&#39;):
     &#39;&#39;&#39; Returns client for specific Configuration API version.
@@ -4222,7 +4222,7 @@ which contains a server’s response to an HTTP request.</dd>
 <li>
 <h4><code><a title="client.ConfigurationApi" href="#client.ConfigurationApi">ConfigurationApi</a></code></h4>
 <ul class="">
-<li><code><a title="client.ConfigurationApi.get_api_client" href="#client.ConfigurationApi.get_api_client">get_api_client</a></code></li>
+<li><code><a title="client.ConfigurationApi.get_client" href="#client.ConfigurationApi.get_client">get_client</a></code></li>
 </ul>
 </li>
 <li>

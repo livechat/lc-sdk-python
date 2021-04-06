@@ -7,7 +7,7 @@ from abc import ABCMeta
 
 import requests
 
-from utils.helpers import prepare_payload
+from livechat.utils.helpers import prepare_payload
 
 
 # pylint: disable=R0903

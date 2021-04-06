@@ -4,7 +4,7 @@
 
 import pytest
 
-from agent.web.client import AgentWeb
+from livechat.agent.web.client import AgentWeb
 
 VALID_VERSION = '3.3'
 ACCESS_TOKEN_INVALID = 'foo'

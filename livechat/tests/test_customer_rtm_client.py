@@ -4,7 +4,7 @@
 
 import pytest
 
-from customer.rtm.client import CustomerRTM
+from livechat.customer.rtm.client import CustomerRTM
 
 LICENSE_ID = 10386012
 

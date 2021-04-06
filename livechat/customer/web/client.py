@@ -7,7 +7,7 @@ from abc import ABCMeta
 
 import requests
 
-from utils.helpers import prepare_payload
+from livechat.utils.helpers import prepare_payload
 
 
 # pylint: disable=R0903
@@ -50,7 +50,6 @@ class CustomerWebInterface(metaclass=ABCMeta):
         self.session = requests.Session()
         self.session.headers.update({'Authorization': access_token})
         self.license_id = license_id
-
 
     def modify_header(self, header: dict = None) -> None:
         ''' Modifies provided header in session object.

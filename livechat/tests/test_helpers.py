@@ -1,8 +1,8 @@
-''' Tests for helper methods from utils. '''
+''' Tests for helper methods from livechat.utils. '''
 
 import pytest
 
-from utils import helpers
+from livechat.utils import helpers
 
 
 @pytest.mark.parametrize('parameters,payload', [({
