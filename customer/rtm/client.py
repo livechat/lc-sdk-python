@@ -52,7 +52,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
             Args:
                 origin (dict): Specifies origin while creating websocket connection.
         '''
-        if origin is not None:
+        if origin:
            self.ws.open(origin=origin)
         else:
             self.ws.open()
