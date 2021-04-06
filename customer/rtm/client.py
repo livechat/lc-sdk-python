@@ -45,11 +45,17 @@ class CustomerRTMInterface(metaclass=ABCMeta):
         self.ws = WebsocketClient(
             url=
             f'wss://{url}/v{version}/customer/rtm/ws?license_id={license_id}')
-        self.ws.open()
 
-    def open_connection(self) -> None:
-        ''' Opens WebSocket connection. '''
-        self.ws.open()
+    def open_connection(self, origin: dict = None) -> None:
+        ''' Opens WebSocket connection.
+
+            Args:
+                origin (dict): Specifies origin while creating websocket connection.
+        '''
+        if origin:
+           self.ws.open(origin=origin)
+        else:
+            self.ws.open()
 
     def close_connection(self) -> None:
         ''' Closes WebSocket connection. '''

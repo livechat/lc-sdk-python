@@ -53,3 +53,18 @@ def test_send_request(conf_api_client):
             'message': 'Invalid access token'
         }
     }
+
+
+def test_modify_header(conf_api_client):
+    ''' Test if configuration-api object header can be updated with custom value. '''
+    assert 'Test' not in conf_api_client.get_headers()
+    conf_api_client.modify_header({'Test': '1234'})
+    assert 'Test' in conf_api_client.get_headers()
+
+
+def test_remove_header(conf_api_client):
+    ''' Test if header can be removed from configuration-api object. '''
+    conf_api_client.modify_header({'Test2': '1234'})
+    assert 'Test2' in conf_api_client.get_headers()
+    conf_api_client.remove_header('Test2')
+    assert 'Test2' not in conf_api_client.get_headers()

@@ -36,7 +36,6 @@ class AgentRTMInterface(metaclass=ABCMeta):
     ''' AgentRTM interface class. '''
     def __init__(self, version: str, url: str):
         self.ws = WebsocketClient(url=f'wss://{url}/v{version}/agent/rtm/ws')
-        self.ws.open()
 
     def open_connection(self) -> None:
         ''' Opens WebSocket connection. '''

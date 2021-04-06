@@ -77,6 +77,31 @@ class AgentWebInterface(metaclass=ABCMeta):
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: access_token})
 
+    def modify_header(self, header: dict = None) -&gt; None:
+        &#39;&#39;&#39; Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        &#39;&#39;&#39;
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str = None) -&gt; None:
+        &#39;&#39;&#39; Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        &#39;&#39;&#39;
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -&gt; dict:
+        &#39;&#39;&#39; Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        &#39;&#39;&#39;
+        return self.session.headers
+
 # Chats
 
     def list_chats(self,
@@ -1102,6 +1127,7 @@ def get_client(access_token: str,
 <li><code><a title="client.AgentWebInterface.follow_customer" href="#client.AgentWebInterface.follow_customer">follow_customer</a></code></li>
 <li><code><a title="client.AgentWebInterface.get_chat" href="#client.AgentWebInterface.get_chat">get_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.get_customer" href="#client.AgentWebInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="client.AgentWebInterface.get_headers" href="#client.AgentWebInterface.get_headers">get_headers</a></code></li>
 <li><code><a title="client.AgentWebInterface.grant_chat_access" href="#client.AgentWebInterface.grant_chat_access">grant_chat_access</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_agents_for_transfer" href="#client.AgentWebInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_archives" href="#client.AgentWebInterface.list_archives">list_archives</a></code></li>
@@ -1110,7 +1136,9 @@ def get_client(access_token: str,
 <li><code><a title="client.AgentWebInterface.list_routing_statuses" href="#client.AgentWebInterface.list_routing_statuses">list_routing_statuses</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_threads" href="#client.AgentWebInterface.list_threads">list_threads</a></code></li>
 <li><code><a title="client.AgentWebInterface.mark_events_as_seen" href="#client.AgentWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.AgentWebInterface.modify_header" href="#client.AgentWebInterface.modify_header">modify_header</a></code></li>
 <li><code><a title="client.AgentWebInterface.multicast" href="#client.AgentWebInterface.multicast">multicast</a></code></li>
+<li><code><a title="client.AgentWebInterface.remove_header" href="#client.AgentWebInterface.remove_header">remove_header</a></code></li>
 <li><code><a title="client.AgentWebInterface.remove_user_from_chat" href="#client.AgentWebInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.resume_chat" href="#client.AgentWebInterface.resume_chat">resume_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.revoke_chat_access" href="#client.AgentWebInterface.revoke_chat_access">revoke_chat_access</a></code></li>
@@ -1149,6 +1177,31 @@ def get_client(access_token: str,
         self.api_url = f&#39;https://{base_url}/v{version}/agent/action&#39;
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: access_token})
+
+    def modify_header(self, header: dict = None) -&gt; None:
+        &#39;&#39;&#39; Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        &#39;&#39;&#39;
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str = None) -&gt; None:
+        &#39;&#39;&#39; Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        &#39;&#39;&#39;
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -&gt; dict:
+        &#39;&#39;&#39; Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        &#39;&#39;&#39;
+        return self.session.headers
 
 # Chats
 
@@ -2583,6 +2636,29 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(f&#39;{self.api_url}/get_customer&#39;, json=payload)</code></pre>
 </details>
 </dd>
+<dt id="client.AgentWebInterface.get_headers"><code class="name flex">
+<span>def <span class="ident">get_headers</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns current header values in session object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Response which presents current header values in session object.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_headers(self) -&gt; dict:
+    &#39;&#39;&#39; Returns current header values in session object.
+
+        Returns:
+            dict: Response which presents current header values in session object.
+    &#39;&#39;&#39;
+    return self.session.headers</code></pre>
+</details>
+</dd>
 <dt id="client.AgentWebInterface.grant_chat_access"><code class="name flex">
 <span>def <span class="ident">grant_chat_access</span></span>(<span>self, id: str = None, access: dict = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
@@ -3024,6 +3100,29 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
+<dt id="client.AgentWebInterface.modify_header"><code class="name flex">
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modifies provided header in session object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>header</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Header which needs to be modified.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def modify_header(self, header: dict = None) -&gt; None:
+    &#39;&#39;&#39; Modifies provided header in session object.
+
+        Args:
+            header (dict): Header which needs to be modified.
+    &#39;&#39;&#39;
+    self.session.headers.update(header)</code></pre>
+</details>
+</dd>
 <dt id="client.AgentWebInterface.multicast"><code class="name flex">
 <span>def <span class="ident">multicast</span></span>(<span>self, recipients: dict = None, content: Any = None, type: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
@@ -3071,6 +3170,30 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/multicast&#39;, json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.AgentWebInterface.remove_header"><code class="name flex">
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes provided header from session object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>Key which needs to be removed from the header.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_header(self, key: str = None) -&gt; None:
+    &#39;&#39;&#39; Removes provided header from session object.
+
+        Args:
+            key (str): Key which needs to be removed from the header.
+    &#39;&#39;&#39;
+    if key in self.session.headers:
+        del self.session.headers[key]</code></pre>
 </details>
 </dd>
 <dt id="client.AgentWebInterface.remove_user_from_chat"><code class="name flex">
@@ -4022,6 +4145,7 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.AgentWebInterface.follow_customer" href="#client.AgentWebInterface.follow_customer">follow_customer</a></code></li>
 <li><code><a title="client.AgentWebInterface.get_chat" href="#client.AgentWebInterface.get_chat">get_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.get_customer" href="#client.AgentWebInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="client.AgentWebInterface.get_headers" href="#client.AgentWebInterface.get_headers">get_headers</a></code></li>
 <li><code><a title="client.AgentWebInterface.grant_chat_access" href="#client.AgentWebInterface.grant_chat_access">grant_chat_access</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_agents_for_transfer" href="#client.AgentWebInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_archives" href="#client.AgentWebInterface.list_archives">list_archives</a></code></li>
@@ -4030,7 +4154,9 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.AgentWebInterface.list_routing_statuses" href="#client.AgentWebInterface.list_routing_statuses">list_routing_statuses</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_threads" href="#client.AgentWebInterface.list_threads">list_threads</a></code></li>
 <li><code><a title="client.AgentWebInterface.mark_events_as_seen" href="#client.AgentWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.AgentWebInterface.modify_header" href="#client.AgentWebInterface.modify_header">modify_header</a></code></li>
 <li><code><a title="client.AgentWebInterface.multicast" href="#client.AgentWebInterface.multicast">multicast</a></code></li>
+<li><code><a title="client.AgentWebInterface.remove_header" href="#client.AgentWebInterface.remove_header">remove_header</a></code></li>
 <li><code><a title="client.AgentWebInterface.remove_user_from_chat" href="#client.AgentWebInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.resume_chat" href="#client.AgentWebInterface.resume_chat">resume_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.revoke_chat_access" href="#client.AgentWebInterface.revoke_chat_access">revoke_chat_access</a></code></li>

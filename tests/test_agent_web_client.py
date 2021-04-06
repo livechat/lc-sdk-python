@@ -57,3 +57,18 @@ def test_send_request(agent_web_api_client):
             'message': 'Invalid access token'
         }
     }
+
+
+def test_modify_header(agent_web_api_client):
+    ''' Test if agent object header can be updated with custom value. '''
+    assert 'Test' not in agent_web_api_client.get_headers()
+    agent_web_api_client.modify_header({'Test': '1234'})
+    assert 'Test' in agent_web_api_client.get_headers()
+
+
+def test_remove_header(agent_web_api_client):
+    ''' Test if header can be removed from agent object. '''
+    agent_web_api_client.modify_header({'Test2': '1234'})
+    assert 'Test2' in agent_web_api_client.get_headers()
+    agent_web_api_client.remove_header('Test2')
+    assert 'Test2' not in agent_web_api_client.get_headers()

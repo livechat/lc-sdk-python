@@ -51,6 +51,32 @@ class CustomerWebInterface(metaclass=ABCMeta):
         self.session.headers.update({'Authorization': access_token})
         self.license_id = license_id
 
+
+    def modify_header(self, header: dict = None) -> None:
+        ''' Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        '''
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str = None) -> None:
+        ''' Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        '''
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -> dict:
+        ''' Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        '''
+        return self.session.headers
+
 # Chats
 
     def list_chats(self,

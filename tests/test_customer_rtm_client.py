@@ -37,6 +37,7 @@ def test_get_client_with_non_existing_version():
 def test_get_client():
     ''' Test if created client opens and closes socket in default url. '''
     client = CustomerRTM.get_client(license_id=LICENSE_ID)
+    client.open_connection()
     opened_state = client.ws.keep_alive
     client_url = client.ws.url
     client.close_connection()
@@ -49,6 +50,7 @@ def test_get_client():
 def test_client_logs_in_with_token():
     ''' Test if created client can send request. '''
     client = CustomerRTM.get_client(license_id=LICENSE_ID)
+    client.open_connection()
     response = client.login(token='Bearer 10386012')
     client.close_connection()
     assert response['response']['payload'] == {
@@ -62,6 +64,7 @@ def test_client_logs_in_with_token():
 def test_client_logs_in_with_payload():
     ''' Test if created client can send request. '''
     client = CustomerRTM.get_client(license_id=LICENSE_ID)
+    client.open_connection()
     response = client.login(
         payload={
             'customer_page': {
