@@ -71,3 +71,18 @@ def test_send_request(customer_web_api_client):
             'message': 'Invalid access token'
         }
     }
+
+
+def test_modify_header(customer_web_api_client):
+    ''' Test if customer object header can be updated with custom value. '''
+    assert 'Test' not in customer_web_api_client.get_headers()
+    customer_web_api_client.modify_header({'Test': '1234'})
+    assert 'Test' in customer_web_api_client.get_headers()
+
+
+def test_remove_header(customer_web_api_client):
+    ''' Test if header can be removed from customer object. '''
+    customer_web_api_client.modify_header({'Test2': '1234'})
+    assert 'Test2' in customer_web_api_client.get_headers()
+    customer_web_api_client.remove_header('Test2')
+    assert 'Test2' not in customer_web_api_client.get_headers()

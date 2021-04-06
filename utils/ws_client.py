@@ -18,8 +18,6 @@ from websocket import (WebSocketAddressException, WebSocketBadStatusException,
                        WebSocketPayloadException, WebSocketProtocolException,
                        WebSocketProxyException, WebSocketTimeoutException)
 
-from utils.helpers import parse_url_and_return_origin
-
 
 class WebsocketClient:
     ''' WebSocket synchronous client based on websocket-client module. '''
@@ -32,18 +30,26 @@ class WebsocketClient:
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
 
-    def open(self, keep_alive: bool = True) -> None:
+    def open(self, keep_alive: bool = True, origin: dict =None) -> None:
         ''' Open WebSocket connection.
                 Args:
                     keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+                    origin (dict): Specifies origin while creating websocket connection.
         '''
         try:
-            self.websocket = websocket.create_connection(
-                self.url,
-                self.timeout,
-                origin=parse_url_and_return_origin(self.url),
-                sslopt={'cert_reqs': ssl.CERT_NONE},
-                enable_multithread=True)
+            if origin is not None:
+                self.websocket = websocket.create_connection(
+                        self.url,
+                        self.timeout,
+                        origin=origin,
+                        sslopt={'cert_reqs': ssl.CERT_NONE},
+                        enable_multithread=True)
+            else:
+                self.websocket = websocket.create_connection(
+                        self.url,
+                        self.timeout,
+                        sslopt={'cert_reqs': ssl.CERT_NONE},
+                        enable_multithread=True)
         except (WebSocketException, WebSocketTimeoutException,
                 WebSocketProtocolException, WebSocketPayloadException,
                 WebSocketConnectionClosedException, WebSocketProxyException,

@@ -5,19 +5,6 @@ import pytest
 from utils import helpers
 
 
-@pytest.mark.parametrize(
-    'url,origin', [('wss://api.labs.livechatinc.com/v3.3/agent/rtm/ws',
-                    'https://secure.labs.livechatinc.com'),
-                   ('wss://api.staging.livechatinc.com/v3.3/agent/rtm/ws',
-                    'https://secure-lc.livechatinc.com'),
-                   ('wss://api.livechatinc.com/v3.3/agent/rtm/ws',
-                    'https://secure.livechatinc.com')])
-def test_parse_url_and_return_origin(url, origin):
-    ''' Test if `parse_url_and_return_origin` method returns correct origin
-        basing on provided URL. '''
-    assert helpers.parse_url_and_return_origin(url) == origin
-
-
 @pytest.mark.parametrize('parameters,payload', [({
     'test': 'test',
     'test1': 'test1'
