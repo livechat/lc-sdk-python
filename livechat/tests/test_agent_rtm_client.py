@@ -4,7 +4,7 @@
 
 import pytest
 
-from agent.rtm.client import AgentRTM
+from livechat.agent.rtm.client import AgentRTM
 
 
 def test_get_client_with_non_existing_version():

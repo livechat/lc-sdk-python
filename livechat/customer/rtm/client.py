@@ -4,8 +4,8 @@
 
 from abc import ABCMeta
 
-from utils.helpers import prepare_payload
-from utils.ws_client import WebsocketClient
+from livechat.utils.helpers import prepare_payload
+from livechat.utils.ws_client import WebsocketClient
 
 
 class CustomerRTM:
@@ -53,7 +53,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                 origin (dict): Specifies origin while creating websocket connection.
         '''
         if origin:
-           self.ws.open(origin=origin)
+            self.ws.open(origin=origin)
         else:
             self.ws.open()
 

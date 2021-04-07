@@ -4,7 +4,7 @@
 
 import pytest
 
-from customer.web.client import CustomerWeb
+from livechat.customer.web.client import CustomerWeb
 
 LICENSE_ID = 10386012
 VALID_VERSION = '3.3'

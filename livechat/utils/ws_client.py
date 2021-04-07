@@ -13,7 +13,8 @@ from time import sleep
 from timeit import default_timer as timer
 
 import websocket
-from websocket import (WebSocketAddressException, WebSocketBadStatusException,
+from websocket import (WebSocket, WebSocketAddressException,
+                       WebSocketBadStatusException,
                        WebSocketConnectionClosedException, WebSocketException,
                        WebSocketPayloadException, WebSocketProtocolException,
                        WebSocketProxyException, WebSocketTimeoutException)
@@ -24,13 +25,13 @@ class WebsocketClient:
     def __init__(self, url: str, timeout: int = 2):
         self.url = url
         self.timeout = timeout
-        self.websocket = None
+        self.websocket: WebSocket = None
         self.keep_alive = True
         logging.basicConfig()
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
 
-    def open(self, keep_alive: bool = True, origin: dict =None) -> None:
+    def open(self, keep_alive: bool = True, origin: dict = None) -> None:
         ''' Open WebSocket connection.
                 Args:
                     keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
@@ -39,17 +40,17 @@ class WebsocketClient:
         try:
             if origin:
                 self.websocket = websocket.create_connection(
-                        self.url,
-                        self.timeout,
-                        origin=origin,
-                        sslopt={'cert_reqs': ssl.CERT_NONE},
-                        enable_multithread=True)
+                    self.url,
+                    self.timeout,
+                    origin=origin,
+                    sslopt={'cert_reqs': ssl.CERT_NONE},
+                    enable_multithread=True)
             else:
                 self.websocket = websocket.create_connection(
-                        self.url,
-                        self.timeout,
-                        sslopt={'cert_reqs': ssl.CERT_NONE},
-                        enable_multithread=True)
+                    self.url,
+                    self.timeout,
+                    sslopt={'cert_reqs': ssl.CERT_NONE},
+                    enable_multithread=True)
         except (WebSocketException, WebSocketTimeoutException,
                 WebSocketProtocolException, WebSocketPayloadException,
                 WebSocketConnectionClosedException, WebSocketProxyException,
@@ -110,7 +111,7 @@ class WebsocketClient:
                     )
                     break
                 else:
-                    self.logger.info('Ping action sent.')
+                    self.logger.debug('Ping action sent.')
             sleep(1)
             keep_alive_counter += 1
 

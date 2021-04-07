@@ -1,21 +1,21 @@
 ''' Configuration API client implementation. '''
 
-# pylint: disable=W0613,W0622,C0103,R0913
+# pylint: disable=W0613,W0622,C0103,R0913,R0903
 
 from abc import ABCMeta
 
 import requests
 
-from utils.helpers import prepare_payload
+from livechat.utils.helpers import prepare_payload
 
 
 class ConfigurationApi:
     ''' Main class that allows retrieval of client for specific Configuration
         API version. '''
     @staticmethod
-    def get_api_client(token: str,
-                       version: str = '3.3',
-                       base_url: str = 'api.livechatinc.com'):
+    def get_client(token: str,
+                   version: str = '3.3',
+                   base_url: str = 'api.livechatinc.com'):
         ''' Returns client for specific Configuration API version.
 
             Args:
@@ -977,4 +977,3 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
 
 class ConfigurationApi33(ConfigurationApiInterface):
     ''' Configuration API client in version 3.3 class. '''
-    pass

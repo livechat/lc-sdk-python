@@ -4,7 +4,7 @@
 
 import pytest
 
-from utils.ws_client import WebsocketClient
+from livechat.utils.ws_client import WebsocketClient
 
 
 def test_websocket_client():
