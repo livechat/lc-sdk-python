@@ -971,9 +971,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
 class AgentRTM33(AgentRTMInterface):
     ''' Agent RTM version 3.3 class. '''
-    pass
 
 
 class AgentRTM34(AgentRTMInterface):
     ''' Agent RTM version 3.4 class. '''
-    pass

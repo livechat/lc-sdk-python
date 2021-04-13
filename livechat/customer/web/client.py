@@ -836,9 +836,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
 
 class CustomerWeb33(CustomerWebInterface):
     ''' Customer API version 3.3 class. '''
-    pass
 
 
 class CustomerWeb34(CustomerWebInterface):
     ''' Customer API version 3.4 class. '''
-    pass

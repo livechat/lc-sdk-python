@@ -959,9 +959,7 @@ class AgentWebInterface(metaclass=ABCMeta):
 
 class AgentWeb33(AgentWebInterface):
     ''' Agent API version 3.3 class. '''
-    pass
 
 
 class AgentWeb34(AgentWebInterface):
     ''' Agent API version 3.4 class. '''
-    pass

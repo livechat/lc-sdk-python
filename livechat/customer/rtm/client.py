@@ -625,9 +625,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 
 class CustomerRTM33(CustomerRTMInterface):
     ''' Customer RTM version 3.3 class. '''
-    pass
 
 
 class CustomerRTM34(CustomerRTMInterface):
     ''' Customer RTM version 3.4 class. '''
-    pass

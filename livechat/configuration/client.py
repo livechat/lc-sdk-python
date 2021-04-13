@@ -978,9 +978,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
 
 class ConfigurationApi33(ConfigurationApiInterface):
     ''' Configuration API client in version 3.3 class. '''
-    pass
 
 
 class ConfigurationApi34(ConfigurationApiInterface):
     ''' Configuration API client in version 3.4 class. '''
-    pass
