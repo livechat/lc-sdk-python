@@ -36,7 +36,7 @@ class CustomerWeb:
         '''
         client = {
             '3.3': CustomerWeb33(license_id, access_token, version, base_url),
-            '3.4': CustomerWeb33(license_id, access_token, version, base_url)
+            '3.4': CustomerWeb34(license_id, access_token, version, base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

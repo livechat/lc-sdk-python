@@ -56,9 +56,9 @@ class AgentRTM:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-                  &#39;3.3&#39;: AgentRTM33(version, base_url),
-                  &#39;3.4&#39;: AgentRTM33(version, base_url)
-                  }.get(version)
+            &#39;3.3&#39;: AgentRTM33(version, base_url),
+            &#39;3.4&#39;: AgentRTM34(version, base_url)
+        }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
         return client
@@ -1002,6 +1002,7 @@ class AgentRTM33(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.3 class. &#39;&#39;&#39;
     pass
 
+
 class AgentRTM34(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;
     pass</code></pre>
@@ -1043,9 +1044,9 @@ class AgentRTM34(AgentRTMInterface):
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-                  &#39;3.3&#39;: AgentRTM33(version, base_url),
-                  &#39;3.4&#39;: AgentRTM33(version, base_url)
-                  }.get(version)
+            &#39;3.3&#39;: AgentRTM33(version, base_url),
+            &#39;3.4&#39;: AgentRTM34(version, base_url)
+        }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
         return client</code></pre>
@@ -1094,9 +1095,9 @@ def get_client(version: str = &#39;3.3&#39;,
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-              &#39;3.3&#39;: AgentRTM33(version, base_url),
-              &#39;3.4&#39;: AgentRTM33(version, base_url)
-              }.get(version)
+        &#39;3.3&#39;: AgentRTM33(version, base_url),
+        &#39;3.4&#39;: AgentRTM34(version, base_url)
+    }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)
     return client</code></pre>

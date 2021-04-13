@@ -29,7 +29,7 @@ class CustomerRTM:
         '''
         client = {
             '3.3': CustomerRTM33(license_id, version, base_url),
-            '3.4': CustomerRTM33(license_id, version, base_url)
+            '3.4': CustomerRTM34(license_id, version, base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

@@ -35,7 +35,7 @@ class AgentWeb:
         '''
         client = {
             '3.3': AgentWeb33(access_token, version, base_url),
-            '3.4': AgentWeb33(access_token, version, base_url)
+            '3.4': AgentWeb34(access_token, version, base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

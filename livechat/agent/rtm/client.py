@@ -28,7 +28,7 @@ class AgentRTM:
         '''
         client = {
             '3.3': AgentRTM33(version, base_url),
-            '3.4': AgentRTM33(version, base_url)
+            '3.4': AgentRTM34(version, base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
