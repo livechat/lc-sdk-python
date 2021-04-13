@@ -28,7 +28,8 @@ class CustomerRTM:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': CustomerRTM33(license_id, version, base_url)
+            '3.3': CustomerRTM33(license_id, version, base_url),
+            '3.4': CustomerRTM34(license_id, version, base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -623,5 +624,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 
 
 class CustomerRTM33(CustomerRTMInterface):
-    ''' CustomerRTM version 3.3 class. '''
-    pass
+    ''' Customer RTM version 3.3 class. '''
+
+
+class CustomerRTM34(CustomerRTMInterface):
+    ''' Customer RTM version 3.4 class. '''
