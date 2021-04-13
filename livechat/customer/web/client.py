@@ -35,7 +35,8 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': CustomerWeb33(license_id, access_token, version, base_url)
+            '3.3': CustomerWeb33(license_id, access_token, version, base_url),
+            '3.4': CustomerWeb33(license_id, access_token, version, base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -835,3 +836,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
 
 class CustomerWeb33(CustomerWebInterface):
     ''' Customer API version 3.3 class. '''
+    pass
+
+
+class CustomerWeb34(CustomerWebInterface):
+    ''' Customer API version 3.4 class. '''
+    pass

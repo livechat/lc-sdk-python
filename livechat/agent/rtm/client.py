@@ -26,7 +26,10 @@ class AgentRTM:
             Raises:
                 ValueError: If the specified version does not exist.
         '''
-        client = {'3.3': AgentRTM33(version, base_url)}.get(version)
+        client = {
+            '3.3': AgentRTM33(version, base_url),
+            '3.4': AgentRTM33(version, base_url)
+        }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
         return client
@@ -967,4 +970,10 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
 
 class AgentRTM33(AgentRTMInterface):
-    ''' AgentRTM version 3.3 class. '''
+    ''' Agent RTM version 3.3 class. '''
+    pass
+
+
+class AgentRTM34(AgentRTMInterface):
+    ''' Agent RTM version 3.4 class. '''
+    pass

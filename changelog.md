@@ -14,3 +14,8 @@ All notable changes to this project will be documented in this file.
 
 - `agent`, `configuration` and `customer` packages now have common root `livechat`. [@kacperf531](https://github.com/kacperf531).
 - rename `ConfigurationApi` method for obtaining client to `get_client` for consistency with other clients [@kacperf531](https://github.com/kacperf531).
+
+## [0.1.2] - 2021-04-13
+
+### Added
+- Api version 3.4 support [@DamianAmbrozkiewicz](https://github.com/DamianAmbrozkiewicz).

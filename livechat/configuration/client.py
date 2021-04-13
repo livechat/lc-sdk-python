@@ -31,7 +31,8 @@ class ConfigurationApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': ConfigurationApi33(token, '3.3', base_url)
+            '3.3': ConfigurationApi33(token, '3.3', base_url),
+            '3.4': ConfigurationApi34(token, '3.4', base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -977,3 +978,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
 
 class ConfigurationApi33(ConfigurationApiInterface):
     ''' Configuration API client in version 3.3 class. '''
+    pass
+
+
+class ConfigurationApi34(ConfigurationApiInterface):
+    ''' Configuration API client in version 3.4 class. '''
+    pass

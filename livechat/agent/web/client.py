@@ -34,7 +34,8 @@ class AgentWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': AgentWeb33(access_token, '3.3', base_url)
+            '3.3': AgentWeb33(access_token, version, base_url),
+            '3.4': AgentWeb33(access_token, version, base_url)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -957,4 +958,10 @@ class AgentWebInterface(metaclass=ABCMeta):
 
 
 class AgentWeb33(AgentWebInterface):
-    ''' Customer API version 3.3 class. '''
+    ''' Agent API version 3.3 class. '''
+    pass
+
+
+class AgentWeb34(AgentWebInterface):
+    ''' Agent API version 3.4 class. '''
+    pass
