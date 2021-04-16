@@ -4,8 +4,8 @@ from livechat.agent.web.client import AgentWeb
 
 agent_web = AgentWeb.get_client(access_token='<your access token>')
 results = agent_web.start_chat(continuous=True)
-chat_id = results['response']['payload']['chat_id']
-thread_id = results['response']['payload']['thread_id']
+chat_id = results.json()['chat_id']
+thread_id = results.json()['thread_id']
 agent_web.send_event(chat_id=chat_id,
                      event={
                          'type': 'message',
