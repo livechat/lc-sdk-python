@@ -4,7 +4,7 @@ from livechat.agent.rtm.client import AgentRTM
 
 agent_rtm = AgentRTM.get_client()
 agent_rtm.open_connection()
-agent_rtm.login(token='Bearer <your bearer token>')
+agent_rtm.login(token='<your access token>')
 results = agent_rtm.start_chat(continuous=True)
 chat_id = results['response']['payload']['chat_id']
 thread_id = results['response']['payload']['thread_id']

@@ -2,7 +2,7 @@
 
 from livechat.agent.web.client import AgentWeb
 
-agent_web = AgentWeb.get_client(access_token='Bearer <your bearer token>')
+agent_web = AgentWeb.get_client(access_token='<your access token>')
 results = agent_web.start_chat(continuous=True)
 chat_id = results['response']['payload']['chat_id']
 thread_id = results['response']['payload']['thread_id']
