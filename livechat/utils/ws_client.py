@@ -123,7 +123,7 @@ class WebsocketClient:
                Returns:
                     dict: Dictionary with response.
         '''
-        all_responses = {'response': None, 'pushes': []}
+        all_responses: dict = {'response': None, 'pushes': []}
         start = timer()
         while timer() - start < 5:
             if self.websocket.connected:

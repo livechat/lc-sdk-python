@@ -57,7 +57,7 @@ def test_get_client_with_non_existing_version():
 def test_get_client_with_valid_args(customer_web_api_client):
     ''' Test if production API URL is used and token is added to headers for valid args. '''
     assert customer_web_api_client.api_url == f'https://api.livechatinc.com/v{VALID_VERSION}/customer/action'
-    assert customer_web_api_client.license_id == LICENSE_ID
+    assert customer_web_api_client.license_id == str(LICENSE_ID)
     assert customer_web_api_client.session.headers.get(
         'Authorization') == ACCESS_TOKEN_INVALID
 

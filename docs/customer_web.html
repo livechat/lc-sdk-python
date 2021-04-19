@@ -74,14 +74,14 @@ class CustomerWeb:
 
 class CustomerWebInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
-    def __init__(self, license_id: str, access_token: str, version: str,
+    def __init__(self, license_id: int, access_token: str, version: str,
                  base_url: str):
         self.api_url = f&#39;https://{base_url}/v{version}/customer/action&#39;
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: access_token})
-        self.license_id = license_id
+        self.license_id = str(license_id)
 
-    def modify_header(self, header: dict = None) -&gt; None:
+    def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
 
             Args:
@@ -89,7 +89,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         &#39;&#39;&#39;
         self.session.headers.update(header)
 
-    def remove_header(self, key: str = None) -&gt; None:
+    def remove_header(self, key: str) -&gt; None:
         &#39;&#39;&#39; Removes provided header from session object.
 
             Args:
@@ -104,7 +104,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
             Returns:
                 dict: Response which presents current header values in session object.
         &#39;&#39;&#39;
-        return self.session.headers
+        return dict(self.session.headers)
 
 # Chats
 
@@ -618,7 +618,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if name:
             params[&#39;name&#39;] = name
         if group_id:
-            params[&#39;id&#39;] = group_id
+            params[&#39;id&#39;] = str(group_id)
         params[&#39;license_id&#39;] = self.license_id
         return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
                                  json=payload,
@@ -983,7 +983,7 @@ def get_client(license_id: int,
 </dd>
 <dt id="client.CustomerWeb33"><code class="flex name class">
 <span>class <span class="ident">CustomerWeb33</span></span>
-<span>(</span><span>license_id: str, access_token: str, version: str, base_url: str)</span>
+<span>(</span><span>license_id: int, access_token: str, version: str, base_url: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Customer API version 3.3 class.</p></div>
@@ -1043,7 +1043,7 @@ def get_client(license_id: int,
 </dd>
 <dt id="client.CustomerWeb34"><code class="flex name class">
 <span>class <span class="ident">CustomerWeb34</span></span>
-<span>(</span><span>license_id: str, access_token: str, version: str, base_url: str)</span>
+<span>(</span><span>license_id: int, access_token: str, version: str, base_url: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Customer API version 3.4 class.</p></div>
@@ -1103,7 +1103,7 @@ def get_client(license_id: int,
 </dd>
 <dt id="client.CustomerWebInterface"><code class="flex name class">
 <span>class <span class="ident">CustomerWebInterface</span></span>
-<span>(</span><span>license_id: str, access_token: str, version: str, base_url: str)</span>
+<span>(</span><span>license_id: int, access_token: str, version: str, base_url: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Main class containing API methods.</p></div>
@@ -1113,14 +1113,14 @@ def get_client(license_id: int,
 </summary>
 <pre><code class="python">class CustomerWebInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
-    def __init__(self, license_id: str, access_token: str, version: str,
+    def __init__(self, license_id: int, access_token: str, version: str,
                  base_url: str):
         self.api_url = f&#39;https://{base_url}/v{version}/customer/action&#39;
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: access_token})
-        self.license_id = license_id
+        self.license_id = str(license_id)
 
-    def modify_header(self, header: dict = None) -&gt; None:
+    def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
 
             Args:
@@ -1128,7 +1128,7 @@ def get_client(license_id: int,
         &#39;&#39;&#39;
         self.session.headers.update(header)
 
-    def remove_header(self, key: str = None) -&gt; None:
+    def remove_header(self, key: str) -&gt; None:
         &#39;&#39;&#39; Removes provided header from session object.
 
             Args:
@@ -1143,7 +1143,7 @@ def get_client(license_id: int,
             Returns:
                 dict: Response which presents current header values in session object.
         &#39;&#39;&#39;
-        return self.session.headers
+        return dict(self.session.headers)
 
 # Chats
 
@@ -1657,7 +1657,7 @@ def get_client(license_id: int,
         if name:
             params[&#39;name&#39;] = name
         if group_id:
-            params[&#39;id&#39;] = group_id
+            params[&#39;id&#39;] = str(group_id)
         params[&#39;license_id&#39;] = self.license_id
         return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
                                  json=payload,
@@ -2516,7 +2516,7 @@ which contains a server’s response to an HTTP request.</dd>
         Returns:
             dict: Response which presents current header values in session object.
     &#39;&#39;&#39;
-    return self.session.headers</code></pre>
+    return dict(self.session.headers)</code></pre>
 </details>
 </dd>
 <dt id="client.CustomerWebInterface.get_localization"><code class="name flex">
@@ -2757,7 +2757,7 @@ which contains a server’s response to an HTTP request.</dd>
     if name:
         params[&#39;name&#39;] = name
     if group_id:
-        params[&#39;id&#39;] = group_id
+        params[&#39;id&#39;] = str(group_id)
     params[&#39;license_id&#39;] = self.license_id
     return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
                              json=payload,
@@ -2977,7 +2977,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.CustomerWebInterface.modify_header"><code class="name flex">
-<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict = None) ‑> NoneType</span>
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Modifies provided header in session object.</p>
@@ -2990,7 +2990,7 @@ which contains a server’s response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def modify_header(self, header: dict = None) -&gt; None:
+<pre><code class="python">def modify_header(self, header: dict) -&gt; None:
     &#39;&#39;&#39; Modifies provided header in session object.
 
         Args:
@@ -3000,7 +3000,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.CustomerWebInterface.remove_header"><code class="name flex">
-<span>def <span class="ident">remove_header</span></span>(<span>self, key: str = None) ‑> NoneType</span>
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Removes provided header from session object.</p>
@@ -3013,7 +3013,7 @@ which contains a server’s response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def remove_header(self, key: str = None) -&gt; None:
+<pre><code class="python">def remove_header(self, key: str) -&gt; None:
     &#39;&#39;&#39; Removes provided header from session object.
 
         Args:
