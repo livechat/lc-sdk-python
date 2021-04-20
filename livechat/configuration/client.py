@@ -46,7 +46,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         self.session = requests.Session()
         self.session.headers.update({'Authorization': token})
 
-    def modify_header(self, header: dict = None) -> None:
+    def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
 
             Args:
@@ -54,7 +54,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         self.session.headers.update(header)
 
-    def remove_header(self, key: str = None) -> None:
+    def remove_header(self, key: str) -> None:
         ''' Removes provided header from session object.
 
             Args:
@@ -69,7 +69,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
             Returns:
                 dict: Response which presents current header values in session object.
         '''
-        return self.session.headers
+        return dict(self.session.headers)
 
 # Agents
 

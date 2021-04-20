@@ -45,14 +45,14 @@ class CustomerWeb:
 
 class CustomerWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
-    def __init__(self, license_id: str, access_token: str, version: str,
+    def __init__(self, license_id: int, access_token: str, version: str,
                  base_url: str):
         self.api_url = f'https://{base_url}/v{version}/customer/action'
         self.session = requests.Session()
         self.session.headers.update({'Authorization': access_token})
-        self.license_id = license_id
+        self.license_id = str(license_id)
 
-    def modify_header(self, header: dict = None) -> None:
+    def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
 
             Args:
@@ -60,7 +60,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         '''
         self.session.headers.update(header)
 
-    def remove_header(self, key: str = None) -> None:
+    def remove_header(self, key: str) -> None:
         ''' Removes provided header from session object.
 
             Args:
@@ -75,7 +75,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
             Returns:
                 dict: Response which presents current header values in session object.
         '''
-        return self.session.headers
+        return dict(self.session.headers)
 
 # Chats
 
@@ -589,7 +589,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if name:
             params['name'] = name
         if group_id:
-            params['id'] = group_id
+            params['id'] = str(group_id)
         params['license_id'] = self.license_id
         return self.session.post(f'{self.api_url}/list_group_properties',
                                  json=payload,

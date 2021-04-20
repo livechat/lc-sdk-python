@@ -75,7 +75,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: token})
 
-    def modify_header(self, header: dict = None) -&gt; None:
+    def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
 
             Args:
@@ -83,7 +83,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         &#39;&#39;&#39;
         self.session.headers.update(header)
 
-    def remove_header(self, key: str = None) -&gt; None:
+    def remove_header(self, key: str) -&gt; None:
         &#39;&#39;&#39; Removes provided header from session object.
 
             Args:
@@ -98,7 +98,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
             Returns:
                 dict: Response which presents current header values in session object.
         &#39;&#39;&#39;
-        return self.session.headers
+        return dict(self.session.headers)
 
 # Agents
 
@@ -1274,7 +1274,7 @@ def get_client(token: str,
         self.session = requests.Session()
         self.session.headers.update({&#39;Authorization&#39;: token})
 
-    def modify_header(self, header: dict = None) -&gt; None:
+    def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
 
             Args:
@@ -1282,7 +1282,7 @@ def get_client(token: str,
         &#39;&#39;&#39;
         self.session.headers.update(header)
 
-    def remove_header(self, key: str = None) -&gt; None:
+    def remove_header(self, key: str) -&gt; None:
         &#39;&#39;&#39; Removes provided header from session object.
 
             Args:
@@ -1297,7 +1297,7 @@ def get_client(token: str,
             Returns:
                 dict: Response which presents current header values in session object.
         &#39;&#39;&#39;
-        return self.session.headers
+        return dict(self.session.headers)
 
 # Agents
 
@@ -3022,7 +3022,7 @@ which contains a server’s response to an HTTP request.</dd>
         Returns:
             dict: Response which presents current header values in session object.
     &#39;&#39;&#39;
-    return self.session.headers</code></pre>
+    return dict(self.session.headers)</code></pre>
 </details>
 </dd>
 <dt id="client.ConfigurationApiInterface.get_license_webhooks_state"><code class="name flex">
@@ -3466,7 +3466,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.ConfigurationApiInterface.modify_header"><code class="name flex">
-<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict = None) ‑> NoneType</span>
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Modifies provided header in session object.</p>
@@ -3479,7 +3479,7 @@ which contains a server’s response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def modify_header(self, header: dict = None) -&gt; None:
+<pre><code class="python">def modify_header(self, header: dict) -&gt; None:
     &#39;&#39;&#39; Modifies provided header in session object.
 
         Args:
@@ -3684,7 +3684,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.ConfigurationApiInterface.remove_header"><code class="name flex">
-<span>def <span class="ident">remove_header</span></span>(<span>self, key: str = None) ‑> NoneType</span>
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Removes provided header from session object.</p>
@@ -3697,7 +3697,7 @@ which contains a server’s response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def remove_header(self, key: str = None) -&gt; None:
+<pre><code class="python">def remove_header(self, key: str) -&gt; None:
     &#39;&#39;&#39; Removes provided header from session object.
 
         Args:

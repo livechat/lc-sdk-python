@@ -49,7 +49,7 @@ class AgentWebInterface(metaclass=ABCMeta):
         self.session = requests.Session()
         self.session.headers.update({'Authorization': access_token})
 
-    def modify_header(self, header: dict = None) -> None:
+    def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
 
             Args:
@@ -57,7 +57,7 @@ class AgentWebInterface(metaclass=ABCMeta):
         '''
         self.session.headers.update(header)
 
-    def remove_header(self, key: str = None) -> None:
+    def remove_header(self, key) -> None:
         ''' Removes provided header from session object.
 
             Args:
@@ -72,9 +72,9 @@ class AgentWebInterface(metaclass=ABCMeta):
             Returns:
                 dict: Response which presents current header values in session object.
         '''
-        return self.session.headers
+        return dict(self.session.headers)
 
-# Chats
+    # Chats
 
     def list_chats(self,
                    filters: dict = None,
