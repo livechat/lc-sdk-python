@@ -76,6 +76,33 @@ class AgentWebInterface(metaclass=ABCMeta):
 
     # Chats
 
+    def add_user_to_chat(self,
+                         chat_id: str = None,
+                         user_id: str = None,
+                         user_type: str = None,
+                         require_active_thread: bool = None,
+                         payload: dict = None) -> requests.Response:
+        ''' Adds a user to the chat. You can't add more than one customer user type to the chat.
+
+            Args:
+                chat_id (str): chat ID.
+                user_id (str): user ID.
+                user_type (str): Possible values: agent or customer.
+                require_active_thread (bool): If true, it adds a user to a chat
+                                              only if that chat has an active
+                                              thread; default false.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/add_user_to_chat',
+                                 json=payload)
+
     def list_chats(self,
                    filters: dict = None,
                    sort_order: str = None,
@@ -357,33 +384,6 @@ class AgentWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/transfer_chat', json=payload)
 # Chat users
-
-    def add_user_to_chat(self,
-                         chat_id: str = None,
-                         user_id: str = None,
-                         user_type: str = None,
-                         require_active_thread: bool = None,
-                         payload: dict = None) -> requests.Response:
-        ''' Adds a user to the chat. You can't add more than one customer user type to the chat.
-
-            Args:
-                chat_id (str): chat ID.
-                user_id (str): user ID.
-                user_type (str): Possible values: agent or customer.
-                require_active_thread (bool): If true, it adds a user to a chat
-                                              only if that chat has an active
-                                              thread; default false.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-
-            Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/add_user_to_chat',
-                                 json=payload)
 
     def remove_user_from_chat(self,
                               chat_id: str = None,
@@ -963,3 +963,25 @@ class AgentWeb33(AgentWebInterface):
 
 class AgentWeb34(AgentWebInterface):
     ''' Agent API version 3.4 class. '''
+    def add_user_to_chat(self,
+                         chat_id: str = None,
+                         user_id: str = None,
+                         user_type: str = None,
+                         payload: dict = None) -> requests.Response:
+        ''' Adds a user to the chat. You can't add more than one customer user type to the chat.
+
+            Args:
+                chat_id (str): chat ID.
+                user_id (str): user ID.
+                user_type (str): Possible values: agent or customer.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/add_user_to_chat',
+                                 json=payload)
