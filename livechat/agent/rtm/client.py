@@ -996,3 +996,24 @@ class AgentRTM34(AgentRTMInterface):
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'add_user_to_chat', 'payload': payload})
+
+
+# Chat access
+
+    def grant_chat_access(self, *args, **kwargs) -> DeprecationWarning:
+        ''' `grant_chat_access` method was deprecated in API v3.4.
+
+            Raises:
+                DeprecationWarning: raised every time the method is used.
+        '''
+        raise DeprecationWarning(
+            '`grant_chat_access` method was deprecated in API v3.4.')
+
+    def revoke_chat_access(self, *args, **kwargs) -> DeprecationWarning:
+        ''' `revoke_chat_access` method was deprecated in API v3.4.
+
+            Raises:
+                DeprecationWarning: raised every time the method is used.
+        '''
+        raise DeprecationWarning(
+            '`revoke_chat_access` method was deprecated in API v3.4.')

@@ -985,3 +985,24 @@ class AgentWeb34(AgentWebInterface):
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/add_user_to_chat',
                                  json=payload)
+
+
+# Chat access
+
+    def grant_chat_access(self, *args, **kwargs) -> DeprecationWarning:
+        ''' `grant_chat_access` method was deprecated in API v3.4.
+
+            Raises:
+                DeprecationWarning: raised every time the method is used.
+        '''
+        raise DeprecationWarning(
+            '`grant_chat_access` method was deprecated in API v3.4.')
+
+    def revoke_chat_access(self, *args, **kwargs) -> DeprecationWarning:
+        ''' `revoke_chat_access` method was deprecated in API v3.4.
+
+            Raises:
+                DeprecationWarning: raised every time the method is used.
+        '''
+        raise DeprecationWarning(
+            '`revoke_chat_access` method was deprecated in API v3.4.')

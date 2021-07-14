@@ -990,10 +990,8 @@ class AgentWeb33(AgentWebInterface):
     &#39;&#39;&#39; Agent API version 3.3 class. &#39;&#39;&#39;
 
 
-
 class AgentWeb34(AgentWebInterface):
     &#39;&#39;&#39; Agent API version 3.4 class. &#39;&#39;&#39;
-
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
@@ -1015,7 +1013,25 @@ class AgentWeb34(AgentWebInterface):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/add_user_to_chat&#39;,
-                                 json=payload)</code></pre>
+                                 json=payload)
+
+# Chat access
+
+    def grant_chat_access(self, *args, **kwargs) -&gt; DeprecationWarning:
+        &#39;&#39;&#39; `grant_chat_access` method was deprecated in API v3.4.
+
+            Raises:
+                DeprecationWarning: raised every time the method is used.
+        &#39;&#39;&#39;
+        raise DeprecationWarning(&#39;`grant_chat_access` method was deprecated in API v3.4.&#39;)
+
+    def revoke_chat_access(self, *args, **kwargs) -&gt; DeprecationWarning:
+        &#39;&#39;&#39; `revoke_chat_access` method was deprecated in API v3.4.
+
+            Raises:
+                DeprecationWarning: raised every time the method is used.
+        &#39;&#39;&#39;
+        raise DeprecationWarning(&#39;`revoke_chat_access` method was deprecated in API v3.4.&#39;)</code></pre>
 </details>
 </section>
 <section>
@@ -1204,7 +1220,6 @@ def get_client(access_token: str,
 </summary>
 <pre><code class="python">class AgentWeb34(AgentWebInterface):
     &#39;&#39;&#39; Agent API version 3.4 class. &#39;&#39;&#39;
-
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
@@ -1226,7 +1241,25 @@ def get_client(access_token: str,
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/add_user_to_chat&#39;,
-                                 json=payload)</code></pre>
+                                 json=payload)
+
+# Chat access
+
+    def grant_chat_access(self, *args, **kwargs) -&gt; DeprecationWarning:
+        &#39;&#39;&#39; `grant_chat_access` method was deprecated in API v3.4.
+
+            Raises:
+                DeprecationWarning: raised every time the method is used.
+        &#39;&#39;&#39;
+        raise DeprecationWarning(&#39;`grant_chat_access` method was deprecated in API v3.4.&#39;)
+
+    def revoke_chat_access(self, *args, **kwargs) -&gt; DeprecationWarning:
+        &#39;&#39;&#39; `revoke_chat_access` method was deprecated in API v3.4.
+
+            Raises:
+                DeprecationWarning: raised every time the method is used.
+        &#39;&#39;&#39;
+        raise DeprecationWarning(&#39;`revoke_chat_access` method was deprecated in API v3.4.&#39;)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -1285,6 +1318,52 @@ which contains a server’s response to an HTTP request.</dd>
                              json=payload)</code></pre>
 </details>
 </dd>
+<dt id="client.AgentWeb34.grant_chat_access"><code class="name flex">
+<span>def <span class="ident">grant_chat_access</span></span>(<span>self, *args, **kwargs) ‑> DeprecationWarning</span>
+</code></dt>
+<dd>
+<div class="desc"><p><code>grant_chat_access</code> method was deprecated in API v3.4.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>DeprecationWarning</code></dt>
+<dd>raised every time the method is used.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def grant_chat_access(self, *args, **kwargs) -&gt; DeprecationWarning:
+    &#39;&#39;&#39; `grant_chat_access` method was deprecated in API v3.4.
+
+        Raises:
+            DeprecationWarning: raised every time the method is used.
+    &#39;&#39;&#39;
+    raise DeprecationWarning(&#39;`grant_chat_access` method was deprecated in API v3.4.&#39;)</code></pre>
+</details>
+</dd>
+<dt id="client.AgentWeb34.revoke_chat_access"><code class="name flex">
+<span>def <span class="ident">revoke_chat_access</span></span>(<span>self, *args, **kwargs) ‑> DeprecationWarning</span>
+</code></dt>
+<dd>
+<div class="desc"><p><code>revoke_chat_access</code> method was deprecated in API v3.4.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>DeprecationWarning</code></dt>
+<dd>raised every time the method is used.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def revoke_chat_access(self, *args, **kwargs) -&gt; DeprecationWarning:
+    &#39;&#39;&#39; `revoke_chat_access` method was deprecated in API v3.4.
+
+        Raises:
+            DeprecationWarning: raised every time the method is used.
+    &#39;&#39;&#39;
+    raise DeprecationWarning(&#39;`revoke_chat_access` method was deprecated in API v3.4.&#39;)</code></pre>
+</details>
+</dd>
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
@@ -1301,7 +1380,6 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.AgentWebInterface.get_chat" href="#client.AgentWebInterface.get_chat">get_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.get_customer" href="#client.AgentWebInterface.get_customer">get_customer</a></code></li>
 <li><code><a title="client.AgentWebInterface.get_headers" href="#client.AgentWebInterface.get_headers">get_headers</a></code></li>
-<li><code><a title="client.AgentWebInterface.grant_chat_access" href="#client.AgentWebInterface.grant_chat_access">grant_chat_access</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_agents_for_transfer" href="#client.AgentWebInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_archives" href="#client.AgentWebInterface.list_archives">list_archives</a></code></li>
 <li><code><a title="client.AgentWebInterface.list_chats" href="#client.AgentWebInterface.list_chats">list_chats</a></code></li>
@@ -1314,7 +1392,6 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.AgentWebInterface.remove_header" href="#client.AgentWebInterface.remove_header">remove_header</a></code></li>
 <li><code><a title="client.AgentWebInterface.remove_user_from_chat" href="#client.AgentWebInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.resume_chat" href="#client.AgentWebInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.AgentWebInterface.revoke_chat_access" href="#client.AgentWebInterface.revoke_chat_access">revoke_chat_access</a></code></li>
 <li><code><a title="client.AgentWebInterface.send_event" href="#client.AgentWebInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.AgentWebInterface.send_rich_message_postback" href="#client.AgentWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
 <li><code><a title="client.AgentWebInterface.send_typing_indicator" href="#client.AgentWebInterface.send_typing_indicator">send_typing_indicator</a></code></li>
@@ -4309,6 +4386,8 @@ which contains a server’s response to an HTTP request.</dd>
 <h4><code><a title="client.AgentWeb34" href="#client.AgentWeb34">AgentWeb34</a></code></h4>
 <ul class="">
 <li><code><a title="client.AgentWeb34.add_user_to_chat" href="#client.AgentWeb34.add_user_to_chat">add_user_to_chat</a></code></li>
+<li><code><a title="client.AgentWeb34.grant_chat_access" href="#client.AgentWeb34.grant_chat_access">grant_chat_access</a></code></li>
+<li><code><a title="client.AgentWeb34.revoke_chat_access" href="#client.AgentWeb34.revoke_chat_access">revoke_chat_access</a></code></li>
 </ul>
 </li>
 <li>
