@@ -11,7 +11,7 @@ customer_web.send_event(chat_id=chat_id,
                         event={
                             'type': 'message',
                             'text': 'Hello from Customer WEB!',
-                            'recipients': 'all'
+                            'visibility': 'all'
                         })
 customer_web.get_chat(chat_id=chat_id, thread_id=thread_id)
 customer_web.deactivate_chat(id=chat_id)

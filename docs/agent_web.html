@@ -990,21 +990,26 @@ class AgentWeb33(AgentWebInterface):
     &#39;&#39;&#39; Agent API version 3.3 class. &#39;&#39;&#39;
 
 
-
 class AgentWeb34(AgentWebInterface):
     &#39;&#39;&#39; Agent API version 3.4 class. &#39;&#39;&#39;
+
+# Chats
 
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
                          user_type: str = None,
+                         visibility: str = None,
                          payload: dict = None) -&gt; requests.Response:
-        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user type to the chat.
+        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user
+            type to the chat.
 
             Args:
                 chat_id (str): chat ID.
                 user_id (str): user ID.
                 user_type (str): Possible values: agent or customer.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
 
@@ -1015,6 +1020,30 @@ class AgentWeb34(AgentWebInterface):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/add_user_to_chat&#39;,
+                                 json=payload)
+
+# Other
+
+    def send_typing_indicator(self,
+                              chat_id: str = None,
+                              visibility: str = None,
+                              is_typing: bool = None,
+                              payload: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Sends typing indicator.
+
+            Args:
+                chat_id (str): Id of the chat that to send the typing indicator to.
+                visibility (str): Possible values: `all`, `agents`.
+                is_typing (bool): A flag that indicates if you are typing.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/send_typing_indicator&#39;,
                                  json=payload)</code></pre>
 </details>
 </section>
@@ -1205,17 +1234,23 @@ def get_client(access_token: str,
 <pre><code class="python">class AgentWeb34(AgentWebInterface):
     &#39;&#39;&#39; Agent API version 3.4 class. &#39;&#39;&#39;
 
+# Chats
+
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
                          user_type: str = None,
+                         visibility: str = None,
                          payload: dict = None) -&gt; requests.Response:
-        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user type to the chat.
+        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user
+            type to the chat.
 
             Args:
                 chat_id (str): chat ID.
                 user_id (str): user ID.
                 user_type (str): Possible values: agent or customer.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
 
@@ -1226,6 +1261,30 @@ def get_client(access_token: str,
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/add_user_to_chat&#39;,
+                                 json=payload)
+
+# Other
+
+    def send_typing_indicator(self,
+                              chat_id: str = None,
+                              visibility: str = None,
+                              is_typing: bool = None,
+                              payload: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Sends typing indicator.
+
+            Args:
+                chat_id (str): Id of the chat that to send the typing indicator to.
+                visibility (str): Possible values: `all`, `agents`.
+                is_typing (bool): A flag that indicates if you are typing.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/send_typing_indicator&#39;,
                                  json=payload)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -1235,10 +1294,11 @@ def get_client(access_token: str,
 <h3>Methods</h3>
 <dl>
 <dt id="client.AgentWeb34.add_user_to_chat"><code class="name flex">
-<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, payload: dict = None) ‑> requests.models.Response</span>
+<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, visibility: str = None, payload: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a user to the chat. You can't add more than one customer user type to the chat.</p>
+<div class="desc"><p>Adds a user to the chat. You can't add more than one customer user
+type to the chat.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
@@ -1247,6 +1307,9 @@ def get_client(access_token: str,
 <dd>user ID.</dd>
 <dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: agent or customer.</dd>
+<dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
+<dd>Determines the visibility of events sent by
+the agent. Possible values: <code>all</code> or <code>agents</code>.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -1265,13 +1328,17 @@ which contains a server’s response to an HTTP request.</dd>
                      chat_id: str = None,
                      user_id: str = None,
                      user_type: str = None,
+                     visibility: str = None,
                      payload: dict = None) -&gt; requests.Response:
-    &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user type to the chat.
+    &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user
+        type to the chat.
 
         Args:
             chat_id (str): chat ID.
             user_id (str): user ID.
             user_type (str): Possible values: agent or customer.
+            visibility (str): Determines the visibility of events sent by
+                              the agent. Possible values: `all` or `agents`.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
 
@@ -1282,6 +1349,56 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/add_user_to_chat&#39;,
+                             json=payload)</code></pre>
+</details>
+</dd>
+<dt id="client.AgentWeb34.send_typing_indicator"><code class="name flex">
+<span>def <span class="ident">send_typing_indicator</span></span>(<span>self, chat_id: str = None, visibility: str = None, is_typing: bool = None, payload: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends typing indicator.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Id of the chat that to send the typing indicator to.</dd>
+<dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: <code>all</code>, <code>agents</code>.</dd>
+<dt><strong><code>is_typing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>A flag that indicates if you are typing.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_typing_indicator(self,
+                          chat_id: str = None,
+                          visibility: str = None,
+                          is_typing: bool = None,
+                          payload: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Sends typing indicator.
+
+        Args:
+            chat_id (str): Id of the chat that to send the typing indicator to.
+            visibility (str): Possible values: `all`, `agents`.
+            is_typing (bool): A flag that indicates if you are typing.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/send_typing_indicator&#39;,
                              json=payload)</code></pre>
 </details>
 </dd>
@@ -1317,7 +1434,6 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.AgentWebInterface.revoke_chat_access" href="#client.AgentWebInterface.revoke_chat_access">revoke_chat_access</a></code></li>
 <li><code><a title="client.AgentWebInterface.send_event" href="#client.AgentWebInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.AgentWebInterface.send_rich_message_postback" href="#client.AgentWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.AgentWebInterface.send_typing_indicator" href="#client.AgentWebInterface.send_typing_indicator">send_typing_indicator</a></code></li>
 <li><code><a title="client.AgentWebInterface.set_routing_status" href="#client.AgentWebInterface.set_routing_status">set_routing_status</a></code></li>
 <li><code><a title="client.AgentWebInterface.start_chat" href="#client.AgentWebInterface.start_chat">start_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.tag_thread" href="#client.AgentWebInterface.tag_thread">tag_thread</a></code></li>
@@ -4309,6 +4425,7 @@ which contains a server’s response to an HTTP request.</dd>
 <h4><code><a title="client.AgentWeb34" href="#client.AgentWeb34">AgentWeb34</a></code></h4>
 <ul class="">
 <li><code><a title="client.AgentWeb34.add_user_to_chat" href="#client.AgentWeb34.add_user_to_chat">add_user_to_chat</a></code></li>
+<li><code><a title="client.AgentWeb34.send_typing_indicator" href="#client.AgentWeb34.send_typing_indicator">send_typing_indicator</a></code></li>
 </ul>
 </li>
 <li>

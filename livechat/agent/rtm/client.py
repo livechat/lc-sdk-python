@@ -1,6 +1,6 @@
 ''' Agent RTM client implementation. '''
 
-# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107
+# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0221
 
 import typing
 from abc import ABCMeta
@@ -975,10 +975,14 @@ class AgentRTM33(AgentRTMInterface):
 
 class AgentRTM34(AgentRTMInterface):
     ''' Agent RTM version 3.4 class. '''
+
+    # Chats
+
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
                          user_type: str = None,
+                         visibility: str = None,
                          payload: dict = None) -> dict:
         ''' Adds a user to the chat. You can't add more than
             one customer user type to the chat.
@@ -987,6 +991,33 @@ class AgentRTM34(AgentRTMInterface):
                 chat_id (str): Chat ID.
                 user_id (str): ID of the user that will be added to the chat.
                 user_type (str): Possible values: agent or customer.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for
+                                the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'add_user_to_chat', 'payload': payload})
+
+
+# Other
+
+    def send_typing_indicator(self,
+                              chat_id: str = None,
+                              visibility: str = None,
+                              is_typing: bool = None,
+                              payload: dict = None) -> dict:
+        ''' Sends a typing indicator.
+
+            Args:
+                chat_id (str): ID of the chat you want to send the typing indicator to.
+                visibility (str): Possible values: `all`, `agents`.
+                is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 
@@ -995,4 +1026,7 @@ class AgentRTM34(AgentRTMInterface):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({'action': 'add_user_to_chat', 'payload': payload})
+        return self.ws.send({
+            'action': 'send_typing_indicator',
+            'payload': payload
+        })

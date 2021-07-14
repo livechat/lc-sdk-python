@@ -10,7 +10,7 @@ agent_web.send_event(chat_id=chat_id,
                      event={
                          'type': 'message',
                          'text': 'Hello from Agent WEB!',
-                         'recipients': 'all'
+                         'visibility': 'all'
                      })
 agent_web.get_chat(chat_id=chat_id, thread_id=thread_id)
 agent_web.deactivate_chat(id=chat_id)
