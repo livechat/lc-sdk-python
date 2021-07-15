@@ -264,50 +264,6 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
 # Chat access
 
-    def grant_chat_access(self,
-                          id: str = None,
-                          access: dict = None,
-                          payload: dict = None) -> dict:
-        ''' Grants access to a new chat without overwriting the existing ones.
-
-            Args:
-                id (str): Chat ID.
-                access (dict): Access object.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'grant_chat_access',
-            'payload': payload
-        })
-
-    def revoke_chat_access(self,
-                           id: str = None,
-                           access: dict = None,
-                           payload: dict = None) -> dict:
-        ''' Revokes access to a chat.
-
-            Args:
-                id (str): Chat ID.
-                access (dict): Access object.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'revoke_chat_access',
-            'payload': payload
-        })
-
     def transfer_chat(self,
                       id: str = None,
                       target: dict = None,
@@ -972,6 +928,52 @@ class AgentRTMInterface(metaclass=ABCMeta):
 class AgentRTM33(AgentRTMInterface):
     ''' Agent RTM version 3.3 class. '''
 
+    # Chat access
+
+    def grant_chat_access(self,
+                          id: str = None,
+                          access: dict = None,
+                          payload: dict = None) -> dict:
+        ''' Grants access to a new chat without overwriting the existing ones.
+
+            Args:
+                id (str): Chat ID.
+                access (dict): Access object.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'grant_chat_access',
+            'payload': payload
+        })
+
+    def revoke_chat_access(self,
+                           id: str = None,
+                           access: dict = None,
+                           payload: dict = None) -> dict:
+        ''' Revokes access to a chat.
+
+            Args:
+                id (str): Chat ID.
+                access (dict): Access object.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'revoke_chat_access',
+            'payload': payload
+        })
+
 
 class AgentRTM34(AgentRTMInterface):
     ''' Agent RTM version 3.4 class. '''
@@ -996,24 +998,3 @@ class AgentRTM34(AgentRTMInterface):
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'add_user_to_chat', 'payload': payload})
-
-
-# Chat access
-
-    def grant_chat_access(self, *args, **kwargs) -> DeprecationWarning:
-        ''' `grant_chat_access` method was deprecated in API v3.4.
-
-            Raises:
-                DeprecationWarning: raised every time the method is used.
-        '''
-        raise DeprecationWarning(
-            '`grant_chat_access` method was deprecated in API v3.4.')
-
-    def revoke_chat_access(self, *args, **kwargs) -> DeprecationWarning:
-        ''' `revoke_chat_access` method was deprecated in API v3.4.
-
-            Raises:
-                DeprecationWarning: raised every time the method is used.
-        '''
-        raise DeprecationWarning(
-            '`revoke_chat_access` method was deprecated in API v3.4.')
