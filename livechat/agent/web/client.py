@@ -319,48 +319,6 @@ class AgentWebInterface(metaclass=ABCMeta):
 
 # Chat access
 
-    def grant_chat_access(self,
-                          id: str = None,
-                          access: dict = None,
-                          payload: dict = None) -> requests.Response:
-        ''' Grants access to a new chat without overwriting the existing ones.
-
-            Args:
-                id (str): chat ID
-                access (dict): Dict containing chat access (type and id)
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-
-            Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/grant_chat_access',
-                                 json=payload)
-
-    def revoke_chat_access(self,
-                           id: str = None,
-                           access: dict = None,
-                           payload: dict = None) -> requests.Response:
-        ''' Revoke access to a chat.
-
-            Args:
-                id (str): chat ID
-                access (dict): Dict containing chat access (type and id)
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-
-            Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/revoke_chat_access',
-                                 json=payload)
-
     def transfer_chat(self,
                       id: str = None,
                       target: dict = None,
@@ -959,6 +917,50 @@ class AgentWebInterface(metaclass=ABCMeta):
 
 class AgentWeb33(AgentWebInterface):
     ''' Agent API version 3.3 class. '''
+
+    # Chat access
+
+    def grant_chat_access(self,
+                          id: str = None,
+                          access: dict = None,
+                          payload: dict = None) -> requests.Response:
+        ''' Grants access to a new chat without overwriting the existing ones.
+
+            Args:
+                id (str): chat ID
+                access (dict): Dict containing chat access (type and id)
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/grant_chat_access',
+                                 json=payload)
+
+    def revoke_chat_access(self,
+                           id: str = None,
+                           access: dict = None,
+                           payload: dict = None) -> requests.Response:
+        ''' Revoke access to a chat.
+
+            Args:
+                id (str): chat ID
+                access (dict): Dict containing chat access (type and id)
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/revoke_chat_access',
+                                 json=payload)
 
 
 class AgentWeb34(AgentWebInterface):
