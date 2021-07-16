@@ -1002,15 +1002,16 @@ class AgentRTM33(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.3 class. &#39;&#39;&#39;
 
 
-
-
 class AgentRTM34(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;
+
+# Chats
 
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
                          user_type: str = None,
+                         visibility: str = None,
                          payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
             one customer user type to the chat.
@@ -1019,6 +1020,32 @@ class AgentRTM34(AgentRTMInterface):
                 chat_id (str): Chat ID.
                 user_id (str): ID of the user that will be added to the chat.
                 user_type (str): Possible values: agent or customer.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for
+                                the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
+
+# Other
+
+    def send_typing_indicator(self,
+                              chat_id: str = None,
+                              visibility: str = None,
+                              is_typing: bool = None,
+                              payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Sends a typing indicator.
+
+            Args:
+                chat_id (str): ID of the chat you want to send the typing indicator to.
+                visibility (str): Possible values: `all`, `agents`.
+                is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -1027,7 +1054,10 @@ class AgentRTM34(AgentRTMInterface):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})</code></pre>
+        return self.ws.send({
+            &#39;action&#39;: &#39;send_typing_indicator&#39;,
+            &#39;payload&#39;: payload
+        })</code></pre>
 </details>
 </section>
 <section>
@@ -1208,10 +1238,13 @@ def get_client(version: str = &#39;3.3&#39;,
 <pre><code class="python">class AgentRTM34(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;
 
+# Chats
+
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
                          user_type: str = None,
+                         visibility: str = None,
                          payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
             one customer user type to the chat.
@@ -1220,6 +1253,32 @@ def get_client(version: str = &#39;3.3&#39;,
                 chat_id (str): Chat ID.
                 user_id (str): ID of the user that will be added to the chat.
                 user_type (str): Possible values: agent or customer.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for
+                                the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
+
+# Other
+
+    def send_typing_indicator(self,
+                              chat_id: str = None,
+                              visibility: str = None,
+                              is_typing: bool = None,
+                              payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Sends a typing indicator.
+
+            Args:
+                chat_id (str): ID of the chat you want to send the typing indicator to.
+                visibility (str): Possible values: `all`, `agents`.
+                is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -1228,7 +1287,10 @@ def get_client(version: str = &#39;3.3&#39;,
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})</code></pre>
+        return self.ws.send({
+            &#39;action&#39;: &#39;send_typing_indicator&#39;,
+            &#39;payload&#39;: payload
+        })</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -1237,7 +1299,7 @@ def get_client(version: str = &#39;3.3&#39;,
 <h3>Methods</h3>
 <dl>
 <dt id="client.AgentRTM34.add_user_to_chat"><code class="name flex">
-<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, visibility: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a user to the chat. You can't add more than
@@ -1250,9 +1312,13 @@ one customer user type to the chat.</p>
 <dd>ID of the user that will be added to the chat.</dd>
 <dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: agent or customer.</dd>
+<dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
+<dd>Determines the visibility of events sent by
+the agent. Possible values: <code>all</code> or <code>agents</code>.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
+It overrides all other parameters provided for
+the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1267,6 +1333,7 @@ It overrides all other parameters provided for the method.</dd>
                      chat_id: str = None,
                      user_id: str = None,
                      user_type: str = None,
+                     visibility: str = None,
                      payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
         one customer user type to the chat.
@@ -1275,6 +1342,57 @@ It overrides all other parameters provided for the method.</dd>
             chat_id (str): Chat ID.
             user_id (str): ID of the user that will be added to the chat.
             user_type (str): Possible values: agent or customer.
+            visibility (str): Determines the visibility of events sent by
+                              the agent. Possible values: `all` or `agents`.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for
+                            the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})</code></pre>
+</details>
+</dd>
+<dt id="client.AgentRTM34.send_typing_indicator"><code class="name flex">
+<span>def <span class="ident">send_typing_indicator</span></span>(<span>self, chat_id: str = None, visibility: str = None, is_typing: bool = None, payload: dict = None) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends a typing indicator.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat you want to send the typing indicator to.</dd>
+<dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: <code>all</code>, <code>agents</code>.</dd>
+<dt><strong><code>is_typing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>A flag that indicates if you are typing.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with response.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_typing_indicator(self,
+                          chat_id: str = None,
+                          visibility: str = None,
+                          is_typing: bool = None,
+                          payload: dict = None) -&gt; dict:
+    &#39;&#39;&#39; Sends a typing indicator.
+
+        Args:
+            chat_id (str): ID of the chat you want to send the typing indicator to.
+            visibility (str): Possible values: `all`, `agents`.
+            is_typing (bool): A flag that indicates if you are typing.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
 
@@ -1283,7 +1401,10 @@ It overrides all other parameters provided for the method.</dd>
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})</code></pre>
+    return self.ws.send({
+        &#39;action&#39;: &#39;send_typing_indicator&#39;,
+        &#39;payload&#39;: payload
+    })</code></pre>
 </details>
 </dd>
 </dl>
@@ -1320,7 +1441,6 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="client.AgentRTMInterface.revoke_chat_access" href="#client.AgentRTMInterface.revoke_chat_access">revoke_chat_access</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_event" href="#client.AgentRTMInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_rich_message_postback" href="#client.AgentRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.AgentRTMInterface.send_typing_indicator" href="#client.AgentRTMInterface.send_typing_indicator">send_typing_indicator</a></code></li>
 <li><code><a title="client.AgentRTMInterface.set_away_status" href="#client.AgentRTMInterface.set_away_status">set_away_status</a></code></li>
 <li><code><a title="client.AgentRTMInterface.set_routing_status" href="#client.AgentRTMInterface.set_routing_status">set_routing_status</a></code></li>
 <li><code><a title="client.AgentRTMInterface.start_chat" href="#client.AgentRTMInterface.start_chat">start_chat</a></code></li>
@@ -4352,6 +4472,7 @@ It overrides all other parameters provided for the method.</dd>
 <h4><code><a title="client.AgentRTM34" href="#client.AgentRTM34">AgentRTM34</a></code></h4>
 <ul class="">
 <li><code><a title="client.AgentRTM34.add_user_to_chat" href="#client.AgentRTM34.add_user_to_chat">add_user_to_chat</a></code></li>
+<li><code><a title="client.AgentRTM34.send_typing_indicator" href="#client.AgentRTM34.send_typing_indicator">send_typing_indicator</a></code></li>
 </ul>
 </li>
 <li>
