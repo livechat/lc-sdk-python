@@ -1,6 +1,6 @@
 ''' Agent Web client implementation. '''
 
-# pylint: disable=W0613,R0913,W0622,C0103
+# pylint: disable=W0613,R0913,W0622,C0103,W0221
 
 import typing
 from abc import ABCMeta
@@ -861,7 +861,7 @@ class AgentWebInterface(metaclass=ABCMeta):
         ''' Sends typing indicator.
 
             Args:
-                chat_id (str): Id of the chat that to send the typing indicator to.
+                chat_id (str): ID of the chat that to send the typing indicator to.
                 recipients (str): Default: all; agents.
                 is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request's data.
@@ -965,17 +965,24 @@ class AgentWeb33(AgentWebInterface):
 
 class AgentWeb34(AgentWebInterface):
     ''' Agent API version 3.4 class. '''
+
+    # Chats
+
     def add_user_to_chat(self,
                          chat_id: str = None,
                          user_id: str = None,
                          user_type: str = None,
+                         visibility: str = None,
                          payload: dict = None) -> requests.Response:
-        ''' Adds a user to the chat. You can't add more than one customer user type to the chat.
+        ''' Adds a user to the chat. You can't add more than one customer user
+            type to the chat.
 
             Args:
                 chat_id (str): chat ID.
                 user_id (str): user ID.
                 user_type (str): Possible values: agent or customer.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
 
@@ -986,4 +993,29 @@ class AgentWeb34(AgentWebInterface):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/add_user_to_chat',
+                                 json=payload)
+
+
+# Other
+
+    def send_typing_indicator(self,
+                              chat_id: str = None,
+                              visibility: str = None,
+                              is_typing: bool = None,
+                              payload: dict = None) -> requests.Response:
+        ''' Sends typing indicator.
+
+            Args:
+                chat_id (str): ID of the chat that to send the typing indicator to.
+                visibility (str): Possible values: `all`, `agents`.
+                is_typing (bool): A flag that indicates if you are typing.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/send_typing_indicator',
                                  json=payload)

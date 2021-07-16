@@ -12,7 +12,7 @@ customer_rtm.send_event(chat_id=chat_id,
                         event={
                             'type': 'message',
                             'text': 'Hello from Customer RTM!',
-                            'recipients': 'all'
+                            'visibility': 'all'
                         })
 customer_rtm.get_chat(chat_id=chat_id, thread_id=thread_id)
 customer_rtm.deactivate_chat(id=chat_id)
