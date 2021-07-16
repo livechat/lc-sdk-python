@@ -903,7 +903,7 @@ class AgentWebInterface(metaclass=ABCMeta):
         ''' Sends typing indicator.
 
             Args:
-                chat_id (str): Id of the chat that to send the typing indicator to.
+                chat_id (str): ID of the chat that to send the typing indicator to.
                 recipients (str): Default: all; agents.
                 is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request's data.
@@ -1004,7 +1004,7 @@ class AgentWeb34(AgentWebInterface):
         ''' Sends typing indicator.
 
             Args:
-                chat_id (str): Id of the chat that to send the typing indicator to.
+                chat_id (str): ID of the chat that to send the typing indicator to.
                 visibility (str): Possible values: `all`, `agents`.
                 is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request's data.
