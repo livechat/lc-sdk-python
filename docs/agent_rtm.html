@@ -29,7 +29,7 @@
 </summary>
 <pre><code class="python">&#39;&#39;&#39; Agent RTM client implementation. &#39;&#39;&#39;
 
-# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107
+# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0221
 
 import typing
 from abc import ABCMeta
@@ -292,50 +292,6 @@ class AgentRTMInterface(metaclass=ABCMeta):
         return self.ws.send({&#39;action&#39;: &#39;unfollow_chat&#39;, &#39;payload&#39;: payload})
 
 # Chat access
-
-    def grant_chat_access(self,
-                          id: str = None,
-                          access: dict = None,
-                          payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Grants access to a new chat without overwriting the existing ones.
-
-            Args:
-                id (str): Chat ID.
-                access (dict): Access object.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;grant_chat_access&#39;,
-            &#39;payload&#39;: payload
-        })
-
-    def revoke_chat_access(self,
-                           id: str = None,
-                           access: dict = None,
-                           payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Revokes access to a chat.
-
-            Args:
-                id (str): Chat ID.
-                access (dict): Access object.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;revoke_chat_access&#39;,
-            &#39;payload&#39;: payload
-        })
 
     def transfer_chat(self,
                       id: str = None,
@@ -1001,11 +957,57 @@ class AgentRTMInterface(metaclass=ABCMeta):
 class AgentRTM33(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.3 class. &#39;&#39;&#39;
 
+    # Chat access
+
+    def grant_chat_access(self,
+                          id: str = None,
+                          access: dict = None,
+                          payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Grants access to a new chat without overwriting the existing ones.
+
+            Args:
+                id (str): Chat ID.
+                access (dict): Access object.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;grant_chat_access&#39;,
+            &#39;payload&#39;: payload
+        })
+
+    def revoke_chat_access(self,
+                           id: str = None,
+                           access: dict = None,
+                           payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Revokes access to a chat.
+
+            Args:
+                id (str): Chat ID.
+                access (dict): Access object.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;revoke_chat_access&#39;,
+            &#39;payload&#39;: payload
+        })
+
 
 class AgentRTM34(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;
 
-# Chats
+    # Chats
 
     def add_user_to_chat(self,
                          chat_id: str = None,
@@ -1032,6 +1034,7 @@ class AgentRTM34(AgentRTMInterface):
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
+
 
 # Other
 
@@ -1168,12 +1171,155 @@ def get_client(version: str = &#39;3.3&#39;,
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AgentRTM33(AgentRTMInterface):
-    &#39;&#39;&#39; Agent RTM version 3.3 class. &#39;&#39;&#39;</code></pre>
+    &#39;&#39;&#39; Agent RTM version 3.3 class. &#39;&#39;&#39;
+
+    # Chat access
+
+    def grant_chat_access(self,
+                          id: str = None,
+                          access: dict = None,
+                          payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Grants access to a new chat without overwriting the existing ones.
+
+            Args:
+                id (str): Chat ID.
+                access (dict): Access object.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;grant_chat_access&#39;,
+            &#39;payload&#39;: payload
+        })
+
+    def revoke_chat_access(self,
+                           id: str = None,
+                           access: dict = None,
+                           payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Revokes access to a chat.
+
+            Args:
+                id (str): Chat ID.
+                access (dict): Access object.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;revoke_chat_access&#39;,
+            &#39;payload&#39;: payload
+        })</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></li>
 </ul>
+<h3>Methods</h3>
+<dl>
+<dt id="client.AgentRTM33.grant_chat_access"><code class="name flex">
+<span>def <span class="ident">grant_chat_access</span></span>(<span>self, id: str = None, access: dict = None, payload: dict = None) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Grants access to a new chat without overwriting the existing ones.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chat ID.</dd>
+<dt><strong><code>access</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Access object.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with response.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def grant_chat_access(self,
+                      id: str = None,
+                      access: dict = None,
+                      payload: dict = None) -&gt; dict:
+    &#39;&#39;&#39; Grants access to a new chat without overwriting the existing ones.
+
+        Args:
+            id (str): Chat ID.
+            access (dict): Access object.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({
+        &#39;action&#39;: &#39;grant_chat_access&#39;,
+        &#39;payload&#39;: payload
+    })</code></pre>
+</details>
+</dd>
+<dt id="client.AgentRTM33.revoke_chat_access"><code class="name flex">
+<span>def <span class="ident">revoke_chat_access</span></span>(<span>self, id: str = None, access: dict = None, payload: dict = None) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Revokes access to a chat.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chat ID.</dd>
+<dt><strong><code>access</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Access object.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with response.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def revoke_chat_access(self,
+                       id: str = None,
+                       access: dict = None,
+                       payload: dict = None) -&gt; dict:
+    &#39;&#39;&#39; Revokes access to a chat.
+
+        Args:
+            id (str): Chat ID.
+            access (dict): Access object.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({
+        &#39;action&#39;: &#39;revoke_chat_access&#39;,
+        &#39;payload&#39;: payload
+    })</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
 <li><code><b><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></b></code>:
@@ -1191,7 +1337,6 @@ def get_client(version: str = &#39;3.3&#39;,
 <li><code><a title="client.AgentRTMInterface.follow_customer" href="#client.AgentRTMInterface.follow_customer">follow_customer</a></code></li>
 <li><code><a title="client.AgentRTMInterface.get_chat" href="#client.AgentRTMInterface.get_chat">get_chat</a></code></li>
 <li><code><a title="client.AgentRTMInterface.get_customer" href="#client.AgentRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.grant_chat_access" href="#client.AgentRTMInterface.grant_chat_access">grant_chat_access</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_agents_for_transfer" href="#client.AgentRTMInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_archives" href="#client.AgentRTMInterface.list_archives">list_archives</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_chats" href="#client.AgentRTMInterface.list_chats">list_chats</a></code></li>
@@ -1205,7 +1350,6 @@ def get_client(version: str = &#39;3.3&#39;,
 <li><code><a title="client.AgentRTMInterface.open_connection" href="#client.AgentRTMInterface.open_connection">open_connection</a></code></li>
 <li><code><a title="client.AgentRTMInterface.remove_user_from_chat" href="#client.AgentRTMInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentRTMInterface.resume_chat" href="#client.AgentRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.revoke_chat_access" href="#client.AgentRTMInterface.revoke_chat_access">revoke_chat_access</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_event" href="#client.AgentRTMInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_rich_message_postback" href="#client.AgentRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_typing_indicator" href="#client.AgentRTMInterface.send_typing_indicator">send_typing_indicator</a></code></li>
@@ -1238,7 +1382,7 @@ def get_client(version: str = &#39;3.3&#39;,
 <pre><code class="python">class AgentRTM34(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;
 
-# Chats
+    # Chats
 
     def add_user_to_chat(self,
                          chat_id: str = None,
@@ -1265,6 +1409,7 @@ def get_client(version: str = &#39;3.3&#39;,
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
+
 
 # Other
 
@@ -1424,7 +1569,6 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="client.AgentRTMInterface.follow_customer" href="#client.AgentRTMInterface.follow_customer">follow_customer</a></code></li>
 <li><code><a title="client.AgentRTMInterface.get_chat" href="#client.AgentRTMInterface.get_chat">get_chat</a></code></li>
 <li><code><a title="client.AgentRTMInterface.get_customer" href="#client.AgentRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.grant_chat_access" href="#client.AgentRTMInterface.grant_chat_access">grant_chat_access</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_agents_for_transfer" href="#client.AgentRTMInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_archives" href="#client.AgentRTMInterface.list_archives">list_archives</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_chats" href="#client.AgentRTMInterface.list_chats">list_chats</a></code></li>
@@ -1438,7 +1582,6 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="client.AgentRTMInterface.open_connection" href="#client.AgentRTMInterface.open_connection">open_connection</a></code></li>
 <li><code><a title="client.AgentRTMInterface.remove_user_from_chat" href="#client.AgentRTMInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentRTMInterface.resume_chat" href="#client.AgentRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.revoke_chat_access" href="#client.AgentRTMInterface.revoke_chat_access">revoke_chat_access</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_event" href="#client.AgentRTMInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_rich_message_postback" href="#client.AgentRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
 <li><code><a title="client.AgentRTMInterface.set_away_status" href="#client.AgentRTMInterface.set_away_status">set_away_status</a></code></li>
@@ -1695,50 +1838,6 @@ It overrides all other parameters provided for the method.</dd>
         return self.ws.send({&#39;action&#39;: &#39;unfollow_chat&#39;, &#39;payload&#39;: payload})
 
 # Chat access
-
-    def grant_chat_access(self,
-                          id: str = None,
-                          access: dict = None,
-                          payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Grants access to a new chat without overwriting the existing ones.
-
-            Args:
-                id (str): Chat ID.
-                access (dict): Access object.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;grant_chat_access&#39;,
-            &#39;payload&#39;: payload
-        })
-
-    def revoke_chat_access(self,
-                           id: str = None,
-                           access: dict = None,
-                           payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Revokes access to a chat.
-
-            Args:
-                id (str): Chat ID.
-                access (dict): Access object.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;revoke_chat_access&#39;,
-            &#39;payload&#39;: payload
-        })
 
     def transfer_chat(self,
                       id: str = None,
@@ -2977,53 +3076,6 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;get_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.AgentRTMInterface.grant_chat_access"><code class="name flex">
-<span>def <span class="ident">grant_chat_access</span></span>(<span>self, id: str = None, access: dict = None, payload: dict = None) ‑> dict</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Grants access to a new chat without overwriting the existing ones.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Chat ID.</dd>
-<dt><strong><code>access</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Access object.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def grant_chat_access(self,
-                      id: str = None,
-                      access: dict = None,
-                      payload: dict = None) -&gt; dict:
-    &#39;&#39;&#39; Grants access to a new chat without overwriting the existing ones.
-
-        Args:
-            id (str): Chat ID.
-            access (dict): Access object.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            dict: Dictionary with response.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({
-        &#39;action&#39;: &#39;grant_chat_access&#39;,
-        &#39;payload&#39;: payload
-    })</code></pre>
-</details>
-</dd>
 <dt id="client.AgentRTMInterface.list_agents_for_transfer"><code class="name flex">
 <span>def <span class="ident">list_agents_for_transfer</span></span>(<span>self, chat_id: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
@@ -3666,53 +3718,6 @@ It overrides all other parameters provided for the method.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})</code></pre>
-</details>
-</dd>
-<dt id="client.AgentRTMInterface.revoke_chat_access"><code class="name flex">
-<span>def <span class="ident">revoke_chat_access</span></span>(<span>self, id: str = None, access: dict = None, payload: dict = None) ‑> dict</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Revokes access to a chat.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Chat ID.</dd>
-<dt><strong><code>access</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Access object.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def revoke_chat_access(self,
-                       id: str = None,
-                       access: dict = None,
-                       payload: dict = None) -&gt; dict:
-    &#39;&#39;&#39; Revokes access to a chat.
-
-        Args:
-            id (str): Chat ID.
-            access (dict): Access object.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            dict: Dictionary with response.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({
-        &#39;action&#39;: &#39;revoke_chat_access&#39;,
-        &#39;payload&#39;: payload
-    })</code></pre>
 </details>
 </dd>
 <dt id="client.AgentRTMInterface.send_event"><code class="name flex">
@@ -4467,6 +4472,10 @@ It overrides all other parameters provided for the method.</dd>
 </li>
 <li>
 <h4><code><a title="client.AgentRTM33" href="#client.AgentRTM33">AgentRTM33</a></code></h4>
+<ul class="">
+<li><code><a title="client.AgentRTM33.grant_chat_access" href="#client.AgentRTM33.grant_chat_access">grant_chat_access</a></code></li>
+<li><code><a title="client.AgentRTM33.revoke_chat_access" href="#client.AgentRTM33.revoke_chat_access">revoke_chat_access</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="client.AgentRTM34" href="#client.AgentRTM34">AgentRTM34</a></code></h4>
@@ -4491,7 +4500,6 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="client.AgentRTMInterface.follow_customer" href="#client.AgentRTMInterface.follow_customer">follow_customer</a></code></li>
 <li><code><a title="client.AgentRTMInterface.get_chat" href="#client.AgentRTMInterface.get_chat">get_chat</a></code></li>
 <li><code><a title="client.AgentRTMInterface.get_customer" href="#client.AgentRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.grant_chat_access" href="#client.AgentRTMInterface.grant_chat_access">grant_chat_access</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_agents_for_transfer" href="#client.AgentRTMInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_archives" href="#client.AgentRTMInterface.list_archives">list_archives</a></code></li>
 <li><code><a title="client.AgentRTMInterface.list_chats" href="#client.AgentRTMInterface.list_chats">list_chats</a></code></li>
@@ -4505,7 +4513,6 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="client.AgentRTMInterface.open_connection" href="#client.AgentRTMInterface.open_connection">open_connection</a></code></li>
 <li><code><a title="client.AgentRTMInterface.remove_user_from_chat" href="#client.AgentRTMInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentRTMInterface.resume_chat" href="#client.AgentRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.revoke_chat_access" href="#client.AgentRTMInterface.revoke_chat_access">revoke_chat_access</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_event" href="#client.AgentRTMInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_rich_message_postback" href="#client.AgentRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
 <li><code><a title="client.AgentRTMInterface.send_typing_indicator" href="#client.AgentRTMInterface.send_typing_indicator">send_typing_indicator</a></code></li>
