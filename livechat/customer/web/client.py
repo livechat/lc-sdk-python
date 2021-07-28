@@ -83,7 +83,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                    limit: int = None,
                    sort_order: str = None,
                    page_id: str = None,
-                   payload: dict = None) -> requests.Response:
+                   payload: dict = None,
+                   headers: dict = None) -> requests.Response:
         ''' Returns summaries of the chats a Customer participated in.
 
             Args:
@@ -93,6 +94,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 page_id (str): ID of the page with paginated results.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -102,7 +106,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/list_chats?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def list_threads(self,
                      chat_id: str = None,
@@ -110,7 +115,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                      sort_order: str = None,
                      page_id: str = None,
                      min_events_count: int = None,
-                     payload: dict = None) -> requests.Response:
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Returns threads that the current Customer has access to in a given chat.
 
             Args:
@@ -123,6 +129,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                     Specifies the minimum number of events to be returned in the response.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -132,12 +141,14 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/list_threads?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def get_chat(self,
                  chat_id: str = None,
                  thread_id: str = None,
-                 payload: dict = None) -> requests.Response:
+                 payload: dict = None,
+                 headers: dict = None) -> requests.Response:
         ''' Returns a thread that the current Customer has access to in a given chat.
 
             Args:
@@ -145,6 +156,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 thread_id (str): ID of the thread to show. Default: the latest thread (if exists)
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -154,13 +168,15 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/get_chat?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def start_chat(self,
                    chat: dict = None,
                    active: bool = None,
                    continuous: bool = None,
-                   payload: dict = None) -> requests.Response:
+                   payload: dict = None,
+                   headers: dict = None) -> requests.Response:
         ''' Starts a chat.
 
             Args:
@@ -169,6 +185,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 continuous (bool): Starts chat as continuous (online group is not required); default: False.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -178,13 +197,15 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/start_chat?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def resume_chat(self,
                     chat: dict = None,
                     active: bool = None,
                     continuous: bool = None,
-                    payload: dict = None) -> requests.Response:
+                    payload: dict = None,
+                    headers: dict = None) -> requests.Response:
         ''' Restarts an archived chat.
 
             Args:
@@ -193,6 +214,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 continuous (bool): Starts chat as continuous (online group is not required); default: False.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -202,11 +226,13 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/resume_chat?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def deactivate_chat(self,
                         id: str = None,
-                        payload: dict = None) -> requests.Response:
+                        payload: dict = None,
+                        headers: dict = None) -> requests.Response:
         ''' Deactivates a chat by closing the currently open thread.
             Sending messages to this thread will no longer be possible.
 
@@ -214,6 +240,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 id (str): ID of chat to be deactivated.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -223,7 +252,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/deactivate_chat?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
 # Configuration
 
@@ -232,7 +262,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                   url: str = None,
                                   channel_type: str = None,
                                   test: bool = None,
-                                  payload: dict = None) -> requests.Response:
+                                  payload: dict = None,
+                                  headers: dict = None) -> requests.Response:
         ''' Returns the dynamic configuration of a given group.
             It provides data to call Get Configuration and Get Localization.
 
@@ -243,6 +274,10 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 test (bool): Treats a dynamic configuration request as a test.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
+
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -252,12 +287,14 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/get_dynamic_configuration?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def get_configuration(self,
                           group_id: int = None,
                           version: str = None,
-                          payload: dict = None) -> requests.Response:
+                          payload: dict = None,
+                          headers: dict = None) -> requests.Response:
         ''' Returns the configuration of a given group in a given version. Contains data based on which the Chat Widget can be built.
 
             Args:
@@ -266,6 +303,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                Returned from Get Dynamic Configuration as the config_version parameter.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -275,7 +315,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/get_configuration?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
 # Events
 
@@ -283,7 +324,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
-                   payload: dict = None) -> requests.Response:
+                   payload: dict = None,
+                   headers: dict = None) -> requests.Response:
         ''' Sends an Event object. Use this method to send a message by specifying the Message event type in the request.
             The method updates the requester's `events_seen_up_to` as if they've seen all chat events.
 
@@ -296,6 +338,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                               False – the request will fail. Default: False.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -304,17 +349,22 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/send_event?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def upload_file(self,
                     file: typing.BinaryIO = None,
-                    payload: dict = None) -> requests.Response:
+                    payload: dict = None,
+                    headers: dict = None) -> requests.Response:
         ''' Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in `send_event`.
 
             Args:
                 file (typing.BinaryIO): File-like object with file to upload (Maximum size: 10MB).
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -323,14 +373,16 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/upload_file?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
                                    event_id: str = None,
                                    postback: dict = None,
                                    thread_id: str = None,
-                                   payload: dict = None) -> requests.Response:
+                                   payload: dict = None,
+                                   headers: dict = None) -> requests.Response:
         ''' Sends a rich message postback.
 
             Args:
@@ -340,6 +392,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 thread_id (str): ID of the thread to send rich message postback to.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -348,12 +403,14 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/send_rich_message_postback?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def send_sneak_peek(self,
                         chat_id: str = None,
                         sneak_peek_text: str = None,
-                        payload: dict = None) -> requests.Response:
+                        payload: dict = None,
+                        headers: dict = None) -> requests.Response:
         ''' Sends a sneak peek to a chat.
 
             Args:
@@ -361,6 +418,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 sneak_peek_text (str): Sneak peek text.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -369,7 +429,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/send_sneak_peek?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
 # Localization
 
@@ -377,7 +438,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                          group_id: int = None,
                          language: str = None,
                          version: str = None,
-                         payload: dict = None) -> requests.Response:
+                         payload: dict = None,
+                         headers: dict = None) -> requests.Response:
         ''' Returns the localization of a given language and group in a given version. Contains translated phrases for the Chat Widget.
 
             Args:
@@ -387,6 +449,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                Returned from `get_dynamic_configuration` as the `localization_version` parameter.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -395,14 +460,16 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/get_localization?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
 # Properties
 
     def update_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -> requests.Response:
+                               payload: dict = None,
+                               headers: dict = None) -> requests.Response:
         ''' Updates chat properties.
 
             Args:
@@ -411,6 +478,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                    You should stick to the general properties format and include namespace, property name and value.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -419,12 +489,14 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/update_chat_properties?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def delete_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -> requests.Response:
+                               payload: dict = None,
+                               headers: dict = None) -> requests.Response:
         ''' Deletes chat properties.
 
             Args:
@@ -432,6 +504,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 properties (dict): Chat properties to delete.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -440,13 +515,15 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/delete_chat_properties?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def update_thread_properties(self,
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -> requests.Response:
+                                 payload: dict = None,
+                                 headers: dict = None) -> requests.Response:
         ''' Updates chat thread properties.
 
             Args:
@@ -456,6 +533,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                    You should stick to the general properties format and include namespace, property name and value.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -464,13 +544,15 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/update_thread_properties?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def delete_thread_properties(self,
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -> requests.Response:
+                                 payload: dict = None,
+                                 headers: dict = None) -> requests.Response:
         ''' Deletes chat thread properties.
 
             Args:
@@ -479,6 +561,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 properties (dict): Thread properties to delete.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -487,14 +572,16 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/delete_thread_properties?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def update_event_properties(self,
                                 chat_id: str = None,
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -> requests.Response:
+                                payload: dict = None,
+                                headers: dict = None) -> requests.Response:
         ''' Updates event properties.
 
             Args:
@@ -505,6 +592,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                    You should stick to the general properties format and include namespace, property name and value.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -513,14 +603,16 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/update_event_properties?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def delete_event_properties(self,
                                 chat_id: str = None,
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -> requests.Response:
+                                payload: dict = None,
+                                headers: dict = None) -> requests.Response:
         ''' Deletes event properties.
 
             Args:
@@ -530,6 +622,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 properties (dict): Event properties to delete.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -538,18 +633,23 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/delete_event_properties?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def list_license_properties(self,
                                 namespace: str = None,
                                 name: str = None,
-                                payload: dict = None) -> requests.Response:
+                                payload: dict = None,
+                                headers: dict = None) -> requests.Response:
         ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
 
             Args:
                 namespace (str): Property namespace to retrieve.
                 name (str): Property name.
                 payload (dict): Custom payload to be used as request's data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -564,19 +664,24 @@ class CustomerWebInterface(metaclass=ABCMeta):
         params['license_id'] = self.license_id
         return self.session.post(f'{self.api_url}/list_license_properties',
                                  json=payload,
-                                 params=params)
+                                 params=params,
+                                 headers=headers)
 
     def list_group_properties(self,
                               group_id: int = None,
                               namespace: str = None,
                               name: str = None,
-                              payload: dict = None) -> requests.Response:
+                              payload: dict = None,
+                              headers: dict = None) -> requests.Response:
         ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
             Args:
                 group_id (int): ID of the group you want to return the properties of.
                 namespace (str): Property namespace to retrieve.
                 name (str): Property name.
                 payload (dict): Custom payload to be used as request's data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -593,16 +698,22 @@ class CustomerWebInterface(metaclass=ABCMeta):
         params['license_id'] = self.license_id
         return self.session.post(f'{self.api_url}/list_group_properties',
                                  json=payload,
-                                 params=params)
+                                 params=params,
+                                 headers=headers)
 
 # Customers
 
-    def get_customer(self, payload: dict = None) -> requests.Response:
+    def get_customer(self,
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Returns the info about the Customer requesting it.
 
             Args:
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -610,14 +721,16 @@ class CustomerWebInterface(metaclass=ABCMeta):
         '''
         return self.session.post(
             f'{self.api_url}/get_customer?license_id={self.license_id}',
-            json={} if payload is None else payload)
+            json={} if payload is None else payload,
+            headers=headers)
 
     def update_customer(self,
                         name: str = None,
                         email: str = None,
                         avatar: str = None,
                         session_fields: list = None,
-                        payload: dict = None) -> requests.Response:
+                        payload: dict = None,
+                        headers: dict = None) -> requests.Response:
         ''' Updates Customer's properties.
 
             Args:
@@ -628,6 +741,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                        Respects the order of items.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -637,11 +753,13 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/update_customer?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def set_customer_session_fields(self,
                                     session_fields: list = None,
-                                    payload: dict = None) -> requests.Response:
+                                    payload: dict = None,
+                                    headers: dict = None) -> requests.Response:
         ''' Updates Customer's session fields.
 
             Args:
@@ -649,6 +767,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                        Respects the order of items. Max keys: 100.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -658,14 +779,16 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/set_customer_session_fields?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
 # Status
 
     def list_group_statuses(self,
                             all: bool = None,
                             group_ids: list = None,
-                            payload: dict = None) -> requests.Response:
+                            payload: dict = None,
+                            headers: dict = None) -> requests.Response:
         ''' Returns object with info about current routing statuses of agent groups.
             One of the optional parameters needs to be included in the request.
 
@@ -674,6 +797,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 group_ids (list): A table of groups' IDs
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -683,7 +809,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/list_group_statuses?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
 
 # Other
@@ -692,7 +819,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                     session_fields: list = None,
                     group_id: int = None,
                     page_url: str = None,
-                    payload: dict = None) -> requests.Response:
+                    payload: dict = None,
+                    headers: dict = None) -> requests.Response:
         ''' Customer can use this method to trigger checking if goals were achieved.
             Then, Agents receive the information. You should call this method to provide goals parameters for the server
             when the customers limit is reached. Works only for offline Customers.
@@ -703,6 +831,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 page_url (str): URL of the page to check the goals for.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -712,12 +843,14 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/check_goals?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def get_form(self,
                  group_id: int = None,
                  type: str = None,
-                 payload: dict = None) -> requests.Response:
+                 payload: dict = None,
+                 headers: dict = None) -> requests.Response:
         ''' Returns an empty ticket form of a prechat or postchat survey.
 
             Args:
@@ -725,6 +858,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 type (str): Form type; possible values: prechat or postchat.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -734,15 +870,21 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/get_form?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
-    def get_predicted_agent(self, payload: dict = None) -> requests.Response:
+    def get_predicted_agent(self,
+                            payload: dict = None,
+                            headers: dict = None) -> requests.Response:
         ''' Gets the predicted Agent - the one the Customer will chat with when the chat starts.
             To use this method, the Customer needs to be logged in, which can be done via the `login` method.
 
             Args:
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -750,17 +892,22 @@ class CustomerWebInterface(metaclass=ABCMeta):
         '''
         return self.session.post(
             f'{self.api_url}/get_predicted_agent?license_id={self.license_id}',
-            json={} if payload is None else payload)
+            json={} if payload is None else payload,
+            headers=headers)
 
     def get_url_info(self,
                      url: str = None,
-                     payload: dict = None) -> requests.Response:
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Returns the info on a given URL.
 
             Args:
                 url (str): Valid website URL.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -769,12 +916,14 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/get_url_info?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def mark_events_as_seen(self,
                             chat_id: str = None,
                             seen_up_to: str = None,
-                            payload: dict = None) -> requests.Response:
+                            payload: dict = None,
+                            headers: dict = None) -> requests.Response:
         ''' Updates `seen_up_to` value for a given chat.
 
             Args:
@@ -782,6 +931,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 seen_up_to (str): RFC 3339 date-time format.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -790,12 +942,14 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/mark_events_as_seen?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def accept_greeting(self,
                         greeting_id: int = None,
                         unique_id: str = None,
-                        payload: dict = None) -> requests.Response:
+                        payload: dict = None,
+                        headers: dict = None) -> requests.Response:
         ''' Marks an incoming greeting as seen.
 
             Args:
@@ -803,6 +957,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 unique_id (str): ID of the greeting to accept. You can get it from the `incoming_greeting` push.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -811,11 +968,13 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/accept_greeting?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
     def cancel_greeting(self,
                         unique_id: str = None,
-                        payload: dict = None) -> requests.Response:
+                        payload: dict = None,
+                        headers: dict = None) -> requests.Response:
         ''' Cancels a greeting (an invitation to the chat).
             For example, Customers could cancel greetings by minimalizing the chat widget with a greeting.
 
@@ -823,6 +982,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 unique_id (str): ID of the greeting to cancel. You can get it from the `incoming_greeting` push.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -831,7 +993,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.session.post(
             f'{self.api_url}/cancel_greeting?license_id={self.license_id}',
-            json=payload)
+            json=payload,
+            headers=headers)
 
 
 class CustomerWeb33(CustomerWebInterface):

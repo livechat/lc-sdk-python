@@ -86,3 +86,12 @@ def test_remove_header(customer_web_api_client):
     assert 'Test2' in customer_web_api_client.get_headers()
     customer_web_api_client.remove_header('Test2')
     assert 'Test2' not in customer_web_api_client.get_headers()
+
+
+def test_custom_headers_within_the_request(customer_web_api_client):
+    ''' Test if custom headers can be added to the session headers
+        only within the particular request. '''
+    headers = {'x-test': 'enabled'}
+    response = customer_web_api_client.start_chat(headers=headers)
+    assert headers.items() <= response.request.headers.items()
+    assert 'x-test' not in customer_web_api_client.get_headers()

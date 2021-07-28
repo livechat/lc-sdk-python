@@ -86,7 +86,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                      notifications: list = None,
                      email_subscriptions: list = None,
                      work_scheduler: dict = None,
-                     payload: dict = None) -> requests.Response:
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Creates a new Agent with specified parameters within a license.
 
             Args:
@@ -107,6 +108,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 work_scheduler (dict): Work scheduler options to set for the new Agent.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -114,12 +118,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/create_agent', json=payload)
+        return self.session.post(f'{self.api_url}/create_agent',
+                                 json=payload,
+                                 headers=headers)
 
     def get_agent(self,
                   id: str = None,
                   fields: list = None,
-                  payload: dict = None) -> requests.Response:
+                  payload: dict = None,
+                  headers: dict = None) -> requests.Response:
         ''' Returns the info about an Agent specified by `id`.
 
             Args:
@@ -127,6 +134,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 fields (list): Additional fields to include.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -134,12 +144,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/get_agent', json=payload)
+        return self.session.post(f'{self.api_url}/get_agent',
+                                 json=payload,
+                                 headers=headers)
 
     def list_agents(self,
                     filters: dict = None,
                     fields: list = None,
-                    payload: dict = None) -> requests.Response:
+                    payload: dict = None,
+                    headers: dict = None) -> requests.Response:
         ''' Returns all Agents within a license.
 
             Args:
@@ -147,6 +160,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 fields (list): Additional fields to include.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -154,7 +170,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/list_agents', json=payload)
+        return self.session.post(f'{self.api_url}/list_agents',
+                                 json=payload,
+                                 headers=headers)
 
     def update_agent(self,
                      id: str = None,
@@ -168,7 +186,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                      notifications: list = None,
                      email_subscriptions: list = None,
                      work_scheduler: dict = None,
-                     payload: dict = None) -> requests.Response:
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Updates the properties of an Agent specified by `id`.
 
             Args:
@@ -187,6 +206,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 work_scheduler (dict): Work scheduler options to set for the new Agent.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -194,17 +216,23 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/update_agent', json=payload)
+        return self.session.post(f'{self.api_url}/update_agent',
+                                 json=payload,
+                                 headers=headers)
 
     def delete_agent(self,
                      id: str = None,
-                     payload: dict = None) -> requests.Response:
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Deletes an Agent specified by `id`.
 
             Args:
                 id (str): Agent's ID.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -212,17 +240,23 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/delete_agent', json=payload)
+        return self.session.post(f'{self.api_url}/delete_agent',
+                                 json=payload,
+                                 headers=headers)
 
     def suspend_agent(self,
                       id: str = None,
-                      payload: dict = None) -> requests.Response:
+                      payload: dict = None,
+                      headers: dict = None) -> requests.Response:
         ''' Suspends an Agent specified by `id`.
 
             Args:
                 id (str): Agent's ID.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -230,17 +264,23 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/suspend_agent', json=payload)
+        return self.session.post(f'{self.api_url}/suspend_agent',
+                                 json=payload,
+                                 headers=headers)
 
     def unsuspend_agent(self,
                         id: str = None,
-                        payload: dict = None) -> requests.Response:
+                        payload: dict = None,
+                        headers: dict = None) -> requests.Response:
         ''' Unsuspends an Agent specified by `id`.
 
             Args:
                 id (str): Agent's ID.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -249,16 +289,21 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/unsuspend_agent',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def request_agent_unsuspension(self,
-                                   payload: dict = None) -> requests.Response:
+                                   payload: dict = None,
+                                   headers: dict = None) -> requests.Response:
         ''' A suspended Agent can send emails to license owners and vice owners
             with an unsuspension request.
 
             Args:
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -267,17 +312,22 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/request_agent_unsuspension',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def approve_agent(self,
                       id: str = None,
-                      payload: dict = None) -> requests.Response:
+                      payload: dict = None,
+                      headers: dict = None) -> requests.Response:
         ''' Approves an Agent thus allowing the Agent to use the application.
 
             Args:
                 id (str): Agent's ID.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object, which contains a server’s
@@ -285,7 +335,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/approve_agent', json=payload)
+        return self.session.post(f'{self.api_url}/approve_agent',
+                                 json=payload,
+                                 headers=headers)
 
 # Auto access
 
@@ -294,7 +346,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                         conditions: dict = None,
                         description: str = None,
                         next_id: str = None,
-                        payload: dict = None) -> requests.Response:
+                        payload: dict = None,
+                        headers: dict = None) -> requests.Response:
         ''' Creates an auto access data structure, which is a set of conditions
             for the tracking URL and geolocation of a customer.
 
@@ -305,6 +358,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
             next_id (str): ID of an existing auto access.
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, that method-level parameters will not be persisted across requests.
 
         Returns:
             requests.Response: The Response object, which contains a server’s
@@ -313,14 +369,20 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/add_auto_access',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
-    def list_auto_accesses(self, payload: dict = None) -> requests.Response:
+    def list_auto_accesses(self,
+                           payload: dict = None,
+                           headers: dict = None) -> requests.Response:
         ''' Returns all existing auto access data structures.
 
         Args:
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -329,17 +391,22 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/list_auto_accesses',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def delete_auto_access(self,
                            id: str = None,
-                           payload: dict = None) -> requests.Response:
+                           payload: dict = None,
+                           headers: dict = None) -> requests.Response:
         ''' Deletes an existing auto access data structure specified by its ID.
 
             Args:
                 id (str): Auto access ID.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -348,12 +415,14 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/delete_auto_access',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def reorder_auto_access(self,
                             id: str = None,
                             next_id: str = None,
-                            payload: dict = None) -> requests.Response:
+                            payload: dict = None,
+                            headers: dict = None) -> requests.Response:
         ''' Moves an existing auto access data structure, specified by id,
             before another one, specified by next_id.
 
@@ -362,6 +431,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 next_id (str): ID of the auto access that should follow the moved auto access.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -370,7 +442,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/reorder_auto_access',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
 # Bots
 
@@ -382,7 +455,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                    webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
-                   payload: dict = None) -> requests.Response:
+                   payload: dict = None,
+                   headers: dict = None) -> requests.Response:
         ''' Creates a new Bot.
 
             Args:
@@ -395,6 +469,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 timezone (str): The time zone in which the Bot's work scheduler should operate.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -402,17 +479,23 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/create_bot', json=payload)
+        return self.session.post(f'{self.api_url}/create_bot',
+                                 json=payload,
+                                 headers=headers)
 
     def delete_bot(self,
                    id: str = None,
-                   payload: dict = None) -> requests.Response:
+                   payload: dict = None,
+                   headers: dict = None) -> requests.Response:
         ''' Deletes a Bot.
 
             Args:
                 id (str): Bot's ID.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -420,7 +503,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/delete_bot', json=payload)
+        return self.session.post(f'{self.api_url}/delete_bot',
+                                 json=payload,
+                                 headers=headers)
 
     def update_bot(self,
                    id: str = None,
@@ -431,7 +516,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                    webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
-                   payload: dict = None) -> requests.Response:
+                   payload: dict = None,
+                   headers: dict = None) -> requests.Response:
         ''' Updates an existing Bot.
 
             Args:
@@ -445,6 +531,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 timezone (str): The time zone in which the Bot's work scheduler should operate.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -452,12 +541,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/update_bot', json=payload)
+        return self.session.post(f'{self.api_url}/update_bot',
+                                 json=payload,
+                                 headers=headers)
 
     def list_bots(self,
                   all: bool = None,
                   fields: list = None,
-                  payload: dict = None) -> requests.Response:
+                  payload: dict = None,
+                  headers: dict = None) -> requests.Response:
         ''' Returns the list of Bots created within a license.
 
             Args:
@@ -465,6 +557,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 fields (list): Additional Bot fields to include.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -472,12 +567,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/list_bots', json=payload)
+        return self.session.post(f'{self.api_url}/list_bots',
+                                 json=payload,
+                                 headers=headers)
 
     def get_bot(self,
                 id: str = None,
                 fields: list = None,
-                payload: dict = None) -> requests.Response:
+                payload: dict = None,
+                headers: dict = None) -> requests.Response:
         ''' Gets a Bot specified by `id`.
 
             Args:
@@ -485,6 +583,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 fields (list): Additional Bot fields to include.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -492,7 +593,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/get_bot', json=payload)
+        return self.session.post(f'{self.api_url}/get_bot',
+                                 json=payload,
+                                 headers=headers)
 
 # Groups
 
@@ -500,7 +603,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                      name: str = None,
                      language_code: str = None,
                      agent_priorities: dict = None,
-                     payload: dict = None) -> requests.Response:
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Creates a new group.
 
             Args:
@@ -509,6 +613,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 agent_priorities (dict): Agents' priorities in a group as a map in the "<id>": "<priority>" format.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -516,14 +623,17 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/create_group', json=payload)
+        return self.session.post(f'{self.api_url}/create_group',
+                                 json=payload,
+                                 headers=headers)
 
     def update_group(self,
                      id: int = None,
                      name: str = None,
                      language_code: str = None,
                      agent_priorities: dict = None,
-                     payload: dict = None) -> requests.Response:
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Updates an existing group.
 
             Args:
@@ -533,6 +643,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 agent_priorities (dict): Agents' priorities in a group as a map in the "<id>": "<priority>" format.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -540,17 +653,23 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/update_group', json=payload)
+        return self.session.post(f'{self.api_url}/update_group',
+                                 json=payload,
+                                 headers=headers)
 
     def delete_group(self,
                      id: int = None,
-                     payload: dict = None) -> requests.Response:
+                     payload: dict = None,
+                     headers: dict = None) -> requests.Response:
         ''' Deletes an existing group.
 
             Args:
                 id (int): Groups' ID.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -558,17 +677,23 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/delete_group', json=payload)
+        return self.session.post(f'{self.api_url}/delete_group',
+                                 json=payload,
+                                 headers=headers)
 
     def list_groups(self,
                     fields: list = None,
-                    payload: dict = None) -> requests.Response:
+                    payload: dict = None,
+                    headers: dict = None) -> requests.Response:
         ''' Lists all the exisiting groups.
 
             Args:
                 fields (list): Additional fields to include.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -576,12 +701,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/list_groups', json=payload)
+        return self.session.post(f'{self.api_url}/list_groups',
+                                 json=payload,
+                                 headers=headers)
 
     def get_group(self,
                   id: int = None,
                   fields: list = None,
-                  payload: dict = None) -> requests.Response:
+                  payload: dict = None,
+                  headers: dict = None) -> requests.Response:
         ''' Returns details about a group specified by its id.
 
             Args:
@@ -589,6 +717,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 fields (list): Additional fields to include.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -596,7 +727,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/get_group', json=payload)
+        return self.session.post(f'{self.api_url}/get_group',
+                                 json=payload,
+                                 headers=headers)
 
 # Properties
 
@@ -609,7 +742,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                           domain: list = None,
                           range: dict = None,
                           default_value: str = None,
-                          payload: dict = None) -> requests.Response:
+                          payload: dict = None,
+                          headers: dict = None) -> requests.Response:
         ''' Registers a new private property for a given Client ID.
 
             Args:
@@ -623,6 +757,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 default_value (str): Default value of property; validated by domain or range, if one exists.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -631,12 +768,14 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/register_property',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def unregister_property(self,
                             name: str = None,
                             owner_client_id: str = None,
-                            payload: dict = None) -> requests.Response:
+                            payload: dict = None,
+                            headers: dict = None) -> requests.Response:
         ''' Unregisters a private property.
 
             Args:
@@ -644,6 +783,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 owner_client_id (str): Client ID that will own the property; must be owned by your organization.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -652,13 +794,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/unregister_property',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def publish_property(self,
                          name: str = None,
                          owner_client_id: str = None,
                          access_type: list = None,
-                         payload: dict = None) -> requests.Response:
+                         payload: dict = None,
+                         headers: dict = None) -> requests.Response:
         ''' Publishes a private property.
 
             Args:
@@ -667,6 +811,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 access_type (list): Possible values: `read`, `write`.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -675,17 +822,22 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/publish_property',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def list_properties(self,
                         owner_client_id: str = None,
-                        payload: dict = None) -> requests.Response:
+                        payload: dict = None,
+                        headers: dict = None) -> requests.Response:
         ''' Lists private and public properties owned by a given Client ID.
 
             Args:
                 owner_client_id (str): Client ID that will own the property; must be owned by your organization.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -694,11 +846,13 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/list_properties',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def update_license_properties(self,
                                   properties: dict = None,
-                                  payload: dict = None) -> requests.Response:
+                                  payload: dict = None,
+                                  headers: dict = None) -> requests.Response:
         ''' Updates a property value within a license. This operation doesn't
             overwrite the existing values.
 
@@ -706,6 +860,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 properties (dict): An object with namespaces as keys and properties (grouped in objects) as values.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -714,12 +871,14 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/update_license_properties',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def list_license_properties(self,
                                 namespace: str = None,
                                 name_prefix: str = None,
-                                payload: dict = None) -> requests.Response:
+                                payload: dict = None,
+                                headers: dict = None) -> requests.Response:
         ''' Returns the properties set within a license.
 
             Args:
@@ -727,6 +886,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 name_prefix (str): Properties name prefix.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -735,17 +897,22 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/list_license_properties',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def delete_license_properties(self,
                                   properties: dict = None,
-                                  payload: dict = None) -> requests.Response:
+                                  payload: dict = None,
+                                  headers: dict = None) -> requests.Response:
         ''' Deletes the properties set within a license.
 
             Args:
                 properties (dict): An object with namespaces as keys and property_names (in an array) as values.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -754,12 +921,14 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/delete_license_properties',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def update_group_properties(self,
                                 group_id: int = None,
                                 properties: dict = None,
-                                payload: dict = None) -> requests.Response:
+                                payload: dict = None,
+                                headers: dict = None) -> requests.Response:
         ''' Updates a property value within a group as the property location.
             This operation doesn't overwrite the existing values.
 
@@ -768,6 +937,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 properties (dict): An object with namespaces as keys and properties (grouped in objects) as values.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -776,13 +948,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/update_group_properties',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def list_group_properties(self,
                               id: int = None,
                               namespace: str = None,
                               name_prefix: str = None,
-                              payload: dict = None) -> requests.Response:
+                              payload: dict = None,
+                              headers: dict = None) -> requests.Response:
         ''' Returns the properties set within a group.
 
             Args:
@@ -791,6 +965,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 name_prefix (str): Properties name prefix.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -799,12 +976,14 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/list_group_properties',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def delete_group_properties(self,
                                 id: int = None,
                                 properties: dict = None,
-                                payload: dict = None) -> requests.Response:
+                                payload: dict = None,
+                                headers: dict = None) -> requests.Response:
         ''' Deletes the properties set within a group.
 
             Args:
@@ -812,6 +991,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 properties (dict): An object with namespaces as keys and property_names (in an array) as values.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -820,7 +1002,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/delete_group_properties',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
 
 # Webhooks
@@ -834,7 +1017,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                          filters: dict = None,
                          owner_client_id: str = None,
                          type: str = None,
-                         payload: dict = None) -> requests.Response:
+                         payload: dict = None,
+                         headers: dict = None) -> requests.Response:
         ''' Registers a webhook for the Client ID (application) provided in the request.
 
             Args:
@@ -848,6 +1032,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 type (str): `bot` or `license`.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -856,17 +1043,22 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/register_webhook',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def list_webhooks(self,
                       owner_client_id: str = None,
-                      payload: dict = None) -> requests.Response:
+                      payload: dict = None,
+                      headers: dict = None) -> requests.Response:
         ''' Lists all webhooks registered for the given Client ID.
 
             Args:
                 owner_client_id (str): The webhook owner (the Client ID for which the webhook is registered).
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -874,12 +1066,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/list_webhooks', json=payload)
+        return self.session.post(f'{self.api_url}/list_webhooks',
+                                 json=payload,
+                                 headers=headers)
 
     def unregister_webhook(self,
                            id: str = None,
                            owner_client_id: str = None,
-                           payload: dict = None) -> requests.Response:
+                           payload: dict = None,
+                           headers: dict = None) -> requests.Response:
         ''' Unregisters a webhook previously registered for a Client ID (application).
 
             Args:
@@ -887,6 +1082,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 owner_client_id (str): The webhook owner (the Client ID for which the webhook is registered).
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -895,17 +1093,22 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/unregister_webhook',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def list_webhook_names(self,
                            version: str = None,
-                           payload: dict = None) -> requests.Response:
+                           payload: dict = None,
+                           headers: dict = None) -> requests.Response:
         ''' Lists all webhooks that are supported in a given API version. This method requires no authorization.
 
             Args:
                 version (str): API's version. Defaults to the current stable API version.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -914,11 +1117,13 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/list_webhook_names',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def enable_license_webhooks(self,
                                 owner_client_id: str = None,
-                                payload: dict = None) -> requests.Response:
+                                payload: dict = None,
+                                headers: dict = None) -> requests.Response:
         ''' Enables the webhooks registered for a given Client ID (application)
             for the license associated with the access token used in the request.
 
@@ -926,6 +1131,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 owner_client_id (str): The webhook owner (the Client ID for which the webhook is registered).
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -934,17 +1142,22 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/enable_license_webhooks',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def disable_license_webhooks(self,
                                  owner_client_id: str = None,
-                                 payload: dict = None) -> requests.Response:
+                                 payload: dict = None,
+                                 headers: dict = None) -> requests.Response:
         ''' Disables the enabled webhooks.
 
             Args:
                 owner_client_id (str): Required when authorizing via PATs; ignored otherwise.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -953,11 +1166,13 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/disable_license_webhooks',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
     def get_license_webhooks_state(self,
                                    owner_client_id: str = None,
-                                   payload: dict = None) -> requests.Response:
+                                   payload: dict = None,
+                                   headers: dict = None) -> requests.Response:
         ''' Gets the state of the webhooks registered for a given Client ID (application)
             on the license associated with the access token used in the request.
 
@@ -965,6 +1180,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 owner_client_id (str): Required when authorizing via PATs; ignored otherwise.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, that method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -973,7 +1191,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/get_license_webhooks_state',
-                                 json=payload)
+                                 json=payload,
+                                 headers=headers)
 
 
 class ConfigurationApi33(ConfigurationApiInterface):
