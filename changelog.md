@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - `add_user_to_chat` and `send_typing_indicator` methods to v3.4 class with a support of visibility arg.
-- Custom header handling for the following clients: Agent(rtm/web), Customer(rtm/web), Configuration.
+- Custom header handling for the following clients: Agent(web), Customer(web), Configuration.
 
 ### Removed
 
