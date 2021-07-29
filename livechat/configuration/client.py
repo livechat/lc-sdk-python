@@ -110,7 +110,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -136,7 +136,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -162,7 +162,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -208,7 +208,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -232,7 +232,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -256,7 +256,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -280,7 +280,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -303,7 +303,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -327,7 +327,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object, which contains a server’s
@@ -360,7 +360,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
                             They will be merged with session-level values that are set,
-                            however, that method-level parameters will not be persisted across requests.
+                            however, these method-level parameters will not be persisted across requests.
 
         Returns:
             requests.Response: The Response object, which contains a server’s
@@ -382,7 +382,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
                             They will be merged with session-level values that are set,
-                            however, that method-level parameters will not be persisted across requests.
+                            however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -406,7 +406,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -433,7 +433,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -471,7 +471,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -495,7 +495,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -533,7 +533,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -559,7 +559,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -585,7 +585,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -615,7 +615,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -645,7 +645,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -669,7 +669,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -693,7 +693,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -719,7 +719,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -759,7 +759,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -785,7 +785,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -813,7 +813,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -837,7 +837,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -862,7 +862,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -888,7 +888,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -912,7 +912,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -939,7 +939,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -967,7 +967,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -993,7 +993,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -1034,7 +1034,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -1058,7 +1058,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -1084,7 +1084,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -1108,7 +1108,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -1133,7 +1133,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -1157,7 +1157,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
@@ -1182,7 +1182,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
-                                however, that method-level parameters will not be persisted across requests.
+                                however, these method-level parameters will not be persisted across requests.
 
             Returns:
                 requests.Response: The Response object from `requests` library,
