@@ -17,5 +17,5 @@ def prepare_payload(parameters: dict) -> dict:
     return {
         key: value
         for key, value in parameters.items()
-        if key not in ['self', 'payload'] and value is not None
+        if key not in ['self', 'payload', 'headers'] and value is not None
     }

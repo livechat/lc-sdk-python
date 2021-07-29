@@ -68,3 +68,12 @@ def test_remove_header(conf_api_client):
     assert 'Test2' in conf_api_client.get_headers()
     conf_api_client.remove_header('Test2')
     assert 'Test2' not in conf_api_client.get_headers()
+
+
+def test_custom_headers_within_the_request(conf_api_client):
+    ''' Test if custom headers can be added to the session headers
+        only within the particular request. '''
+    headers = {'x-test': 'enabled'}
+    response = conf_api_client.create_bot(headers=headers)
+    assert headers.items() <= response.request.headers.items()
+    assert 'x-test' not in conf_api_client.get_headers()
