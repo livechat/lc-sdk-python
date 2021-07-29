@@ -1,10 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.1.3] - 2021-07-29
+## [0.1.2] - 2021-07-29
 
 ### Added
 
+- Api version 3.4 support.
+- Example usages of following clients: Agent(rtm/web), Customer(rtm/web), Configuration.
 - `add_user_to_chat` and `send_typing_indicator` methods to v3.4 class with a support of visibility arg.
 - Custom header handling for the following clients: Agent(web), Customer(web), Configuration.
 
@@ -13,17 +15,9 @@ All notable changes to this project will be documented in this file.
 - Support for `grant_chat_access` and `revoke_chat_access` methods in v3.4 class.
 - Flag `require_active_thread` in method `add_user_to_chat`.
 
-### Updated
+### Changed
 
 - urllib package to version 1.26.5.
-
-
-## [0.1.2] - 2021-04-13
-
-### Added
-
-- Api version 3.4 support.
-- Example usages of following clients: Agent(rtm/web), Customer(rtm/web), Configuration.
 
 
 ## [0.1.1] - 2021-04-06
