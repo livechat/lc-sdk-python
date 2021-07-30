@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- Handle new destructive action flags (`ignore_requester_presence`, `ignore_agents_availability`) in v3.4.
+
+
 ## [0.1.2] - 2021-07-29
 
 ### Added
