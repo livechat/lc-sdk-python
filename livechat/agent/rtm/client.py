@@ -985,6 +985,7 @@ class AgentRTM34(AgentRTMInterface):
                          user_id: str = None,
                          user_type: str = None,
                          visibility: str = None,
+                         ignore_requester_presence: bool = None,
                          payload: dict = None) -> dict:
         ''' Adds a user to the chat. You can't add more than
             one customer user type to the chat.
@@ -995,6 +996,8 @@ class AgentRTM34(AgentRTMInterface):
                 user_type (str): Possible values: agent or customer.
                 visibility (str): Determines the visibility of events sent by
                                   the agent. Possible values: `all` or `agents`.
+                ignore_requester_presence (bool): If `True`, allows requester to add user to chat
+                                                  without being present in the chat's users list.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for
                                 the method.
@@ -1005,6 +1008,83 @@ class AgentRTM34(AgentRTMInterface):
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'add_user_to_chat', 'payload': payload})
+
+    def deactivate_chat(self,
+                        id: str = None,
+                        ignore_requester_presence: bool = None,
+                        payload: dict = None) -> dict:
+        ''' Deactivates a chat by closing the currently open thread.
+
+            Args:
+                id (str): Chat ID to deactivate.
+                ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
+                                                  without being present in the chat's users list.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'deactivate_chat', 'payload': payload})
+
+# Chat access
+
+    def transfer_chat(self,
+                      id: str = None,
+                      target: dict = None,
+                      ignore_agents_availability: bool = None,
+                      ignore_requester_presence: bool = None,
+                      payload: dict = None) -> dict:
+        ''' Transfers a chat to an agent or a group.
+
+            Args:
+                id (str): Chat ID.
+                target (dict): Target object. If missing, the chat will be
+                        transferred within the current group.
+                ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
+                              when unable to assign any agent from the requested groups.
+                ignore_requester_presence (bool): If `True`, allows requester to transfer chat
+                                                  without being present in the chat's users list.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'transfer_chat', 'payload': payload})
+
+# Chat users
+
+    def remove_user_from_chat(self,
+                              chat_id: str = None,
+                              user_id: str = None,
+                              user_type: str = None,
+                              ignore_requester_presence: bool = None,
+                              payload: dict = None) -> dict:
+        ''' Removes a user from chat.
+
+            Args:
+                chat_id (str): Chat ID.
+                user_id (str): ID of the user that will be added to the chat.
+                user_type (str): Possible values: agent or customer.
+                ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
+                                                  without being present in the chat's users list.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'remove_user_from_chat',
+            'payload': payload
+        })
 
 
 # Other

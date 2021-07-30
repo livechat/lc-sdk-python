@@ -1209,6 +1209,7 @@ class AgentWeb34(AgentWebInterface):
                          user_id: str = None,
                          user_type: str = None,
                          visibility: str = None,
+                         ignore_requester_presence: bool=None,
                          payload: dict = None,
                          headers: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user
@@ -1220,6 +1221,8 @@ class AgentWeb34(AgentWebInterface):
                 user_type (str): Possible values: agent or customer.
                 visibility (str): Determines the visibility of events sent by
                                   the agent. Possible values: `all` or `agents`.
+                ignore_requester_presence (bool): If `True`, allows requester to add user to chat
+                                                  without being present in the chat&#39;s users list.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -1236,6 +1239,100 @@ class AgentWeb34(AgentWebInterface):
                                  json=payload,
                                  headers=headers)
 
+    def deactivate_chat(self,
+                        id: str = None,
+                        ignore_requester_presence: bool=None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+            Sending messages to this thread will no longer be possible.
+
+            Args:
+                id (str): Chat ID to deactivate.
+                ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/deactivate_chat&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+# Chat access
+
+    def transfer_chat(self,
+                      id: str = None,
+                      target: dict = None,
+                      ignore_agents_availability: bool = None,
+                      ignore_requester_presence: bool=None,
+                      payload: dict = None,
+                      headers: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Transfers a chat to an agent or a group.
+
+            Args:
+                id (str): chat ID
+                target (dict): If missing, chat will be transferred within the current group.
+                ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
+                              when unable to assign any agent from the requested groups.
+                ignore_requester_presence (bool): If `True`, allows requester to transfer chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/transfer_chat&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+# Chat users
+
+    def remove_user_from_chat(self,
+                              chat_id: str = None,
+                              user_id: str = None,
+                              user_type: str = None,
+                              ignore_requester_presence: bool=None,
+                              payload: dict = None,
+                              headers: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Removes a user from chat.
+
+            Args:
+                chat_id (str): chat ID.
+                user_id (str): user ID.
+                user_type (str): Possible values: agent or customer.
+                ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/remove_user_from_chat&#39;,
+                                 json=payload,
+                                 headers=headers)
 
 # Other
 
@@ -1628,6 +1725,7 @@ which contains a server’s response to an HTTP request.</dd>
                          user_id: str = None,
                          user_type: str = None,
                          visibility: str = None,
+                         ignore_requester_presence: bool=None,
                          payload: dict = None,
                          headers: dict = None) -&gt; requests.Response:
         &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user
@@ -1639,6 +1737,8 @@ which contains a server’s response to an HTTP request.</dd>
                 user_type (str): Possible values: agent or customer.
                 visibility (str): Determines the visibility of events sent by
                                   the agent. Possible values: `all` or `agents`.
+                ignore_requester_presence (bool): If `True`, allows requester to add user to chat
+                                                  without being present in the chat&#39;s users list.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -1655,6 +1755,100 @@ which contains a server’s response to an HTTP request.</dd>
                                  json=payload,
                                  headers=headers)
 
+    def deactivate_chat(self,
+                        id: str = None,
+                        ignore_requester_presence: bool=None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+            Sending messages to this thread will no longer be possible.
+
+            Args:
+                id (str): Chat ID to deactivate.
+                ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/deactivate_chat&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+# Chat access
+
+    def transfer_chat(self,
+                      id: str = None,
+                      target: dict = None,
+                      ignore_agents_availability: bool = None,
+                      ignore_requester_presence: bool=None,
+                      payload: dict = None,
+                      headers: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Transfers a chat to an agent or a group.
+
+            Args:
+                id (str): chat ID
+                target (dict): If missing, chat will be transferred within the current group.
+                ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
+                              when unable to assign any agent from the requested groups.
+                ignore_requester_presence (bool): If `True`, allows requester to transfer chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/transfer_chat&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+# Chat users
+
+    def remove_user_from_chat(self,
+                              chat_id: str = None,
+                              user_id: str = None,
+                              user_type: str = None,
+                              ignore_requester_presence: bool=None,
+                              payload: dict = None,
+                              headers: dict = None) -&gt; requests.Response:
+        &#39;&#39;&#39; Removes a user from chat.
+
+            Args:
+                chat_id (str): chat ID.
+                user_id (str): user ID.
+                user_type (str): Possible values: agent or customer.
+                ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/remove_user_from_chat&#39;,
+                                 json=payload,
+                                 headers=headers)
 
 # Other
 
@@ -1692,7 +1886,7 @@ which contains a server’s response to an HTTP request.</dd>
 <h3>Methods</h3>
 <dl>
 <dt id="client.AgentWeb34.add_user_to_chat"><code class="name flex">
-<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, visibility: str = None, payload: dict = None, headers: dict = None) ‑> requests.models.Response</span>
+<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, visibility: str = None, ignore_requester_presence: bool = None, payload: dict = None, headers: dict = None) ‑> requests.models.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a user to the chat. You can't add more than one customer user
@@ -1708,6 +1902,9 @@ type to the chat.</p>
 <dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
 <dd>Determines the visibility of events sent by
 the agent. Possible values: <code>all</code> or <code>agents</code>.</dd>
+<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, allows requester to add user to chat
+without being present in the chat's users list.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -1731,6 +1928,7 @@ which contains a server’s response to an HTTP request.</dd>
                      user_id: str = None,
                      user_type: str = None,
                      visibility: str = None,
+                     ignore_requester_presence: bool=None,
                      payload: dict = None,
                      headers: dict = None) -&gt; requests.Response:
     &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than one customer user
@@ -1742,6 +1940,8 @@ which contains a server’s response to an HTTP request.</dd>
             user_type (str): Possible values: agent or customer.
             visibility (str): Determines the visibility of events sent by
                               the agent. Possible values: `all` or `agents`.
+            ignore_requester_presence (bool): If `True`, allows requester to add user to chat
+                                              without being present in the chat&#39;s users list.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -1755,6 +1955,132 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/add_user_to_chat&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="client.AgentWeb34.deactivate_chat"><code class="name flex">
+<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, ignore_requester_presence: bool = None, payload: dict = None, headers: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deactivates a chat by closing the currently open thread.
+Sending messages to this thread will no longer be possible.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chat ID to deactivate.</dd>
+<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, allows requester to deactivate chat
+without being present in the chat's users list.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def deactivate_chat(self,
+                    id: str = None,
+                    ignore_requester_presence: bool=None,
+                    payload: dict = None,
+                    headers: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+        Sending messages to this thread will no longer be possible.
+
+        Args:
+            id (str): Chat ID to deactivate.
+            ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
+                                              without being present in the chat&#39;s users list.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/deactivate_chat&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="client.AgentWeb34.remove_user_from_chat"><code class="name flex">
+<span>def <span class="ident">remove_user_from_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, ignore_requester_presence: bool = None, payload: dict = None, headers: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes a user from chat.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>chat ID.</dd>
+<dt><strong><code>user_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>user ID.</dd>
+<dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: agent or customer.</dd>
+<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, allows requester to remove user from chat
+without being present in the chat's users list.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_user_from_chat(self,
+                          chat_id: str = None,
+                          user_id: str = None,
+                          user_type: str = None,
+                          ignore_requester_presence: bool=None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Removes a user from chat.
+
+        Args:
+            chat_id (str): chat ID.
+            user_id (str): user ID.
+            user_type (str): Possible values: agent or customer.
+            ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
+                                              without being present in the chat&#39;s users list.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/remove_user_from_chat&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -1818,6 +2144,74 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="client.AgentWeb34.transfer_chat"><code class="name flex">
+<span>def <span class="ident">transfer_chat</span></span>(<span>self, id: str = None, target: dict = None, ignore_agents_availability: bool = None, ignore_requester_presence: bool = None, payload: dict = None, headers: dict = None) ‑> requests.models.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transfers a chat to an agent or a group.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>chat ID</dd>
+<dt><strong><code>target</code></strong> :&ensp;<code>dict</code></dt>
+<dd>If missing, chat will be transferred within the current group.</dd>
+<dt><strong><code>ignore_agents_availability</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, always transfers chats. Otherwise, fails
+when unable to assign any agent from the requested groups.</dd>
+<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, allows requester to transfer chat
+without being present in the chat's users list.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>requests.Response</code></dt>
+<dd>The Response object from <code>requests</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transfer_chat(self,
+                  id: str = None,
+                  target: dict = None,
+                  ignore_agents_availability: bool = None,
+                  ignore_requester_presence: bool=None,
+                  payload: dict = None,
+                  headers: dict = None) -&gt; requests.Response:
+    &#39;&#39;&#39; Transfers a chat to an agent or a group.
+
+        Args:
+            id (str): chat ID
+            target (dict): If missing, chat will be transferred within the current group.
+            ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
+                          when unable to assign any agent from the requested groups.
+            ignore_requester_presence (bool): If `True`, allows requester to transfer chat
+                                              without being present in the chat&#39;s users list.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            requests.Response: The Response object from `requests` library,
+                               which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/transfer_chat&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
@@ -1825,7 +2219,6 @@ which contains a server’s response to an HTTP request.</dd>
 <ul class="hlist">
 <li><code><a title="client.AgentWebInterface.ban_customer" href="#client.AgentWebInterface.ban_customer">ban_customer</a></code></li>
 <li><code><a title="client.AgentWebInterface.create_customer" href="#client.AgentWebInterface.create_customer">create_customer</a></code></li>
-<li><code><a title="client.AgentWebInterface.deactivate_chat" href="#client.AgentWebInterface.deactivate_chat">deactivate_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.delete_chat_properties" href="#client.AgentWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
 <li><code><a title="client.AgentWebInterface.delete_event_properties" href="#client.AgentWebInterface.delete_event_properties">delete_event_properties</a></code></li>
 <li><code><a title="client.AgentWebInterface.delete_thread_properties" href="#client.AgentWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
@@ -1844,14 +2237,12 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.AgentWebInterface.modify_header" href="#client.AgentWebInterface.modify_header">modify_header</a></code></li>
 <li><code><a title="client.AgentWebInterface.multicast" href="#client.AgentWebInterface.multicast">multicast</a></code></li>
 <li><code><a title="client.AgentWebInterface.remove_header" href="#client.AgentWebInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="client.AgentWebInterface.remove_user_from_chat" href="#client.AgentWebInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.resume_chat" href="#client.AgentWebInterface.resume_chat">resume_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.send_event" href="#client.AgentWebInterface.send_event">send_event</a></code></li>
 <li><code><a title="client.AgentWebInterface.send_rich_message_postback" href="#client.AgentWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
 <li><code><a title="client.AgentWebInterface.set_routing_status" href="#client.AgentWebInterface.set_routing_status">set_routing_status</a></code></li>
 <li><code><a title="client.AgentWebInterface.start_chat" href="#client.AgentWebInterface.start_chat">start_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.tag_thread" href="#client.AgentWebInterface.tag_thread">tag_thread</a></code></li>
-<li><code><a title="client.AgentWebInterface.transfer_chat" href="#client.AgentWebInterface.transfer_chat">transfer_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.unfollow_chat" href="#client.AgentWebInterface.unfollow_chat">unfollow_chat</a></code></li>
 <li><code><a title="client.AgentWebInterface.unfollow_customer" href="#client.AgentWebInterface.unfollow_customer">unfollow_customer</a></code></li>
 <li><code><a title="client.AgentWebInterface.untag_thread" href="#client.AgentWebInterface.untag_thread">untag_thread</a></code></li>
@@ -5244,7 +5635,10 @@ which contains a server’s response to an HTTP request.</dd>
 <h4><code><a title="client.AgentWeb34" href="#client.AgentWeb34">AgentWeb34</a></code></h4>
 <ul class="">
 <li><code><a title="client.AgentWeb34.add_user_to_chat" href="#client.AgentWeb34.add_user_to_chat">add_user_to_chat</a></code></li>
+<li><code><a title="client.AgentWeb34.deactivate_chat" href="#client.AgentWeb34.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.AgentWeb34.remove_user_from_chat" href="#client.AgentWeb34.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentWeb34.send_typing_indicator" href="#client.AgentWeb34.send_typing_indicator">send_typing_indicator</a></code></li>
+<li><code><a title="client.AgentWeb34.transfer_chat" href="#client.AgentWeb34.transfer_chat">transfer_chat</a></code></li>
 </ul>
 </li>
 <li>
