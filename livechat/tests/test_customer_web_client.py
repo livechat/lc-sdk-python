@@ -75,17 +75,17 @@ def test_send_request(customer_web_api_client):
 
 def test_modify_header(customer_web_api_client):
     ''' Test if customer object header can be updated with custom value. '''
-    assert 'Test' not in customer_web_api_client.get_headers()
-    customer_web_api_client.modify_header({'Test': '1234'})
-    assert 'Test' in customer_web_api_client.get_headers()
+    assert 'test' not in customer_web_api_client.get_headers()
+    customer_web_api_client.modify_header({'test': '1234'})
+    assert 'test' in customer_web_api_client.get_headers()
 
 
 def test_remove_header(customer_web_api_client):
     ''' Test if header can be removed from customer object. '''
-    customer_web_api_client.modify_header({'Test2': '1234'})
-    assert 'Test2' in customer_web_api_client.get_headers()
-    customer_web_api_client.remove_header('Test2')
-    assert 'Test2' not in customer_web_api_client.get_headers()
+    customer_web_api_client.modify_header({'test2': '1234'})
+    assert 'test2' in customer_web_api_client.get_headers()
+    customer_web_api_client.remove_header('test2')
+    assert 'test2' not in customer_web_api_client.get_headers()
 
 
 def test_custom_headers_within_the_request(customer_web_api_client):
@@ -95,3 +95,20 @@ def test_custom_headers_within_the_request(customer_web_api_client):
     response = customer_web_api_client.start_chat(headers=headers)
     assert headers.items() <= response.request.headers.items()
     assert 'x-test' not in customer_web_api_client.get_headers()
+
+
+def test_client_supports_http_1():
+    ''' Test if client supports HTTP/1.1 protocol. '''
+    client = CustomerWeb.get_client(license_id=LICENSE_ID,
+                                    access_token=ACCESS_TOKEN_INVALID)
+    http_version = client.list_chats().http_version
+    assert http_version == 'HTTP/1.1'
+
+
+def test_client_supports_http_2():
+    ''' Test if client supports HTTP/2 protocol. '''
+    client = CustomerWeb.get_client(license_id=LICENSE_ID,
+                                    access_token=ACCESS_TOKEN_INVALID,
+                                    http2=True)
+    http_version = client.list_chats().http_version
+    assert http_version == 'HTTP/2'

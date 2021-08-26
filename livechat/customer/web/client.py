@@ -5,7 +5,7 @@
 import typing
 from abc import ABCMeta
 
-import requests
+import httpx
 
 from livechat.utils.helpers import prepare_payload
 
@@ -18,7 +18,8 @@ class CustomerWeb:
     def get_client(license_id: int,
                    access_token: str,
                    version: str = '3.3',
-                   base_url: str = 'api.livechatinc.com'):
+                   base_url: str = 'api.livechatinc.com',
+                   http2: bool = False):
         ''' Returns client for specific API version.
 
             Args:
@@ -26,6 +27,8 @@ class CustomerWeb:
                                 used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
+                http2 (bool): A boolean indicating if HTTP/2 support should be
+                              enabled. Defaults to `False`.
 
             Returns:
                 API client object for specified version based on
@@ -35,8 +38,10 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': CustomerWeb33(license_id, access_token, version, base_url),
-            '3.4': CustomerWeb34(license_id, access_token, version, base_url)
+            '3.3':
+            CustomerWeb33(license_id, access_token, version, base_url, http2),
+            '3.4':
+            CustomerWeb34(license_id, access_token, version, base_url, http2)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -46,10 +51,10 @@ class CustomerWeb:
 class CustomerWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
     def __init__(self, license_id: int, access_token: str, version: str,
-                 base_url: str):
+                 base_url: str, http2: bool):
         self.api_url = f'https://{base_url}/v{version}/customer/action'
-        self.session = requests.Session()
-        self.session.headers.update({'Authorization': access_token})
+        self.session = httpx.Client(http2=http2,
+                                    headers={'Authorization': access_token})
         self.license_id = str(license_id)
 
     def modify_header(self, header: dict) -> None:
@@ -84,7 +89,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                    sort_order: str = None,
                    page_id: str = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Returns summaries of the chats a Customer participated in.
 
             Args:
@@ -99,8 +104,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -116,7 +121,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                      page_id: str = None,
                      min_events_count: int = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Returns threads that the current Customer has access to in a given chat.
 
             Args:
@@ -134,8 +139,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -148,7 +153,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                  chat_id: str = None,
                  thread_id: str = None,
                  payload: dict = None,
-                 headers: dict = None) -> requests.Response:
+                 headers: dict = None) -> httpx.Response:
         ''' Returns a thread that the current Customer has access to in a given chat.
 
             Args:
@@ -161,8 +166,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -176,7 +181,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                    active: bool = None,
                    continuous: bool = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Starts a chat.
 
             Args:
@@ -190,8 +195,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -205,7 +210,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                     active: bool = None,
                     continuous: bool = None,
                     payload: dict = None,
-                    headers: dict = None) -> requests.Response:
+                    headers: dict = None) -> httpx.Response:
         ''' Restarts an archived chat.
 
             Args:
@@ -219,8 +224,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -232,7 +237,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
     def deactivate_chat(self,
                         id: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Deactivates a chat by closing the currently open thread.
             Sending messages to this thread will no longer be possible.
 
@@ -245,8 +250,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -263,7 +268,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                   channel_type: str = None,
                                   test: bool = None,
                                   payload: dict = None,
-                                  headers: dict = None) -> requests.Response:
+                                  headers: dict = None) -> httpx.Response:
         ''' Returns the dynamic configuration of a given group.
             It provides data to call Get Configuration and Get Localization.
 
@@ -280,8 +285,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
 
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
            '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -294,7 +299,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                           group_id: int = None,
                           version: str = None,
                           payload: dict = None,
-                          headers: dict = None) -> requests.Response:
+                          headers: dict = None) -> httpx.Response:
         ''' Returns the configuration of a given group in a given version. Contains data based on which the Chat Widget can be built.
 
             Args:
@@ -308,8 +313,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
          '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -325,7 +330,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                    event: dict = None,
                    attach_to_last_thread: bool = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Sends an Event object. Use this method to send a message by specifying the Message event type in the request.
             The method updates the requester's `events_seen_up_to` as if they've seen all chat events.
 
@@ -343,8 +348,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -355,7 +360,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
     def upload_file(self,
                     file: typing.BinaryIO = None,
                     payload: dict = None,
-                    headers: dict = None) -> requests.Response:
+                    headers: dict = None) -> httpx.Response:
         ''' Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in `send_event`.
 
             Args:
@@ -367,8 +372,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -382,7 +387,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                    postback: dict = None,
                                    thread_id: str = None,
                                    payload: dict = None,
-                                   headers: dict = None) -> requests.Response:
+                                   headers: dict = None) -> httpx.Response:
         ''' Sends a rich message postback.
 
             Args:
@@ -397,8 +402,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -410,7 +415,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                         chat_id: str = None,
                         sneak_peek_text: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Sends a sneak peek to a chat.
 
             Args:
@@ -423,8 +428,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -439,7 +444,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                          language: str = None,
                          version: str = None,
                          payload: dict = None,
-                         headers: dict = None) -> requests.Response:
+                         headers: dict = None) -> httpx.Response:
         ''' Returns the localization of a given language and group in a given version. Contains translated phrases for the Chat Widget.
 
             Args:
@@ -454,8 +459,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -469,7 +474,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                id: str = None,
                                properties: dict = None,
                                payload: dict = None,
-                               headers: dict = None) -> requests.Response:
+                               headers: dict = None) -> httpx.Response:
         ''' Updates chat properties.
 
             Args:
@@ -483,8 +488,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -496,7 +501,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                id: str = None,
                                properties: dict = None,
                                payload: dict = None,
-                               headers: dict = None) -> requests.Response:
+                               headers: dict = None) -> httpx.Response:
         ''' Deletes chat properties.
 
             Args:
@@ -509,8 +514,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -523,7 +528,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                  thread_id: str = None,
                                  properties: dict = None,
                                  payload: dict = None,
-                                 headers: dict = None) -> requests.Response:
+                                 headers: dict = None) -> httpx.Response:
         ''' Updates chat thread properties.
 
             Args:
@@ -538,8 +543,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -552,7 +557,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                  thread_id: str = None,
                                  properties: dict = None,
                                  payload: dict = None,
-                                 headers: dict = None) -> requests.Response:
+                                 headers: dict = None) -> httpx.Response:
         ''' Deletes chat thread properties.
 
             Args:
@@ -566,8 +571,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -581,7 +586,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 event_id: str = None,
                                 properties: dict = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Updates event properties.
 
             Args:
@@ -597,8 +602,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -612,7 +617,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 event_id: str = None,
                                 properties: dict = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Deletes event properties.
 
             Args:
@@ -627,8 +632,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -640,7 +645,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 namespace: str = None,
                                 name: str = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
 
             Args:
@@ -652,8 +657,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = {}
         params = {}
@@ -672,7 +677,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                               namespace: str = None,
                               name: str = None,
                               payload: dict = None,
-                              headers: dict = None) -> requests.Response:
+                              headers: dict = None) -> httpx.Response:
         ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
             Args:
                 group_id (int): ID of the group you want to return the properties of.
@@ -684,8 +689,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = {}
         params = {}
@@ -705,7 +710,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
 
     def get_customer(self,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Returns the info about the Customer requesting it.
 
             Args:
@@ -716,8 +721,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         return self.session.post(
             f'{self.api_url}/get_customer?license_id={self.license_id}',
@@ -730,7 +735,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                         avatar: str = None,
                         session_fields: list = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Updates Customer's properties.
 
             Args:
@@ -746,8 +751,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -759,7 +764,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
     def set_customer_session_fields(self,
                                     session_fields: list = None,
                                     payload: dict = None,
-                                    headers: dict = None) -> requests.Response:
+                                    headers: dict = None) -> httpx.Response:
         ''' Updates Customer's session fields.
 
             Args:
@@ -772,8 +777,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -788,7 +793,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                             all: bool = None,
                             group_ids: list = None,
                             payload: dict = None,
-                            headers: dict = None) -> requests.Response:
+                            headers: dict = None) -> httpx.Response:
         ''' Returns object with info about current routing statuses of agent groups.
             One of the optional parameters needs to be included in the request.
 
@@ -802,8 +807,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -820,7 +825,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                     group_id: int = None,
                     page_url: str = None,
                     payload: dict = None,
-                    headers: dict = None) -> requests.Response:
+                    headers: dict = None) -> httpx.Response:
         ''' Customer can use this method to trigger checking if goals were achieved.
             Then, Agents receive the information. You should call this method to provide goals parameters for the server
             when the customers limit is reached. Works only for offline Customers.
@@ -836,8 +841,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -850,7 +855,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                  group_id: int = None,
                  type: str = None,
                  payload: dict = None,
-                 headers: dict = None) -> requests.Response:
+                 headers: dict = None) -> httpx.Response:
         ''' Returns an empty ticket form of a prechat or postchat survey.
 
             Args:
@@ -863,8 +868,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -875,7 +880,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
 
     def get_predicted_agent(self,
                             payload: dict = None,
-                            headers: dict = None) -> requests.Response:
+                            headers: dict = None) -> httpx.Response:
         ''' Gets the predicted Agent - the one the Customer will chat with when the chat starts.
             To use this method, the Customer needs to be logged in, which can be done via the `login` method.
 
@@ -887,8 +892,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         return self.session.post(
             f'{self.api_url}/get_predicted_agent?license_id={self.license_id}',
@@ -898,7 +903,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
     def get_url_info(self,
                      url: str = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Returns the info on a given URL.
 
             Args:
@@ -910,8 +915,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -923,7 +928,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                             chat_id: str = None,
                             seen_up_to: str = None,
                             payload: dict = None,
-                            headers: dict = None) -> requests.Response:
+                            headers: dict = None) -> httpx.Response:
         ''' Updates `seen_up_to` value for a given chat.
 
             Args:
@@ -936,8 +941,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -949,7 +954,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                         greeting_id: int = None,
                         unique_id: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Marks an incoming greeting as seen.
 
             Args:
@@ -962,8 +967,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
@@ -974,7 +979,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
     def cancel_greeting(self,
                         unique_id: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Cancels a greeting (an invitation to the chat).
             For example, Customers could cancel greetings by minimalizing the chat widget with a greeting.
 
@@ -987,8 +992,8 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
