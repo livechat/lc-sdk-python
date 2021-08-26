@@ -101,8 +101,7 @@ def test_client_supports_http_1():
     ''' Test if client supports HTTP/1.1 protocol. '''
     client = CustomerWeb.get_client(license_id=LICENSE_ID,
                                     access_token=ACCESS_TOKEN_INVALID)
-    http_version = client.list_chats().http_version
-    assert http_version == 'HTTP/1.1'
+    assert client.list_chats().http_version == 'HTTP/1.1'
 
 
 def test_client_supports_http_2():
@@ -110,5 +109,4 @@ def test_client_supports_http_2():
     client = CustomerWeb.get_client(license_id=LICENSE_ID,
                                     access_token=ACCESS_TOKEN_INVALID,
                                     http2=True)
-    http_version = client.list_chats().http_version
-    assert http_version == 'HTTP/2'
+    assert client.list_chats().http_version == 'HTTP/2'

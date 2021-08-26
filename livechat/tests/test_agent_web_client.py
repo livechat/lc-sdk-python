@@ -86,12 +86,10 @@ def test_custom_headers_within_the_request(agent_web_api_client):
 def test_client_supports_http_1():
     ''' Test if client supports HTTP/1.1 protocol. '''
     client = AgentWeb.get_client(access_token=ACCESS_TOKEN_INVALID)
-    http_version = client.list_chats().http_version
-    assert http_version == 'HTTP/1.1'
+    assert client.list_chats().http_version == 'HTTP/1.1'
 
 
 def test_client_supports_http_2():
     ''' Test if client supports HTTP/2 protocol. '''
     client = AgentWeb.get_client(access_token=ACCESS_TOKEN_INVALID, http2=True)
-    http_version = client.list_chats().http_version
-    assert http_version == 'HTTP/2'
+    assert client.list_chats().http_version == 'HTTP/2'

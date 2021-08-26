@@ -82,12 +82,10 @@ def test_custom_headers_within_the_request(conf_api_client):
 def test_client_supports_http_1():
     ''' Test if client supports HTTP/1.1 protocol. '''
     client = ConfigurationApi.get_client(token='test')
-    http_version = client.create_agent().http_version
-    assert http_version == 'HTTP/1.1'
+    assert client.create_agent().http_version == 'HTTP/1.1'
 
 
 def test_client_supports_http_2():
     ''' Test if client supports HTTP/2 protocol. '''
     client = ConfigurationApi.get_client(token='test', http2=True)
-    http_version = client.create_agent().http_version
-    assert http_version == 'HTTP/2'
+    assert client.create_agent().http_version == 'HTTP/2'
