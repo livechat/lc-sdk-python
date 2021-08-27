@@ -57,17 +57,17 @@ def test_send_request(conf_api_client):
 
 def test_modify_header(conf_api_client):
     ''' Test if configuration-api object header can be updated with custom value. '''
-    assert 'Test' not in conf_api_client.get_headers()
-    conf_api_client.modify_header({'Test': '1234'})
-    assert 'Test' in conf_api_client.get_headers()
+    assert 'test' not in conf_api_client.get_headers()
+    conf_api_client.modify_header({'test': '1234'})
+    assert 'test' in conf_api_client.get_headers()
 
 
 def test_remove_header(conf_api_client):
     ''' Test if header can be removed from configuration-api object. '''
-    conf_api_client.modify_header({'Test2': '1234'})
-    assert 'Test2' in conf_api_client.get_headers()
-    conf_api_client.remove_header('Test2')
-    assert 'Test2' not in conf_api_client.get_headers()
+    conf_api_client.modify_header({'test2': '1234'})
+    assert 'test2' in conf_api_client.get_headers()
+    conf_api_client.remove_header('test2')
+    assert 'test2' not in conf_api_client.get_headers()
 
 
 def test_custom_headers_within_the_request(conf_api_client):
@@ -77,3 +77,15 @@ def test_custom_headers_within_the_request(conf_api_client):
     response = conf_api_client.create_bot(headers=headers)
     assert headers.items() <= response.request.headers.items()
     assert 'x-test' not in conf_api_client.get_headers()
+
+
+def test_client_supports_http_1():
+    ''' Test if client supports HTTP/1.1 protocol. '''
+    client = ConfigurationApi.get_client(token='test')
+    assert client.create_agent().http_version == 'HTTP/1.1'
+
+
+def test_client_supports_http_2():
+    ''' Test if client supports HTTP/2 protocol. '''
+    client = ConfigurationApi.get_client(token='test', http2=True)
+    assert client.create_agent().http_version == 'HTTP/2'

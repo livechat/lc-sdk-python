@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.4] - 2021-08-26
+
+### Added
+
+- Support for HTTP/2 protocol within the following clients: Agent(web), Customer(web), Configuration.
+
+### Changed
+
+- requests to httpx package.
+
+
 ## [0.1.3] - 2021-08-05
 
 ### Added
@@ -10,6 +21,7 @@ All notable changes to this project will be documented in this file.
 ### Bugfixes
 
 - Include essential subpackages
+
 
 ## [0.1.2] - 2021-07-29
 

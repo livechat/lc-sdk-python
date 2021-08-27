@@ -5,7 +5,7 @@
 import typing
 from abc import ABCMeta
 
-import requests
+import httpx
 
 from livechat.utils.helpers import prepare_payload
 
@@ -17,7 +17,8 @@ class AgentWeb:
     @staticmethod
     def get_client(access_token: str,
                    version: str = '3.3',
-                   base_url: str = 'api.livechatinc.com'):
+                   base_url: str = 'api.livechatinc.com',
+                   http2: bool = False):
         ''' Returns client for specific API version.
 
             Args:
@@ -25,6 +26,8 @@ class AgentWeb:
                                 used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
+                http2 (bool): A boolean indicating if HTTP/2 support should be
+                              enabled. Defaults to `False`.
 
             Returns:
                 API client object for specified version based on
@@ -34,8 +37,8 @@ class AgentWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': AgentWeb33(access_token, version, base_url),
-            '3.4': AgentWeb34(access_token, version, base_url)
+            '3.3': AgentWeb33(access_token, version, base_url, http2),
+            '3.4': AgentWeb34(access_token, version, base_url, http2)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -44,10 +47,11 @@ class AgentWeb:
 
 class AgentWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
-    def __init__(self, access_token: str, version: str, base_url: str):
+    def __init__(self, access_token: str, version: str, base_url: str,
+                 http2: bool):
         self.api_url = f'https://{base_url}/v{version}/agent/action'
-        self.session = requests.Session()
-        self.session.headers.update({'Authorization': access_token})
+        self.session = httpx.Client(http2=http2,
+                                    headers={'Authorization': access_token})
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
@@ -82,7 +86,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                          user_type: str = None,
                          require_active_thread: bool = None,
                          payload: dict = None,
-                         headers: dict = None) -> requests.Response:
+                         headers: dict = None) -> httpx.Response:
         ''' Adds a user to the chat. You can't add more than one customer user type to the chat.
 
             Args:
@@ -99,8 +103,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -114,7 +118,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                    limit: int = None,
                    page_id: str = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Returns summaries of the chats an Agent has access to.
 
             Args:
@@ -134,8 +138,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -151,7 +155,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                      min_events_count: int = None,
                      filters: dict = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Returns threads that the current Agent has access to in a given chat.
 
             Args:
@@ -170,8 +174,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -183,7 +187,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                  chat_id: str = None,
                  thread_id: str = None,
                  payload: dict = None,
-                 headers: dict = None) -> requests.Response:
+                 headers: dict = None) -> httpx.Response:
         ''' Returns a thread that the current Agent has access to in a given chat
 
             Args:
@@ -196,8 +200,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -212,7 +216,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                       limit: str = None,
                       highlights: dict = None,
                       payload: dict = None,
-                      headers: dict = None) -> requests.Response:
+                      headers: dict = None) -> httpx.Response:
         ''' Returns a list of the chats an Agent has access to.
             Together with a chat, the events of one thread from this chat are returned.
 
@@ -233,8 +237,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -247,7 +251,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                    active: bool = None,
                    continuous: bool = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Starts a chat.
 
             Args:
@@ -261,8 +265,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -275,7 +279,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                     active: bool = None,
                     continuous: bool = None,
                     payload: dict = None,
-                    headers: dict = None) -> requests.Response:
+                    headers: dict = None) -> httpx.Response:
         ''' Restarts an archived chat.
 
             Args:
@@ -289,8 +293,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -301,7 +305,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def deactivate_chat(self,
                         id: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Deactivates a chat by closing the currently open thread.
             Sending messages to this thread will no longer be possible.
 
@@ -314,8 +318,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -326,7 +330,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def follow_chat(self,
                     id: str = None,
                     payload: dict = None,
-                    headers: dict = None) -> requests.Response:
+                    headers: dict = None) -> httpx.Response:
         ''' Marks a chat as followed. All changes to the chat will be sent to the requester
             until the chat is reactivated or unfollowed. Chat members don't need to follow
             their chats. They receive all chat pushes regardless of their follower status.
@@ -340,8 +344,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -352,7 +356,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def unfollow_chat(self,
                       id: str = None,
                       payload: dict = None,
-                      headers: dict = None) -> requests.Response:
+                      headers: dict = None) -> httpx.Response:
         ''' Removes the requester from the chat followers. After that, only key changes
             to the chat (like transfer_chat or close_active_thread) will be sent
             to the requester. Chat members cannot unfollow the chat.
@@ -366,8 +370,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -382,7 +386,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                       target: dict = None,
                       force: bool = None,
                       payload: dict = None,
-                      headers: dict = None) -> requests.Response:
+                      headers: dict = None) -> httpx.Response:
         ''' Transfers a chat to an agent or a group.
 
             Args:
@@ -397,8 +401,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -413,7 +417,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                               user_id: str = None,
                               user_type: str = None,
                               payload: dict = None,
-                              headers: dict = None) -> requests.Response:
+                              headers: dict = None) -> httpx.Response:
         ''' Removes a user from chat.
 
             Args:
@@ -427,8 +431,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -443,7 +447,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                    event: dict = None,
                    attach_to_last_thread: bool = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Sends an Event object. Use this method to send a message by specifying the Message event type in the request.
             The method updates the requester's `events_seen_up_to` as if they've seen all chat events.
 
@@ -461,8 +465,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/send_event',
@@ -472,7 +476,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def upload_file(self,
                     file: typing.BinaryIO = None,
                     payload: dict = None,
-                    headers: dict = None) -> requests.Response:
+                    headers: dict = None) -> httpx.Response:
         ''' Uploads a file to the server as a temporary file. It returns a URL that expires
             after 24 hours unless the URL is used in `send_event`.
 
@@ -485,8 +489,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/upload_file',
@@ -499,7 +503,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                                    event_id: str = None,
                                    postback: dict = None,
                                    payload: dict = None,
-                                   headers: dict = None) -> requests.Response:
+                                   headers: dict = None) -> httpx.Response:
         ''' Sends a rich message postback.
 
             Args:
@@ -514,8 +518,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/send_rich_message_postback',
@@ -528,7 +532,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                                id: str = None,
                                properties: dict = None,
                                payload: dict = None,
-                               headers: dict = None) -> requests.Response:
+                               headers: dict = None) -> httpx.Response:
         ''' Updates chat properties.
 
             Args:
@@ -541,8 +545,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/update_chat_properties',
@@ -553,7 +557,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                                id: str = None,
                                properties: dict = None,
                                payload: dict = None,
-                               headers: dict = None) -> requests.Response:
+                               headers: dict = None) -> httpx.Response:
         ''' Deletes chat properties.
 
             Args:
@@ -566,8 +570,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/delete_chat_properties',
@@ -579,7 +583,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                                  thread_id: str = None,
                                  properties: dict = None,
                                  payload: dict = None,
-                                 headers: dict = None) -> requests.Response:
+                                 headers: dict = None) -> httpx.Response:
         ''' Updates chat thread properties.
 
             Args:
@@ -594,8 +598,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/update_thread_properties',
@@ -607,7 +611,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                                  thread_id: str = None,
                                  properties: dict = None,
                                  payload: dict = None,
-                                 headers: dict = None) -> requests.Response:
+                                 headers: dict = None) -> httpx.Response:
         ''' Deletes chat thread properties.
 
             Args:
@@ -621,8 +625,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/delete_thread_properties',
@@ -635,7 +639,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 event_id: str = None,
                                 properties: dict = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Updates event properties.
 
             Args:
@@ -651,8 +655,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/update_event_properties',
@@ -665,7 +669,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 event_id: str = None,
                                 properties: dict = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Deletes event properties.
 
             Args:
@@ -680,8 +684,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/delete_event_properties',
@@ -695,7 +699,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                    thread_id: str = None,
                    tag: str = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Tags thread.
 
             Args:
@@ -709,8 +713,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -723,7 +727,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                      thread_id: str = None,
                      tag: str = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Untags thread.
 
             Args:
@@ -737,8 +741,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -751,7 +755,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def get_customer(self,
                      id: str = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Returns the info about the Customer with a given id.
 
             Args:
@@ -763,8 +767,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/get_customer',
@@ -778,7 +782,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                        sort_by: str = None,
                        filters: dict = None,
                        payload: dict = None,
-                       headers: dict = None) -> requests.Response:
+                       headers: dict = None) -> httpx.Response:
         ''' Returns the list of Customers.
 
             Args:
@@ -797,8 +801,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -812,7 +816,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                         avatar: str = None,
                         session_fields: list = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Creates a new Customer user type.
 
             Args:
@@ -828,8 +832,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -844,7 +848,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                         avatar: str = None,
                         session_fields: list = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Updates Customer's properties.
 
             Args:
@@ -861,8 +865,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -874,7 +878,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                      id: str = None,
                      ban: dict = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Bans the customer for a specific period of time. It immediately
             disconnects all active sessions of this customer and does not accept
             new ones during the ban lifespan.
@@ -890,8 +894,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -902,7 +906,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def follow_customer(self,
                         id: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Marks a customer as followed. As a result, the requester (an agent)
             will receive the info about all the changes related to that customer
             via pushes. Once the customer leaves the website or is unfollowed,
@@ -917,8 +921,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -929,7 +933,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def unfollow_customer(self,
                           id: str = None,
                           payload: dict = None,
-                          headers: dict = None) -> requests.Response:
+                          headers: dict = None) -> httpx.Response:
         ''' Removes the agent from the list of customer's followers. Calling this
             method on a customer the agent's chatting with will result in success,
             however, the agent will still receive pushes about the customer's data
@@ -944,8 +948,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -959,7 +963,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                            status: str = None,
                            agent_id: str = None,
                            payload: dict = None,
-                           headers: dict = None) -> requests.Response:
+                           headers: dict = None) -> httpx.Response:
         ''' Changes the status of an Agent or a Bot Agent.
 
             Args:
@@ -973,8 +977,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -985,7 +989,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def list_routing_statuses(self,
                               filters: dict = None,
                               payload: dict = None,
-                              headers: dict = None) -> requests.Response:
+                              headers: dict = None) -> httpx.Response:
         ''' Returns the current routing status of each agent selected by the provided filters.
 
             Args:
@@ -997,8 +1001,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1013,7 +1017,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                             chat_id: str = None,
                             seen_up_to: str = None,
                             payload: dict = None,
-                            headers: dict = None) -> requests.Response:
+                            headers: dict = None) -> httpx.Response:
         ''' Updates `seen_up_to` value for a given chat.
 
             Args:
@@ -1026,8 +1030,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/mark_events_as_seen',
@@ -1039,7 +1043,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                               recipients: str = None,
                               is_typing: bool = None,
                               payload: dict = None,
-                              headers: dict = None) -> requests.Response:
+                              headers: dict = None) -> httpx.Response:
         ''' Sends typing indicator.
 
             Args:
@@ -1053,8 +1057,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/send_typing_indicator',
@@ -1066,7 +1070,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                   content: typing.Any = None,
                   type: str = None,
                   payload: dict = None,
-                  headers: dict = None) -> requests.Response:
+                  headers: dict = None) -> httpx.Response:
         ''' Sends a multicast (chat-unrelated communication).
 
             Args:
@@ -1080,8 +1084,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/multicast',
@@ -1091,7 +1095,7 @@ class AgentWebInterface(metaclass=ABCMeta):
     def list_agents_for_transfer(self,
                                  chat_id: str = None,
                                  payload: dict = None,
-                                 headers: dict = None) -> requests.Response:
+                                 headers: dict = None) -> httpx.Response:
         ''' Returns the list of Agents you can transfer a chat to.
 
             Args:
@@ -1103,8 +1107,8 @@ class AgentWebInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/list_agents_for_transfer',
@@ -1121,7 +1125,7 @@ class AgentWeb33(AgentWebInterface):
                           id: str = None,
                           access: dict = None,
                           payload: dict = None,
-                          headers: dict = None) -> requests.Response:
+                          headers: dict = None) -> httpx.Response:
         ''' Grants access to a new chat without overwriting the existing ones.
 
             Args:
@@ -1134,8 +1138,8 @@ class AgentWeb33(AgentWebInterface):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1147,7 +1151,7 @@ class AgentWeb33(AgentWebInterface):
                            id: str = None,
                            access: dict = None,
                            payload: dict = None,
-                           headers: dict = None) -> requests.Response:
+                           headers: dict = None) -> httpx.Response:
         ''' Revoke access to a chat.
 
             Args:
@@ -1160,8 +1164,8 @@ class AgentWeb33(AgentWebInterface):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1182,7 +1186,7 @@ class AgentWeb34(AgentWebInterface):
                          visibility: str = None,
                          ignore_requester_presence: bool = None,
                          payload: dict = None,
-                         headers: dict = None) -> requests.Response:
+                         headers: dict = None) -> httpx.Response:
         ''' Adds a user to the chat. You can't add more than one customer user
             type to the chat.
 
@@ -1201,8 +1205,8 @@ class AgentWeb34(AgentWebInterface):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1214,7 +1218,7 @@ class AgentWeb34(AgentWebInterface):
                         id: str = None,
                         ignore_requester_presence: bool = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Deactivates a chat by closing the currently open thread.
             Sending messages to this thread will no longer be possible.
 
@@ -1229,8 +1233,8 @@ class AgentWeb34(AgentWebInterface):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1246,7 +1250,7 @@ class AgentWeb34(AgentWebInterface):
                       ignore_agents_availability: bool = None,
                       ignore_requester_presence: bool = None,
                       payload: dict = None,
-                      headers: dict = None) -> requests.Response:
+                      headers: dict = None) -> httpx.Response:
         ''' Transfers a chat to an agent or a group.
 
             Args:
@@ -1263,8 +1267,8 @@ class AgentWeb34(AgentWebInterface):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1280,7 +1284,7 @@ class AgentWeb34(AgentWebInterface):
                               user_type: str = None,
                               ignore_requester_presence: bool = None,
                               payload: dict = None,
-                              headers: dict = None) -> requests.Response:
+                              headers: dict = None) -> httpx.Response:
         ''' Removes a user from chat.
 
             Args:
@@ -1296,8 +1300,8 @@ class AgentWeb34(AgentWebInterface):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1313,7 +1317,7 @@ class AgentWeb34(AgentWebInterface):
                               visibility: str = None,
                               is_typing: bool = None,
                               payload: dict = None,
-                              headers: dict = None) -> requests.Response:
+                              headers: dict = None) -> httpx.Response:
         ''' Sends typing indicator.
 
             Args:
@@ -1327,8 +1331,8 @@ class AgentWeb34(AgentWebInterface):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request. '''
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/send_typing_indicator',

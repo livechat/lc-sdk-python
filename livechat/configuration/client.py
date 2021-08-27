@@ -4,7 +4,7 @@
 
 from abc import ABCMeta
 
-import requests
+import httpx
 
 from livechat.utils.helpers import prepare_payload
 
@@ -15,7 +15,8 @@ class ConfigurationApi:
     @staticmethod
     def get_client(token: str,
                    version: str = '3.3',
-                   base_url: str = 'api.livechatinc.com'):
+                   base_url: str = 'api.livechatinc.com',
+                   http2: bool = False):
         ''' Returns client for specific Configuration API version.
 
             Args:
@@ -23,6 +24,8 @@ class ConfigurationApi:
                              used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
+                http2 (bool): A boolean indicating if HTTP/2 support should be
+                              enabled. Defaults to `False`.
 
             Returns:
                 ConfigurationApi: API client object for specified version.
@@ -31,8 +34,8 @@ class ConfigurationApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': ConfigurationApi33(token, '3.3', base_url),
-            '3.4': ConfigurationApi34(token, '3.4', base_url)
+            '3.3': ConfigurationApi33(token, '3.3', base_url, http2),
+            '3.4': ConfigurationApi34(token, '3.4', base_url, http2)
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -41,10 +44,10 @@ class ConfigurationApi:
 
 class ConfigurationApiInterface(metaclass=ABCMeta):
     ''' Interface class. '''
-    def __init__(self, token: str, version: str, base_url: str):
+    def __init__(self, token: str, version: str, base_url: str, http2: bool):
         self.api_url = f'https://{base_url}/v{version}/configuration/action'
-        self.session = requests.Session()
-        self.session.headers.update({'Authorization': token})
+        self.session = httpx.Client(http2=http2,
+                                    headers={'Authorization': token})
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
@@ -87,7 +90,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                      email_subscriptions: list = None,
                      work_scheduler: dict = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Creates a new Agent with specified parameters within a license.
 
             Args:
@@ -113,8 +116,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -126,7 +129,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                   id: str = None,
                   fields: list = None,
                   payload: dict = None,
-                  headers: dict = None) -> requests.Response:
+                  headers: dict = None) -> httpx.Response:
         ''' Returns the info about an Agent specified by `id`.
 
             Args:
@@ -139,8 +142,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -152,7 +155,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                     filters: dict = None,
                     fields: list = None,
                     payload: dict = None,
-                    headers: dict = None) -> requests.Response:
+                    headers: dict = None) -> httpx.Response:
         ''' Returns all Agents within a license.
 
             Args:
@@ -165,8 +168,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -187,7 +190,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                      email_subscriptions: list = None,
                      work_scheduler: dict = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Updates the properties of an Agent specified by `id`.
 
             Args:
@@ -211,8 +214,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -223,7 +226,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def delete_agent(self,
                      id: str = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Deletes an Agent specified by `id`.
 
             Args:
@@ -235,8 +238,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -247,7 +250,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def suspend_agent(self,
                       id: str = None,
                       payload: dict = None,
-                      headers: dict = None) -> requests.Response:
+                      headers: dict = None) -> httpx.Response:
         ''' Suspends an Agent specified by `id`.
 
             Args:
@@ -259,8 +262,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -271,7 +274,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def unsuspend_agent(self,
                         id: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Unsuspends an Agent specified by `id`.
 
             Args:
@@ -283,8 +286,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -294,7 +297,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
 
     def request_agent_unsuspension(self,
                                    payload: dict = None,
-                                   headers: dict = None) -> requests.Response:
+                                   headers: dict = None) -> httpx.Response:
         ''' A suspended Agent can send emails to license owners and vice owners
             with an unsuspension request.
 
@@ -306,8 +309,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -318,7 +321,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def approve_agent(self,
                       id: str = None,
                       payload: dict = None,
-                      headers: dict = None) -> requests.Response:
+                      headers: dict = None) -> httpx.Response:
         ''' Approves an Agent thus allowing the Agent to use the application.
 
             Args:
@@ -330,8 +333,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object, which contains a server’s
-                               response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -347,7 +350,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                         description: str = None,
                         next_id: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Creates an auto access data structure, which is a set of conditions
             for the tracking URL and geolocation of a customer.
 
@@ -363,8 +366,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                             however, these method-level parameters will not be persisted across requests.
 
         Returns:
-            requests.Response: The Response object, which contains a server’s
-                                response to an HTTP request.
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -374,7 +377,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
 
     def list_auto_accesses(self,
                            payload: dict = None,
-                           headers: dict = None) -> requests.Response:
+                           headers: dict = None) -> httpx.Response:
         ''' Returns all existing auto access data structures.
 
         Args:
@@ -385,8 +388,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                             however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -397,7 +400,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def delete_auto_access(self,
                            id: str = None,
                            payload: dict = None,
-                           headers: dict = None) -> requests.Response:
+                           headers: dict = None) -> httpx.Response:
         ''' Deletes an existing auto access data structure specified by its ID.
 
             Args:
@@ -409,8 +412,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -422,7 +425,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                             id: str = None,
                             next_id: str = None,
                             payload: dict = None,
-                            headers: dict = None) -> requests.Response:
+                            headers: dict = None) -> httpx.Response:
         ''' Moves an existing auto access data structure, specified by id,
             before another one, specified by next_id.
 
@@ -436,8 +439,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -456,7 +459,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                    work_scheduler: dict = None,
                    timezone: str = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Creates a new Bot.
 
             Args:
@@ -474,8 +477,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -486,7 +489,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def delete_bot(self,
                    id: str = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Deletes a Bot.
 
             Args:
@@ -498,8 +501,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -517,7 +520,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                    work_scheduler: dict = None,
                    timezone: str = None,
                    payload: dict = None,
-                   headers: dict = None) -> requests.Response:
+                   headers: dict = None) -> httpx.Response:
         ''' Updates an existing Bot.
 
             Args:
@@ -536,8 +539,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -549,7 +552,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                   all: bool = None,
                   fields: list = None,
                   payload: dict = None,
-                  headers: dict = None) -> requests.Response:
+                  headers: dict = None) -> httpx.Response:
         ''' Returns the list of Bots created within a license.
 
             Args:
@@ -562,8 +565,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -575,7 +578,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 id: str = None,
                 fields: list = None,
                 payload: dict = None,
-                headers: dict = None) -> requests.Response:
+                headers: dict = None) -> httpx.Response:
         ''' Gets a Bot specified by `id`.
 
             Args:
@@ -588,8 +591,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -604,7 +607,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                      language_code: str = None,
                      agent_priorities: dict = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Creates a new group.
 
             Args:
@@ -618,8 +621,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -633,7 +636,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                      language_code: str = None,
                      agent_priorities: dict = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Updates an existing group.
 
             Args:
@@ -648,8 +651,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -660,7 +663,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def delete_group(self,
                      id: int = None,
                      payload: dict = None,
-                     headers: dict = None) -> requests.Response:
+                     headers: dict = None) -> httpx.Response:
         ''' Deletes an existing group.
 
             Args:
@@ -672,8 +675,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -684,7 +687,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def list_groups(self,
                     fields: list = None,
                     payload: dict = None,
-                    headers: dict = None) -> requests.Response:
+                    headers: dict = None) -> httpx.Response:
         ''' Lists all the exisiting groups.
 
             Args:
@@ -696,8 +699,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -709,7 +712,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                   id: int = None,
                   fields: list = None,
                   payload: dict = None,
-                  headers: dict = None) -> requests.Response:
+                  headers: dict = None) -> httpx.Response:
         ''' Returns details about a group specified by its id.
 
             Args:
@@ -722,8 +725,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -743,7 +746,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                           range: dict = None,
                           default_value: str = None,
                           payload: dict = None,
-                          headers: dict = None) -> requests.Response:
+                          headers: dict = None) -> httpx.Response:
         ''' Registers a new private property for a given Client ID.
 
             Args:
@@ -762,8 +765,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -775,7 +778,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                             name: str = None,
                             owner_client_id: str = None,
                             payload: dict = None,
-                            headers: dict = None) -> requests.Response:
+                            headers: dict = None) -> httpx.Response:
         ''' Unregisters a private property.
 
             Args:
@@ -788,8 +791,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -802,7 +805,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                          owner_client_id: str = None,
                          access_type: list = None,
                          payload: dict = None,
-                         headers: dict = None) -> requests.Response:
+                         headers: dict = None) -> httpx.Response:
         ''' Publishes a private property.
 
             Args:
@@ -816,8 +819,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -828,7 +831,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def list_properties(self,
                         owner_client_id: str = None,
                         payload: dict = None,
-                        headers: dict = None) -> requests.Response:
+                        headers: dict = None) -> httpx.Response:
         ''' Lists private and public properties owned by a given Client ID.
 
             Args:
@@ -840,8 +843,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -852,7 +855,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def update_license_properties(self,
                                   properties: dict = None,
                                   payload: dict = None,
-                                  headers: dict = None) -> requests.Response:
+                                  headers: dict = None) -> httpx.Response:
         ''' Updates a property value within a license. This operation doesn't
             overwrite the existing values.
 
@@ -865,8 +868,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -878,7 +881,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 namespace: str = None,
                                 name_prefix: str = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Returns the properties set within a license.
 
             Args:
@@ -891,8 +894,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -903,7 +906,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def delete_license_properties(self,
                                   properties: dict = None,
                                   payload: dict = None,
-                                  headers: dict = None) -> requests.Response:
+                                  headers: dict = None) -> httpx.Response:
         ''' Deletes the properties set within a license.
 
             Args:
@@ -915,8 +918,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -928,7 +931,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 group_id: int = None,
                                 properties: dict = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Updates a property value within a group as the property location.
             This operation doesn't overwrite the existing values.
 
@@ -942,8 +945,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -956,7 +959,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                               namespace: str = None,
                               name_prefix: str = None,
                               payload: dict = None,
-                              headers: dict = None) -> requests.Response:
+                              headers: dict = None) -> httpx.Response:
         ''' Returns the properties set within a group.
 
             Args:
@@ -970,8 +973,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -983,7 +986,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 id: int = None,
                                 properties: dict = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Deletes the properties set within a group.
 
             Args:
@@ -996,8 +999,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1018,7 +1021,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                          owner_client_id: str = None,
                          type: str = None,
                          payload: dict = None,
-                         headers: dict = None) -> requests.Response:
+                         headers: dict = None) -> httpx.Response:
         ''' Registers a webhook for the Client ID (application) provided in the request.
 
             Args:
@@ -1037,8 +1040,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1049,7 +1052,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def list_webhooks(self,
                       owner_client_id: str = None,
                       payload: dict = None,
-                      headers: dict = None) -> requests.Response:
+                      headers: dict = None) -> httpx.Response:
         ''' Lists all webhooks registered for the given Client ID.
 
             Args:
@@ -1061,8 +1064,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1074,7 +1077,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                            id: str = None,
                            owner_client_id: str = None,
                            payload: dict = None,
-                           headers: dict = None) -> requests.Response:
+                           headers: dict = None) -> httpx.Response:
         ''' Unregisters a webhook previously registered for a Client ID (application).
 
             Args:
@@ -1087,8 +1090,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1099,7 +1102,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def list_webhook_names(self,
                            version: str = None,
                            payload: dict = None,
-                           headers: dict = None) -> requests.Response:
+                           headers: dict = None) -> httpx.Response:
         ''' Lists all webhooks that are supported in a given API version. This method requires no authorization.
 
             Args:
@@ -1111,8 +1114,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1123,7 +1126,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def enable_license_webhooks(self,
                                 owner_client_id: str = None,
                                 payload: dict = None,
-                                headers: dict = None) -> requests.Response:
+                                headers: dict = None) -> httpx.Response:
         ''' Enables the webhooks registered for a given Client ID (application)
             for the license associated with the access token used in the request.
 
@@ -1136,8 +1139,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1148,7 +1151,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def disable_license_webhooks(self,
                                  owner_client_id: str = None,
                                  payload: dict = None,
-                                 headers: dict = None) -> requests.Response:
+                                 headers: dict = None) -> httpx.Response:
         ''' Disables the enabled webhooks.
 
             Args:
@@ -1160,8 +1163,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1172,7 +1175,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     def get_license_webhooks_state(self,
                                    owner_client_id: str = None,
                                    payload: dict = None,
-                                   headers: dict = None) -> requests.Response:
+                                   headers: dict = None) -> httpx.Response:
         ''' Gets the state of the webhooks registered for a given Client ID (application)
             on the license associated with the access token used in the request.
 
@@ -1185,8 +1188,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 however, these method-level parameters will not be persisted across requests.
 
             Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
