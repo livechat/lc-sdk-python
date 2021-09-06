@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.5] - 2021-09-07
+
+### Changed
+
+- websocket-client package to version 1.1.0.
+- urllib package to version 1.26.6.
+
+
 ## [0.1.4] - 2021-08-26
 
 ### Added
