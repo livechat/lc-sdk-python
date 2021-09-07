@@ -1,3 +1,4 @@
 httpx[http2]==0.19.0
 pytest==6.2.2
-websocket-client==0.57.0
+urllib3==1.26.6
+websocket-client==1.2.1
