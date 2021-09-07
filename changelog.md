@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- websocket-client package to version 1.1.0.
+- websocket-client package to version 1.2.1.
 - urllib package to version 1.26.6.
 
 
