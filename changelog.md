@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.6] - TBA
+
+### Changed
+
+- Refactored ws_client module - new client extends WebSocketApp from websocket-client package.
+- Handling for `pushes` param in `login` of agent RTM.
+
 ## [0.1.5] - 2021-09-07
 
 ### Changed
