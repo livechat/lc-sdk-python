@@ -19,7 +19,7 @@ class WebsocketClient(WebSocketApp):
     messages: List[dict] = []
 
     def __init__(self, *args, **kwargs):
-        def on_message(self, message):
+        def on_message(self, message: str):
             ''' Custom WebSocketApp handler that inserts new messages in front of `self.messages` list. '''
             self.messages.insert(0, json.loads(message))
 
@@ -30,7 +30,10 @@ class WebsocketClient(WebSocketApp):
         self.on_message = on_message
 
     def open(self, origin: dict = None, timeout: float = 3):
-        ''' Open websocket connection and keep running forever. '''
+        ''' Open websocket connection and keep running forever.
+            Args:
+                origin (dict): Specifies origin while creating websocket connection.
+                timeout (int or float): time [seconds] to wait for server in ping/pong frame. '''
         self.run_forever(sslopt={'cert_reqs': ssl.CERT_NONE},
                          origin=origin,
                          ping_timeout=timeout,
@@ -54,9 +57,9 @@ class WebsocketClient(WebSocketApp):
         if not self.sock or self.sock.send(request_json, opcode) == 0:
             raise WebSocketConnectionClosedException(
                 'Connection is already closed.')
-        while not (response := next(
-            (item for item in self.messages
-             if item.get('request_id') == request_id), None)):
+        while not (response := next((item for item in self.messages
+                                     if item.get('request_id') == request_id),
+                                    None)) and response_timeout > 0:
             sleep(0.2)
             response_timeout -= 0.2
         self.logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
