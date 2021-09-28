@@ -40,9 +40,10 @@ class WebsocketClient(WebSocketApp):
         '''
         Send message, assigining a random request ID, fetching and returning response(s).
             Args:
-                request: message to send. If you set opcode to OPCODE_TEXT,
+                request (dict): message to send. If you set opcode to OPCODE_TEXT,
                     data must be utf-8 string or unicode.
-                opcode: operation code of data. default is OPCODE_TEXT.
+                opcode (int): operation code of data. default is OPCODE_TEXT.
+                response_timeout (int): time in seconds to wait for the response.
             Returns:
                 dict: Dictionary with response.
         '''
