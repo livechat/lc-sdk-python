@@ -13,16 +13,17 @@ from websocket import WebSocketApp, WebSocketConnectionClosedException
 from websocket._abnf import ABNF
 
 
+def on_message(ws_client: WebSocketApp, message: str):
+    ''' Custom WebSocketApp handler that inserts new messages in front of `self.messages` list. '''
+    ws_client.messages.insert(0, json.loads(message))
+
+
 class WebsocketClient(WebSocketApp):
     ''' Custom extension of the WebSocketApp class for livechat python SDK. '''
 
     messages: List[dict] = []
 
     def __init__(self, *args, **kwargs):
-        def on_message(self, message: str):
-            ''' Custom WebSocketApp handler that inserts new messages in front of `self.messages` list. '''
-            self.messages.insert(0, json.loads(message))
-
         logging.basicConfig()
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
