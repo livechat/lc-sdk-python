@@ -2,6 +2,9 @@
 
 # pylint: disable=E1120,W0621,C0103
 
+import threading
+from time import sleep
+
 import pytest
 
 from livechat.customer.rtm.client import CustomerRTM
@@ -37,11 +40,13 @@ def test_get_client_with_non_existing_version():
 def test_get_client():
     ''' Test if created client opens and closes socket in default url. '''
     client = CustomerRTM.get_client(license_id=LICENSE_ID)
-    client.open_connection()
-    opened_state = client.ws.keep_alive
+    t1 = threading.Thread(target=client.open_connection)
+    t1.start()
+    sleep(0.5)  # Safe wait value until connection is established.)
+    opened_state = client.ws.keep_running
     client_url = client.ws.url
     client.close_connection()
-    closed_state = client.ws.keep_alive
+    closed_state = client.ws.keep_running
     assert client_url == f'wss://api.livechatinc.com/v3.3/customer/rtm/ws?license_id={LICENSE_ID}', 'Incorrect WS address.'
     assert opened_state is True, 'Client did not open socket.'
     assert closed_state is False, 'Client did not close socket.'
@@ -50,7 +55,9 @@ def test_get_client():
 def test_client_logs_in_with_token():
     ''' Test if created client can send request. '''
     client = CustomerRTM.get_client(license_id=LICENSE_ID)
-    client.open_connection()
+    t1 = threading.Thread(target=client.open_connection)
+    t1.start()
+    sleep(0.5)  # Safe wait value until connection is established.)
     response = client.login(token='Bearer 10386012')
     client.close_connection()
     assert response['response']['payload'] == {
@@ -64,7 +71,9 @@ def test_client_logs_in_with_token():
 def test_client_logs_in_with_payload():
     ''' Test if created client can send request. '''
     client = CustomerRTM.get_client(license_id=LICENSE_ID)
-    client.open_connection()
+    t1 = threading.Thread(target=client.open_connection)
+    t1.start()
+    sleep(0.5)  # Safe wait value until connection is established.)
     response = client.login(
         payload={
             'customer_page': {

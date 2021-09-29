@@ -63,4 +63,4 @@ class WebsocketClient(WebSocketApp):
             sleep(0.2)
             response_timeout -= 0.2
         self.logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
-        return response
+        return {'response': response}
