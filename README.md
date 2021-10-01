@@ -38,9 +38,6 @@ First, create your AgentRTM client and log in:
 ```python
 >>> from livechat.agent import AgentRTM
 >>> my_agent = AgentRTM.get_client()
->>> t1 = threading.Thread(target=my_agent.open_connection)
->>> t1.start()
->>> sleep(0.5) # Safe wait value until connection is established.
 >>> my_agent.login(token='Bearer <your bearer token>')
 INFO:root:
 REQUEST:

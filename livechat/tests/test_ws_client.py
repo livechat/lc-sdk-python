@@ -2,9 +2,6 @@
 
 # pylint: disable=E1120,W0621,C0103,R1702
 
-import threading
-from time import sleep
-
 import pytest
 import websocket
 
@@ -25,8 +22,7 @@ def test_websocket_connections_states():
     ws = WebsocketClient(
         url='wss://api.livechatinc.com/v3.3/customer/rtm/ws?license_id=10386012'
     )
-    t1 = threading.Thread(target=ws.open)
-    t1.start()
+    ws.open()
     opened_state = ws.keep_running
     ws.close()
     closed_state = ws.keep_running
@@ -51,9 +47,7 @@ def test_websocket_send_and_receive_message():
     ws = WebsocketClient(
         url='wss://api.livechatinc.com/v3.3/customer/rtm/ws?license_id=10386012'
     )
-    t1 = threading.Thread(target=ws.open)
-    t1.start()
-    sleep(0.5)  # Safe wait value until connection is established.
+    ws.open()
     response = ws.send({'action': 'login', 'payload': {'token': 'Bearer xxx'}})
     ws.close()
     assert response['response']['payload'] == {

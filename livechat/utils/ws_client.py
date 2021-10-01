@@ -6,6 +6,7 @@ import json
 import logging
 import random
 import ssl
+import threading
 from time import sleep
 from typing import List
 
@@ -30,15 +31,44 @@ class WebsocketClient(WebSocketApp):
         super().__init__(*args, **kwargs)
         self.on_message = on_message
 
-    def open(self, origin: dict = None, timeout: float = 3):
+    def _wait_till_sock_connected(self, timeout: float = 3):
+        ''' Polls until `self.sock` is connected.
+            Args:
+                timeout (float): timeout value in seconds, default 3. '''
+        if timeout < 0:
+            raise TimeoutError('Timed out waiting for WebSocket to open.')
+        try:
+            assert self.sock.connected
+            return
+        except (AttributeError, AssertionError):
+            sleep(0.1)
+            return self._wait_till_sock_connected(timeout=timeout - 0.1)
+
+    def open(self,
+             origin: dict = None,
+             timeout: float = 3,
+             keep_alive: bool = True):
         ''' Open websocket connection and keep running forever.
             Args:
                 origin (dict): Specifies origin while creating websocket connection.
-                timeout (int or float): time [seconds] to wait for server in ping/pong frame. '''
-        self.run_forever(sslopt={'cert_reqs': ssl.CERT_NONE},
-                         origin=origin,
-                         ping_timeout=timeout,
-                         ping_interval=5)
+                timeout (int or float): time [seconds] to wait for server in ping/pong frame.
+                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+                    origin (dict): Specifies origin while creating websocket connection. '''
+        run_forever_kwargs = {
+            'sslopt': {
+                'cert_reqs': ssl.CERT_NONE
+            },
+            'origin': origin,
+            'ping_timeout': timeout,
+            'ping_interval': 5
+        }
+        if keep_alive:
+            ping_thread = threading.Thread(target=self.run_forever,
+                                           kwargs=run_forever_kwargs)
+            ping_thread.start()
+            self._wait_till_sock_connected()
+            return
+        self.run_forever(**run_forever_kwargs)
 
     def send(self, request: dict, opcode=ABNF.OPCODE_TEXT, response_timeout=2):
         '''

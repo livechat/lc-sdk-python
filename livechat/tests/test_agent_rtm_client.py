@@ -2,9 +2,6 @@
 
 # pylint: disable=E1120,W0621,C0103
 
-import threading
-from time import sleep
-
 import pytest
 
 from livechat.agent.rtm.client import AgentRTM
@@ -20,9 +17,7 @@ def test_get_client_with_non_existing_version():
 def test_get_client():
     ''' Test if created client opens and closes socket in default url. '''
     client = AgentRTM.get_client()
-    t1 = threading.Thread(target=client.open_connection)
-    t1.start()
-    sleep(0.5)  # Safe wait value until connection is established.
+    client.open_connection()
     opened_state = client.ws.keep_running
     client_url = client.ws.url
     client.close_connection()
@@ -35,9 +30,7 @@ def test_get_client():
 def test_client_logs_in_with_token():
     ''' Test if created client can send request. '''
     client = AgentRTM.get_client()
-    t1 = threading.Thread(target=client.open_connection)
-    t1.start()
-    sleep(0.5)  # Safe wait value until connection is established.
+    client.open_connection()
     response = client.login(token='Bearer 10386012')
     client.close_connection()
     assert response['response']['payload'] == {
@@ -51,9 +44,7 @@ def test_client_logs_in_with_token():
 def test_client_logs_in_with_payload():
     ''' Test if created client can send request. '''
     client = AgentRTM.get_client()
-    t1 = threading.Thread(target=client.open_connection)
-    t1.start()
-    sleep(0.5)  # Safe wait value until connection is established.)
+    client.open_connection()
     response = client.login(payload={
         'customer_push_level': 'online',
         'token': 'Bearer 10386012'

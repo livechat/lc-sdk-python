@@ -1,11 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.1.6] - 2021-09-30
+## [0.1.6] - 2021-10-01
 
 ### Changed
 
-- Refactored ws_client module - new client extends WebSocketApp from websocket-client package. Potentially breaking change.
+- Refactored ws_client module - new client extends WebSocketApp from websocket-client package.
 - Handling for `pushes` param in `login` of agent RTM.
 
 ## [0.1.5] - 2021-09-07
