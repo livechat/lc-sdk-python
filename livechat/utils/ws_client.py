@@ -8,7 +8,7 @@ import random
 import ssl
 import threading
 from time import sleep
-from typing import List
+from typing import List, NoReturn
 
 from websocket import WebSocketApp, WebSocketConnectionClosedException
 from websocket._abnf import ABNF
@@ -31,29 +31,15 @@ class WebsocketClient(WebSocketApp):
         super().__init__(*args, **kwargs)
         self.on_message = on_message
 
-    def _wait_till_sock_connected(self, timeout: float = 3):
-        ''' Polls until `self.sock` is connected.
-            Args:
-                timeout (float): timeout value in seconds, default 3. '''
-        if timeout < 0:
-            raise TimeoutError('Timed out waiting for WebSocket to open.')
-        try:
-            assert self.sock.connected
-            return
-        except (AttributeError, AssertionError):
-            sleep(0.1)
-            return self._wait_till_sock_connected(timeout=timeout - 0.1)
-
     def open(self,
              origin: dict = None,
              timeout: float = 3,
-             keep_alive: bool = True):
-        ''' Open websocket connection and keep running forever.
+             keep_alive: bool = True) -> NoReturn:
+        ''' Opens websocket connection and keep running forever.
             Args:
                 origin (dict): Specifies origin while creating websocket connection.
                 timeout (int or float): time [seconds] to wait for server in ping/pong frame.
-                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
-                    origin (dict): Specifies origin while creating websocket connection. '''
+                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`. '''
         run_forever_kwargs = {
             'sslopt': {
                 'cert_reqs': ssl.CERT_NONE
@@ -70,9 +56,12 @@ class WebsocketClient(WebSocketApp):
             return
         self.run_forever(**run_forever_kwargs)
 
-    def send(self, request: dict, opcode=ABNF.OPCODE_TEXT, response_timeout=2):
+    def send(self,
+             request: dict,
+             opcode=ABNF.OPCODE_TEXT,
+             response_timeout=2) -> dict:
         '''
-        Send message, assigining a random request ID, fetching and returning response(s).
+        Sends message, assigining a random request ID, fetching and returning response(s).
             Args:
                 request (dict): message to send. If you set opcode to OPCODE_TEXT,
                     data must be utf-8 string or unicode.
@@ -95,3 +84,16 @@ class WebsocketClient(WebSocketApp):
             response_timeout -= 0.2
         self.logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
         return {'response': response}
+
+    def _wait_till_sock_connected(self, timeout: float = 3) -> NoReturn:
+        ''' Polls until `self.sock` is connected.
+            Args:
+                timeout (float): timeout value in seconds, default 3. '''
+        if timeout < 0:
+            raise TimeoutError('Timed out waiting for WebSocket to open.')
+        try:
+            assert self.sock.connected
+            return
+        except (AttributeError, AssertionError):
+            sleep(0.1)
+            return self._wait_till_sock_connected(timeout=timeout - 0.1)
