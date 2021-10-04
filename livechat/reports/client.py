@@ -73,53 +73,114 @@ class ReportsApiInterface(metaclass=ABCMeta):
                 dict: Response which presents current header values in session object.
         '''
         return dict(self.session.headers)
-       
+
 
 class ReportsAPI33(ReportsApiInterface):
     ''' Configuration API client in version 3.3 class. '''
 
-#Chats
+    # Chats
     def agents_chatting_duration(self,
-                                to: str = None,
-                                from_param: str = None,
-                                agents: str = None,
-                                groups: str = None,
-                                tags: str = None,
-                                customer_client_ids: str = None,
-                                distribution: str = None,
-                                timezone: str = None,
-                                tagged: bool = None,
-                                payload: dict = None,
-                                headers: dict = None) -> httpx.Response:
+                                 to: str = None,
+                                 from_param: str = None,
+                                 agents: str = None,
+                                 groups: str = None,
+                                 tags: str = None,
+                                 customer_client_ids: str = None,
+                                 distribution: str = None,
+                                 timezone: str = None,
+                                 tagged: bool = None,
+                                 payload: dict = None,
+                                 headers: dict = None) -> httpx.Response:
+        ''' Shows the average chatting duration of agents within a license.
+
+        Args:
+            to (str): Date in the RFC3339 format, which also contains a timezone.
+                      This timezone will be used if no `timezone` is provided.
+            from_param (str): Date in the RFC3339 format, which also contains a timezone.
+                              This timezone will be used if no `timezone` is provided.
+            agents (str): Agent emails separated by a comma.
+                          If not specified, returns the data for all agents within the license.
+            groups (str): Group IDs separated by a comma.
+            tags (str): Names of tags separated by a comma.
+            customer_client_ids (str): Client IDs separated by a comma.
+            distribution (str): Possible values: `hour`, `day-hours`, `day`, `month`; defaults to `day`.
+            timezone (str): Timezone in the TZ format (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            If not present, `from` is parsed to get the requester's timezone.
+            tagged (bool): Possible values: `true`, `1`, `false`, `0`
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
             if from_param is not None:
                 del payload['from_param']
                 payload['from'] = from_param
-        return self.session.get(f'{self.api_url}/chats/agents_chatting_duration',
-                                params=payload,
-                                headers=headers)
-    
+        else:
+            if payload['from_param']:
+                payload['from'] = payload['from_param']
+                del payload['from_param']
+        return self.session.get(
+            f'{self.api_url}/chats/agents_chatting_duration',
+            params=payload,
+            headers=headers)
 
     def tags(self,
-            to: str = None,
-            from_param: str = None,
-            distribution: str = None,
-            timezone: str = None,
-            agents: str = None,
-            groups: str = None,
-            names: str = None,
-            payload: dict = None,
-            headers: dict = None) -> httpx.Response:
+             to: str = None,
+             from_param: str = None,
+             distribution: str = None,
+             timezone: str = None,
+             agents: str = None,
+             groups: str = None,
+             names: str = None,
+             payload: dict = None,
+             headers: dict = None) -> httpx.Response:
+        ''' Shows the distribution of tags for chats.
+
+        Args:
+            to (str): Date in the RFC3339 format, which also contains a timezone.
+                      This timezone will be used if no `timezone` is provided.
+            from_param (str): Date in the RFC3339 format, which also contains a timezone.
+                              This timezone will be used if no `timezone` is provided.
+            distribution (str): Possible values: `hour`, `day-hours`, `day`, `month`, `year`.
+            timezone (str): Timezone in the TZ format (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            If not present, `from` is parsed to get the requester's timezone.
+            agents (str): Agent emails separated by a comma.
+                          If not specified, returns the data for all agents within the license.
+            groups (str): Group IDs separated by a comma.
+            names(str): The names of tags separated by a comma.
+                        When `tags=:without:`, you will get the total number of chats without tags,
+                        when `tags=:with:` you will get the total number of chats with tags.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
             if from_param is not None:
                 del payload['from_param']
                 payload['from'] = from_param
+        else:
+            if 'from_param' in payload:
+                payload['from'] = payload['from_param']
+                del payload['from_param']
         return self.session.get(f'{self.api_url}/chats/tags',
-                                params=payload,
+                                json=payload,
                                 headers=headers)
-    
 
     def total_chats(self,
                     from_param: str = None,
@@ -127,34 +188,83 @@ class ReportsAPI33(ReportsApiInterface):
                     distribution: str = None,
                     timezone: str = None,
                     agents: str = None,
-                    agent_assigned: str = None,
+                    agent_assigned: bool = None,
                     groups: str = None,
                     customer_client_ids: str = None,
                     tags: str = None,
                     tagged: str = None,
                     payload: dict = None,
                     headers: dict = None) -> httpx.Response:
+        ''' Shows how many chats occurred during the specified period.
+
+        Args:
+            to (str): Date in the RFC3339 format, which also contains a timezone.
+                      This timezone will be used if no `timezone` is provided.
+            from_param (str): Date in the RFC3339 format, which also contains a timezone.
+                              This timezone will be used if no `timezone` is provided.
+            distribution (str): Possible values: `hour`, `day-hours`, `day`, `month`; defaults to `day`.
+            timezone (str): Timezone in the TZ format (e.g. America/Phoenix).
+                            Defaults to the requester's timezone. If not present, `from` is parsed to get the requester's timezone.
+            agents (str): Agent emails separated by a comma.
+                          If not specified, returns the data for all agents within the license.
+            agents_assigned (str): Possible values: `true`, `1`, `false`, `0`
+            groups (str): Group IDs separated by a comma.
+            customer_client_ids (str): Client IDs separated by a comma.
+            tags (str): Names of tags separated by a comma.
+            tagged (bool): Possible values: `true`, `1`, `false`, `0`
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
             if from_param is not None:
                 del payload['from_param']
                 payload['from'] = from_param
+        else:
+            if 'from_param' in payload:
+                payload['from'] = payload['from_param']
+                del payload['from_param']
         return self.session.get(f'{self.api_url}/chats/total_chats',
                                 params=payload,
                                 headers=headers)
 
+
 class ReportsAPI34(ReportsApiInterface):
     ''' Configuration API client in version 3.4 class. '''
 
-#Chats
+    # Chats
 
     def duration(self,
-                        distribution: str = None,
-                        timezone: str = None,
-                        filteters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
+                 distribution: str = None,
+                 timezone: str = None,
+                 filteters: dict = None,
+                 payload: dict = None,
+                 headers: dict = None) -> httpx.Response:
+        ''' Shows the average chatting duration of agents within a license.
 
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filteters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/chats/duration',
@@ -162,12 +272,29 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def tags(self,
-                        distribution: str = None,
-                        timezone: str = None,
-                        filteters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
+             distribution: str = None,
+             timezone: str = None,
+             filteters: dict = None,
+             payload: dict = None,
+             headers: dict = None) -> httpx.Response:
+        ''' Shows the distribution of tags for chats.
 
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filteters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/chats/tags',
@@ -175,12 +302,29 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def total_chats(self,
-                        distribution: str = 'day',
-                        timezone: str = None,
-                        filteters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
+                    distribution: str = None,
+                    timezone: str = None,
+                    filteters: dict = None,
+                    payload: dict = None,
+                    headers: dict = None) -> httpx.Response:
+        ''' Shows how many chats occurred during the specified period.
 
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filteters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/chats/total_chats',
@@ -188,12 +332,29 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def ratings(self,
-                        distribution: str = 'day',
-                        timezone: str = None,
-                        filteters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
+                distribution: str = 'day',
+                timezone: str = None,
+                filteters: dict = None,
+                payload: dict = None,
+                headers: dict = None) -> httpx.Response:
+        ''' Shows the number of rated chats along with their ratings during a specified period of time.
 
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filteters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/chats/ratings',
@@ -201,12 +362,29 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def ranking(self,
-                        distribution: str = 'day',
-                        timezone: str = None,
-                        filteters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
+                distribution: str = 'day',
+                timezone: str = None,
+                filteters: dict = None,
+                payload: dict = None,
+                headers: dict = None) -> httpx.Response:
+        ''' Shows the ratio of good to bad ratings for each operator.
 
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filteters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/chats/ranking',
@@ -214,27 +392,61 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def engagement(self,
-                        distribution: str = 'day',
-                        timezone: str = None,
-                        filteters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
+                   distribution: str = 'day',
+                   timezone: str = None,
+                   filteters: dict = None,
+                   payload: dict = None,
+                   headers: dict = None) -> httpx.Response:
+        ''' Shows the distribution of chats based on engagement during the specified period.
 
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filteters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/chats/engagement',
                                  json=payload,
                                  headers=headers)
 
-#Agents
+    # Agents
 
     def availability(self,
-                        distribution: str = 'day',
-                        timezone: str = None,
-                        filteters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
+                     distribution: str = 'day',
+                     timezone: str = None,
+                     filteters: dict = None,
+                     payload: dict = None,
+                     headers: dict = None) -> httpx.Response:
+        ''' Shows for how long an agent, group, or the whole account was available for chatting during a specified period of time.
 
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filteters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/agents/availability',

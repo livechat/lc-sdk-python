@@ -13,24 +13,6 @@ def reports_api_client():
     return ReportsApi.get_client(token='test')
 
 
-def test_get_client_without_args():
-    ''' Test if TypeError raised without args. '''
-    with pytest.raises(TypeError) as exception:
-        ReportsApi.get_client()
-    assert str(
-        exception.value
-    ) == "get_client() missing 1 required positional argument: 'token'"
-
-
-def test_get_client_without_token():
-    ''' Test if TypeError raised without token. '''
-    with pytest.raises(TypeError) as exception:
-        ReportsApi.get_client(version='test')
-    assert str(
-        exception.value
-    ) == "get_client() missing 1 required positional argument: 'token'"
-
-
 def test_get_client_with_non_existing_version():
     ''' Test if ValueError raised for non-existing version. '''
     with pytest.raises(ValueError) as exception:
@@ -48,8 +30,8 @@ def test_send_request(reports_api_client):
     ''' Test if it's possible to send a basic request via Reports API
         client with arbitrary chosen method. '''
     print(reports_api_client.total_chats())
-    assert reports_api_client.total_chats().text == '{"error":{"type":"authentication","message":"Invalid access token"}}'
-    
+    assert reports_api_client.total_chats(
+    ).text == '{"error":{"type":"authentication","message":"Invalid access token"}}'
 
 
 def test_modify_header(reports_api_client):
