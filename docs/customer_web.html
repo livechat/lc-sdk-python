@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>livechat.customer.web.client API documentation</title>
+<title>client API documentation</title>
 <meta name="description" content="Customer Web client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>livechat.customer.web.client</code></h1>
+<h1 class="title">Module <code>client</code></h1>
 </header>
 <section id="section-intro">
 <p>Customer Web client implementation.</p>
@@ -1048,7 +1048,7 @@ class CustomerWeb34(CustomerWebInterface):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="livechat.customer.web.client.CustomerWeb"><code class="flex name class">
+<dt id="client.CustomerWeb"><code class="flex name class">
 <span>class <span class="ident">CustomerWeb</span></span>
 </code></dt>
 <dd>
@@ -1096,7 +1096,7 @@ API version.</p></div>
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="livechat.customer.web.client.CustomerWeb.get_client"><code class="name flex">
+<dt id="client.CustomerWeb.get_client"><code class="name flex">
 <span>def <span class="ident">get_client</span></span>(<span>license_id: int, access_token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com', http2: bool = False)</span>
 </code></dt>
 <dd>
@@ -1162,7 +1162,7 @@ def get_client(license_id: int,
 </dd>
 </dl>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWeb33"><code class="flex name class">
+<dt id="client.CustomerWeb33"><code class="flex name class">
 <span>class <span class="ident">CustomerWeb33</span></span>
 <span>(</span><span>license_id: int, access_token: str, version: str, base_url: str, http2: bool)</span>
 </code></dt>
@@ -1177,52 +1177,52 @@ def get_client(license_id: int,
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="livechat.customer.web.client.CustomerWebInterface" href="#livechat.customer.web.client.CustomerWebInterface">CustomerWebInterface</a></li>
+<li><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></li>
 </ul>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="livechat.customer.web.client.CustomerWebInterface" href="#livechat.customer.web.client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
+<li><code><b><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
 <ul class="hlist">
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.accept_greeting" href="#livechat.customer.web.client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.cancel_greeting" href="#livechat.customer.web.client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.check_goals" href="#livechat.customer.web.client.CustomerWebInterface.check_goals">check_goals</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.deactivate_chat" href="#livechat.customer.web.client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_chat_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_event_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_thread_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_chat" href="#livechat.customer.web.client.CustomerWebInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_configuration" href="#livechat.customer.web.client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_customer" href="#livechat.customer.web.client.CustomerWebInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_dynamic_configuration" href="#livechat.customer.web.client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_form" href="#livechat.customer.web.client.CustomerWebInterface.get_form">get_form</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_headers" href="#livechat.customer.web.client.CustomerWebInterface.get_headers">get_headers</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_localization" href="#livechat.customer.web.client.CustomerWebInterface.get_localization">get_localization</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_predicted_agent" href="#livechat.customer.web.client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_url_info" href="#livechat.customer.web.client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_chats" href="#livechat.customer.web.client.CustomerWebInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_group_properties" href="#livechat.customer.web.client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_group_statuses" href="#livechat.customer.web.client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_license_properties" href="#livechat.customer.web.client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_threads" href="#livechat.customer.web.client.CustomerWebInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.mark_events_as_seen" href="#livechat.customer.web.client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.modify_header" href="#livechat.customer.web.client.CustomerWebInterface.modify_header">modify_header</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.remove_header" href="#livechat.customer.web.client.CustomerWebInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.resume_chat" href="#livechat.customer.web.client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_event" href="#livechat.customer.web.client.CustomerWebInterface.send_event">send_event</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_rich_message_postback" href="#livechat.customer.web.client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_sneak_peek" href="#livechat.customer.web.client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.set_customer_session_fields" href="#livechat.customer.web.client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.start_chat" href="#livechat.customer.web.client.CustomerWebInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_chat_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_customer" href="#livechat.customer.web.client.CustomerWebInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_event_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_thread_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.upload_file" href="#livechat.customer.web.client.CustomerWebInterface.upload_file">upload_file</a></code></li>
+<li><code><a title="client.CustomerWebInterface.accept_greeting" href="#client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="client.CustomerWebInterface.cancel_greeting" href="#client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="client.CustomerWebInterface.check_goals" href="#client.CustomerWebInterface.check_goals">check_goals</a></code></li>
+<li><code><a title="client.CustomerWebInterface.deactivate_chat" href="#client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_chat_properties" href="#client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_event_properties" href="#client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_thread_properties" href="#client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_chat" href="#client.CustomerWebInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_configuration" href="#client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_customer" href="#client.CustomerWebInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_dynamic_configuration" href="#client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_form" href="#client.CustomerWebInterface.get_form">get_form</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_headers" href="#client.CustomerWebInterface.get_headers">get_headers</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_localization" href="#client.CustomerWebInterface.get_localization">get_localization</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_properties" href="#client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="client.CustomerWebInterface.remove_header" href="#client.CustomerWebInterface.remove_header">remove_header</a></code></li>
+<li><code><a title="client.CustomerWebInterface.resume_chat" href="#client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_event" href="#client.CustomerWebInterface.send_event">send_event</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_rich_message_postback" href="#client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_sneak_peek" href="#client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="client.CustomerWebInterface.set_customer_session_fields" href="#client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="client.CustomerWebInterface.start_chat" href="#client.CustomerWebInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_chat_properties" href="#client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_customer" href="#client.CustomerWebInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_event_properties" href="#client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_thread_properties" href="#client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.upload_file" href="#client.CustomerWebInterface.upload_file">upload_file</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWeb34"><code class="flex name class">
+<dt id="client.CustomerWeb34"><code class="flex name class">
 <span>class <span class="ident">CustomerWeb34</span></span>
 <span>(</span><span>license_id: int, access_token: str, version: str, base_url: str, http2: bool)</span>
 </code></dt>
@@ -1237,52 +1237,52 @@ def get_client(license_id: int,
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="livechat.customer.web.client.CustomerWebInterface" href="#livechat.customer.web.client.CustomerWebInterface">CustomerWebInterface</a></li>
+<li><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></li>
 </ul>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="livechat.customer.web.client.CustomerWebInterface" href="#livechat.customer.web.client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
+<li><code><b><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
 <ul class="hlist">
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.accept_greeting" href="#livechat.customer.web.client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.cancel_greeting" href="#livechat.customer.web.client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.check_goals" href="#livechat.customer.web.client.CustomerWebInterface.check_goals">check_goals</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.deactivate_chat" href="#livechat.customer.web.client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_chat_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_event_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_thread_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_chat" href="#livechat.customer.web.client.CustomerWebInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_configuration" href="#livechat.customer.web.client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_customer" href="#livechat.customer.web.client.CustomerWebInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_dynamic_configuration" href="#livechat.customer.web.client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_form" href="#livechat.customer.web.client.CustomerWebInterface.get_form">get_form</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_headers" href="#livechat.customer.web.client.CustomerWebInterface.get_headers">get_headers</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_localization" href="#livechat.customer.web.client.CustomerWebInterface.get_localization">get_localization</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_predicted_agent" href="#livechat.customer.web.client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_url_info" href="#livechat.customer.web.client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_chats" href="#livechat.customer.web.client.CustomerWebInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_group_properties" href="#livechat.customer.web.client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_group_statuses" href="#livechat.customer.web.client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_license_properties" href="#livechat.customer.web.client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_threads" href="#livechat.customer.web.client.CustomerWebInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.mark_events_as_seen" href="#livechat.customer.web.client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.modify_header" href="#livechat.customer.web.client.CustomerWebInterface.modify_header">modify_header</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.remove_header" href="#livechat.customer.web.client.CustomerWebInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.resume_chat" href="#livechat.customer.web.client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_event" href="#livechat.customer.web.client.CustomerWebInterface.send_event">send_event</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_rich_message_postback" href="#livechat.customer.web.client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_sneak_peek" href="#livechat.customer.web.client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.set_customer_session_fields" href="#livechat.customer.web.client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.start_chat" href="#livechat.customer.web.client.CustomerWebInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_chat_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_customer" href="#livechat.customer.web.client.CustomerWebInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_event_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_thread_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.upload_file" href="#livechat.customer.web.client.CustomerWebInterface.upload_file">upload_file</a></code></li>
+<li><code><a title="client.CustomerWebInterface.accept_greeting" href="#client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="client.CustomerWebInterface.cancel_greeting" href="#client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="client.CustomerWebInterface.check_goals" href="#client.CustomerWebInterface.check_goals">check_goals</a></code></li>
+<li><code><a title="client.CustomerWebInterface.deactivate_chat" href="#client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_chat_properties" href="#client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_event_properties" href="#client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_thread_properties" href="#client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_chat" href="#client.CustomerWebInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_configuration" href="#client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_customer" href="#client.CustomerWebInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_dynamic_configuration" href="#client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_form" href="#client.CustomerWebInterface.get_form">get_form</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_headers" href="#client.CustomerWebInterface.get_headers">get_headers</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_localization" href="#client.CustomerWebInterface.get_localization">get_localization</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_properties" href="#client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="client.CustomerWebInterface.remove_header" href="#client.CustomerWebInterface.remove_header">remove_header</a></code></li>
+<li><code><a title="client.CustomerWebInterface.resume_chat" href="#client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_event" href="#client.CustomerWebInterface.send_event">send_event</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_rich_message_postback" href="#client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_sneak_peek" href="#client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="client.CustomerWebInterface.set_customer_session_fields" href="#client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="client.CustomerWebInterface.start_chat" href="#client.CustomerWebInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_chat_properties" href="#client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_customer" href="#client.CustomerWebInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_event_properties" href="#client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_thread_properties" href="#client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.upload_file" href="#client.CustomerWebInterface.upload_file">upload_file</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface"><code class="flex name class">
+<dt id="client.CustomerWebInterface"><code class="flex name class">
 <span>class <span class="ident">CustomerWebInterface</span></span>
 <span>(</span><span>license_id: int, access_token: str, version: str, base_url: str, http2: bool)</span>
 </code></dt>
@@ -2247,12 +2247,12 @@ def get_client(license_id: int,
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="livechat.customer.web.client.CustomerWeb33" href="#livechat.customer.web.client.CustomerWeb33">CustomerWeb33</a></li>
-<li><a title="livechat.customer.web.client.CustomerWeb34" href="#livechat.customer.web.client.CustomerWeb34">CustomerWeb34</a></li>
+<li><a title="client.CustomerWeb33" href="#client.CustomerWeb33">CustomerWeb33</a></li>
+<li><a title="client.CustomerWeb34" href="#client.CustomerWeb34">CustomerWeb34</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="livechat.customer.web.client.CustomerWebInterface.accept_greeting"><code class="name flex">
+<dt id="client.CustomerWebInterface.accept_greeting"><code class="name flex">
 <span>def <span class="ident">accept_greeting</span></span>(<span>self, greeting_id: int = None, unique_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2308,7 +2308,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.cancel_greeting"><code class="name flex">
+<dt id="client.CustomerWebInterface.cancel_greeting"><code class="name flex">
 <span>def <span class="ident">cancel_greeting</span></span>(<span>self, unique_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2362,7 +2362,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.check_goals"><code class="name flex">
+<dt id="client.CustomerWebInterface.check_goals"><code class="name flex">
 <span>def <span class="ident">check_goals</span></span>(<span>self, session_fields: list = None, group_id: int = None, page_url: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2427,7 +2427,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.deactivate_chat"><code class="name flex">
+<dt id="client.CustomerWebInterface.deactivate_chat"><code class="name flex">
 <span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2482,7 +2482,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.delete_chat_properties"><code class="name flex">
+<dt id="client.CustomerWebInterface.delete_chat_properties"><code class="name flex">
 <span>def <span class="ident">delete_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2538,7 +2538,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.delete_event_properties"><code class="name flex">
+<dt id="client.CustomerWebInterface.delete_event_properties"><code class="name flex">
 <span>def <span class="ident">delete_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2602,7 +2602,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.delete_thread_properties"><code class="name flex">
+<dt id="client.CustomerWebInterface.delete_thread_properties"><code class="name flex">
 <span>def <span class="ident">delete_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2662,7 +2662,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_chat"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_chat"><code class="name flex">
 <span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2719,7 +2719,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_configuration"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_configuration"><code class="name flex">
 <span>def <span class="ident">get_configuration</span></span>(<span>self, group_id: int = None, version: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2778,7 +2778,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_customer"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_customer"><code class="name flex">
 <span>def <span class="ident">get_customer</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2825,7 +2825,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_dynamic_configuration"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_dynamic_configuration"><code class="name flex">
 <span>def <span class="ident">get_dynamic_configuration</span></span>(<span>self, group_id: int = None, url: str = None, channel_type: str = None, test: bool = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2893,7 +2893,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_form"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_form"><code class="name flex">
 <span>def <span class="ident">get_form</span></span>(<span>self, group_id: int = None, type: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2950,7 +2950,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_headers"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_headers"><code class="name flex">
 <span>def <span class="ident">get_headers</span></span>(<span>self) ‑> dict</span>
 </code></dt>
 <dd>
@@ -2973,7 +2973,7 @@ which contains a server’s response to an HTTP request.</dd>
     return dict(self.session.headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_localization"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_localization"><code class="name flex">
 <span>def <span class="ident">get_localization</span></span>(<span>self, group_id: int = None, language: str = None, version: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3035,7 +3035,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_predicted_agent"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_predicted_agent"><code class="name flex">
 <span>def <span class="ident">get_predicted_agent</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3084,7 +3084,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.get_url_info"><code class="name flex">
+<dt id="client.CustomerWebInterface.get_url_info"><code class="name flex">
 <span>def <span class="ident">get_url_info</span></span>(<span>self, url: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3136,7 +3136,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.list_chats"><code class="name flex">
+<dt id="client.CustomerWebInterface.list_chats"><code class="name flex">
 <span>def <span class="ident">list_chats</span></span>(<span>self, limit: int = None, sort_order: str = None, page_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3199,7 +3199,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.list_group_properties"><code class="name flex">
+<dt id="client.CustomerWebInterface.list_group_properties"><code class="name flex">
 <span>def <span class="ident">list_group_properties</span></span>(<span>self, group_id: int = None, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3264,7 +3264,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.list_group_statuses"><code class="name flex">
+<dt id="client.CustomerWebInterface.list_group_statuses"><code class="name flex">
 <span>def <span class="ident">list_group_statuses</span></span>(<span>self, all: bool = None, group_ids: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3323,7 +3323,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.list_license_properties"><code class="name flex">
+<dt id="client.CustomerWebInterface.list_license_properties"><code class="name flex">
 <span>def <span class="ident">list_license_properties</span></span>(<span>self, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3383,7 +3383,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.list_threads"><code class="name flex">
+<dt id="client.CustomerWebInterface.list_threads"><code class="name flex">
 <span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, limit: str = None, sort_order: str = None, page_id: str = None, min_events_count: int = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3456,7 +3456,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.mark_events_as_seen"><code class="name flex">
+<dt id="client.CustomerWebInterface.mark_events_as_seen"><code class="name flex">
 <span>def <span class="ident">mark_events_as_seen</span></span>(<span>self, chat_id: str = None, seen_up_to: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3512,7 +3512,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.modify_header"><code class="name flex">
+<dt id="client.CustomerWebInterface.modify_header"><code class="name flex">
 <span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> None</span>
 </code></dt>
 <dd>
@@ -3535,7 +3535,7 @@ which contains a server’s response to an HTTP request.</dd>
     self.session.headers.update(header)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.remove_header"><code class="name flex">
+<dt id="client.CustomerWebInterface.remove_header"><code class="name flex">
 <span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> None</span>
 </code></dt>
 <dd>
@@ -3559,7 +3559,7 @@ which contains a server’s response to an HTTP request.</dd>
         del self.session.headers[key]</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.resume_chat"><code class="name flex">
+<dt id="client.CustomerWebInterface.resume_chat"><code class="name flex">
 <span>def <span class="ident">resume_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3620,7 +3620,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.send_event"><code class="name flex">
+<dt id="client.CustomerWebInterface.send_event"><code class="name flex">
 <span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3688,7 +3688,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.send_rich_message_postback"><code class="name flex">
+<dt id="client.CustomerWebInterface.send_rich_message_postback"><code class="name flex">
 <span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, event_id: str = None, postback: dict = None, thread_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3752,7 +3752,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.send_sneak_peek"><code class="name flex">
+<dt id="client.CustomerWebInterface.send_sneak_peek"><code class="name flex">
 <span>def <span class="ident">send_sneak_peek</span></span>(<span>self, chat_id: str = None, sneak_peek_text: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3808,7 +3808,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.set_customer_session_fields"><code class="name flex">
+<dt id="client.CustomerWebInterface.set_customer_session_fields"><code class="name flex">
 <span>def <span class="ident">set_customer_session_fields</span></span>(<span>self, session_fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3863,7 +3863,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.start_chat"><code class="name flex">
+<dt id="client.CustomerWebInterface.start_chat"><code class="name flex">
 <span>def <span class="ident">start_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3924,7 +3924,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.update_chat_properties"><code class="name flex">
+<dt id="client.CustomerWebInterface.update_chat_properties"><code class="name flex">
 <span>def <span class="ident">update_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3982,7 +3982,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.update_customer"><code class="name flex">
+<dt id="client.CustomerWebInterface.update_customer"><code class="name flex">
 <span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4049,7 +4049,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.update_event_properties"><code class="name flex">
+<dt id="client.CustomerWebInterface.update_event_properties"><code class="name flex">
 <span>def <span class="ident">update_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4115,7 +4115,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.update_thread_properties"><code class="name flex">
+<dt id="client.CustomerWebInterface.update_thread_properties"><code class="name flex">
 <span>def <span class="ident">update_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4177,7 +4177,7 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.client.CustomerWebInterface.upload_file"><code class="name flex">
+<dt id="client.CustomerWebInterface.upload_file"><code class="name flex">
 <span>def <span class="ident">upload_file</span></span>(<span>self, file: <class 'BinaryIO'> = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4240,63 +4240,58 @@ which contains a server’s response to an HTTP request.</dd>
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3>Super-module</h3>
-<ul>
-<li><code><a title="livechat.customer.web" href="index.html">livechat.customer.web</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="livechat.customer.web.client.CustomerWeb" href="#livechat.customer.web.client.CustomerWeb">CustomerWeb</a></code></h4>
+<h4><code><a title="client.CustomerWeb" href="#client.CustomerWeb">CustomerWeb</a></code></h4>
 <ul class="">
-<li><code><a title="livechat.customer.web.client.CustomerWeb.get_client" href="#livechat.customer.web.client.CustomerWeb.get_client">get_client</a></code></li>
+<li><code><a title="client.CustomerWeb.get_client" href="#client.CustomerWeb.get_client">get_client</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="livechat.customer.web.client.CustomerWeb33" href="#livechat.customer.web.client.CustomerWeb33">CustomerWeb33</a></code></h4>
+<h4><code><a title="client.CustomerWeb33" href="#client.CustomerWeb33">CustomerWeb33</a></code></h4>
 </li>
 <li>
-<h4><code><a title="livechat.customer.web.client.CustomerWeb34" href="#livechat.customer.web.client.CustomerWeb34">CustomerWeb34</a></code></h4>
+<h4><code><a title="client.CustomerWeb34" href="#client.CustomerWeb34">CustomerWeb34</a></code></h4>
 </li>
 <li>
-<h4><code><a title="livechat.customer.web.client.CustomerWebInterface" href="#livechat.customer.web.client.CustomerWebInterface">CustomerWebInterface</a></code></h4>
+<h4><code><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></code></h4>
 <ul class="">
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.accept_greeting" href="#livechat.customer.web.client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.cancel_greeting" href="#livechat.customer.web.client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.check_goals" href="#livechat.customer.web.client.CustomerWebInterface.check_goals">check_goals</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.deactivate_chat" href="#livechat.customer.web.client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_chat_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_event_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.delete_thread_properties" href="#livechat.customer.web.client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_chat" href="#livechat.customer.web.client.CustomerWebInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_configuration" href="#livechat.customer.web.client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_customer" href="#livechat.customer.web.client.CustomerWebInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_dynamic_configuration" href="#livechat.customer.web.client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_form" href="#livechat.customer.web.client.CustomerWebInterface.get_form">get_form</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_headers" href="#livechat.customer.web.client.CustomerWebInterface.get_headers">get_headers</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_localization" href="#livechat.customer.web.client.CustomerWebInterface.get_localization">get_localization</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_predicted_agent" href="#livechat.customer.web.client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.get_url_info" href="#livechat.customer.web.client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_chats" href="#livechat.customer.web.client.CustomerWebInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_group_properties" href="#livechat.customer.web.client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_group_statuses" href="#livechat.customer.web.client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_license_properties" href="#livechat.customer.web.client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.list_threads" href="#livechat.customer.web.client.CustomerWebInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.mark_events_as_seen" href="#livechat.customer.web.client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.modify_header" href="#livechat.customer.web.client.CustomerWebInterface.modify_header">modify_header</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.remove_header" href="#livechat.customer.web.client.CustomerWebInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.resume_chat" href="#livechat.customer.web.client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_event" href="#livechat.customer.web.client.CustomerWebInterface.send_event">send_event</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_rich_message_postback" href="#livechat.customer.web.client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.send_sneak_peek" href="#livechat.customer.web.client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.set_customer_session_fields" href="#livechat.customer.web.client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.start_chat" href="#livechat.customer.web.client.CustomerWebInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_chat_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_customer" href="#livechat.customer.web.client.CustomerWebInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_event_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.update_thread_properties" href="#livechat.customer.web.client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
-<li><code><a title="livechat.customer.web.client.CustomerWebInterface.upload_file" href="#livechat.customer.web.client.CustomerWebInterface.upload_file">upload_file</a></code></li>
+<li><code><a title="client.CustomerWebInterface.accept_greeting" href="#client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="client.CustomerWebInterface.cancel_greeting" href="#client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="client.CustomerWebInterface.check_goals" href="#client.CustomerWebInterface.check_goals">check_goals</a></code></li>
+<li><code><a title="client.CustomerWebInterface.deactivate_chat" href="#client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_chat_properties" href="#client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_event_properties" href="#client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.delete_thread_properties" href="#client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_chat" href="#client.CustomerWebInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_configuration" href="#client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_customer" href="#client.CustomerWebInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_dynamic_configuration" href="#client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_form" href="#client.CustomerWebInterface.get_form">get_form</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_headers" href="#client.CustomerWebInterface.get_headers">get_headers</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_localization" href="#client.CustomerWebInterface.get_localization">get_localization</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_properties" href="#client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="client.CustomerWebInterface.remove_header" href="#client.CustomerWebInterface.remove_header">remove_header</a></code></li>
+<li><code><a title="client.CustomerWebInterface.resume_chat" href="#client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_event" href="#client.CustomerWebInterface.send_event">send_event</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_rich_message_postback" href="#client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="client.CustomerWebInterface.send_sneak_peek" href="#client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="client.CustomerWebInterface.set_customer_session_fields" href="#client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="client.CustomerWebInterface.start_chat" href="#client.CustomerWebInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_chat_properties" href="#client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_customer" href="#client.CustomerWebInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_event_properties" href="#client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.update_thread_properties" href="#client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="client.CustomerWebInterface.upload_file" href="#client.CustomerWebInterface.upload_file">upload_file</a></code></li>
 </ul>
 </li>
 </ul>
