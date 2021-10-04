@@ -711,6 +711,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
               application: dict = None,
               away: bool = None,
               customer_push_level: str = None,
+              pushes: dict = None,
               payload: dict = None) -> dict:
         ''' Logs in agent.
 
@@ -727,6 +728,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                 customer_push_level (str): Possible values: my, engaged, online.
                         Defaults to my if login creates the first session;
                         otherwise it preserves the current customer_push_level.
+                pushes (dict): Use case: when you want to receive only specific pushes.
+                By default, it's set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 

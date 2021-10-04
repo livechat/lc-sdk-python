@@ -38,10 +38,10 @@ def test_get_client():
     ''' Test if created client opens and closes socket in default url. '''
     client = CustomerRTM.get_client(license_id=LICENSE_ID)
     client.open_connection()
-    opened_state = client.ws.keep_alive
+    opened_state = client.ws.keep_running
     client_url = client.ws.url
     client.close_connection()
-    closed_state = client.ws.keep_alive
+    closed_state = client.ws.keep_running
     assert client_url == f'wss://api.livechatinc.com/v3.3/customer/rtm/ws?license_id={LICENSE_ID}', 'Incorrect WS address.'
     assert opened_state is True, 'Client did not open socket.'
     assert closed_state is False, 'Client did not close socket.'
