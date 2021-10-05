@@ -2,6 +2,8 @@
 
 # pylint: disable=W0613,W0622,C0103,R0913,R0903
 
+from __future__ import annotations
+
 from abc import ABCMeta
 
 import httpx
@@ -16,7 +18,7 @@ class ReportsApi:
     def get_client(token: str,
                    version: str = '3.3',
                    base_url: str = 'api.livechatinc.com',
-                   http2: bool = False):
+                   http2: bool = False) -> ReportsApiInterface:
         ''' Returns client for specific Reports API version.
 
             Args:
@@ -44,7 +46,8 @@ class ReportsApi:
 
 class ReportsApiInterface(metaclass=ABCMeta):
     ''' Interface class. '''
-    def __init__(self, token: str, version: str, base_url: str, http2: bool):
+    def __init__(self, token: str, version: str, base_url: str,
+                 http2: bool) -> ReportsApiInterface:
         self.api_url = f'https://{base_url}/v{version}/reports'
         self.session = httpx.Client(http2=http2,
                                     headers={'Authorization': token})
