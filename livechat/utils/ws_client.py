@@ -2,153 +2,98 @@
 Client for WebSocket connections.
 '''
 
-# pylint: disable=R1702
-
 import json
 import logging
 import random
 import ssl
 import threading
 from time import sleep
-from timeit import default_timer as timer
+from typing import List, NoReturn
 
-import websocket
-from websocket import (WebSocket, WebSocketAddressException,
-                       WebSocketBadStatusException,
-                       WebSocketConnectionClosedException, WebSocketException,
-                       WebSocketPayloadException, WebSocketProtocolException,
-                       WebSocketProxyException, WebSocketTimeoutException)
+from websocket import WebSocketApp, WebSocketConnectionClosedException
+from websocket._abnf import ABNF
 
 
-class WebsocketClient:
-    ''' WebSocket synchronous client based on websocket-client module. '''
-    def __init__(self, url: str, timeout: int = 2):
-        self.url = url
-        self.timeout = timeout
-        self.websocket: WebSocket = None
-        self.keep_alive = True
+def on_message(ws_client: WebSocketApp, message: str):
+    ''' Custom WebSocketApp handler that inserts new messages in front of `self.messages` list. '''
+    ws_client.messages.insert(0, json.loads(message))
+
+
+class WebsocketClient(WebSocketApp):
+    ''' Custom extension of the WebSocketApp class for livechat python SDK. '''
+
+    messages: List[dict] = []
+
+    def __init__(self, *args, **kwargs):
         logging.basicConfig()
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
+        super().__init__(*args, **kwargs)
+        self.on_message = on_message
 
-    def open(self, keep_alive: bool = True, origin: dict = None) -> None:
-        ''' Open WebSocket connection.
-                Args:
-                    keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
-                    origin (dict): Specifies origin while creating websocket connection.
+    def open(self,
+             origin: dict = None,
+             timeout: float = 3,
+             keep_alive: bool = True) -> NoReturn:
+        ''' Opens websocket connection and keep running forever.
+            Args:
+                origin (dict): Specifies origin while creating websocket connection.
+                timeout (int or float): time [seconds] to wait for server in ping/pong frame.
+                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`. '''
+        run_forever_kwargs = {
+            'sslopt': {
+                'cert_reqs': ssl.CERT_NONE
+            },
+            'origin': origin,
+            'ping_timeout': timeout,
+            'ping_interval': 5
+        }
+        if keep_alive:
+            ping_thread = threading.Thread(target=self.run_forever,
+                                           kwargs=run_forever_kwargs)
+            ping_thread.start()
+            self._wait_till_sock_connected()
+            return
+        self.run_forever(**run_forever_kwargs)
+
+    def send(self,
+             request: dict,
+             opcode=ABNF.OPCODE_TEXT,
+             response_timeout=2) -> dict:
         '''
+        Sends message, assigining a random request ID, fetching and returning response(s).
+            Args:
+                request (dict): message to send. If you set opcode to OPCODE_TEXT,
+                    data must be utf-8 string or unicode.
+                opcode (int): operation code of data. default is OPCODE_TEXT.
+                response_timeout (int): time in seconds to wait for the response.
+            Returns:
+                dict: Dictionary with response.
+        '''
+        request_id = str(random.randint(1, 9999999999))
+        request.update({'request_id': request_id})
+        request_json = json.dumps(request, indent=4)
+        self.logger.info(f'\nREQUEST:\n{request_json}')
+        if not self.sock or self.sock.send(request_json, opcode) == 0:
+            raise WebSocketConnectionClosedException(
+                'Connection is already closed.')
+        while not (response := next((item for item in self.messages
+                                     if item.get('request_id') == request_id),
+                                    None)) and response_timeout > 0:
+            sleep(0.2)
+            response_timeout -= 0.2
+        self.logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
+        return {'response': response}
+
+    def _wait_till_sock_connected(self, timeout: float = 3) -> NoReturn:
+        ''' Polls until `self.sock` is connected.
+            Args:
+                timeout (float): timeout value in seconds, default 3. '''
+        if timeout < 0:
+            raise TimeoutError('Timed out waiting for WebSocket to open.')
         try:
-            if origin:
-                self.websocket = websocket.create_connection(
-                    self.url,
-                    self.timeout,
-                    origin=origin,
-                    sslopt={'cert_reqs': ssl.CERT_NONE},
-                    enable_multithread=True)
-            else:
-                self.websocket = websocket.create_connection(
-                    self.url,
-                    self.timeout,
-                    sslopt={'cert_reqs': ssl.CERT_NONE},
-                    enable_multithread=True)
-        except (WebSocketException, WebSocketTimeoutException,
-                WebSocketProtocolException, WebSocketPayloadException,
-                WebSocketConnectionClosedException, WebSocketProxyException,
-                WebSocketBadStatusException,
-                WebSocketAddressException) as exception:
-            self.logger.critical(f'WebSocket Exception: {exception}')
-        else:
-            if keep_alive:
-                self.keep_alive = True
-                threading.Thread(target=self._keep_ws_alive).start()
-
-    def close(self) -> None:
-        ''' Close WebSocket connection. '''
-        self.keep_alive = False
-        if self.websocket.connected:
-            try:
-                self.websocket.close()
-            except WebSocketConnectionClosedException as error:
-                self.logger.critical(
-                    f'Exception caught while closing the WebSocket: {error}.')
-
-    def send(self, request: dict) -> dict:
-        ''' Send request via WebSocket.
-               Args:
-                    request (dict): Dictionary which is being converted to payload.
-               Returns:
-                    dict: Dictionary with response.
-        '''
-        responses = {}
-        if self.websocket.connected:
-            request_id = str(random.randint(1, 9999999999))
-            request.update({'request_id': request_id})
-            request_json = json.dumps(request, indent=4)
-            self.logger.info(f'\nREQUEST:\n{request_json}')
-            self.websocket.send(request_json)
-            responses = self._receive(request_id)
-            self.logger.info(
-                f'\nRESPONSES:\n{json.dumps(responses, indent=4)}')
-        else:
-            self.logger.info('send() : WebSocket connection is closed.')
-        return responses
-
-    def _keep_ws_alive(self) -> None:
-        ''' Ping WebSocket connection to keep it alive. '''
-        keep_alive_counter = 0
-        while self.keep_alive:
-            if self.websocket.connected and keep_alive_counter % 10 == 0:
-                try:
-                    self.websocket.send(
-                        json.dumps({
-                            'action': 'ping',
-                            'payload': {}
-                        }, indent=4))
-                except (WebSocketConnectionClosedException,
-                        ConnectionResetError, BrokenPipeError) as error:
-                    self.logger.critical(
-                        f'Exception caught while pinging the WebSocket: {error}.'
-                    )
-                    break
-                else:
-                    self.logger.debug('Ping action sent.')
-            sleep(1)
-            keep_alive_counter += 1
-
-    def _receive(self, request_id: str, expected_responses: int = 1) -> dict:
-        ''' Receive data from WebSocket.
-               Args:
-                    request_id (str): String which shows request_id for matching request with response.
-                    expected_responses (int): Which states how many response messages should be returned, default value should be set to 1.
-               Returns:
-                    dict: Dictionary with response.
-        '''
-        all_responses: dict = {'response': None, 'pushes': []}
-        start = timer()
-        while timer() - start < 5:
-            if self.websocket.connected:
-                try:
-                    response = json.loads(self.websocket.recv())
-                except (WebSocketTimeoutException,
-                        WebSocketConnectionClosedException) as error:
-                    self.logger.critical(
-                        f'Exception caught while collecting responses: {error}.'
-                    )
-                else:
-                    if response.get('request_id') == request_id:
-                        if response.get('type') == 'response':
-                            all_responses['response'] = response
-                        else:
-                            action = response.get('action')
-                            if action not in all_responses:
-                                all_responses[action] = response
-                        expected_responses -= 1
-                    else:
-                        if response.get('action') != 'ping':
-                            all_responses['pushes'].append(response)
-                if expected_responses <= 0 and all_responses.get(
-                        'response') is not None:
-                    break
-            else:
-                break
-        return all_responses
+            assert self.sock.connected
+            return
+        except (AttributeError, AssertionError):
+            sleep(0.1)
+            return self._wait_till_sock_connected(timeout=timeout - 0.1)

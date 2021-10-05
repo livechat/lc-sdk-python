@@ -1,6 +1,7 @@
 ''' Agent RTM client implementation. '''
 
 # pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0221
+from __future__ import annotations
 
 import typing
 from abc import ABCMeta
@@ -13,7 +14,7 @@ class AgentRTM:
     ''' Main class that gets specific client. '''
     @staticmethod
     def get_client(version: str = '3.3',
-                   base_url: str = 'api.livechatinc.com'):
+                   base_url: str = 'api.livechatinc.com') -> AgentRTMInterface:
         ''' Returns client for specific Agent RTM version.
 
             Args:
@@ -37,7 +38,7 @@ class AgentRTM:
 
 class AgentRTMInterface(metaclass=ABCMeta):
     ''' AgentRTM interface class. '''
-    def __init__(self, version: str, url: str):
+    def __init__(self, version: str, url: str) -> AgentRTMInterface:
         self.ws = WebsocketClient(url=f'wss://{url}/v{version}/agent/rtm/ws')
 
     def open_connection(self) -> None:
@@ -711,6 +712,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
               application: dict = None,
               away: bool = None,
               customer_push_level: str = None,
+              pushes: dict = None,
               payload: dict = None) -> dict:
         ''' Logs in agent.
 
@@ -727,6 +729,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                 customer_push_level (str): Possible values: my, engaged, online.
                         Defaults to my if login creates the first session;
                         otherwise it preserves the current customer_push_level.
+                pushes (dict): Use case: when you want to receive only specific pushes.
+                By default, it's set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 
