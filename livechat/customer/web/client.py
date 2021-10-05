@@ -1,6 +1,7 @@
 ''' Customer Web client implementation. '''
 
 # pylint: disable=W0613,R0913,W0622,C0103
+from __future__ import annotations
 
 import typing
 from abc import ABCMeta
@@ -19,7 +20,7 @@ class CustomerWeb:
                    access_token: str,
                    version: str = '3.3',
                    base_url: str = 'api.livechatinc.com',
-                   http2: bool = False):
+                   http2: bool = False) -> CustomerWebInterface:
         ''' Returns client for specific API version.
 
             Args:
@@ -51,7 +52,7 @@ class CustomerWeb:
 class CustomerWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
     def __init__(self, license_id: int, access_token: str, version: str,
-                 base_url: str, http2: bool):
+                 base_url: str, http2: bool) -> CustomerWebInterface:
         self.api_url = f'https://{base_url}/v{version}/customer/action'
         self.session = httpx.Client(http2=http2,
                                     headers={'Authorization': access_token})

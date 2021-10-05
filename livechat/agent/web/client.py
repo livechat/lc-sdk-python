@@ -1,6 +1,7 @@
 ''' Agent Web client implementation. '''
 
 # pylint: disable=W0613,R0913,W0622,C0103,W0221
+from __future__ import annotations
 
 import typing
 from abc import ABCMeta
@@ -18,7 +19,7 @@ class AgentWeb:
     def get_client(access_token: str,
                    version: str = '3.3',
                    base_url: str = 'api.livechatinc.com',
-                   http2: bool = False):
+                   http2: bool = False) -> AgentWebInterface:
         ''' Returns client for specific API version.
 
             Args:
@@ -48,7 +49,7 @@ class AgentWeb:
 class AgentWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
     def __init__(self, access_token: str, version: str, base_url: str,
-                 http2: bool):
+                 http2: bool) -> AgentWebInterface:
         self.api_url = f'https://{base_url}/v{version}/agent/action'
         self.session = httpx.Client(http2=http2,
                                     headers={'Authorization': access_token})

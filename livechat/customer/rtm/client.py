@@ -2,6 +2,8 @@
 
 # pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107
 
+from __future__ import annotations
+
 from abc import ABCMeta
 
 from livechat.utils.helpers import prepare_payload
@@ -11,9 +13,10 @@ from livechat.utils.ws_client import WebsocketClient
 class CustomerRTM:
     ''' Main class that gets specific client. '''
     @staticmethod
-    def get_client(license_id: int = None,
-                   version: str = '3.3',
-                   base_url: str = 'api.livechatinc.com'):
+    def get_client(
+            license_id: int = None,
+            version: str = '3.3',
+            base_url: str = 'api.livechatinc.com') -> CustomerRTMInterface:
         ''' Returns client for specific Customer RTM version.
 
             Args:
@@ -38,7 +41,8 @@ class CustomerRTM:
 
 class CustomerRTMInterface(metaclass=ABCMeta):
     ''' CustomerRTM interface class. '''
-    def __init__(self, license_id, version, url):
+    def __init__(self, license_id: int, version: str,
+                 url: str) -> CustomerRTMInterface:
         if not license_id or not isinstance(license_id, int):
             raise ValueError(
                 'Pipe was not opened. Something`s wrong with your `license_id`.'
