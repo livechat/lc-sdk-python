@@ -83,8 +83,8 @@ class ReportsAPI33(ReportsApiInterface):
 
     # Chats
     def agents_chatting_duration(self,
-                                 to: str = None,
-                                 from_param: str = None,
+                                 date_to: str = None,
+                                 date_from: str = None,
                                  agents: str = None,
                                  groups: str = None,
                                  tags: str = None,
@@ -97,9 +97,9 @@ class ReportsAPI33(ReportsApiInterface):
         ''' Shows the average chatting duration of agents within a license.
 
         Args:
-            to (str): Date in the RFC3339 format, which also contains a timezone.
+            date_to (str): Date in the RFC3339 format, which also contains a timezone.
                       This timezone will be used if no `timezone` is provided.
-            from_param (str): Date in the RFC3339 format, which also contains a timezone.
+            date_from (str): Date in the RFC3339 format, which also contains a timezone.
                               This timezone will be used if no `timezone` is provided.
             agents (str): Agent emails separated by a comma.
                           If not specified, returns the data for all agents within the license.
@@ -123,21 +123,18 @@ class ReportsAPI33(ReportsApiInterface):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-            if from_param is not None:
-                del payload['from_param']
-                payload['from'] = from_param
-        else:
-            if payload['from_param']:
-                payload['from'] = payload['from_param']
-                del payload['from_param']
+            if date_from is not None:
+                payload['from'] = date_from
+            if date_to is not None:
+                payload['to'] = date_to
         return self.session.get(
             f'{self.api_url}/chats/agents_chatting_duration',
             params=payload,
             headers=headers)
 
     def tags(self,
-             to: str = None,
-             from_param: str = None,
+             date_to: str = None,
+             date_from: str = None,
              distribution: str = None,
              timezone: str = None,
              agents: str = None,
@@ -148,9 +145,9 @@ class ReportsAPI33(ReportsApiInterface):
         ''' Shows the distribution of tags for chats.
 
         Args:
-            to (str): Date in the RFC3339 format, which also contains a timezone.
+            date_to (str): Date in the RFC3339 format, which also contains a timezone.
                       This timezone will be used if no `timezone` is provided.
-            from_param (str): Date in the RFC3339 format, which also contains a timezone.
+            date_from (str): Date in the RFC3339 format, which also contains a timezone.
                               This timezone will be used if no `timezone` is provided.
             distribution (str): Possible values: `hour`, `day-hours`, `day`, `month`, `year`.
             timezone (str): Timezone in the TZ format (e.g. America/Phoenix).
@@ -174,20 +171,17 @@ class ReportsAPI33(ReportsApiInterface):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-            if from_param is not None:
-                del payload['from_param']
-                payload['from'] = from_param
-        else:
-            if 'from_param' in payload:
-                payload['from'] = payload['from_param']
-                del payload['from_param']
+            if date_from is not None:
+                payload['from'] = date_from
+            if date_to is not None:
+                payload['to'] = date_to
         return self.session.get(f'{self.api_url}/chats/tags',
-                                json=payload,
+                                params=payload,
                                 headers=headers)
 
     def total_chats(self,
-                    from_param: str = None,
-                    to: str = None,
+                    date_from: str = None,
+                    date_to: str = None,
                     distribution: str = None,
                     timezone: str = None,
                     agents: str = None,
@@ -201,9 +195,9 @@ class ReportsAPI33(ReportsApiInterface):
         ''' Shows how many chats occurred during the specified period.
 
         Args:
-            to (str): Date in the RFC3339 format, which also contains a timezone.
+            date_to (str): Date in the RFC3339 format, which also contains a timezone.
                       This timezone will be used if no `timezone` is provided.
-            from_param (str): Date in the RFC3339 format, which also contains a timezone.
+            date_from (str): Date in the RFC3339 format, which also contains a timezone.
                               This timezone will be used if no `timezone` is provided.
             distribution (str): Possible values: `hour`, `day-hours`, `day`, `month`; defaults to `day`.
             timezone (str): Timezone in the TZ format (e.g. America/Phoenix).
@@ -227,13 +221,10 @@ class ReportsAPI33(ReportsApiInterface):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-            if from_param is not None:
-                del payload['from_param']
-                payload['from'] = from_param
-        else:
-            if 'from_param' in payload:
-                payload['from'] = payload['from_param']
-                del payload['from_param']
+            if date_from is not None:
+                payload['from'] = date_from
+            if date_to is not None:
+                payload['to'] = date_to
         return self.session.get(f'{self.api_url}/chats/total_chats',
                                 params=payload,
                                 headers=headers)
@@ -247,7 +238,7 @@ class ReportsAPI34(ReportsApiInterface):
     def duration(self,
                  distribution: str = None,
                  timezone: str = None,
-                 filteters: dict = None,
+                 filters: dict = None,
                  payload: dict = None,
                  headers: dict = None) -> httpx.Response:
         ''' Shows the average chatting duration of agents within a license.
@@ -257,7 +248,7 @@ class ReportsAPI34(ReportsApiInterface):
             timezone (str): IANA Time Zone (e.g. America/Phoenix).
                             Defaults to the requester's timezone.
                             When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
-            filteters (dict): If none provided, your report will span the last seven days.
+            filters (dict): If none provided, your report will span the last seven days.
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -277,7 +268,7 @@ class ReportsAPI34(ReportsApiInterface):
     def tags(self,
              distribution: str = None,
              timezone: str = None,
-             filteters: dict = None,
+             filters: dict = None,
              payload: dict = None,
              headers: dict = None) -> httpx.Response:
         ''' Shows the distribution of tags for chats.
@@ -287,7 +278,7 @@ class ReportsAPI34(ReportsApiInterface):
             timezone (str): IANA Time Zone (e.g. America/Phoenix).
                             Defaults to the requester's timezone.
                             When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
-            filteters (dict): If none provided, your report will span the last seven days.
+            filters (dict): If none provided, your report will span the last seven days.
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -307,7 +298,7 @@ class ReportsAPI34(ReportsApiInterface):
     def total_chats(self,
                     distribution: str = None,
                     timezone: str = None,
-                    filteters: dict = None,
+                    filters: dict = None,
                     payload: dict = None,
                     headers: dict = None) -> httpx.Response:
         ''' Shows how many chats occurred during the specified period.
@@ -317,7 +308,7 @@ class ReportsAPI34(ReportsApiInterface):
             timezone (str): IANA Time Zone (e.g. America/Phoenix).
                             Defaults to the requester's timezone.
                             When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
-            filteters (dict): If none provided, your report will span the last seven days.
+            filters (dict): If none provided, your report will span the last seven days.
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -337,7 +328,7 @@ class ReportsAPI34(ReportsApiInterface):
     def ratings(self,
                 distribution: str = 'day',
                 timezone: str = None,
-                filteters: dict = None,
+                filters: dict = None,
                 payload: dict = None,
                 headers: dict = None) -> httpx.Response:
         ''' Shows the number of rated chats along with their ratings during a specified period of time.
@@ -347,7 +338,7 @@ class ReportsAPI34(ReportsApiInterface):
             timezone (str): IANA Time Zone (e.g. America/Phoenix).
                             Defaults to the requester's timezone.
                             When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
-            filteters (dict): If none provided, your report will span the last seven days.
+            filters (dict): If none provided, your report will span the last seven days.
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -367,7 +358,7 @@ class ReportsAPI34(ReportsApiInterface):
     def ranking(self,
                 distribution: str = 'day',
                 timezone: str = None,
-                filteters: dict = None,
+                filters: dict = None,
                 payload: dict = None,
                 headers: dict = None) -> httpx.Response:
         ''' Shows the ratio of good to bad ratings for each operator.
@@ -377,7 +368,7 @@ class ReportsAPI34(ReportsApiInterface):
             timezone (str): IANA Time Zone (e.g. America/Phoenix).
                             Defaults to the requester's timezone.
                             When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
-            filteters (dict): If none provided, your report will span the last seven days.
+            filters (dict): If none provided, your report will span the last seven days.
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -397,7 +388,7 @@ class ReportsAPI34(ReportsApiInterface):
     def engagement(self,
                    distribution: str = 'day',
                    timezone: str = None,
-                   filteters: dict = None,
+                   filters: dict = None,
                    payload: dict = None,
                    headers: dict = None) -> httpx.Response:
         ''' Shows the distribution of chats based on engagement during the specified period.
@@ -407,7 +398,7 @@ class ReportsAPI34(ReportsApiInterface):
             timezone (str): IANA Time Zone (e.g. America/Phoenix).
                             Defaults to the requester's timezone.
                             When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
-            filteters (dict): If none provided, your report will span the last seven days.
+            filters (dict): If none provided, your report will span the last seven days.
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -429,7 +420,7 @@ class ReportsAPI34(ReportsApiInterface):
     def availability(self,
                      distribution: str = 'day',
                      timezone: str = None,
-                     filteters: dict = None,
+                     filters: dict = None,
                      payload: dict = None,
                      headers: dict = None) -> httpx.Response:
         ''' Shows for how long an agent, group, or the whole account was available for chatting during a specified period of time.
@@ -439,7 +430,7 @@ class ReportsAPI34(ReportsApiInterface):
             timezone (str): IANA Time Zone (e.g. America/Phoenix).
                             Defaults to the requester's timezone.
                             When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
-            filteters (dict): If none provided, your report will span the last seven days.
+            filters (dict): If none provided, your report will span the last seven days.
             payload (dict): Custom payload to be used as request's data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.

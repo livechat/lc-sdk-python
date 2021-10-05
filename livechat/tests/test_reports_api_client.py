@@ -29,9 +29,12 @@ def test_get_client_with_valid_args(reports_api_client):
 def test_send_request(reports_api_client):
     ''' Test if it's possible to send a basic request via Reports API
         client with arbitrary chosen method. '''
-    print(reports_api_client.total_chats())
-    assert reports_api_client.total_chats(
-    ).text == '{"error":{"type":"authentication","message":"Invalid access token"}}'
+    assert reports_api_client.total_chats().json() == {
+        'error': {
+            'type': 'authentication',
+            'message': 'Invalid access token'
+        }
+    }
 
 
 def test_modify_header(reports_api_client):

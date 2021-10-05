@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 - Added type hints support
 - Added support for reports-api.
 
+## [0.1.6] - 2021-10-04
+
 ### Changed
 
 - Refactored ws_client module - new client extends WebSocketApp from websocket-client package.
