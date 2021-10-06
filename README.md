@@ -19,6 +19,8 @@ Customer Chat API:
 Management:
 * [Configuration API](https://livechat.github.io/lc-sdk-python/configuration_api.html)
 
+Reports:
+* [Reports API](https://livechat.github.io/lc-sdk-python/reports_api.html)
 
 ## Installation
 

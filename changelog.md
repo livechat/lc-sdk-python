@@ -1,14 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.1.7] - 2021-10-06
+## [0.1.6] - 2021-10-06
 
 ### Added
 
 - Added type hints support
 - Added support for reports-api.
-
-## [0.1.6] - 2021-10-04
 
 ### Changed
 
