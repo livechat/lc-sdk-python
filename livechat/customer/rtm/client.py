@@ -1,6 +1,6 @@
 ''' Customer RTM client implementation. '''
 
-# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107
+# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0231
 
 from __future__ import annotations
 
@@ -13,16 +13,17 @@ from livechat.utils.ws_client import WebsocketClient
 class CustomerRTM:
     ''' Main class that gets specific client. '''
     @staticmethod
-    def get_client(
-            license_id: int = None,
-            version: str = '3.3',
-            base_url: str = 'api.livechatinc.com') -> CustomerRTMInterface:
+    def get_client(license_id: int = None,
+                   version: str = '3.3',
+                   base_url: str = 'api.livechatinc.com',
+                   organization_id: str = None) -> CustomerRTMInterface:
         ''' Returns client for specific Customer RTM version.
 
             Args:
-                license_id (int): License ID.
+                license_id (int): License ID. Required to use API v3.3.
                 version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
+                organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
                 CustomerRTMInterface: API client object for specified version.
@@ -30,26 +31,30 @@ class CustomerRTM:
             Raises:
                 ValueError: If the specified version does not exist.
         '''
-        client = {
-            '3.3': CustomerRTM33(license_id, version, base_url),
-            '3.4': CustomerRTM34(license_id, version, base_url)
+        client = {'3.3': CustomerRTM33, '3.4': CustomerRTM34}.get(version)
+        client_kwargs = {
+            '3.3': {
+                'license_id': license_id,
+                'version': version,
+                'url': base_url
+            },
+            '3.4': {
+                'organization_id': organization_id,
+                'version': version,
+                'url': base_url
+            }
         }.get(version)
-        if not client:
-            raise ValueError('Provided version does not exist.')
-        return client
+        if client:
+            return client(**client_kwargs)
+        raise ValueError('Provided version does not exist.')
 
 
 class CustomerRTMInterface(metaclass=ABCMeta):
     ''' CustomerRTM interface class. '''
-    def __init__(self, license_id: int, version: str,
-                 url: str) -> CustomerRTMInterface:
-        if not license_id or not isinstance(license_id, int):
-            raise ValueError(
-                'Pipe was not opened. Something`s wrong with your `license_id`.'
-            )
-        self.ws = WebsocketClient(
-            url=
-            f'wss://{url}/v{version}/customer/rtm/ws?license_id={license_id}')
+    def __init__(self, license_id: int, version: str, url: str,
+                 organization_id: str) -> CustomerRTMInterface:
+        # Dummy ws object - must be overwritten in concrete classes.
+        self.ws = WebsocketClient()
 
     def open_connection(self, origin: dict = None) -> None:
         ''' Opens WebSocket connection.
@@ -629,7 +634,29 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 
 class CustomerRTM33(CustomerRTMInterface):
     ''' Customer RTM version 3.3 class. '''
+    def __init__(self, license_id: int, version: str,
+                 url: str) -> CustomerRTMInterface:
+        if all([license_id, isinstance(license_id, int)]):
+            self.ws = WebsocketClient(
+                url=
+                f'wss://{url}/v{version}/customer/rtm/ws?license_id={license_id}'
+            )
+        else:
+            raise ValueError(
+                'Pipe was not opened. Please check your `license_id` argument.'
+            )
 
 
 class CustomerRTM34(CustomerRTMInterface):
     ''' Customer RTM version 3.4 class. '''
+    def __init__(self, organization_id: str, version: str,
+                 url: str) -> CustomerRTMInterface:
+        if all([organization_id, isinstance(organization_id, str)]):
+            self.ws = WebsocketClient(
+                url=
+                f'wss://{url}/v{version}/customer/rtm/ws?organization_id={organization_id}'
+            )
+        else:
+            raise ValueError(
+                'Pipe was not opened. Please check your `organization_id` argument.'
+            )
