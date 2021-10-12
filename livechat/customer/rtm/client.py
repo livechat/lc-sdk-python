@@ -635,7 +635,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 class CustomerRTM33(CustomerRTMInterface):
     ''' Customer RTM version 3.3 class. '''
     def __init__(self, license_id: int, version: str,
-                 url: str) -> CustomerRTMInterface:
+                 url: str) -> CustomerRTM33:
         if all([license_id, isinstance(license_id, int)]):
             self.ws = WebsocketClient(
                 url=
@@ -650,7 +650,7 @@ class CustomerRTM33(CustomerRTMInterface):
 class CustomerRTM34(CustomerRTMInterface):
     ''' Customer RTM version 3.4 class. '''
     def __init__(self, organization_id: str, version: str,
-                 url: str) -> CustomerRTMInterface:
+                 url: str) -> CustomerRTM34:
         if all([organization_id, isinstance(organization_id, str)]):
             self.ws = WebsocketClient(
                 url=

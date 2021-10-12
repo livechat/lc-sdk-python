@@ -16,20 +16,23 @@ class CustomerWeb:
     ''' Allows retrieval of client for specific Customer Web
         API version. '''
     @staticmethod
-    def get_client(license_id: int,
-                   access_token: str,
+    def get_client(license_id: int = None,
+                   access_token: str = None,
                    version: str = '3.3',
                    base_url: str = 'api.livechatinc.com',
-                   http2: bool = False) -> CustomerWebInterface:
+                   http2: bool = False,
+                   organization_id: str = None) -> CustomerWebInterface:
         ''' Returns client for specific API version.
 
             Args:
+                license_id (int): License ID. Required to use API v3.3.
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
+                organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
                 API client object for specified version based on
@@ -38,25 +41,41 @@ class CustomerWeb:
             Raises:
                 ValueError: If the specified version does not exist.
         '''
-        client = {
-            '3.3':
-            CustomerWeb33(license_id, access_token, version, base_url, http2),
-            '3.4':
-            CustomerWeb34(license_id, access_token, version, base_url, http2)
+        client = {'3.3': CustomerWeb33, '3.4': CustomerWeb34}.get(version)
+        client_kwargs = {
+            '3.3': {
+                'license_id': license_id,
+                'access_token': access_token,
+                'version': version,
+                'url': base_url,
+                'http2': http2
+            },
+            '3.4': {
+                'organization_id': organization_id,
+                'access_token': access_token,
+                'version': version,
+                'url': base_url,
+                'http2': http2
+            }
         }.get(version)
-        if not client:
-            raise ValueError('Provided version does not exist.')
-        return client
+        if client:
+            return client(**client_kwargs)
+        raise ValueError('Provided version does not exist.')
 
 
 class CustomerWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
-    def __init__(self, license_id: int, access_token: str, version: str,
-                 base_url: str, http2: bool) -> CustomerWebInterface:
+    def __init__(self, access_token: str, version: str, base_url: str,
+                 http2: bool) -> CustomerWebInterface:
         self.api_url = f'https://{base_url}/v{version}/customer/action'
-        self.session = httpx.Client(http2=http2,
-                                    headers={'Authorization': access_token})
-        self.license_id = str(license_id)
+        if all([access_token, isinstance(access_token, str)]):
+            self.session = httpx.Client(
+                http2=http2, headers={'Authorization': access_token})
+        else:
+            raise ValueError(
+                'Incorrect or missing `access_token` argument (should be str.)'
+            )
+        self.query_string = None  # overwritten in concrete classes.
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
@@ -111,7 +130,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/list_chats?license_id={self.license_id}',
+            f'{self.api_url}/list_chats{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -146,7 +165,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/list_threads?license_id={self.license_id}',
+            f'{self.api_url}/list_threads{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -172,10 +191,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/get_chat?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
+        return self.session.post(f'{self.api_url}/get_chat{self.query_string}',
+                                 json=payload,
+                                 headers=headers)
 
     def start_chat(self,
                    chat: dict = None,
@@ -202,7 +220,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/start_chat?license_id={self.license_id}',
+            f'{self.api_url}/start_chat{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -231,7 +249,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/resume_chat?license_id={self.license_id}',
+            f'{self.api_url}/resume_chat{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -257,7 +275,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/deactivate_chat?license_id={self.license_id}',
+            f'{self.api_url}/deactivate_chat{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -292,7 +310,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_dynamic_configuration?license_id={self.license_id}',
+            f'{self.api_url}/get_dynamic_configuration{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -320,7 +338,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_configuration?license_id={self.license_id}',
+            f'{self.api_url}/get_configuration{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -354,7 +372,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/send_event?license_id={self.license_id}',
+            f'{self.api_url}/send_event{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -378,7 +396,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/upload_file?license_id={self.license_id}',
+            f'{self.api_url}/upload_file{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -408,7 +426,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/send_rich_message_postback?license_id={self.license_id}',
+            f'{self.api_url}/send_rich_message_postback{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -434,7 +452,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/send_sneak_peek?license_id={self.license_id}',
+            f'{self.api_url}/send_sneak_peek{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -465,7 +483,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_localization?license_id={self.license_id}',
+            f'{self.api_url}/get_localization{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -494,7 +512,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/update_chat_properties?license_id={self.license_id}',
+            f'{self.api_url}/update_chat_properties{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -520,7 +538,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/delete_chat_properties?license_id={self.license_id}',
+            f'{self.api_url}/delete_chat_properties{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -549,7 +567,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/update_thread_properties?license_id={self.license_id}',
+            f'{self.api_url}/update_thread_properties{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -577,7 +595,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/delete_thread_properties?license_id={self.license_id}',
+            f'{self.api_url}/delete_thread_properties{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -608,7 +626,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/update_event_properties?license_id={self.license_id}',
+            f'{self.api_url}/update_event_properties{self.query_string}',
             json=payload,
             headers=headers)
 
@@ -638,9 +656,379 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/delete_event_properties?license_id={self.license_id}',
+            f'{self.api_url}/delete_event_properties{self.query_string}',
             json=payload,
             headers=headers)
+
+    def list_license_properties(self,
+                                namespace: str = None,
+                                name: str = None,
+                                payload: dict = None,
+                                headers: dict = None) -> httpx.Response:
+        ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+            Args:
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request's data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params['namespace'] = namespace
+        if name:
+            params['name'] = name
+        return self.session.post(f'{self.api_url}/list_license_properties',
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
+    def list_group_properties(self,
+                              group_id: int = None,
+                              namespace: str = None,
+                              name: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -> httpx.Response:
+        ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
+            Args:
+                group_id (int): ID of the group you want to return the properties of.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request's data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params['namespace'] = namespace
+        if name:
+            params['name'] = name
+        if group_id:
+            params['id'] = str(group_id)
+        return self.session.post(f'{self.api_url}/list_group_properties',
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
+# Customers
+
+    def get_customer(self,
+                     payload: dict = None,
+                     headers: dict = None) -> httpx.Response:
+        ''' Returns the info about the Customer requesting it.
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        return self.session.post(
+            f'{self.api_url}/get_customer{self.query_string}',
+            json={} if payload is None else payload,
+            headers=headers)
+
+    def update_customer(self,
+                        name: str = None,
+                        email: str = None,
+                        avatar: str = None,
+                        session_fields: list = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
+        ''' Updates Customer's properties.
+
+            Args:
+                name (str): Name of the customer.
+                email (str): Email of the customer.
+                avatar (str): The URL of the Customer's avatar.
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                                       Respects the order of items.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/update_customer{self.query_string}',
+            json=payload,
+            headers=headers)
+
+    def set_customer_session_fields(self,
+                                    session_fields: list = None,
+                                    payload: dict = None,
+                                    headers: dict = None) -> httpx.Response:
+        ''' Updates Customer's session fields.
+
+            Args:
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                                       Respects the order of items. Max keys: 100.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/set_customer_session_fields{self.query_string}',
+            json=payload,
+            headers=headers)
+
+# Status
+
+    def list_group_statuses(self,
+                            all: bool = None,
+                            group_ids: list = None,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Returns object with info about current routing statuses of agent groups.
+            One of the optional parameters needs to be included in the request.
+
+            Args:
+                all (bool): If set to True, you will get statuses of all the groups.
+                group_ids (list): A table of groups' IDs
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/list_group_statuses{self.query_string}',
+            json=payload,
+            headers=headers)
+
+
+# Other
+
+    def check_goals(self,
+                    session_fields: list = None,
+                    group_id: int = None,
+                    page_url: str = None,
+                    payload: dict = None,
+                    headers: dict = None) -> httpx.Response:
+        ''' Customer can use this method to trigger checking if goals were achieved.
+            Then, Agents receive the information. You should call this method to provide goals parameters for the server
+            when the customers limit is reached. Works only for offline Customers.
+
+            Args:
+                session_fields (list): An array of custom object-enclosed key:value pairs.
+                group_id (int): Group ID to check the goals for.
+                page_url (str): URL of the page to check the goals for.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/check_goals{self.query_string}',
+            json=payload,
+            headers=headers)
+
+    def get_form(self,
+                 group_id: int = None,
+                 type: str = None,
+                 payload: dict = None,
+                 headers: dict = None) -> httpx.Response:
+        ''' Returns an empty ticket form of a prechat or postchat survey.
+
+            Args:
+                group_id (int): ID of the group from which you want the form.
+                type (str): Form type; possible values: prechat or postchat.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/get_form{self.query_string}',
+                                 json=payload,
+                                 headers=headers)
+
+    def get_predicted_agent(self,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+            To use this method, the Customer needs to be logged in, which can be done via the `login` method.
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        return self.session.post(
+            f'{self.api_url}/get_predicted_agent{self.query_string}',
+            json={} if payload is None else payload,
+            headers=headers)
+
+    def get_url_info(self,
+                     url: str = None,
+                     payload: dict = None,
+                     headers: dict = None) -> httpx.Response:
+        ''' Returns the info on a given URL.
+
+            Args:
+                url (str): Valid website URL.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/get_url_info{self.query_string}',
+            json=payload,
+            headers=headers)
+
+    def mark_events_as_seen(self,
+                            chat_id: str = None,
+                            seen_up_to: str = None,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Updates `seen_up_to` value for a given chat.
+
+            Args:
+                chat_id (str): ID of the chat to update `seen_up_to`.
+                seen_up_to (str): RFC 3339 date-time format.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/mark_events_as_seen{self.query_string}',
+            json=payload,
+            headers=headers)
+
+    def accept_greeting(self,
+                        greeting_id: int = None,
+                        unique_id: str = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
+        ''' Marks an incoming greeting as seen.
+
+            Args:
+                greeting_id (int): ID of the greeting configured within the license to accept.
+                unique_id (str): ID of the greeting to accept. You can get it from the `incoming_greeting` push.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/accept_greeting{self.query_string}',
+            json=payload,
+            headers=headers)
+
+    def cancel_greeting(self,
+                        unique_id: str = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
+        ''' Cancels a greeting (an invitation to the chat).
+            For example, Customers could cancel greetings by minimalizing the chat widget with a greeting.
+
+            Args:
+                unique_id (str): ID of the greeting to cancel. You can get it from the `incoming_greeting` push.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/cancel_greeting{self.query_string}',
+            json=payload,
+            headers=headers)
+
+
+class CustomerWeb33(CustomerWebInterface):
+    ''' Customer API version 3.3 class. '''
+    def __init__(self, license_id: int, access_token: str, version: str,
+                 url: str, http2: bool) -> CustomerWeb33:
+        super().__init__(access_token, version, url, http2)
+        if all([license_id, isinstance(license_id, int)]):
+            self.license_id = license_id
+            self.query_string = f'?license_id={str(license_id)}'
+        else:
+            raise ValueError(
+                'Incorrect or missing `license_id` argument (should be int.)')
 
     def list_license_properties(self,
                                 namespace: str = None,
@@ -707,305 +1095,81 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                  params=params,
                                  headers=headers)
 
-# Customers
-
-    def get_customer(self,
-                     payload: dict = None,
-                     headers: dict = None) -> httpx.Response:
-        ''' Returns the info about the Customer requesting it.
-
-            Args:
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        return self.session.post(
-            f'{self.api_url}/get_customer?license_id={self.license_id}',
-            json={} if payload is None else payload,
-            headers=headers)
-
-    def update_customer(self,
-                        name: str = None,
-                        email: str = None,
-                        avatar: str = None,
-                        session_fields: list = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
-        ''' Updates Customer's properties.
-
-            Args:
-                name (str): Name of the customer.
-                email (str): Email of the customer.
-                avatar (str): The URL of the Customer's avatar.
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                                       Respects the order of items.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/update_customer?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-    def set_customer_session_fields(self,
-                                    session_fields: list = None,
-                                    payload: dict = None,
-                                    headers: dict = None) -> httpx.Response:
-        ''' Updates Customer's session fields.
-
-            Args:
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                                       Respects the order of items. Max keys: 100.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/set_customer_session_fields?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-# Status
-
-    def list_group_statuses(self,
-                            all: bool = None,
-                            group_ids: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
-        ''' Returns object with info about current routing statuses of agent groups.
-            One of the optional parameters needs to be included in the request.
-
-            Args:
-                all (bool): If set to True, you will get statuses of all the groups.
-                group_ids (list): A table of groups' IDs
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/list_group_statuses?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-
-# Other
-
-    def check_goals(self,
-                    session_fields: list = None,
-                    group_id: int = None,
-                    page_url: str = None,
-                    payload: dict = None,
-                    headers: dict = None) -> httpx.Response:
-        ''' Customer can use this method to trigger checking if goals were achieved.
-            Then, Agents receive the information. You should call this method to provide goals parameters for the server
-            when the customers limit is reached. Works only for offline Customers.
-
-            Args:
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                group_id (int): Group ID to check the goals for.
-                page_url (str): URL of the page to check the goals for.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/check_goals?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-    def get_form(self,
-                 group_id: int = None,
-                 type: str = None,
-                 payload: dict = None,
-                 headers: dict = None) -> httpx.Response:
-        ''' Returns an empty ticket form of a prechat or postchat survey.
-
-            Args:
-                group_id (int): ID of the group from which you want the form.
-                type (str): Form type; possible values: prechat or postchat.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/get_form?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-    def get_predicted_agent(self,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
-        ''' Gets the predicted Agent - the one the Customer will chat with when the chat starts.
-            To use this method, the Customer needs to be logged in, which can be done via the `login` method.
-
-            Args:
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        return self.session.post(
-            f'{self.api_url}/get_predicted_agent?license_id={self.license_id}',
-            json={} if payload is None else payload,
-            headers=headers)
-
-    def get_url_info(self,
-                     url: str = None,
-                     payload: dict = None,
-                     headers: dict = None) -> httpx.Response:
-        ''' Returns the info on a given URL.
-
-            Args:
-                url (str): Valid website URL.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/get_url_info?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-    def mark_events_as_seen(self,
-                            chat_id: str = None,
-                            seen_up_to: str = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
-        ''' Updates `seen_up_to` value for a given chat.
-
-            Args:
-                chat_id (str): ID of the chat to update `seen_up_to`.
-                seen_up_to (str): RFC 3339 date-time format.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/mark_events_as_seen?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-    def accept_greeting(self,
-                        greeting_id: int = None,
-                        unique_id: str = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
-        ''' Marks an incoming greeting as seen.
-
-            Args:
-                greeting_id (int): ID of the greeting configured within the license to accept.
-                unique_id (str): ID of the greeting to accept. You can get it from the `incoming_greeting` push.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/accept_greeting?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-    def cancel_greeting(self,
-                        unique_id: str = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
-        ''' Cancels a greeting (an invitation to the chat).
-            For example, Customers could cancel greetings by minimalizing the chat widget with a greeting.
-
-            Args:
-                unique_id (str): ID of the greeting to cancel. You can get it from the `incoming_greeting` push.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/cancel_greeting?license_id={self.license_id}',
-            json=payload,
-            headers=headers)
-
-
-class CustomerWeb33(CustomerWebInterface):
-    ''' Customer API version 3.3 class. '''
-
 
 class CustomerWeb34(CustomerWebInterface):
     ''' Customer API version 3.4 class. '''
+    def __init__(self, organization_id: str, access_token: str, version: str,
+                 url: str, http2: bool) -> CustomerWeb34:
+        super().__init__(access_token, version, url, http2)
+        if all([organization_id, isinstance(organization_id, str)]):
+            self.organization_id = organization_id
+            self.query_string = f'?organization_id={str(organization_id)}'
+        else:
+            raise ValueError(
+                'Incorrect or missing `organization_id` argument (should be str.)'
+            )
+
+    def list_license_properties(self,
+                                namespace: str = None,
+                                name: str = None,
+                                payload: dict = None,
+                                headers: dict = None) -> httpx.Response:
+        ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+            Args:
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request's data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params['namespace'] = namespace
+        if name:
+            params['name'] = name
+        params['organization_id'] = self.organization_id
+        return self.session.post(f'{self.api_url}/list_license_properties',
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
+    def list_group_properties(self,
+                              group_id: int = None,
+                              namespace: str = None,
+                              name: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -> httpx.Response:
+        ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
+            Args:
+                group_id (int): ID of the group you want to return the properties of.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request's data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params['namespace'] = namespace
+        if name:
+            params['name'] = name
+        if group_id:
+            params['id'] = str(group_id)
+        params['organization_id'] = self.organization_id
+        return self.session.post(f'{self.api_url}/list_group_properties',
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
