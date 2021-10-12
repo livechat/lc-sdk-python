@@ -73,7 +73,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 http2=http2, headers={'Authorization': access_token})
         else:
             raise ValueError(
-                'Incorrect or missing `access_token` argument (should be str.)'
+                'Incorrect or missing `access_token` argument (should be of type str.)'
             )
         self.query_string = None  # overwritten in concrete classes.
 
@@ -1023,12 +1023,13 @@ class CustomerWeb33(CustomerWebInterface):
     def __init__(self, license_id: int, access_token: str, version: str,
                  url: str, http2: bool) -> CustomerWeb33:
         super().__init__(access_token, version, url, http2)
-        if all([license_id, isinstance(license_id, int)]):
+        if isinstance(license_id, int):
             self.license_id = license_id
             self.query_string = f'?license_id={str(license_id)}'
         else:
             raise ValueError(
-                'Incorrect or missing `license_id` argument (should be int.)')
+                'Incorrect or missing `license_id` argument (should be of type int.)'
+            )
 
     def list_license_properties(self,
                                 namespace: str = None,
@@ -1101,12 +1102,12 @@ class CustomerWeb34(CustomerWebInterface):
     def __init__(self, organization_id: str, access_token: str, version: str,
                  url: str, http2: bool) -> CustomerWeb34:
         super().__init__(access_token, version, url, http2)
-        if all([organization_id, isinstance(organization_id, str)]):
+        if isinstance(organization_id, str):
             self.organization_id = organization_id
-            self.query_string = f'?organization_id={str(organization_id)}'
+            self.query_string = f'?organization_id={organization_id}'
         else:
             raise ValueError(
-                'Incorrect or missing `organization_id` argument (should be str.)'
+                'Incorrect or missing `organization_id` argument (should be of type str.)'
             )
 
     def list_license_properties(self,

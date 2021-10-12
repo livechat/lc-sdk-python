@@ -35,7 +35,7 @@ def test_get_client_without_args():
         CustomerWeb.get_client()
     assert str(
         exception.value
-    ) == 'Incorrect or missing `access_token` argument (should be str.)'
+    ) == 'Incorrect or missing `access_token` argument (should be of type str.)'
 
 
 def test_get_client_without_license_id():
@@ -44,7 +44,7 @@ def test_get_client_without_license_id():
         CustomerWeb.get_client(access_token='foo')
     assert str(
         exception.value
-    ) == 'Incorrect or missing `license_id` argument (should be int.)'
+    ) == 'Incorrect or missing `license_id` argument (should be of type int.)'
 
 
 # TODO replace `test_get_client_without_license_id` with this when v3.4 becomes stable version.
@@ -54,7 +54,7 @@ def test_get_client_without_organization_id():
         CustomerWeb.get_client(access_token='foo', version='3.4')
     assert str(
         exception.value
-    ) == 'Incorrect or missing `organization_id` argument (should be str.)'
+    ) == 'Incorrect or missing `organization_id` argument (should be of type str.)'
 
 
 def test_get_client_without_access_token():
@@ -63,7 +63,7 @@ def test_get_client_without_access_token():
         CustomerWeb.get_client(license_id=LICENSE_ID)
     assert str(
         exception.value
-    ) == 'Incorrect or missing `access_token` argument (should be str.)'
+    ) == 'Incorrect or missing `access_token` argument (should be of type str.)'
 
 
 def test_get_client_with_non_existing_version():
