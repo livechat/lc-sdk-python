@@ -1,6 +1,6 @@
 ''' Customer RTM client implementation. '''
 
-# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0231
+# pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
 
 from __future__ import annotations
 
