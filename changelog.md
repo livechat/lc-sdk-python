@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.7] - 2021-10-13
+
+### Changed
+
+- Support for `organization_id` in Customer(rtm/web) v3.4.
+
 ## [0.1.6] - 2021-10-06
 
 ### Added
