@@ -105,7 +105,6 @@ def test_send_request(stable_client: CustomerWeb33):
 
 
 # TODO replace `test_send_request` with this when v3.4 becomes stable version.
-@pytest.mark.xfail(reason='Not implemented yet.')
 def test_send_request_with_dev_preview_client(
         dev_preview_client: CustomerWeb34):
     ''' Test if a request can be sent using request in non-default version'''

@@ -71,7 +71,6 @@ def test_get_client():
 
 
 # TODO replace `test_get_client` with this when v3.4 becomes stable version.
-@pytest.mark.xfail(reason='Not implemented yet.')
 def test_get_client_dev_preview():
     ''' Test if created client opens and closes socket in dev-preview version. '''
     client = CustomerRTM.get_client(version=DEV_PREVIEW_VERSION,
