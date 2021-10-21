@@ -8,6 +8,7 @@ from abc import ABCMeta
 import httpx
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.httpx_logger import HttpxLogger
 
 
 class ConfigurationApi:
@@ -47,9 +48,14 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
     ''' Interface class. '''
     def __init__(self, token: str, version: str, base_url: str,
                  http2: bool) -> ConfigurationApiInterface:
+        logger = HttpxLogger()
         self.api_url = f'https://{base_url}/v{version}/configuration/action'
         self.session = httpx.Client(http2=http2,
-                                    headers={'Authorization': token})
+                                    headers={'Authorization': token},
+                                    event_hooks={
+                                        'request': [logger.log_request],
+                                        'response': [logger.log_response]
+                                    })
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.

@@ -9,6 +9,7 @@ from abc import ABCMeta
 import httpx
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.httpx_logger import HttpxLogger
 
 
 # pylint: disable=R0903
@@ -50,9 +51,14 @@ class AgentWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
     def __init__(self, access_token: str, version: str, base_url: str,
                  http2: bool) -> AgentWebInterface:
+        logger = HttpxLogger()
         self.api_url = f'https://{base_url}/v{version}/agent/action'
         self.session = httpx.Client(http2=http2,
-                                    headers={'Authorization': access_token})
+                                    headers={'Authorization': access_token},
+                                    event_hooks={
+                                        'request': [logger.log_request],
+                                        'response': [logger.log_response]
+                                    })
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
