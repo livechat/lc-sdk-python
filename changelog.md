@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.8] - 2021-10-21
+
+### Added
+
+- Added logging for web interface
+
 ## [0.1.7] - 2021-10-13
 
 ### Changed
