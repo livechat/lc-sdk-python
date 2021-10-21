@@ -38,6 +38,7 @@ from abc import ABCMeta
 import httpx
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.httpx_logger import HttpxLogger
 
 
 # pylint: disable=R0903
@@ -96,10 +97,16 @@ class CustomerWebInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
     def __init__(self, access_token: str, version: str, base_url: str,
                  http2: bool) -&gt; CustomerWebInterface:
+        logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/customer/action&#39;
         if all([access_token, isinstance(access_token, str)]):
             self.session = httpx.Client(
-                http2=http2, headers={&#39;Authorization&#39;: access_token})
+                http2=http2,
+                headers={&#39;Authorization&#39;: access_token},
+                event_hooks={
+                    &#39;request&#39;: [logger.log_request],
+                    &#39;response&#39;: [logger.log_response]
+                })
         else:
             raise ValueError(
                 &#39;Incorrect or missing `access_token` argument (should be of type str.)&#39;
@@ -1057,7 +1064,8 @@ class CustomerWeb33(CustomerWebInterface):
             self.query_string = f&#39;?license_id={str(license_id)}&#39;
         else:
             raise ValueError(
-                &#39;Incorrect or missing `license_id` argument (should be of type int.)&#39;)
+                &#39;Incorrect or missing `license_id` argument (should be of type int.)&#39;
+            )
 
     def list_license_properties(self,
                                 namespace: str = None,
@@ -1132,7 +1140,7 @@ class CustomerWeb34(CustomerWebInterface):
         super().__init__(access_token, version, url, http2)
         if isinstance(organization_id, str):
             self.organization_id = organization_id
-            self.query_string = f&#39;?organization_id={str(organization_id)}&#39;
+            self.query_string = f&#39;?organization_id={organization_id}&#39;
         else:
             raise ValueError(
                 &#39;Incorrect or missing `organization_id` argument (should be of type str.)&#39;
@@ -1379,7 +1387,8 @@ def get_client(license_id: int = None,
             self.query_string = f&#39;?license_id={str(license_id)}&#39;
         else:
             raise ValueError(
-                &#39;Incorrect or missing `license_id` argument (should be of type int.)&#39;)
+                &#39;Incorrect or missing `license_id` argument (should be of type int.)&#39;
+            )
 
     def list_license_properties(self,
                                 namespace: str = None,
@@ -1510,7 +1519,7 @@ def get_client(license_id: int = None,
         super().__init__(access_token, version, url, http2)
         if isinstance(organization_id, str):
             self.organization_id = organization_id
-            self.query_string = f&#39;?organization_id={str(organization_id)}&#39;
+            self.query_string = f&#39;?organization_id={organization_id}&#39;
         else:
             raise ValueError(
                 &#39;Incorrect or missing `organization_id` argument (should be of type str.)&#39;
@@ -1642,10 +1651,16 @@ def get_client(license_id: int = None,
     &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
     def __init__(self, access_token: str, version: str, base_url: str,
                  http2: bool) -&gt; CustomerWebInterface:
+        logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/customer/action&#39;
         if all([access_token, isinstance(access_token, str)]):
             self.session = httpx.Client(
-                http2=http2, headers={&#39;Authorization&#39;: access_token})
+                http2=http2,
+                headers={&#39;Authorization&#39;: access_token},
+                event_hooks={
+                    &#39;request&#39;: [logger.log_request],
+                    &#39;response&#39;: [logger.log_response]
+                })
         else:
             raise ValueError(
                 &#39;Incorrect or missing `access_token` argument (should be of type str.)&#39;

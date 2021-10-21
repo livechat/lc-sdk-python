@@ -30,6 +30,7 @@
 <pre><code class="python">&#39;&#39;&#39; Agent Web client implementation. &#39;&#39;&#39;
 
 # pylint: disable=W0613,R0913,W0622,C0103,W0221
+from __future__ import annotations
 
 import typing
 from abc import ABCMeta
@@ -37,6 +38,7 @@ from abc import ABCMeta
 import httpx
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.httpx_logger import HttpxLogger
 
 
 # pylint: disable=R0903
@@ -47,7 +49,7 @@ class AgentWeb:
     def get_client(access_token: str,
                    version: str = &#39;3.3&#39;,
                    base_url: str = &#39;api.livechatinc.com&#39;,
-                   http2: bool = False):
+                   http2: bool = False) -&gt; AgentWebInterface:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
@@ -77,10 +79,15 @@ class AgentWeb:
 class AgentWebInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
     def __init__(self, access_token: str, version: str, base_url: str,
-                 http2: bool):
+                 http2: bool) -&gt; AgentWebInterface:
+        logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/agent/action&#39;
         self.session = httpx.Client(http2=http2,
-                                    headers={&#39;Authorization&#39;: access_token})
+                                    headers={&#39;Authorization&#39;: access_token},
+                                    event_hooks={
+                                        &#39;request&#39;: [logger.log_request],
+                                        &#39;response&#39;: [logger.log_response]
+                                    })
 
     def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
@@ -1395,7 +1402,7 @@ API version.</p></div>
     def get_client(access_token: str,
                    version: str = &#39;3.3&#39;,
                    base_url: str = &#39;api.livechatinc.com&#39;,
-                   http2: bool = False):
+                   http2: bool = False) -&gt; AgentWebInterface:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
@@ -1424,7 +1431,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="client.AgentWeb.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>access_token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com', http2: bool = False)</span>
+<span>def <span class="ident">get_client</span></span>(<span>access_token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com', http2: bool = False) ‑> <a title="client.AgentWebInterface" href="#client.AgentWebInterface">AgentWebInterface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific API version.</p>
@@ -1457,7 +1464,7 @@ enabled. Defaults to <code>False</code>.</dd>
 def get_client(access_token: str,
                version: str = &#39;3.3&#39;,
                base_url: str = &#39;api.livechatinc.com&#39;,
-               http2: bool = False):
+               http2: bool = False) -&gt; AgentWebInterface:
     &#39;&#39;&#39; Returns client for specific API version.
 
         Args:
@@ -2283,10 +2290,15 @@ which contains a server’s response to an HTTP request.</dd>
 <pre><code class="python">class AgentWebInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Main class containing API methods. &#39;&#39;&#39;
     def __init__(self, access_token: str, version: str, base_url: str,
-                 http2: bool):
+                 http2: bool) -&gt; AgentWebInterface:
+        logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/agent/action&#39;
         self.session = httpx.Client(http2=http2,
-                                    headers={&#39;Authorization&#39;: access_token})
+                                    headers={&#39;Authorization&#39;: access_token},
+                                    event_hooks={
+                                        &#39;request&#39;: [logger.log_request],
+                                        &#39;response&#39;: [logger.log_response]
+                                    })
 
     def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
@@ -4512,7 +4524,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.AgentWebInterface.multicast"><code class="name flex">
-<span>def <span class="ident">multicast</span></span>(<span>self, recipients: dict = None, content: Any = None, type: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">multicast</span></span>(<span>self, recipients: dict = None, content: typing.Any = None, type: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends a multicast (chat-unrelated communication).</p>
@@ -5569,7 +5581,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.AgentWebInterface.upload_file"><code class="name flex">
-<span>def <span class="ident">upload_file</span></span>(<span>self, file: <class 'BinaryIO'> = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">upload_file</span></span>(<span>self, file: typing.BinaryIO = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Uploads a file to the server as a temporary file. It returns a URL that expires

@@ -30,12 +30,14 @@
 <pre><code class="python">&#39;&#39;&#39; Configuration API client implementation. &#39;&#39;&#39;
 
 # pylint: disable=W0613,W0622,C0103,R0913,R0903
+from __future__ import annotations
 
 from abc import ABCMeta
 
 import httpx
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.httpx_logger import HttpxLogger
 
 
 class ConfigurationApi:
@@ -45,7 +47,7 @@ class ConfigurationApi:
     def get_client(token: str,
                    version: str = &#39;3.3&#39;,
                    base_url: str = &#39;api.livechatinc.com&#39;,
-                   http2: bool = False):
+                   http2: bool = False) -&gt; ConfigurationApiInterface:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
@@ -73,10 +75,16 @@ class ConfigurationApi:
 
 class ConfigurationApiInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
-    def __init__(self, token: str, version: str, base_url: str, http2: bool):
+    def __init__(self, token: str, version: str, base_url: str,
+                 http2: bool) -&gt; ConfigurationApiInterface:
+        logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = httpx.Client(http2=http2,
-                                    headers={&#39;Authorization&#39;: token})
+                                    headers={&#39;Authorization&#39;: token},
+                                    event_hooks={
+                                        &#39;request&#39;: [logger.log_request],
+                                        &#39;response&#39;: [logger.log_response]
+                                    })
 
     def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
@@ -1261,7 +1269,7 @@ API version.</p></div>
     def get_client(token: str,
                    version: str = &#39;3.3&#39;,
                    base_url: str = &#39;api.livechatinc.com&#39;,
-                   http2: bool = False):
+                   http2: bool = False) -&gt; ConfigurationApiInterface:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
@@ -1289,7 +1297,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="client.ConfigurationApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com', http2: bool = False)</span>
+<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com', http2: bool = False) ‑> <a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -1324,7 +1332,7 @@ enabled. Defaults to <code>False</code>.</dd>
 def get_client(token: str,
                version: str = &#39;3.3&#39;,
                base_url: str = &#39;api.livechatinc.com&#39;,
-               http2: bool = False):
+               http2: bool = False) -&gt; ConfigurationApiInterface:
     &#39;&#39;&#39; Returns client for specific Configuration API version.
 
         Args:
@@ -1500,10 +1508,16 @@ def get_client(token: str,
 </summary>
 <pre><code class="python">class ConfigurationApiInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
-    def __init__(self, token: str, version: str, base_url: str, http2: bool):
+    def __init__(self, token: str, version: str, base_url: str,
+                 http2: bool) -&gt; ConfigurationApiInterface:
+        logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = httpx.Client(http2=http2,
-                                    headers={&#39;Authorization&#39;: token})
+                                    headers={&#39;Authorization&#39;: token},
+                                    event_hooks={
+                                        &#39;request&#39;: [logger.log_request],
+                                        &#39;response&#39;: [logger.log_response]
+                                    })
 
     def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.

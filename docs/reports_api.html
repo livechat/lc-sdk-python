@@ -38,6 +38,7 @@ from abc import ABCMeta
 import httpx
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.httpx_logger import HttpxLogger
 
 
 class ReportsApi:
@@ -77,9 +78,14 @@ class ReportsApiInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
     def __init__(self, token: str, version: str, base_url: str,
                  http2: bool) -&gt; ReportsApiInterface:
+        logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/reports&#39;
         self.session = httpx.Client(http2=http2,
-                                    headers={&#39;Authorization&#39;: token})
+                                    headers={&#39;Authorization&#39;: token},
+                                    event_hooks={
+                                        &#39;request&#39;: [logger.log_request],
+                                        &#39;response&#39;: [logger.log_response]
+                                    })
 
     def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
@@ -156,9 +162,10 @@ class ReportsAPI33(ReportsApiInterface):
                 payload[&#39;from&#39;] = date_from
             if date_to is not None:
                 payload[&#39;to&#39;] = date_to
-        return self.session.get(f&#39;{self.api_url}/chats/agents_chatting_duration&#39;,
-                                params=payload,
-                                headers=headers)
+        return self.session.get(
+            f&#39;{self.api_url}/chats/agents_chatting_duration&#39;,
+            params=payload,
+            headers=headers)
 
     def tags(self,
              date_to: str = None,
@@ -544,9 +551,10 @@ class ReportsAPI34(ReportsApiInterface):
                 payload[&#39;from&#39;] = date_from
             if date_to is not None:
                 payload[&#39;to&#39;] = date_to
-        return self.session.get(f&#39;{self.api_url}/chats/agents_chatting_duration&#39;,
-                                params=payload,
-                                headers=headers)
+        return self.session.get(
+            f&#39;{self.api_url}/chats/agents_chatting_duration&#39;,
+            params=payload,
+            headers=headers)
 
     def tags(self,
              date_to: str = None,
@@ -744,9 +752,10 @@ which contains a server’s response to an HTTP request.</dd>
             payload[&#39;from&#39;] = date_from
         if date_to is not None:
             payload[&#39;to&#39;] = date_to
-    return self.session.get(f&#39;{self.api_url}/chats/agents_chatting_duration&#39;,
-                            params=payload,
-                            headers=headers)</code></pre>
+    return self.session.get(
+        f&#39;{self.api_url}/chats/agents_chatting_duration&#39;,
+        params=payload,
+        headers=headers)</code></pre>
 </details>
 </dd>
 <dt id="client.ReportsAPI33.tags"><code class="name flex">
@@ -1769,9 +1778,14 @@ def get_client(token: str,
     &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
     def __init__(self, token: str, version: str, base_url: str,
                  http2: bool) -&gt; ReportsApiInterface:
+        logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/reports&#39;
         self.session = httpx.Client(http2=http2,
-                                    headers={&#39;Authorization&#39;: token})
+                                    headers={&#39;Authorization&#39;: token},
+                                    event_hooks={
+                                        &#39;request&#39;: [logger.log_request],
+                                        &#39;response&#39;: [logger.log_response]
+                                    })
 
     def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
