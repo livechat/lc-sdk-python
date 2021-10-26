@@ -429,11 +429,10 @@ class CustomerWebInterface(metaclass=ABCMeta):
             Returns:
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
         return self.session.post(
             f&#39;{self.api_url}/upload_file{self.query_string}&#39;,
             json=payload,
+            content=file.read(),
             headers=headers)
 
     def send_rich_message_postback(self,
@@ -1983,11 +1982,10 @@ def get_client(license_id: int = None,
             Returns:
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
         return self.session.post(
             f&#39;{self.api_url}/upload_file{self.query_string}&#39;,
             json=payload,
+            content=file.read(),
             headers=headers)
 
     def send_rich_message_postback(self,
@@ -4579,11 +4577,10 @@ which contains a server’s response to an HTTP request.</dd>
         Returns:
             httpx.Response: The Response object from `httpx` library,
                             which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
     return self.session.post(
         f&#39;{self.api_url}/upload_file{self.query_string}&#39;,
         json=payload,
+        content=file.read(),
         headers=headers)</code></pre>
 </details>
 </dd>

@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [pending] - TBA
+
+### Changed
+
+- Fixed methods for uploading files.
+
 ## [0.1.8] - 2021-10-21
 
 ### Added
