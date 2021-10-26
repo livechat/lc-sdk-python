@@ -414,14 +414,11 @@ class CustomerWebInterface(metaclass=ABCMeta):
 
     def upload_file(self,
                     file: typing.BinaryIO = None,
-                    payload: dict = None,
                     headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in `send_event`.
 
             Args:
                 file (typing.BinaryIO): File-like object with file to upload (Maximum size: 10MB).
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
                                 however, these method-level parameters will not be persisted across requests.
@@ -429,11 +426,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
             Returns:
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
         return self.session.post(
             f&#39;{self.api_url}/upload_file{self.query_string}&#39;,
-            json=payload,
+            content=file.read(),
             headers=headers)
 
     def send_rich_message_postback(self,
@@ -1968,14 +1963,11 @@ def get_client(license_id: int = None,
 
     def upload_file(self,
                     file: typing.BinaryIO = None,
-                    payload: dict = None,
                     headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in `send_event`.
 
             Args:
                 file (typing.BinaryIO): File-like object with file to upload (Maximum size: 10MB).
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
                                 however, these method-level parameters will not be persisted across requests.
@@ -1983,11 +1975,9 @@ def get_client(license_id: int = None,
             Returns:
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
         return self.session.post(
             f&#39;{self.api_url}/upload_file{self.query_string}&#39;,
-            json=payload,
+            content=file.read(),
             headers=headers)
 
     def send_rich_message_postback(self,
@@ -4536,7 +4526,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.CustomerWebInterface.upload_file"><code class="name flex">
-<span>def <span class="ident">upload_file</span></span>(<span>self, file: typing.BinaryIO = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">upload_file</span></span>(<span>self, file: typing.BinaryIO = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in <code>send_event</code>.</p>
@@ -4544,9 +4534,6 @@ which contains a server’s response to an HTTP request.</dd>
 <dl>
 <dt><strong><code>file</code></strong> :&ensp;<code>typing.BinaryIO</code></dt>
 <dd>File-like object with file to upload (Maximum size: 10MB).</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
 <dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom headers to be used with session headers.
 They will be merged with session-level values that are set,
@@ -4564,14 +4551,11 @@ which contains a server’s response to an HTTP request.</dd>
 </summary>
 <pre><code class="python">def upload_file(self,
                 file: typing.BinaryIO = None,
-                payload: dict = None,
                 headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Uploads a file to the server as a temporary file. It returns a URL that expires after 24 hours unless the URL is used in `send_event`.
 
         Args:
             file (typing.BinaryIO): File-like object with file to upload (Maximum size: 10MB).
-            payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
                             They will be merged with session-level values that are set,
                             however, these method-level parameters will not be persisted across requests.
@@ -4579,11 +4563,9 @@ which contains a server’s response to an HTTP request.</dd>
         Returns:
             httpx.Response: The Response object from `httpx` library,
                             which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
     return self.session.post(
         f&#39;{self.api_url}/upload_file{self.query_string}&#39;,
-        json=payload,
+        content=file.read(),
         headers=headers)</code></pre>
 </details>
 </dd>

@@ -429,11 +429,11 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                  json=payload,
                                  headers=headers)
 
-    def reorder_auto_access(self,
-                            id: str = None,
-                            next_id: str = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+    def update_auto_access(self,
+                           id: str = None,
+                           next_id: str = None,
+                           payload: dict = None,
+                           headers: dict = None) -> httpx.Response:
         ''' Moves an existing auto access data structure, specified by id,
             before another one, specified by next_id.
 
@@ -452,7 +452,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/reorder_auto_access',
+        return self.session.post(f'{self.api_url}/update_auto_access',
                                  json=payload,
                                  headers=headers)
 
