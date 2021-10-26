@@ -498,10 +498,9 @@ class AgentWebInterface(metaclass=ABCMeta):
             Returns:
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/upload_file',
                                  json=payload,
+                                 content=file.read(),
                                  headers=headers)
 
     def send_rich_message_postback(self,
