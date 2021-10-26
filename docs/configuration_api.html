@@ -458,7 +458,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                  json=payload,
                                  headers=headers)
 
-    def reorder_auto_access(self,
+    def update_auto_access(self,
                             id: str = None,
                             next_id: str = None,
                             payload: dict = None,
@@ -481,7 +481,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/reorder_auto_access&#39;,
+        return self.session.post(f&#39;{self.api_url}/update_auto_access&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -1413,13 +1413,13 @@ def get_client(token: str,
 <li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.reorder_auto_access" href="#client.ConfigurationApiInterface.reorder_auto_access">reorder_auto_access</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_auto_access" href="#client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
@@ -1481,13 +1481,13 @@ def get_client(token: str,
 <li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.reorder_auto_access" href="#client.ConfigurationApiInterface.reorder_auto_access">reorder_auto_access</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_auto_access" href="#client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
@@ -1891,7 +1891,7 @@ def get_client(token: str,
                                  json=payload,
                                  headers=headers)
 
-    def reorder_auto_access(self,
+    def update_auto_access(self,
                             id: str = None,
                             next_id: str = None,
                             payload: dict = None,
@@ -1914,7 +1914,7 @@ def get_client(token: str,
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/reorder_auto_access&#39;,
+        return self.session.post(f&#39;{self.api_url}/update_auto_access&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -4447,64 +4447,6 @@ which contains a server’s response to an HTTP request.</dd>
         del self.session.headers[key]</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.reorder_auto_access"><code class="name flex">
-<span>def <span class="ident">reorder_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Moves an existing auto access data structure, specified by id,
-before another one, specified by next_id.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the auto access to move.</dd>
-<dt><strong><code>next_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the auto access that should follow the moved auto access.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def reorder_auto_access(self,
-                        id: str = None,
-                        next_id: str = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
-        before another one, specified by next_id.
-
-        Args:
-            id (str): ID of the auto access to move.
-            next_id (str): ID of the auto access that should follow the moved auto access.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/reorder_auto_access&#39;,
-                             json=payload,
-                             headers=headers)</code></pre>
-</details>
-</dd>
 <dt id="client.ConfigurationApiInterface.request_agent_unsuspension"><code class="name flex">
 <span>def <span class="ident">request_agent_unsuspension</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -4867,6 +4809,64 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="client.ConfigurationApiInterface.update_auto_access"><code class="name flex">
+<span>def <span class="ident">update_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Moves an existing auto access data structure, specified by id,
+before another one, specified by next_id.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the auto access to move.</dd>
+<dt><strong><code>next_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the auto access that should follow the moved auto access.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_auto_access(self,
+                        id: str = None,
+                        next_id: str = None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
+        before another one, specified by next_id.
+
+        Args:
+            id (str): ID of the auto access to move.
+            next_id (str): ID of the auto access that should follow the moved auto access.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/update_auto_access&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="client.ConfigurationApiInterface.update_bot"><code class="name flex">
 <span>def <span class="ident">update_bot</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -5183,13 +5183,13 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.reorder_auto_access" href="#client.ConfigurationApiInterface.reorder_auto_access">reorder_auto_access</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_auto_access" href="#client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
 <li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>

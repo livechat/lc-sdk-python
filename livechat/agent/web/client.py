@@ -482,15 +482,12 @@ class AgentWebInterface(metaclass=ABCMeta):
 
     def upload_file(self,
                     file: typing.BinaryIO = None,
-                    payload: dict = None,
                     headers: dict = None) -> httpx.Response:
         ''' Uploads a file to the server as a temporary file. It returns a URL that expires
             after 24 hours unless the URL is used in `send_event`.
 
             Args:
                 file (typing.BinaryIO): File-like object with file to upload (Maximum size: 10MB).
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
                                 however, these method-level parameters will not be persisted across requests.
@@ -499,7 +496,6 @@ class AgentWebInterface(metaclass=ABCMeta):
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. '''
         return self.session.post(f'{self.api_url}/upload_file',
-                                 json=payload,
                                  content=file.read(),
                                  headers=headers)
 
