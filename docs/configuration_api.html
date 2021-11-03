@@ -459,10 +459,10 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                  headers=headers)
 
     def update_auto_access(self,
-                            id: str = None,
-                            next_id: str = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
+                           id: str = None,
+                           next_id: str = None,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
             before another one, specified by next_id.
 
@@ -1240,7 +1240,57 @@ class ConfigurationApi33(ConfigurationApiInterface):
 
 
 class ConfigurationApi34(ConfigurationApiInterface):
-    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;</code></pre>
+    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;
+
+    # license/organization ID lookup
+
+    def get_organization_id(self,
+                                   license_id: int = None,
+                                   params: dict = None,
+                                   headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns organization ID by given license ID.
+
+            Args:
+                license_id (int): License ID to get organization ID for.
+                params (dict): Custom params to be used in request&#39;s query string.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
+                                 params=params,
+                                 headers=headers)
+
+    def get_license_id(self,
+                                   organization_id: str = None,
+                                   params: dict = None,
+                                   headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns license ID by given organization ID.
+
+            Args:
+                organization_id (str): Organization ID to get license ID for.
+                params (dict): Custom params to be used in request&#39;s query string.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
+                                 params=params,
+                                 headers=headers)</code></pre>
 </details>
 </section>
 <section>
@@ -1439,12 +1489,169 @@ def get_client(token: str,
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ConfigurationApi34(ConfigurationApiInterface):
-    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;</code></pre>
+    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;
+
+    # license/organization ID lookup
+
+    def get_organization_id(self,
+                                   license_id: int = None,
+                                   params: dict = None,
+                                   headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns organization ID by given license ID.
+
+            Args:
+                license_id (int): License ID to get organization ID for.
+                params (dict): Custom params to be used in request&#39;s query string.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
+                                 params=params,
+                                 headers=headers)
+
+    def get_license_id(self,
+                                   organization_id: str = None,
+                                   params: dict = None,
+                                   headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns license ID by given organization ID.
+
+            Args:
+                organization_id (str): Organization ID to get license ID for.
+                params (dict): Custom params to be used in request&#39;s query string.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
+                                 params=params,
+                                 headers=headers)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
 </ul>
+<h3>Methods</h3>
+<dl>
+<dt id="client.ConfigurationApi34.get_license_id"><code class="name flex">
+<span>def <span class="ident">get_license_id</span></span>(<span>self, organization_id: str = None, params: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns license ID by given organization ID.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Organization ID to get license ID for.</dd>
+<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom params to be used in request's query string.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_license_id(self,
+                               organization_id: str = None,
+                               params: dict = None,
+                               headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns license ID by given organization ID.
+
+        Args:
+            organization_id (str): Organization ID to get license ID for.
+            params (dict): Custom params to be used in request&#39;s query string.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if params is None:
+        params = prepare_payload(locals())
+    return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
+                             params=params,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="client.ConfigurationApi34.get_organization_id"><code class="name flex">
+<span>def <span class="ident">get_organization_id</span></span>(<span>self, license_id: int = None, params: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns organization ID by given license ID.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>License ID to get organization ID for.</dd>
+<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom params to be used in request's query string.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_organization_id(self,
+                               license_id: int = None,
+                               params: dict = None,
+                               headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns organization ID by given license ID.
+
+        Args:
+            license_id (int): License ID to get organization ID for.
+            params (dict): Custom params to be used in request&#39;s query string.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if params is None:
+        params = prepare_payload(locals())
+    return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
+                             params=params,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
 <li><code><b><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
@@ -1892,10 +2099,10 @@ def get_client(token: str,
                                  headers=headers)
 
     def update_auto_access(self,
-                            id: str = None,
-                            next_id: str = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
+                           id: str = None,
+                           next_id: str = None,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
             before another one, specified by next_id.
 
@@ -4840,10 +5047,10 @@ which contains a server’s response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def update_auto_access(self,
-                        id: str = None,
-                        next_id: str = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
+                       id: str = None,
+                       next_id: str = None,
+                       payload: dict = None,
+                       headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
         before another one, specified by next_id.
 
@@ -5147,6 +5354,10 @@ which contains a server’s response to an HTTP request.</dd>
 </li>
 <li>
 <h4><code><a title="client.ConfigurationApi34" href="#client.ConfigurationApi34">ConfigurationApi34</a></code></h4>
+<ul class="">
+<li><code><a title="client.ConfigurationApi34.get_license_id" href="#client.ConfigurationApi34.get_license_id">get_license_id</a></code></li>
+<li><code><a title="client.ConfigurationApi34.get_organization_id" href="#client.ConfigurationApi34.get_organization_id">get_organization_id</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></code></h4>

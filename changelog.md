@@ -1,7 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [pending] - TBA
+## [0.1.9] - 2021-11-03
+
+### Added
+
+- Added new methods for organization/license ID lookup in configuration v3.4.
 
 ### Changed
 
