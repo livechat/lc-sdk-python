@@ -1212,3 +1212,53 @@ class ConfigurationApi33(ConfigurationApiInterface):
 
 class ConfigurationApi34(ConfigurationApiInterface):
     ''' Configuration API client in version 3.4 class. '''
+
+    # license/organization ID lookup
+
+    def get_organization_id(self,
+                            license_id: int = None,
+                            params: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Returns organization ID by given license ID.
+
+            Args:
+                license_id (int): License ID to get organization ID for.
+                params (dict): Custom params to be used in request's query sting.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f'{self.api_url}/get_organization_id',
+                                params=params,
+                                headers=headers)
+
+    def get_license_id(self,
+                       organization_id: str = None,
+                       params: dict = None,
+                       headers: dict = None) -> httpx.Response:
+        ''' Returns license ID by given organization ID.
+
+            Args:
+                organization_id (str): Organization ID to get license ID for.
+                params (dict): Custom params to be used in request's query sting.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f'{self.api_url}/get_license_id',
+                                params=params,
+                                headers=headers)
