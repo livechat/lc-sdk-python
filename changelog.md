@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.1.9] - TBA
+## [0.1.9] - 2021-11-03
 
 ### Added
 

@@ -1223,7 +1223,7 @@ class ConfigurationApi34(ConfigurationApiInterface):
 
             Args:
                 license_id (int): License ID to get organization ID for.
-                params (dict): Custom params to be used in request's query sting.
+                params (dict): Custom params to be used in request's query string.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
@@ -1247,7 +1247,7 @@ class ConfigurationApi34(ConfigurationApiInterface):
 
             Args:
                 organization_id (str): Organization ID to get license ID for.
-                params (dict): Custom params to be used in request's query sting.
+                params (dict): Custom params to be used in request's query string.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
