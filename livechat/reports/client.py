@@ -332,7 +332,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def ratings(self,
-                distribution: str = 'day',
+                distribution: str = None,
                 timezone: str = None,
                 filters: dict = None,
                 payload: dict = None,
@@ -362,7 +362,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def ranking(self,
-                distribution: str = 'day',
+                distribution: str = None,
                 timezone: str = None,
                 filters: dict = None,
                 payload: dict = None,
@@ -392,7 +392,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def engagement(self,
-                   distribution: str = 'day',
+                   distribution: str = None,
                    timezone: str = None,
                    filters: dict = None,
                    payload: dict = None,
@@ -422,7 +422,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def greetings_conversion(self,
-                             distribution: str = 'day',
+                             distribution: str = None,
                              timezone: str = None,
                              filters: dict = None,
                              payload: dict = None,
@@ -482,7 +482,7 @@ class ReportsAPI34(ReportsApiInterface):
     # Agents
 
     def availability(self,
-                     distribution: str = 'day',
+                     distribution: str = None,
                      timezone: str = None,
                      filters: dict = None,
                      payload: dict = None,
@@ -512,7 +512,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def response_time(self,
-                      distribution: str = 'day',
+                      distribution: str = None,
                       timezone: str = None,
                       filters: dict = None,
                       payload: dict = None,
@@ -542,7 +542,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def first_response_time(self,
-                            distribution: str = 'day',
+                            distribution: str = None,
                             timezone: str = None,
                             filters: dict = None,
                             payload: dict = None,
