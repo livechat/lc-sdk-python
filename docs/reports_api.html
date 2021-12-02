@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
+<meta name="generator" content="pdoc 0.9.2" />
 <title>client API documentation</title>
 <meta name="description" content="Rest API implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -361,7 +361,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def ratings(self,
-                distribution: str = &#39;day&#39;,
+                distribution: str = None,
                 timezone: str = None,
                 filters: dict = None,
                 payload: dict = None,
@@ -391,7 +391,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def ranking(self,
-                distribution: str = &#39;day&#39;,
+                distribution: str = None,
                 timezone: str = None,
                 filters: dict = None,
                 payload: dict = None,
@@ -421,7 +421,7 @@ class ReportsAPI34(ReportsApiInterface):
                                  headers=headers)
 
     def engagement(self,
-                   distribution: str = &#39;day&#39;,
+                   distribution: str = None,
                    timezone: str = None,
                    filters: dict = None,
                    payload: dict = None,
@@ -450,10 +450,68 @@ class ReportsAPI34(ReportsApiInterface):
                                  json=payload,
                                  headers=headers)
 
+    def greetings_conversion(self,
+                             distribution: str = None,
+                             timezone: str = None,
+                             filters: dict = None,
+                             payload: dict = None,
+                             headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Shows the number of greetings sent to the customers and how many of those resulted in a chat or a goal.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/chats/greetings_conversion&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def surveys(self,
+                timezone: str = None,
+                filters: dict = None,
+                payload: dict = None,
+                headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns the number of submitted chat surveys along with the count of specific answers.
+
+        Args:
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/chats/surveys&#39;,
+                                 json=payload,
+                                 headers=headers)
+
     # Agents
 
     def availability(self,
-                     distribution: str = &#39;day&#39;,
+                     distribution: str = None,
                      timezone: str = None,
                      filters: dict = None,
                      payload: dict = None,
@@ -479,6 +537,66 @@ class ReportsAPI34(ReportsApiInterface):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/agents/availability&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def response_time(self,
+                      distribution: str = None,
+                      timezone: str = None,
+                      filters: dict = None,
+                      payload: dict = None,
+                      headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Shows the average agents&#39; response time within a licence.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def first_response_time(self,
+                            distribution: str = None,
+                            timezone: str = None,
+                            filters: dict = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Shows the average agents&#39; first response time within a licence.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
                                  json=payload,
                                  headers=headers)</code></pre>
 </details>
@@ -1069,7 +1187,7 @@ which contains a server’s response to an HTTP request.</dd>
                                  headers=headers)
 
     def ratings(self,
-                distribution: str = &#39;day&#39;,
+                distribution: str = None,
                 timezone: str = None,
                 filters: dict = None,
                 payload: dict = None,
@@ -1099,7 +1217,7 @@ which contains a server’s response to an HTTP request.</dd>
                                  headers=headers)
 
     def ranking(self,
-                distribution: str = &#39;day&#39;,
+                distribution: str = None,
                 timezone: str = None,
                 filters: dict = None,
                 payload: dict = None,
@@ -1129,7 +1247,7 @@ which contains a server’s response to an HTTP request.</dd>
                                  headers=headers)
 
     def engagement(self,
-                   distribution: str = &#39;day&#39;,
+                   distribution: str = None,
                    timezone: str = None,
                    filters: dict = None,
                    payload: dict = None,
@@ -1158,10 +1276,68 @@ which contains a server’s response to an HTTP request.</dd>
                                  json=payload,
                                  headers=headers)
 
+    def greetings_conversion(self,
+                             distribution: str = None,
+                             timezone: str = None,
+                             filters: dict = None,
+                             payload: dict = None,
+                             headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Shows the number of greetings sent to the customers and how many of those resulted in a chat or a goal.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/chats/greetings_conversion&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def surveys(self,
+                timezone: str = None,
+                filters: dict = None,
+                payload: dict = None,
+                headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns the number of submitted chat surveys along with the count of specific answers.
+
+        Args:
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/chats/surveys&#39;,
+                                 json=payload,
+                                 headers=headers)
+
     # Agents
 
     def availability(self,
-                     distribution: str = &#39;day&#39;,
+                     distribution: str = None,
                      timezone: str = None,
                      filters: dict = None,
                      payload: dict = None,
@@ -1188,6 +1364,66 @@ which contains a server’s response to an HTTP request.</dd>
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/agents/availability&#39;,
                                  json=payload,
+                                 headers=headers)
+
+    def response_time(self,
+                      distribution: str = None,
+                      timezone: str = None,
+                      filters: dict = None,
+                      payload: dict = None,
+                      headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Shows the average agents&#39; response time within a licence.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def first_response_time(self,
+                            distribution: str = None,
+                            timezone: str = None,
+                            filters: dict = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Shows the average agents&#39; first response time within a licence.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
+                                 json=payload,
                                  headers=headers)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -1197,7 +1433,7 @@ which contains a server’s response to an HTTP request.</dd>
 <h3>Methods</h3>
 <dl>
 <dt id="client.ReportsAPI34.availability"><code class="name flex">
-<span>def <span class="ident">availability</span></span>(<span>self, distribution: str = 'day', timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">availability</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Shows for how long an agent, group, or the whole account was available for chatting during a specified period of time.</p>
@@ -1230,7 +1466,7 @@ which contains a server’s response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def availability(self,
-                 distribution: str = &#39;day&#39;,
+                 distribution: str = None,
                  timezone: str = None,
                  filters: dict = None,
                  payload: dict = None,
@@ -1325,7 +1561,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.ReportsAPI34.engagement"><code class="name flex">
-<span>def <span class="ident">engagement</span></span>(<span>self, distribution: str = 'day', timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">engagement</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Shows the distribution of chats based on engagement during the specified period.</p>
@@ -1358,7 +1594,7 @@ which contains a server’s response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def engagement(self,
-               distribution: str = &#39;day&#39;,
+               distribution: str = None,
                timezone: str = None,
                filters: dict = None,
                payload: dict = None,
@@ -1388,8 +1624,136 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="client.ReportsAPI34.first_response_time"><code class="name flex">
+<span>def <span class="ident">first_response_time</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the average agents' first response time within a licence.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>distribution</code></strong> :&ensp;<code>str</code></dt>
+<dd>Allowed values: <code>hour</code>, <code>day</code>, <code>day-hours</code>, <code>month</code> or <code>year</code>. Defaults to <code>day</code>.</dd>
+<dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
+<dd>IANA Time Zone (e.g. America/Phoenix).
+Defaults to the requester's timezone.
+When the requester's timezone isn't present, then <code>filters.from</code> is parsed to get the timezone.</dd>
+<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
+<dd>If none provided, your report will span the last seven days.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def first_response_time(self,
+                        distribution: str = None,
+                        timezone: str = None,
+                        filters: dict = None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Shows the average agents&#39; first response time within a licence.
+
+    Args:
+        distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+        timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                        Defaults to the requester&#39;s timezone.
+                        When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+        filters (dict): If none provided, your report will span the last seven days.
+        payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+        headers (dict): Custom headers to be used with session headers.
+                        They will be merged with session-level values that are set,
+                        however, these method-level parameters will not be persisted across requests.
+
+    Returns:
+        httpx.Response: The Response object from `httpx` library,
+                        which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="client.ReportsAPI34.greetings_conversion"><code class="name flex">
+<span>def <span class="ident">greetings_conversion</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the number of greetings sent to the customers and how many of those resulted in a chat or a goal.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>distribution</code></strong> :&ensp;<code>str</code></dt>
+<dd>Allowed values: <code>hour</code>, <code>day</code>, <code>day-hours</code>, <code>month</code> or <code>year</code>. Defaults to <code>day</code>.</dd>
+<dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
+<dd>IANA Time Zone (e.g. America/Phoenix).
+Defaults to the requester's timezone.
+When the requester's timezone isn't present, then <code>filters.from</code> is parsed to get the timezone.</dd>
+<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
+<dd>If none provided, your report will span the last seven days.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def greetings_conversion(self,
+                         distribution: str = None,
+                         timezone: str = None,
+                         filters: dict = None,
+                         payload: dict = None,
+                         headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Shows the number of greetings sent to the customers and how many of those resulted in a chat or a goal.
+
+    Args:
+        distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+        timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                        Defaults to the requester&#39;s timezone.
+                        When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+        filters (dict): If none provided, your report will span the last seven days.
+        payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+        headers (dict): Custom headers to be used with session headers.
+                        They will be merged with session-level values that are set,
+                        however, these method-level parameters will not be persisted across requests.
+
+    Returns:
+        httpx.Response: The Response object from `httpx` library,
+                        which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/chats/greetings_conversion&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="client.ReportsAPI34.ranking"><code class="name flex">
-<span>def <span class="ident">ranking</span></span>(<span>self, distribution: str = 'day', timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">ranking</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Shows the ratio of good to bad ratings for each operator.</p>
@@ -1422,7 +1786,7 @@ which contains a server’s response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ranking(self,
-            distribution: str = &#39;day&#39;,
+            distribution: str = None,
             timezone: str = None,
             filters: dict = None,
             payload: dict = None,
@@ -1453,7 +1817,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.ReportsAPI34.ratings"><code class="name flex">
-<span>def <span class="ident">ratings</span></span>(<span>self, distribution: str = 'day', timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">ratings</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Shows the number of rated chats along with their ratings during a specified period of time.</p>
@@ -1486,7 +1850,7 @@ which contains a server’s response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ratings(self,
-            distribution: str = &#39;day&#39;,
+            distribution: str = None,
             timezone: str = None,
             filters: dict = None,
             payload: dict = None,
@@ -1512,6 +1876,130 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/chats/ratings&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="client.ReportsAPI34.response_time"><code class="name flex">
+<span>def <span class="ident">response_time</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the average agents' response time within a licence.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>distribution</code></strong> :&ensp;<code>str</code></dt>
+<dd>Allowed values: <code>hour</code>, <code>day</code>, <code>day-hours</code>, <code>month</code> or <code>year</code>. Defaults to <code>day</code>.</dd>
+<dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
+<dd>IANA Time Zone (e.g. America/Phoenix).
+Defaults to the requester's timezone.
+When the requester's timezone isn't present, then <code>filters.from</code> is parsed to get the timezone.</dd>
+<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
+<dd>If none provided, your report will span the last seven days.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def response_time(self,
+                  distribution: str = None,
+                  timezone: str = None,
+                  filters: dict = None,
+                  payload: dict = None,
+                  headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Shows the average agents&#39; response time within a licence.
+
+    Args:
+        distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+        timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                        Defaults to the requester&#39;s timezone.
+                        When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+        filters (dict): If none provided, your report will span the last seven days.
+        payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+        headers (dict): Custom headers to be used with session headers.
+                        They will be merged with session-level values that are set,
+                        however, these method-level parameters will not be persisted across requests.
+
+    Returns:
+        httpx.Response: The Response object from `httpx` library,
+                        which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="client.ReportsAPI34.surveys"><code class="name flex">
+<span>def <span class="ident">surveys</span></span>(<span>self, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the number of submitted chat surveys along with the count of specific answers.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
+<dd>IANA Time Zone (e.g. America/Phoenix).
+Defaults to the requester's timezone.
+When the requester's timezone isn't present, then <code>filters.from</code> is parsed to get the timezone.</dd>
+<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
+<dd>If none provided, your report will span the last seven days.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def surveys(self,
+            timezone: str = None,
+            filters: dict = None,
+            payload: dict = None,
+            headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns the number of submitted chat surveys along with the count of specific answers.
+
+    Args:
+        timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                        Defaults to the requester&#39;s timezone.
+                        When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+        filters (dict): If none provided, your report will span the last seven days.
+        payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+        headers (dict): Custom headers to be used with session headers.
+                        They will be merged with session-level values that are set,
+                        however, these method-level parameters will not be persisted across requests.
+
+    Returns:
+        httpx.Response: The Response object from `httpx` library,
+                        which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/chats/surveys&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -1843,7 +2331,7 @@ def get_client(token: str,
 </details>
 </dd>
 <dt id="client.ReportsApiInterface.modify_header"><code class="name flex">
-<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> None</span>
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Modifies provided header in session object.</p>
@@ -1866,7 +2354,7 @@ def get_client(token: str,
 </details>
 </dd>
 <dt id="client.ReportsApiInterface.remove_header"><code class="name flex">
-<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> None</span>
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Removes provided header from session object.</p>
@@ -1912,12 +2400,16 @@ def get_client(token: str,
 </li>
 <li>
 <h4><code><a title="client.ReportsAPI34" href="#client.ReportsAPI34">ReportsAPI34</a></code></h4>
-<ul class="two-column">
+<ul class="">
 <li><code><a title="client.ReportsAPI34.availability" href="#client.ReportsAPI34.availability">availability</a></code></li>
 <li><code><a title="client.ReportsAPI34.duration" href="#client.ReportsAPI34.duration">duration</a></code></li>
 <li><code><a title="client.ReportsAPI34.engagement" href="#client.ReportsAPI34.engagement">engagement</a></code></li>
+<li><code><a title="client.ReportsAPI34.first_response_time" href="#client.ReportsAPI34.first_response_time">first_response_time</a></code></li>
+<li><code><a title="client.ReportsAPI34.greetings_conversion" href="#client.ReportsAPI34.greetings_conversion">greetings_conversion</a></code></li>
 <li><code><a title="client.ReportsAPI34.ranking" href="#client.ReportsAPI34.ranking">ranking</a></code></li>
 <li><code><a title="client.ReportsAPI34.ratings" href="#client.ReportsAPI34.ratings">ratings</a></code></li>
+<li><code><a title="client.ReportsAPI34.response_time" href="#client.ReportsAPI34.response_time">response_time</a></code></li>
+<li><code><a title="client.ReportsAPI34.surveys" href="#client.ReportsAPI34.surveys">surveys</a></code></li>
 <li><code><a title="client.ReportsAPI34.tags" href="#client.ReportsAPI34.tags">tags</a></code></li>
 <li><code><a title="client.ReportsAPI34.total_chats" href="#client.ReportsAPI34.total_chats">total_chats</a></code></li>
 </ul>
@@ -1942,7 +2434,7 @@ def get_client(token: str,
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
 </body>
 </html>

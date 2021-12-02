@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.10] - 2021-12-02
+
+### Added
+
+- Added new methods related to greetings conversion, chat surveys, and response time in reports-api v3.4.
+
 ## [0.1.9] - 2021-11-03
 
 ### Added
