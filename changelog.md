@@ -20,3 +20,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Api version 3.4 support [@DamianAmbrozkiewicz](https://github.com/DamianAmbrozkiewicz).
 - Example usages of following clients: Agent(rtm/web), Customer(rtm/web), Configuration [@DamianAmbrozkiewicz](https://github.com/DamianAmbrozkiewicz).
+
+## [0.1.11] - 2022-01-19
+
+### Added
+- API stable version 3.4 as a default.
+- API dev preview version 3.5 support.
