@@ -4,11 +4,16 @@
 from __future__ import annotations
 
 from abc import ABCMeta
+from configparser import ConfigParser
 
 import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.httpx_logger import HttpxLogger
+
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api_versions', 'stable')
 
 
 class ConfigurationApi:
@@ -16,7 +21,7 @@ class ConfigurationApi:
         API version. '''
     @staticmethod
     def get_client(token: str,
-                   version: str = '3.3',
+                   version: str = stable_version,
                    base_url: str = 'api.livechatinc.com',
                    http2: bool = False) -> ConfigurationApiInterface:
         ''' Returns client for specific Configuration API version.
@@ -24,7 +29,7 @@ class ConfigurationApi:
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API's version. Defaults to `3.3`.
+                version (str): API's version. Defaults to the stable version of API.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
@@ -37,7 +42,8 @@ class ConfigurationApi:
         '''
         client = {
             '3.3': ConfigurationApi33(token, '3.3', base_url, http2),
-            '3.4': ConfigurationApi34(token, '3.4', base_url, http2)
+            '3.4': ConfigurationApi34(token, '3.4', base_url, http2),
+            '3.5': ConfigurationApi35(token, '3.5', base_url, http2),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -1205,14 +1211,6 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                  json=payload,
                                  headers=headers)
 
-
-class ConfigurationApi33(ConfigurationApiInterface):
-    ''' Configuration API client in version 3.3 class. '''
-
-
-class ConfigurationApi34(ConfigurationApiInterface):
-    ''' Configuration API client in version 3.4 class. '''
-
     # license/organization ID lookup
 
     def get_organization_id(self,
@@ -1262,3 +1260,15 @@ class ConfigurationApi34(ConfigurationApiInterface):
         return self.session.get(f'{self.api_url}/get_license_id',
                                 params=params,
                                 headers=headers)
+
+
+class ConfigurationApi33(ConfigurationApiInterface):
+    ''' Configuration API client in version 3.3 class. '''
+
+
+class ConfigurationApi34(ConfigurationApiInterface):
+    ''' Configuration API client in version 3.4 class. '''
+
+
+class ConfigurationApi35(ConfigurationApiInterface):
+    ''' Configuration API client in version 3.5 class. '''
