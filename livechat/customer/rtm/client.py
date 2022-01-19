@@ -3,22 +3,28 @@
 # pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107
 
 from abc import ABCMeta
+from configparser import ConfigParser
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.ws_client import WebsocketClient
+
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api_versions', 'stable')
 
 
 class CustomerRTM:
     ''' Main class that gets specific client. '''
     @staticmethod
     def get_client(license_id: int = None,
-                   version: str = '3.3',
+                   organization_id: str = None,
+                   version: str = stable_version,
                    base_url: str = 'api.livechatinc.com'):
         ''' Returns client for specific Customer RTM version.
 
             Args:
                 license_id (int): License ID.
-                version (str): API's version. Defaults to `3.3`.
+                version (str): API's version. Defaults to stable version of API.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -28,8 +34,12 @@ class CustomerRTM:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': CustomerRTM33(license_id, version, base_url),
-            '3.4': CustomerRTM34(license_id, version, base_url)
+            '3.3': CustomerRTM33(license_id, organization_id, version,
+                                 base_url),
+            '3.4': CustomerRTM34(license_id, organization_id, version,
+                                 base_url),
+            '3.5': CustomerRTM35(license_id, organization_id, version,
+                                 base_url),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -38,14 +48,22 @@ class CustomerRTM:
 
 class CustomerRTMInterface(metaclass=ABCMeta):
     ''' CustomerRTM interface class. '''
-    def __init__(self, license_id, version, url):
-        if not license_id or not isinstance(license_id, int):
-            raise ValueError(
-                'Pipe was not opened. Something`s wrong with your `license_id`.'
-            )
+    def __init__(self, license_id: int, organization_id: str, version: str,
+                 base_url: str):
+        if float(version) <= 3.3:
+            if not license_id or not isinstance(license_id, int):
+                raise ValueError(
+                    'Pipe was not opened. Something`s wrong with your `license_id`.'
+                )
+            query_string = f'license_id={license_id}'
+        else:
+            if not organization_id or not isinstance(organization_id, str):
+                raise ValueError(
+                    'Pipe was not opened. Something`s wrong with your `organization_id`.'
+                )
+            query_string = f'organization_id={organization_id}'
         self.ws = WebsocketClient(
-            url=
-            f'wss://{url}/v{version}/customer/rtm/ws?license_id={license_id}')
+            url=f'wss://{base_url}/v{version}/customer/rtm/ws?{query_string}')
 
     def open_connection(self, origin: dict = None) -> None:
         ''' Opens WebSocket connection.
@@ -629,3 +647,7 @@ class CustomerRTM33(CustomerRTMInterface):
 
 class CustomerRTM34(CustomerRTMInterface):
     ''' Customer RTM version 3.4 class. '''
+
+
+class CustomerRTM35(CustomerRTMInterface):
+    ''' Customer RTM version 3.5 class. '''

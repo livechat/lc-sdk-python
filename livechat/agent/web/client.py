@@ -4,10 +4,15 @@
 
 import typing
 from abc import ABCMeta
+from configparser import ConfigParser
 
 import requests
 
 from livechat.utils.helpers import prepare_payload
+
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api_versions', 'stable')
 
 
 # pylint: disable=R0903
@@ -16,14 +21,14 @@ class AgentWeb:
         API version. '''
     @staticmethod
     def get_client(access_token: str,
-                   version: str = '3.3',
+                   version: str = stable_version,
                    base_url: str = 'api.livechatinc.com'):
         ''' Returns client for specific API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
-                version (str): API's version. Defaults to `3.3`.
+                version (str): API's version. Defaults to stable version of API.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -35,7 +40,8 @@ class AgentWeb:
         '''
         client = {
             '3.3': AgentWeb33(access_token, version, base_url),
-            '3.4': AgentWeb34(access_token, version, base_url)
+            '3.4': AgentWeb34(access_token, version, base_url),
+            '3.5': AgentWeb35(access_token, version, base_url),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -80,17 +86,17 @@ class AgentWebInterface(metaclass=ABCMeta):
                          chat_id: str = None,
                          user_id: str = None,
                          user_type: str = None,
-                         require_active_thread: bool = None,
+                         visibility: str = None,
                          payload: dict = None) -> requests.Response:
-        ''' Adds a user to the chat. You can't add more than one customer user type to the chat.
+        ''' Adds a user to the chat. You can't add more than one customer user
+            type to the chat.
 
             Args:
                 chat_id (str): chat ID.
                 user_id (str): user ID.
                 user_type (str): Possible values: agent or customer.
-                require_active_thread (bool): If true, it adds a user to a chat
-                                              only if that chat has an active
-                                              thread; default false.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
 
@@ -341,6 +347,7 @@ class AgentWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/transfer_chat', json=payload)
+
 # Chat users
 
     def remove_user_from_chat(self,
@@ -855,14 +862,14 @@ class AgentWebInterface(metaclass=ABCMeta):
 
     def send_typing_indicator(self,
                               chat_id: str = None,
-                              recipients: str = None,
+                              visibility: str = None,
                               is_typing: bool = None,
                               payload: dict = None) -> requests.Response:
         ''' Sends typing indicator.
 
             Args:
                 chat_id (str): ID of the chat that to send the typing indicator to.
-                recipients (str): Default: all; agents.
+                visibility (str): Possible values: `all`, `agents`.
                 is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
@@ -918,6 +925,35 @@ class AgentWebInterface(metaclass=ABCMeta):
 class AgentWeb33(AgentWebInterface):
     ''' Agent API version 3.3 class. '''
 
+    # Chats
+
+    def add_user_to_chat(self,
+                         chat_id: str = None,
+                         user_id: str = None,
+                         user_type: str = None,
+                         require_active_thread: bool = None,
+                         payload: dict = None) -> requests.Response:
+        ''' Adds a user to the chat. You can't add more than one customer user type to the chat.
+
+            Args:
+                chat_id (str): chat ID.
+                user_id (str): user ID.
+                user_type (str): Possible values: agent or customer.
+                require_active_thread (bool): If true, it adds a user to a chat
+                                              only if that chat has an active
+                                              thread; default false.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+
+            Returns:
+                requests.Response: The Response object from `requests` library,
+                                   which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/add_user_to_chat',
+                                 json=payload)
+
     # Chat access
 
     def grant_chat_access(self,
@@ -963,51 +999,18 @@ class AgentWeb33(AgentWebInterface):
                                  json=payload)
 
 
-class AgentWeb34(AgentWebInterface):
-    ''' Agent API version 3.4 class. '''
-
-    # Chats
-
-    def add_user_to_chat(self,
-                         chat_id: str = None,
-                         user_id: str = None,
-                         user_type: str = None,
-                         visibility: str = None,
-                         payload: dict = None) -> requests.Response:
-        ''' Adds a user to the chat. You can't add more than one customer user
-            type to the chat.
-
-            Args:
-                chat_id (str): chat ID.
-                user_id (str): user ID.
-                user_type (str): Possible values: agent or customer.
-                visibility (str): Determines the visibility of events sent by
-                                  the agent. Possible values: `all` or `agents`.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-
-            Returns:
-                requests.Response: The Response object from `requests` library,
-                                   which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/add_user_to_chat',
-                                 json=payload)
-
-
 # Other
 
     def send_typing_indicator(self,
                               chat_id: str = None,
-                              visibility: str = None,
+                              recipients: str = None,
                               is_typing: bool = None,
                               payload: dict = None) -> requests.Response:
         ''' Sends typing indicator.
 
             Args:
                 chat_id (str): ID of the chat that to send the typing indicator to.
-                visibility (str): Possible values: `all`, `agents`.
+                recipients (str): Default: all; agents.
                 is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
@@ -1019,3 +1022,11 @@ class AgentWeb34(AgentWebInterface):
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/send_typing_indicator',
                                  json=payload)
+
+
+class AgentWeb34(AgentWebInterface):
+    ''' Agent API version 3.4 class. '''
+
+
+class AgentWeb35(AgentWebInterface):
+    ''' Agent API version 3.5 class. '''

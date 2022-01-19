@@ -3,10 +3,15 @@
 # pylint: disable=W0613,W0622,C0103,R0913,R0903
 
 from abc import ABCMeta
+from configparser import ConfigParser
 
 import requests
 
 from livechat.utils.helpers import prepare_payload
+
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api_versions', 'stable')
 
 
 class ConfigurationApi:
@@ -14,14 +19,14 @@ class ConfigurationApi:
         API version. '''
     @staticmethod
     def get_client(token: str,
-                   version: str = '3.3',
+                   version: str = stable_version,
                    base_url: str = 'api.livechatinc.com'):
         ''' Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API's version. Defaults to `3.3`.
+                version (str): API's version. Defaults to stable version of API.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -32,7 +37,8 @@ class ConfigurationApi:
         '''
         client = {
             '3.3': ConfigurationApi33(token, '3.3', base_url),
-            '3.4': ConfigurationApi34(token, '3.4', base_url)
+            '3.4': ConfigurationApi34(token, '3.4', base_url),
+            '3.5': ConfigurationApi35(token, '3.5', base_url),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -982,3 +988,7 @@ class ConfigurationApi33(ConfigurationApiInterface):
 
 class ConfigurationApi34(ConfigurationApiInterface):
     ''' Configuration API client in version 3.4 class. '''
+
+
+class ConfigurationApi35(ConfigurationApiInterface):
+    ''' Configuration API client in version 3.5 class. '''

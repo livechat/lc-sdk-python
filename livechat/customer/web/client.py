@@ -4,10 +4,15 @@
 
 import typing
 from abc import ABCMeta
+from configparser import ConfigParser
 
 import requests
 
 from livechat.utils.helpers import prepare_payload
+
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api_versions', 'stable')
 
 
 # pylint: disable=R0903
@@ -15,16 +20,17 @@ class CustomerWeb:
     ''' Allows retrieval of client for specific Customer Web
         API version. '''
     @staticmethod
-    def get_client(license_id: int,
-                   access_token: str,
-                   version: str = '3.3',
+    def get_client(license_id: int = None,
+                   organization_id: str = None,
+                   access_token: str = None,
+                   version: str = stable_version,
                    base_url: str = 'api.livechatinc.com'):
         ''' Returns client for specific API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
-                version (str): API's version. Defaults to `3.3`.
+                version (str): API's version. Defaults to stable version of API.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -35,8 +41,15 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': CustomerWeb33(license_id, access_token, version, base_url),
-            '3.4': CustomerWeb34(license_id, access_token, version, base_url)
+            '3.3':
+            CustomerWeb33(license_id, organization_id, access_token, version,
+                          base_url),
+            '3.4':
+            CustomerWeb34(license_id, organization_id, access_token, version,
+                          base_url),
+            '3.5':
+            CustomerWeb35(license_id, organization_id, access_token, version,
+                          base_url),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
@@ -45,12 +58,24 @@ class CustomerWeb:
 
 class CustomerWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
-    def __init__(self, license_id: int, access_token: str, version: str,
-                 base_url: str):
+    def __init__(self, license_id: int, organization_id: str,
+                 access_token: str, version: str, base_url: str):
         self.api_url = f'https://{base_url}/v{version}/customer/action'
         self.session = requests.Session()
+        if not access_token or not isinstance(access_token, str):
+            raise ValueError('Something`s wrong with your `access_token`.')
         self.session.headers.update({'Authorization': access_token})
-        self.license_id = str(license_id)
+        if float(version) <= 3.3:
+            if not license_id or not isinstance(license_id, int):
+                raise ValueError('Something`s wrong with your `license_id`.')
+            self.license_id = str(license_id)
+            self.query_string = f'license_id={license_id}'
+        else:
+            if not organization_id or not isinstance(organization_id, str):
+                raise ValueError(
+                    'Something`s wrong with your `organization_id`.')
+            self.organization_id = organization_id
+            self.query_string = f'organization_id={organization_id}'
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
@@ -101,8 +126,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/list_chats?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/list_chats?{self.query_string}', json=payload)
 
     def list_threads(self,
                      chat_id: str = None,
@@ -131,8 +155,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/list_threads?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/list_threads?{self.query_string}', json=payload)
 
     def get_chat(self,
                  chat_id: str = None,
@@ -153,8 +176,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_chat?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/get_chat?{self.query_string}', json=payload)
 
     def start_chat(self,
                    chat: dict = None,
@@ -177,8 +199,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/start_chat?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/start_chat?{self.query_string}', json=payload)
 
     def resume_chat(self,
                     chat: dict = None,
@@ -201,8 +222,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/resume_chat?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/resume_chat?{self.query_string}', json=payload)
 
     def deactivate_chat(self,
                         id: str = None,
@@ -222,7 +242,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/deactivate_chat?license_id={self.license_id}',
+            f'{self.api_url}/deactivate_chat?{self.query_string}',
             json=payload)
 
 # Configuration
@@ -251,7 +271,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_dynamic_configuration?license_id={self.license_id}',
+            f'{self.api_url}/get_dynamic_configuration?{self.query_string}',
             json=payload)
 
     def get_configuration(self,
@@ -274,7 +294,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_configuration?license_id={self.license_id}',
+            f'{self.api_url}/get_configuration?{self.query_string}',
             json=payload)
 
 # Events
@@ -303,8 +323,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/send_event?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/send_event?{self.query_string}', json=payload)
 
     def upload_file(self,
                     file: typing.BinaryIO = None,
@@ -322,8 +341,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/upload_file?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/upload_file?{self.query_string}', json=payload)
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -347,7 +365,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/send_rich_message_postback?license_id={self.license_id}',
+            f'{self.api_url}/send_rich_message_postback?{self.query_string}',
             json=payload)
 
     def send_sneak_peek(self,
@@ -368,7 +386,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/send_sneak_peek?license_id={self.license_id}',
+            f'{self.api_url}/send_sneak_peek?{self.query_string}',
             json=payload)
 
 # Localization
@@ -394,7 +412,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_localization?license_id={self.license_id}',
+            f'{self.api_url}/get_localization?{self.query_string}',
             json=payload)
 
 # Properties
@@ -418,7 +436,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/update_chat_properties?license_id={self.license_id}',
+            f'{self.api_url}/update_chat_properties?{self.query_string}',
             json=payload)
 
     def delete_chat_properties(self,
@@ -439,7 +457,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/delete_chat_properties?license_id={self.license_id}',
+            f'{self.api_url}/delete_chat_properties?{self.query_string}',
             json=payload)
 
     def update_thread_properties(self,
@@ -463,7 +481,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/update_thread_properties?license_id={self.license_id}',
+            f'{self.api_url}/update_thread_properties?{self.query_string}',
             json=payload)
 
     def delete_thread_properties(self,
@@ -486,7 +504,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/delete_thread_properties?license_id={self.license_id}',
+            f'{self.api_url}/delete_thread_properties?{self.query_string}',
             json=payload)
 
     def update_event_properties(self,
@@ -512,7 +530,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/update_event_properties?license_id={self.license_id}',
+            f'{self.api_url}/update_event_properties?{self.query_string}',
             json=payload)
 
     def delete_event_properties(self,
@@ -537,7 +555,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/delete_event_properties?license_id={self.license_id}',
+            f'{self.api_url}/delete_event_properties?{self.query_string}',
             json=payload)
 
     def list_license_properties(self,
@@ -609,7 +627,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                    which contains a server’s response to an HTTP request.
         '''
         return self.session.post(
-            f'{self.api_url}/get_customer?license_id={self.license_id}',
+            f'{self.api_url}/get_customer?{self.query_string}',
             json={} if payload is None else payload)
 
     def update_customer(self,
@@ -636,7 +654,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/update_customer?license_id={self.license_id}',
+            f'{self.api_url}/update_customer?{self.query_string}',
             json=payload)
 
     def set_customer_session_fields(self,
@@ -657,7 +675,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/set_customer_session_fields?license_id={self.license_id}',
+            f'{self.api_url}/set_customer_session_fields?{self.query_string}',
             json=payload)
 
 # Status
@@ -682,7 +700,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/list_group_statuses?license_id={self.license_id}',
+            f'{self.api_url}/list_group_statuses?{self.query_string}',
             json=payload)
 
 
@@ -711,8 +729,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/check_goals?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/check_goals?{self.query_string}', json=payload)
 
     def get_form(self,
                  group_id: int = None,
@@ -733,8 +750,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_form?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/get_form?{self.query_string}', json=payload)
 
     def get_predicted_agent(self, payload: dict = None) -> requests.Response:
         ''' Gets the predicted Agent - the one the Customer will chat with when the chat starts.
@@ -749,7 +765,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
                                    which contains a server’s response to an HTTP request.
         '''
         return self.session.post(
-            f'{self.api_url}/get_predicted_agent?license_id={self.license_id}',
+            f'{self.api_url}/get_predicted_agent?{self.query_string}',
             json={} if payload is None else payload)
 
     def get_url_info(self,
@@ -768,8 +784,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/get_url_info?license_id={self.license_id}',
-            json=payload)
+            f'{self.api_url}/get_url_info?{self.query_string}', json=payload)
 
     def mark_events_as_seen(self,
                             chat_id: str = None,
@@ -789,7 +804,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/mark_events_as_seen?license_id={self.license_id}',
+            f'{self.api_url}/mark_events_as_seen?{self.query_string}',
             json=payload)
 
     def accept_greeting(self,
@@ -810,7 +825,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/accept_greeting?license_id={self.license_id}',
+            f'{self.api_url}/accept_greeting?{self.query_string}',
             json=payload)
 
     def cancel_greeting(self,
@@ -830,7 +845,7 @@ class CustomerWebInterface(metaclass=ABCMeta):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(
-            f'{self.api_url}/cancel_greeting?license_id={self.license_id}',
+            f'{self.api_url}/cancel_greeting?{self.query_string}',
             json=payload)
 
 
@@ -840,3 +855,7 @@ class CustomerWeb33(CustomerWebInterface):
 
 class CustomerWeb34(CustomerWebInterface):
     ''' Customer API version 3.4 class. '''
+
+
+class CustomerWeb35(CustomerWebInterface):
+    ''' Customer API version 3.5 class. '''
