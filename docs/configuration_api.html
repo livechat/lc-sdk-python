@@ -36,21 +36,25 @@ from abc import ABCMeta
 import requests
 
 from livechat.utils.helpers import prepare_payload
+from configparser import ConfigParser
 
+config = ConfigParser()
+config.read(&#39;configs/main.ini&#39;)
+stable_version = config.get(&#39;api_versions&#39;, &#39;stable&#39;)
 
 class ConfigurationApi:
     &#39;&#39;&#39; Main class that allows retrieval of client for specific Configuration
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(token: str,
-                   version: str = &#39;3.3&#39;,
+                   version: str = stable_version,
                    base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API&#39;s version. Defaults to `3.3`.
+                version (str): API&#39;s version. Defaults to stable version of API.
                 base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -61,7 +65,8 @@ class ConfigurationApi:
         &#39;&#39;&#39;
         client = {
             &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url),
-            &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url)
+            &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url),
+            &#39;3.5&#39;: ConfigurationApi35(token, &#39;3.5&#39;, base_url),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -1010,7 +1015,10 @@ class ConfigurationApi33(ConfigurationApiInterface):
 
 
 class ConfigurationApi34(ConfigurationApiInterface):
-    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;</code></pre>
+    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;
+
+class ConfigurationApi35(ConfigurationApiInterface):
+    &#39;&#39;&#39; Configuration API client in version 3.5 class. &#39;&#39;&#39;</code></pre>
 </details>
 </section>
 <section>
@@ -1037,14 +1045,14 @@ API version.</p></div>
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(token: str,
-                   version: str = &#39;3.3&#39;,
+                   version: str = stable_version,
                    base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API&#39;s version. Defaults to `3.3`.
+                version (str): API&#39;s version. Defaults to stable version of API.
                 base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
             Returns:
@@ -1055,7 +1063,8 @@ API version.</p></div>
         &#39;&#39;&#39;
         client = {
             &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url),
-            &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url)
+            &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url),
+            &#39;3.5&#39;: ConfigurationApi35(token, &#39;3.5&#39;, base_url),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -1064,7 +1073,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="client.ConfigurationApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com')</span>
+<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.4', base_url: str = 'api.livechatinc.com')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -1074,7 +1083,7 @@ API version.</p></div>
 <dd>Full token with type (Bearer/Basic) that will be
 used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's version. Defaults to <code>3.3</code>.</dd>
+<dd>API's version. Defaults to stable version of API.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
 <dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
 </dl>
@@ -1094,14 +1103,14 @@ used as <code>Authorization</code> header in requests to API.</dd>
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(token: str,
-               version: str = &#39;3.3&#39;,
+               version: str = stable_version,
                base_url: str = &#39;api.livechatinc.com&#39;):
     &#39;&#39;&#39; Returns client for specific Configuration API version.
 
         Args:
             token (str): Full token with type (Bearer/Basic) that will be
                          used as `Authorization` header in requests to API.
-            version (str): API&#39;s version. Defaults to `3.3`.
+            version (str): API&#39;s version. Defaults to stable version of API.
             base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
         Returns:
@@ -1112,7 +1121,8 @@ def get_client(token: str,
     &#39;&#39;&#39;
     client = {
         &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url),
-        &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url)
+        &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url),
+        &#39;3.5&#39;: ConfigurationApi35(token, &#39;3.5&#39;, base_url),
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -1201,6 +1211,74 @@ def get_client(token: str,
 </summary>
 <pre><code class="python">class ConfigurationApi34(ConfigurationApiInterface):
     &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
+<ul class="hlist">
+<li><code><a title="client.ConfigurationApiInterface.add_auto_access" href="#client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.approve_agent" href="#client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_agent" href="#client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_bot" href="#client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.create_group" href="#client.ConfigurationApiInterface.create_group">create_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_agent" href="#client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_auto_access" href="#client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_bot" href="#client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_group" href="#client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_group_properties" href="#client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.delete_license_properties" href="#client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.disable_license_webhooks" href="#client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.enable_license_webhooks" href="#client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_agent" href="#client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_bot" href="#client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_group" href="#client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_headers" href="#client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.get_license_webhooks_state" href="#client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_agents" href="#client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_auto_accesses" href="#client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_bots" href="#client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_group_properties" href="#client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_groups" href="#client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_license_properties" href="#client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_properties" href="#client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_webhook_names" href="#client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.list_webhooks" href="#client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.modify_header" href="#client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.publish_property" href="#client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.reorder_auto_access" href="#client.ConfigurationApiInterface.reorder_auto_access">reorder_auto_access</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
+<li><code><a title="client.ConfigurationApiInterface.update_license_properties" href="#client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="client.ConfigurationApi35"><code class="flex name class">
+<span>class <span class="ident">ConfigurationApi35</span></span>
+<span>(</span><span>token: str, version: str, base_url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Configuration API client in version 3.5 class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConfigurationApi35(ConfigurationApiInterface):
+    &#39;&#39;&#39; Configuration API client in version 3.5 class. &#39;&#39;&#39;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -2207,6 +2285,7 @@ def get_client(token: str,
 <ul class="hlist">
 <li><a title="client.ConfigurationApi33" href="#client.ConfigurationApi33">ConfigurationApi33</a></li>
 <li><a title="client.ConfigurationApi34" href="#client.ConfigurationApi34">ConfigurationApi34</a></li>
+<li><a title="client.ConfigurationApi35" href="#client.ConfigurationApi35">ConfigurationApi35</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
@@ -4304,6 +4383,9 @@ which contains a server’s response to an HTTP request.</dd>
 </li>
 <li>
 <h4><code><a title="client.ConfigurationApi34" href="#client.ConfigurationApi34">ConfigurationApi34</a></code></h4>
+</li>
+<li>
+<h4><code><a title="client.ConfigurationApi35" href="#client.ConfigurationApi35">ConfigurationApi35</a></code></h4>
 </li>
 <li>
 <h4><code><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></code></h4>
