@@ -10,8 +10,9 @@ from livechat.customer.web.client import CustomerWeb
 
 config = ConfigParser()
 config.read('configs/main.ini')
-stable_version = config.get('api_versions', 'stable')
-dev_version = config.get('api_versions', 'dev')
+stable_version = config.get('api', 'stable')
+dev_version = config.get('api', 'dev')
+api_url = config.get('api', 'url')
 
 ORGANIZATION_ID = '30007dab-4c18-4169-978d-02f776e476a5'
 ACCESS_TOKEN_INVALID = 'foo'
@@ -70,7 +71,7 @@ def test_get_client_with_non_existing_version():
 
 def test_get_client_with_valid_args(stable_client):
     ''' Test if production API URL is used and token is added to headers for valid args. '''
-    assert stable_client.api_url == f'https://api.livechatinc.com/v{stable_version}/customer/action'
+    assert stable_client.api_url == f'https://{api_url}/v{stable_version}/customer/action'
     assert stable_client.query_string == f'?organization_id={ORGANIZATION_ID}'
     assert stable_client.session.headers.get(
         'Authorization') == ACCESS_TOKEN_INVALID

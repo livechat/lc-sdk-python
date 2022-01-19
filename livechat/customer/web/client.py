@@ -14,7 +14,8 @@ from livechat.utils.httpx_logger import HttpxLogger
 
 config = ConfigParser()
 config.read('configs/main.ini')
-stable_version = config.get('api_versions', 'stable')
+stable_version = config.get('api', 'stable')
+api_url = config.get('api', 'url')
 
 
 # pylint: disable=R0903
@@ -25,7 +26,7 @@ class CustomerWeb:
     def get_client(license_id: int = None,
                    access_token: str = None,
                    version: str = stable_version,
-                   base_url: str = 'api.livechatinc.com',
+                   base_url: str = api_url,
                    http2: bool = False,
                    organization_id: str = None) -> CustomerWebInterface:
         ''' Returns client for specific API version.
@@ -35,7 +36,7 @@ class CustomerWeb:
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to the stable version of API.
-                base_url (str): API's base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API's base url. Defaults to API's production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.

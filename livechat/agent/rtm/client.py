@@ -12,19 +12,20 @@ from livechat.utils.ws_client import WebsocketClient
 
 config = ConfigParser()
 config.read('configs/main.ini')
-stable_version = config.get('api_versions', 'stable')
+stable_version = config.get('api', 'stable')
+api_url = config.get('api', 'url')
 
 
 class AgentRTM:
     ''' Main class that gets specific client. '''
     @staticmethod
     def get_client(version: str = stable_version,
-                   base_url: str = 'api.livechatinc.com') -> AgentRTMInterface:
+                   base_url: str = api_url) -> AgentRTMInterface:
         ''' Returns client for specific Agent RTM version.
 
             Args:
                 version (str): API's version. Defaults to the stable version of API.
-                base_url (str): API's base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API's base url. Defaults to API's production URL.
 
             Returns:
                 AgentRTMInterface: API client object for specified version.

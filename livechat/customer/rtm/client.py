@@ -12,7 +12,8 @@ from livechat.utils.ws_client import WebsocketClient
 
 config = ConfigParser()
 config.read('configs/main.ini')
-stable_version = config.get('api_versions', 'stable')
+stable_version = config.get('api', 'stable')
+api_url = config.get('api', 'url')
 
 
 class CustomerRTM:
@@ -20,14 +21,14 @@ class CustomerRTM:
     @staticmethod
     def get_client(license_id: int = None,
                    version: str = stable_version,
-                   base_url: str = 'api.livechatinc.com',
+                   base_url: str = api_url,
                    organization_id: str = None) -> CustomerRTMInterface:
         ''' Returns client for specific Customer RTM version.
 
             Args:
                 license_id (int): License ID. Required to use for API version <= 3.3.
                 version (str): API's version. Defaults to the stable version of API.
-                base_url (str): API's base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API's base url. Defaults to API's production URL.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:

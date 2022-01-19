@@ -41,7 +41,8 @@ from livechat.utils.ws_client import WebsocketClient
 
 config = ConfigParser()
 config.read(&#39;configs/main.ini&#39;)
-stable_version = config.get(&#39;api_versions&#39;, &#39;stable&#39;)
+stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
+api_url = config.get(&#39;api&#39;, &#39;url&#39;)
 
 
 class CustomerRTM:
@@ -49,14 +50,14 @@ class CustomerRTM:
     @staticmethod
     def get_client(license_id: int = None,
                    version: str = stable_version,
-                   base_url: str = &#39;api.livechatinc.com&#39;,
+                   base_url: str = api_url,
                    organization_id: str = None) -&gt; CustomerRTMInterface:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
                 license_id (int): License ID. Required to use for API version &lt;= 3.3.
                 version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -743,14 +744,14 @@ class CustomerRTM35(CustomerRTMInterface):
     @staticmethod
     def get_client(license_id: int = None,
                    version: str = stable_version,
-                   base_url: str = &#39;api.livechatinc.com&#39;,
+                   base_url: str = api_url,
                    organization_id: str = None) -&gt; CustomerRTMInterface:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
                 license_id (int): License ID. Required to use for API version &lt;= 3.3.
                 version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -799,7 +800,7 @@ class CustomerRTM35(CustomerRTMInterface):
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
 <dd>API's version. Defaults to the stable version of API.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
+<dd>API's base url. Defaults to API's production URL.</dd>
 <dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Organization ID, replaced license ID in v3.4.</dd>
 </dl>
@@ -820,14 +821,14 @@ class CustomerRTM35(CustomerRTMInterface):
 <pre><code class="python">@staticmethod
 def get_client(license_id: int = None,
                version: str = stable_version,
-               base_url: str = &#39;api.livechatinc.com&#39;,
+               base_url: str = api_url,
                organization_id: str = None) -&gt; CustomerRTMInterface:
     &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
         Args:
             license_id (int): License ID. Required to use for API version &lt;= 3.3.
             version (str): API&#39;s version. Defaults to the stable version of API.
-            base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
             organization_id (str): Organization ID, replaced license ID in v3.4.
 
         Returns:

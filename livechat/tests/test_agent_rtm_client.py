@@ -10,7 +10,8 @@ from livechat.agent.rtm.client import AgentRTM
 
 config = ConfigParser()
 config.read('configs/main.ini')
-stable_version = config.get('api_versions', 'stable')
+stable_version = config.get('api', 'stable')
+api_url = config.get('api', 'url')
 
 
 def test_get_client_with_non_existing_version():
@@ -28,7 +29,7 @@ def test_get_client():
     client_url = client.ws.url
     client.close_connection()
     closed_state = client.ws.keep_running
-    assert client_url == f'wss://api.livechatinc.com/v{stable_version}/agent/rtm/ws', 'Incorrect WS address.'
+    assert client_url == f'wss://{api_url}/v{stable_version}/agent/rtm/ws', 'Incorrect WS address.'
     assert opened_state is True, 'Client did not open socket.'
     assert closed_state is False, 'Client did not close socket.'
 

@@ -41,19 +41,20 @@ from livechat.utils.ws_client import WebsocketClient
 
 config = ConfigParser()
 config.read(&#39;configs/main.ini&#39;)
-stable_version = config.get(&#39;api_versions&#39;, &#39;stable&#39;)
+stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
+api_url = config.get(&#39;api&#39;, &#39;url&#39;)
 
 
 class AgentRTM:
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
     @staticmethod
     def get_client(version: str = stable_version,
-                   base_url: str = &#39;api.livechatinc.com&#39;) -&gt; AgentRTMInterface:
+                   base_url: str = api_url) -&gt; AgentRTMInterface:
         &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
             Args:
                 version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
 
             Returns:
                 AgentRTMInterface: API client object for specified version.
@@ -1176,12 +1177,12 @@ class AgentRTM35(AgentRTMInterface):
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
     @staticmethod
     def get_client(version: str = stable_version,
-                   base_url: str = &#39;api.livechatinc.com&#39;) -&gt; AgentRTMInterface:
+                   base_url: str = api_url) -&gt; AgentRTMInterface:
         &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
             Args:
                 version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
 
             Returns:
                 AgentRTMInterface: API client object for specified version.
@@ -1210,7 +1211,7 @@ class AgentRTM35(AgentRTMInterface):
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
 <dd>API's version. Defaults to the stable version of API.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
+<dd>API's base url. Defaults to API's production URL.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1228,12 +1229,12 @@ class AgentRTM35(AgentRTMInterface):
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(version: str = stable_version,
-               base_url: str = &#39;api.livechatinc.com&#39;) -&gt; AgentRTMInterface:
+               base_url: str = api_url) -&gt; AgentRTMInterface:
     &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
         Args:
             version (str): API&#39;s version. Defaults to the stable version of API.
-            base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
 
         Returns:
             AgentRTMInterface: API client object for specified version.

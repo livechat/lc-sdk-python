@@ -43,8 +43,8 @@ from livechat.utils.httpx_logger import HttpxLogger
 
 config = ConfigParser()
 config.read(&#39;configs/main.ini&#39;)
-stable_version = config.get(&#39;api_versions&#39;, &#39;stable&#39;)
-
+stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
+api_url = config.get(&#39;api&#39;, &#39;url&#39;)
 
 # pylint: disable=R0903
 class AgentWeb:
@@ -53,7 +53,7 @@ class AgentWeb:
     @staticmethod
     def get_client(access_token: str,
                    version: str = stable_version,
-                   base_url: str = &#39;api.livechatinc.com&#39;,
+                   base_url: str = api_url,
                    http2: bool = False) -&gt; AgentWebInterface:
         &#39;&#39;&#39; Returns client for specific API version.
 
@@ -61,7 +61,7 @@ class AgentWeb:
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
                 version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
 
@@ -1403,7 +1403,7 @@ API version.</p></div>
     @staticmethod
     def get_client(access_token: str,
                    version: str = stable_version,
-                   base_url: str = &#39;api.livechatinc.com&#39;,
+                   base_url: str = api_url,
                    http2: bool = False) -&gt; AgentWebInterface:
         &#39;&#39;&#39; Returns client for specific API version.
 
@@ -1411,7 +1411,7 @@ API version.</p></div>
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
                 version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
 
@@ -1446,7 +1446,7 @@ used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
 <dd>API's version. Defaults to the stable version of API.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
+<dd>API's base url. Defaults to API's production URL.</dd>
 <dt><strong><code>http2</code></strong> :&ensp;<code>bool</code></dt>
 <dd>A boolean indicating if HTTP/2 support should be
 enabled. Defaults to <code>False</code>.</dd>
@@ -1466,7 +1466,7 @@ enabled. Defaults to <code>False</code>.</dd>
 <pre><code class="python">@staticmethod
 def get_client(access_token: str,
                version: str = stable_version,
-               base_url: str = &#39;api.livechatinc.com&#39;,
+               base_url: str = api_url,
                http2: bool = False) -&gt; AgentWebInterface:
     &#39;&#39;&#39; Returns client for specific API version.
 
@@ -1474,7 +1474,7 @@ def get_client(access_token: str,
             token (str): Full token with type (Bearer/Basic) that will be
                             used as `Authorization` header in requests to API.
             version (str): API&#39;s version. Defaults to the stable version of API.
-            base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
             http2 (bool): A boolean indicating if HTTP/2 support should be
                           enabled. Defaults to `False`.
 

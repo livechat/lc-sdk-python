@@ -10,8 +10,9 @@ from livechat.customer.rtm.client import CustomerRTM
 
 config = ConfigParser()
 config.read('configs/main.ini')
-stable_version = config.get('api_versions', 'stable')
-dev_version = config.get('api_versions', 'dev')
+stable_version = config.get('api', 'stable')
+dev_version = config.get('api', 'dev')
+api_url = config.get('api', 'url')
 
 ORGANIZATION_ID = '30007dab-4c18-4169-978d-02f776e476a5'
 
@@ -49,7 +50,7 @@ def test_get_client():
     client_url = client.ws.url
     client.close_connection()
     closed_state = client.ws.keep_running
-    assert client_url == f'wss://api.livechatinc.com/v{stable_version}/customer/rtm/ws?organization_id={ORGANIZATION_ID}', 'Incorrect WS address.'
+    assert client_url == f'wss://{api_url}/v{stable_version}/customer/rtm/ws?organization_id={ORGANIZATION_ID}', 'Incorrect WS address.'
     assert opened_state is True, 'Client did not open socket.'
     assert closed_state is False, 'Client did not close socket.'
 
