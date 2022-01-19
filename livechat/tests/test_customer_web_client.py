@@ -2,64 +2,65 @@
 
 # pylint: disable=E1120,W0621
 
+from configparser import ConfigParser
+
 import pytest
 
 from livechat.customer.web.client import CustomerWeb
 
-LICENSE_ID = 10386012
-VALID_VERSION = '3.3'
-ACCESS_TOKEN_INVALID = 'foo'
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api_versions', 'stable')
+organization_id = '30007dab-4c18-4169-978d-02f776e476a5'
+invalid_access_token = 'foo'
 
 
 @pytest.fixture
 def customer_web_api_client():
     ''' Fixture returning Customer Web API client. '''
-    return CustomerWeb.get_client(license_id=LICENSE_ID,
-                                  access_token=ACCESS_TOKEN_INVALID)
+    return CustomerWeb.get_client(organization_id=organization_id,
+                                  access_token=invalid_access_token)
 
 
 def test_get_client_without_args():
-    ''' Test if TypeError raised without args. '''
-    with pytest.raises(TypeError) as exception:
+    ''' Test if ValueError raised without args. '''
+    with pytest.raises(ValueError) as exception:
         CustomerWeb.get_client()
     assert str(
-        exception.value
-    ) == "get_client() missing 2 required positional arguments: 'license_id' and 'access_token'"
+        exception.value) == 'Something`s wrong with your `access_token`.'
 
 
-def test_get_client_without_license_id():
-    ''' Test if TypeError raised without license_id. '''
-    with pytest.raises(TypeError) as exception:
-        CustomerWeb.get_client(access_token='foo')
+def test_get_client_with_incorrect_organization_id_type():
+    ''' Test if ValueError raised with incorrect `organization_id` type. '''
+    with pytest.raises(ValueError) as exception:
+        CustomerWeb.get_client(organization_id=123, access_token='test')
     assert str(
-        exception.value
-    ) == "get_client() missing 1 required positional argument: 'license_id'"
+        exception.value) == 'Something`s wrong with your `organization_id`.'
 
 
 def test_get_client_without_access_token():
-    ''' Test if TypeError raised without access_token. '''
-    with pytest.raises(TypeError) as exception:
-        CustomerWeb.get_client(license_id=LICENSE_ID)
+    ''' Test if ValueError raised without `access_token`. '''
+    with pytest.raises(ValueError) as exception:
+        CustomerWeb.get_client(organization_id=organization_id)
     assert str(
-        exception.value
-    ) == "get_client() missing 1 required positional argument: 'access_token'"
+        exception.value) == 'Something`s wrong with your `access_token`.'
 
 
 def test_get_client_with_non_existing_version():
     ''' Test if ValueError raised for non-existing version. '''
     with pytest.raises(ValueError) as exception:
-        CustomerWeb.get_client(license_id=LICENSE_ID,
+        CustomerWeb.get_client(organization_id=organization_id,
                                access_token='test',
-                               version='2.9')
+                               version='9.9')
     assert str(exception.value) == 'Provided version does not exist.'
 
 
 def test_get_client_with_valid_args(customer_web_api_client):
     ''' Test if production API URL is used and token is added to headers for valid args. '''
-    assert customer_web_api_client.api_url == f'https://api.livechatinc.com/v{VALID_VERSION}/customer/action'
-    assert customer_web_api_client.license_id == str(LICENSE_ID)
+    assert customer_web_api_client.api_url == f'https://api.livechatinc.com/v{stable_version}/customer/action'
+    assert customer_web_api_client.organization_id == organization_id
     assert customer_web_api_client.session.headers.get(
-        'Authorization') == ACCESS_TOKEN_INVALID
+        'Authorization') == invalid_access_token
 
 
 def test_send_request(customer_web_api_client):
