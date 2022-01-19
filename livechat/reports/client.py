@@ -1,4 +1,4 @@
-''' Rest API implementation. '''
+''' Reports API implementation. '''
 
 # pylint: disable=W0613,W0622,C0103,R0913,R0903
 
