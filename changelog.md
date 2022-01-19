@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.11] - 2022-01-19
+
+### Added
+- API stable version 3.4 as a default.
+- API dev preview version 3.5 support.
+
 ## [0.1.10] - 2021-12-02
 
 ### Added
