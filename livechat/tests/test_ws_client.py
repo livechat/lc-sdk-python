@@ -50,7 +50,7 @@ def test_websocket_send_and_receive_message():
     ws.open()
     response = ws.send({'action': 'login', 'payload': {'token': 'Bearer xxx'}})
     ws.close()
-    assert response['response']['payload'] == {
+    assert response.payload == {
         'error': {
             'type': 'authentication',
             'message': 'Invalid access token'
