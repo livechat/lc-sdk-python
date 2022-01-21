@@ -7,6 +7,7 @@ import typing
 from abc import ABCMeta
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.structures import RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
 
@@ -56,7 +57,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                          user_id: str = None,
                          user_type: str = None,
                          require_active_thread: bool = None,
-                         payload: dict = None) -> dict:
+                         payload: dict = None) -> RtmResponse:
         ''' Adds a user to the chat. You can't add more than
             one customer user type to the chat.
 
@@ -70,7 +71,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -81,7 +83,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                    sort_order: str = None,
                    limit: int = None,
                    page_id: str = None,
-                   payload: dict = None) -> dict:
+                   payload: dict = None) -> RtmResponse:
         ''' Returns summaries of the chats an Agent has access to.
 
             Args:
@@ -95,7 +97,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -108,7 +111,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                      page_id: str = None,
                      min_events_count: int = None,
                      filters: dict = None,
-                     payload: dict = None) -> dict:
+                     payload: dict = None) -> RtmResponse:
         ''' Returns threads that the current Agent has access to in a given chat.
 
             Args:
@@ -124,7 +127,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -133,7 +137,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
     def get_chat(self,
                  chat_id: str = None,
                  thread_id: str = None,
-                 payload: dict = None) -> dict:
+                 payload: dict = None) -> RtmResponse:
         ''' Returns a thread that the current Agent has access to in a given chat.
 
             Args:
@@ -143,7 +147,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -155,7 +160,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                       sort_order: str = None,
                       limit: int = None,
                       highlights: dict = None,
-                      payload: dict = None) -> dict:
+                      payload: dict = None) -> RtmResponse:
         ''' Returns a list of the chats an Agent has access to.
 
             Args:
@@ -170,7 +175,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -180,7 +186,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                    chat: dict = None,
                    active: bool = None,
                    continuous: bool = None,
-                   payload: dict = None) -> dict:
+                   payload: dict = None) -> RtmResponse:
         ''' Starts a chat.
 
             Args:
@@ -191,7 +197,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -201,7 +208,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                     chat: dict = None,
                     active: bool = None,
                     continuous: bool = None,
-                    payload: dict = None) -> dict:
+                    payload: dict = None) -> RtmResponse:
         ''' Restarts an archived chat.
 
             Args:
@@ -212,13 +219,16 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'resume_chat', 'payload': payload})
 
-    def deactivate_chat(self, id: str = None, payload: dict = None) -> dict:
+    def deactivate_chat(self,
+                        id: str = None,
+                        payload: dict = None) -> RtmResponse:
         ''' Deactivates a chat by closing the currently open thread.
 
             Args:
@@ -227,13 +237,14 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'deactivate_chat', 'payload': payload})
 
-    def follow_chat(self, id: str = None, payload: dict = None) -> dict:
+    def follow_chat(self, id: str = None, payload: dict = None) -> RtmResponse:
         ''' Marks a chat as followed.
 
             Args:
@@ -242,13 +253,16 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'follow_chat', 'payload': payload})
 
-    def unfollow_chat(self, id: str = None, payload: dict = None) -> dict:
+    def unfollow_chat(self,
+                      id: str = None,
+                      payload: dict = None) -> RtmResponse:
         ''' Removes the requester from the chat followers.
 
             Args:
@@ -257,7 +271,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -269,7 +284,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                       id: str = None,
                       target: dict = None,
                       force: bool = None,
-                      payload: dict = None) -> dict:
+                      payload: dict = None) -> RtmResponse:
         ''' Transfers a chat to an agent or a group.
 
             Args:
@@ -283,7 +298,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -295,7 +311,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                               chat_id: str = None,
                               user_id: str = None,
                               user_type: str = None,
-                              payload: dict = None) -> dict:
+                              payload: dict = None) -> RtmResponse:
         ''' Removes a user from chat.
 
             Args:
@@ -306,7 +322,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -321,7 +338,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
-                   payload: dict = None) -> dict:
+                   payload: dict = None) -> RtmResponse:
         ''' Sends an Event object.
 
             Args:
@@ -333,7 +350,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -344,7 +362,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                                    thread_id: str = None,
                                    event_id: str = None,
                                    postback: dict = None,
-                                   payload: dict = None) -> dict:
+                                   payload: dict = None) -> RtmResponse:
         ''' Sends rich message postback.
 
             Args:
@@ -356,7 +374,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -370,7 +389,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
     def update_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -> dict:
+                               payload: dict = None) -> RtmResponse:
         ''' Updates chat properties.
 
             Args:
@@ -380,7 +399,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -392,7 +412,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
     def delete_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -> dict:
+                               payload: dict = None) -> RtmResponse:
         ''' Deletes chat properties.
 
             Args:
@@ -402,7 +422,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -415,7 +436,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -> dict:
+                                 payload: dict = None) -> RtmResponse:
         ''' Updates thread properties.
 
             Args:
@@ -426,7 +447,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -439,7 +461,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -> dict:
+                                 payload: dict = None) -> RtmResponse:
         ''' Deletes thread properties.
 
             Args:
@@ -450,7 +472,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -464,7 +487,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -> dict:
+                                payload: dict = None) -> RtmResponse:
         ''' Updates event properties.
 
             Args:
@@ -476,7 +499,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -490,7 +514,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -> dict:
+                                payload: dict = None) -> RtmResponse:
         ''' Deletes event properties.
 
             Args:
@@ -502,7 +526,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -517,7 +542,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                    chat_id: str = None,
                    thread_id: str = None,
                    tag: str = None,
-                   payload: dict = None) -> dict:
+                   payload: dict = None) -> RtmResponse:
         ''' Tags thread.
 
             Args:
@@ -528,7 +553,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -538,7 +564,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                      chat_id: str = None,
                      thread_id: str = None,
                      tag: str = None,
-                     payload: dict = None) -> dict:
+                     payload: dict = None) -> RtmResponse:
         ''' Untags thread.
 
             Args:
@@ -549,7 +575,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -557,7 +584,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
 # Customers
 
-    def get_customer(self, id: str = None, payload: dict = None) -> dict:
+    def get_customer(self,
+                     id: str = None,
+                     payload: dict = None) -> RtmResponse:
         ''' Returns the info about the Customer with a given ID.
 
             Args:
@@ -566,7 +595,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -578,7 +608,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                        sort_order: str = None,
                        sort_by: str = None,
                        filters: dict = None,
-                       payload: dict = None) -> dict:
+                       payload: dict = None) -> RtmResponse:
         ''' Returns the list of Customers.
 
             Args:
@@ -593,7 +623,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -604,7 +635,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         email: str = None,
                         avatar: str = None,
                         session_fields: list = None,
-                        payload: dict = None) -> dict:
+                        payload: dict = None) -> RtmResponse:
         ''' Creates a new Customer user type.
 
             Args:
@@ -617,7 +648,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -629,7 +661,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         email: str = None,
                         avatar: str = None,
                         session_fields: list = None,
-                        payload: dict = None) -> dict:
+                        payload: dict = None) -> RtmResponse:
         ''' Updates Customer's properties.
 
             Args:
@@ -643,7 +675,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -652,7 +685,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
     def ban_customer(self,
                      id: str = None,
                      ban: dict = None,
-                     payload: dict = None) -> dict:
+                     payload: dict = None) -> RtmResponse:
         ''' Bans the customer for a specific period of time.
 
             Args:
@@ -663,13 +696,16 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'ban_customer', 'payload': payload})
 
-    def follow_customer(self, id: str = None, payload: dict = None) -> dict:
+    def follow_customer(self,
+                        id: str = None,
+                        payload: dict = None) -> RtmResponse:
         ''' Marks a customer as followed.
 
             Args:
@@ -678,13 +714,16 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'follow_customer', 'payload': payload})
 
-    def unfollow_customer(self, id: str = None, payload: dict = None) -> dict:
+    def unfollow_customer(self,
+                          id: str = None,
+                          payload: dict = None) -> RtmResponse:
         ''' Removes the agent from the list of customer's followers.
 
             Args:
@@ -693,7 +732,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -713,7 +753,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
               away: bool = None,
               customer_push_level: str = None,
               pushes: dict = None,
-              payload: dict = None) -> dict:
+              payload: dict = None) -> RtmResponse:
         ''' Logs in agent.
 
             Args:
@@ -735,7 +775,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -745,7 +786,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                                   firebase_token: str = None,
                                   platform: str = None,
                                   enabled: bool = None,
-                                  payload: dict = None) -> dict:
+                                  payload: dict = None) -> RtmResponse:
         ''' Changes the firebase push notifications properties.
 
             Args:
@@ -756,7 +797,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -768,7 +810,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
     def set_routing_status(self,
                            status: str = None,
                            agent_id: str = None,
-                           payload: dict = None) -> dict:
+                           payload: dict = None) -> RtmResponse:
         ''' Changes the status of an Agent or a Bot Agent.
 
             Args:
@@ -779,7 +821,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -788,7 +831,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             'payload': payload
         })
 
-    def set_away_status(self, away: bool = None, payload: dict = None) -> dict:
+    def set_away_status(self,
+                        away: bool = None,
+                        payload: dict = None) -> RtmResponse:
         ''' Sets an Agent's connection to the away state.
 
             Args:
@@ -797,13 +842,14 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'set_away_status', 'payload': payload})
 
-    def logout(self, payload: dict = None) -> dict:
+    def logout(self, payload: dict = None) -> RtmResponse:
         ''' Logs out agent.
 
             Args:
@@ -811,7 +857,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         return self.ws.send({
             'action': 'logout',
@@ -820,7 +867,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
     def list_routing_statuses(self,
                               filters: dict = None,
-                              payload: dict = None) -> dict:
+                              payload: dict = None) -> RtmResponse:
         ''' Returns the current routing status of each agent selected by the provided filters.
 
             Args:
@@ -829,7 +876,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -844,7 +892,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
     def mark_events_as_seen(self,
                             chat_id: str = None,
                             seen_up_to: str = None,
-                            payload: dict = None) -> dict:
+                            payload: dict = None) -> RtmResponse:
         ''' Marks events as seen by agent.
 
             Args:
@@ -854,7 +902,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -867,7 +916,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                               chat_id: str = None,
                               recipients: str = None,
                               is_typing: bool = None,
-                              payload: dict = None) -> dict:
+                              payload: dict = None) -> RtmResponse:
         ''' Sends a typing indicator.
 
             Args:
@@ -878,7 +927,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -891,7 +941,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
                   recipients: dict = None,
                   content: typing.Any = None,
                   type: str = None,
-                  payload: dict = None) -> dict:
+                  payload: dict = None) -> RtmResponse:
         ''' Sends a multicast (chat-unrelated communication).
 
             Args:
@@ -902,7 +952,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -910,7 +961,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
     def list_agents_for_transfer(self,
                                  chat_id: str = None,
-                                 payload: dict = None) -> dict:
+                                 payload: dict = None) -> RtmResponse:
         ''' Returns the list of Agents you can transfer a chat to.
 
             Args:
@@ -919,7 +970,8 @@ class AgentRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -937,7 +989,7 @@ class AgentRTM33(AgentRTMInterface):
     def grant_chat_access(self,
                           id: str = None,
                           access: dict = None,
-                          payload: dict = None) -> dict:
+                          payload: dict = None) -> RtmResponse:
         ''' Grants access to a new chat without overwriting the existing ones.
 
             Args:
@@ -947,7 +999,8 @@ class AgentRTM33(AgentRTMInterface):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -959,7 +1012,7 @@ class AgentRTM33(AgentRTMInterface):
     def revoke_chat_access(self,
                            id: str = None,
                            access: dict = None,
-                           payload: dict = None) -> dict:
+                           payload: dict = None) -> RtmResponse:
         ''' Revokes access to a chat.
 
             Args:
@@ -969,7 +1022,8 @@ class AgentRTM33(AgentRTMInterface):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -990,7 +1044,7 @@ class AgentRTM34(AgentRTMInterface):
                          user_type: str = None,
                          visibility: str = None,
                          ignore_requester_presence: bool = None,
-                         payload: dict = None) -> dict:
+                         payload: dict = None) -> RtmResponse:
         ''' Adds a user to the chat. You can't add more than
             one customer user type to the chat.
 
@@ -1007,7 +1061,8 @@ class AgentRTM34(AgentRTMInterface):
                                 the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1016,7 +1071,7 @@ class AgentRTM34(AgentRTMInterface):
     def deactivate_chat(self,
                         id: str = None,
                         ignore_requester_presence: bool = None,
-                        payload: dict = None) -> dict:
+                        payload: dict = None) -> RtmResponse:
         ''' Deactivates a chat by closing the currently open thread.
 
             Args:
@@ -1027,7 +1082,8 @@ class AgentRTM34(AgentRTMInterface):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1040,7 +1096,7 @@ class AgentRTM34(AgentRTMInterface):
                       target: dict = None,
                       ignore_agents_availability: bool = None,
                       ignore_requester_presence: bool = None,
-                      payload: dict = None) -> dict:
+                      payload: dict = None) -> RtmResponse:
         ''' Transfers a chat to an agent or a group.
 
             Args:
@@ -1055,7 +1111,8 @@ class AgentRTM34(AgentRTMInterface):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1068,7 +1125,7 @@ class AgentRTM34(AgentRTMInterface):
                               user_id: str = None,
                               user_type: str = None,
                               ignore_requester_presence: bool = None,
-                              payload: dict = None) -> dict:
+                              payload: dict = None) -> RtmResponse:
         ''' Removes a user from chat.
 
             Args:
@@ -1081,7 +1138,8 @@ class AgentRTM34(AgentRTMInterface):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1097,7 +1155,7 @@ class AgentRTM34(AgentRTMInterface):
                               chat_id: str = None,
                               visibility: str = None,
                               is_typing: bool = None,
-                              payload: dict = None) -> dict:
+                              payload: dict = None) -> RtmResponse:
         ''' Sends a typing indicator.
 
             Args:
@@ -1108,7 +1166,8 @@ class AgentRTM34(AgentRTMInterface):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
