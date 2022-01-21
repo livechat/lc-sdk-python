@@ -13,6 +13,8 @@ from typing import List, NoReturn
 from websocket import WebSocketApp, WebSocketConnectionClosedException
 from websocket._abnf import ABNF
 
+from livechat.utils.structures import RtmResponse
+
 
 def on_message(ws_client: WebSocketApp, message: str):
     ''' Custom WebSocketApp handler that inserts new messages in front of `self.messages` list. '''
@@ -67,8 +69,10 @@ class WebsocketClient(WebSocketApp):
                     data must be utf-8 string or unicode.
                 opcode (int): operation code of data. default is OPCODE_TEXT.
                 response_timeout (int): time in seconds to wait for the response.
+
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         request_id = str(random.randint(1, 9999999999))
         request.update({'request_id': request_id})
@@ -83,7 +87,7 @@ class WebsocketClient(WebSocketApp):
             sleep(0.2)
             response_timeout -= 0.2
         self.logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
-        return {'response': response}
+        return RtmResponse(response)
 
     def _wait_till_sock_connected(self, timeout: float = 3) -> NoReturn:
         ''' Polls until `self.sock` is connected.
