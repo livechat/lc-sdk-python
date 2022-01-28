@@ -51,7 +51,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                  version: str,
                  base_url: str,
                  http2: bool,
-                 proxies: bool = None,
+                 proxies=None,
                  verify: bool = True) -> ConfigurationApiInterface:
         logger = HttpxLogger()
         self.api_url = f'https://{base_url}/v{version}/configuration/action'

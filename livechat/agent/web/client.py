@@ -54,7 +54,7 @@ class AgentWebInterface(metaclass=ABCMeta):
                  version: str,
                  base_url: str,
                  http2: bool,
-                 proxies: bool = None,
+                 proxies=None,
                  verify: bool = True) -> AgentWebInterface:
         logger = HttpxLogger()
         self.api_url = f'https://{base_url}/v{version}/agent/action'
