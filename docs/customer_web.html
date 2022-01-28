@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>client API documentation</title>
 <meta name="description" content="Customer Web client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -34,17 +34,11 @@ from __future__ import annotations
 
 import typing
 from abc import ABCMeta
-from configparser import ConfigParser
 
 import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.httpx_logger import HttpxLogger
-
-config = ConfigParser()
-config.read(&#39;configs/main.ini&#39;)
-stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
-api_url = config.get(&#39;api&#39;, &#39;url&#39;)
 
 
 # pylint: disable=R0903
@@ -54,18 +48,18 @@ class CustomerWeb:
     @staticmethod
     def get_client(license_id: int = None,
                    access_token: str = None,
-                   version: str = stable_version,
-                   base_url: str = api_url,
+                   version: str = &#39;3.3&#39;,
+                   base_url: str = &#39;api.livechatinc.com&#39;,
                    http2: bool = False,
                    organization_id: str = None) -&gt; CustomerWebInterface:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
-                license_id (int): License ID.Required to use for API version &lt;= 3.3.
+                license_id (int): License ID. Required to use API v3.3.
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
-                version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+                version (str): API&#39;s version. Defaults to `3.3`.
+                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
@@ -77,11 +71,7 @@ class CustomerWeb:
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
-        client = {
-            &#39;3.3&#39;: CustomerWeb33,
-            &#39;3.4&#39;: CustomerWeb34,
-            &#39;3.5&#39;: CustomerWeb35,
-        }.get(version)
+        client = {&#39;3.3&#39;: CustomerWeb33, &#39;3.4&#39;: CustomerWeb34}.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
                 &#39;license_id&#39;: license_id,
@@ -96,14 +86,7 @@ class CustomerWeb:
                 &#39;version&#39;: version,
                 &#39;url&#39;: base_url,
                 &#39;http2&#39;: http2
-            },
-            &#39;3.5&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;version&#39;: version,
-                &#39;url&#39;: base_url,
-                &#39;http2&#39;: http2
-            },
+            }
         }.get(version)
         if client:
             return client(**client_kwargs)
@@ -708,6 +691,69 @@ class CustomerWebInterface(metaclass=ABCMeta):
             json=payload,
             headers=headers)
 
+    def list_license_properties(self,
+                                namespace: str = None,
+                                name: str = None,
+                                payload: dict = None,
+                                headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+            Args:
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params[&#39;namespace&#39;] = namespace
+        if name:
+            params[&#39;name&#39;] = name
+        return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;,
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
+    def list_group_properties(self,
+                              group_id: int = None,
+                              namespace: str = None,
+                              name: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
+            Args:
+                group_id (int): ID of the group you want to return the properties of.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params[&#39;namespace&#39;] = namespace
+        if name:
+            params[&#39;name&#39;] = name
+        if group_id:
+            params[&#39;id&#39;] = str(group_id)
+        return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
 # Customers
 
     def get_customer(self,
@@ -1158,85 +1204,6 @@ class CustomerWeb34(CustomerWebInterface):
         return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
                                  json=payload,
                                  params=params,
-                                 headers=headers)
-
-
-class CustomerWeb35(CustomerWebInterface):
-    &#39;&#39;&#39; Customer API version 3.5 class. &#39;&#39;&#39;
-    def __init__(self, organization_id: str, access_token: str, version: str,
-                 url: str, http2: bool) -&gt; CustomerWeb35:
-        super().__init__(access_token, version, url, http2)
-        if isinstance(organization_id, str):
-            self.organization_id = organization_id
-            self.query_string = f&#39;?organization_id={organization_id}&#39;
-        else:
-            raise ValueError(
-                &#39;Incorrect or missing `organization_id` argument (should be of type str.)&#39;
-            )
-
-    def list_license_properties(self,
-                                namespace: str = None,
-                                name: str = None,
-                                payload: dict = None,
-                                headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
-
-            Args:
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params[&#39;namespace&#39;] = namespace
-        if name:
-            params[&#39;name&#39;] = name
-        params[&#39;organization_id&#39;] = self.organization_id
-        return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;,
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)
-
-    def list_group_properties(self,
-                              group_id: int = None,
-                              namespace: str = None,
-                              name: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
-            Args:
-                group_id (int): ID of the group you want to return the properties of.
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params[&#39;namespace&#39;] = namespace
-        if name:
-            params[&#39;name&#39;] = name
-        if group_id:
-            params[&#39;id&#39;] = str(group_id)
-        params[&#39;organization_id&#39;] = self.organization_id
-        return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
-                                 json=payload,
-                                 params=params,
                                  headers=headers)</code></pre>
 </details>
 </section>
@@ -1265,18 +1232,18 @@ API version.</p></div>
     @staticmethod
     def get_client(license_id: int = None,
                    access_token: str = None,
-                   version: str = stable_version,
-                   base_url: str = api_url,
+                   version: str = &#39;3.3&#39;,
+                   base_url: str = &#39;api.livechatinc.com&#39;,
                    http2: bool = False,
                    organization_id: str = None) -&gt; CustomerWebInterface:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
-                license_id (int): License ID.Required to use for API version &lt;= 3.3.
+                license_id (int): License ID. Required to use API v3.3.
                 token (str): Full token with type (Bearer/Basic) that will be
                                 used as `Authorization` header in requests to API.
-                version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+                version (str): API&#39;s version. Defaults to `3.3`.
+                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
@@ -1288,11 +1255,7 @@ API version.</p></div>
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
-        client = {
-            &#39;3.3&#39;: CustomerWeb33,
-            &#39;3.4&#39;: CustomerWeb34,
-            &#39;3.5&#39;: CustomerWeb35,
-        }.get(version)
+        client = {&#39;3.3&#39;: CustomerWeb33, &#39;3.4&#39;: CustomerWeb34}.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
                 &#39;license_id&#39;: license_id,
@@ -1307,14 +1270,7 @@ API version.</p></div>
                 &#39;version&#39;: version,
                 &#39;url&#39;: base_url,
                 &#39;http2&#39;: http2
-            },
-            &#39;3.5&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;version&#39;: version,
-                &#39;url&#39;: base_url,
-                &#39;http2&#39;: http2
-            },
+            }
         }.get(version)
         if client:
             return client(**client_kwargs)
@@ -1323,21 +1279,21 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="client.CustomerWeb.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: str = None, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False, organization_id: str = None) ‑> <a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></span>
+<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: str = None, version: str = '3.3', base_url: str = 'api.livechatinc.com', http2: bool = False, organization_id: str = None) ‑> <a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific API version.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>License ID.Required to use for API version &lt;= 3.3.</dd>
+<dd>License ID. Required to use API v3.3.</dd>
 <dt><strong><code>token</code></strong> :&ensp;<code>str</code></dt>
 <dd>Full token with type (Bearer/Basic) that will be
 used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's version. Defaults to the stable version of API.</dd>
+<dd>API's version. Defaults to <code>3.3</code>.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's base url. Defaults to API's production URL.</dd>
+<dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
 <dt><strong><code>http2</code></strong> :&ensp;<code>bool</code></dt>
 <dd>A boolean indicating if HTTP/2 support should be
 enabled. Defaults to <code>False</code>.</dd>
@@ -1359,18 +1315,18 @@ enabled. Defaults to <code>False</code>.</dd>
 <pre><code class="python">@staticmethod
 def get_client(license_id: int = None,
                access_token: str = None,
-               version: str = stable_version,
-               base_url: str = api_url,
+               version: str = &#39;3.3&#39;,
+               base_url: str = &#39;api.livechatinc.com&#39;,
                http2: bool = False,
                organization_id: str = None) -&gt; CustomerWebInterface:
     &#39;&#39;&#39; Returns client for specific API version.
 
         Args:
-            license_id (int): License ID.Required to use for API version &lt;= 3.3.
+            license_id (int): License ID. Required to use API v3.3.
             token (str): Full token with type (Bearer/Basic) that will be
                             used as `Authorization` header in requests to API.
-            version (str): API&#39;s version. Defaults to the stable version of API.
-            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+            version (str): API&#39;s version. Defaults to `3.3`.
+            base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
             http2 (bool): A boolean indicating if HTTP/2 support should be
                           enabled. Defaults to `False`.
             organization_id (str): Organization ID, replaced license ID in v3.4.
@@ -1382,11 +1338,7 @@ def get_client(license_id: int = None,
         Raises:
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
-    client = {
-        &#39;3.3&#39;: CustomerWeb33,
-        &#39;3.4&#39;: CustomerWeb34,
-        &#39;3.5&#39;: CustomerWeb35,
-    }.get(version)
+    client = {&#39;3.3&#39;: CustomerWeb33, &#39;3.4&#39;: CustomerWeb34}.get(version)
     client_kwargs = {
         &#39;3.3&#39;: {
             &#39;license_id&#39;: license_id,
@@ -1401,14 +1353,7 @@ def get_client(license_id: int = None,
             &#39;version&#39;: version,
             &#39;url&#39;: base_url,
             &#39;http2&#39;: http2
-        },
-        &#39;3.5&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;access_token&#39;: access_token,
-            &#39;version&#39;: version,
-            &#39;url&#39;: base_url,
-            &#39;http2&#39;: http2
-        },
+        }
     }.get(version)
     if client:
         return client(**client_kwargs)
@@ -1509,134 +1454,6 @@ def get_client(license_id: int = None,
 <ul class="hlist">
 <li><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="client.CustomerWeb33.list_group_properties"><code class="name flex">
-<span>def <span class="ident">list_group_properties</span></span>(<span>self, group_id: int = None, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the properties of a given group. It only returns the properties a Customer has access to.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>ID of the group you want to return the properties of.</dd>
-<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property namespace to retrieve.</dd>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property name.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_group_properties(self,
-                          group_id: int = None,
-                          namespace: str = None,
-                          name: str = None,
-                          payload: dict = None,
-                          headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
-        Args:
-            group_id (int): ID of the group you want to return the properties of.
-            namespace (str): Property namespace to retrieve.
-            name (str): Property name.
-            payload (dict): Custom payload to be used as request&#39;s data.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-    if payload is None:
-        payload = {}
-    params = {}
-    if namespace:
-        params[&#39;namespace&#39;] = namespace
-    if name:
-        params[&#39;name&#39;] = name
-    if group_id:
-        params[&#39;id&#39;] = str(group_id)
-    params[&#39;license_id&#39;] = self.license_id
-    return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
-                             json=payload,
-                             params=params,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-<dt id="client.CustomerWeb33.list_license_properties"><code class="name flex">
-<span>def <span class="ident">list_license_properties</span></span>(<span>self, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the properties of a given license. It only returns the properties a Customer has access to.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property namespace to retrieve.</dd>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property name.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_license_properties(self,
-                            namespace: str = None,
-                            name: str = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
-
-        Args:
-            namespace (str): Property namespace to retrieve.
-            name (str): Property name.
-            payload (dict): Custom payload to be used as request&#39;s data.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-    if payload is None:
-        payload = {}
-    params = {}
-    if namespace:
-        params[&#39;namespace&#39;] = namespace
-    if name:
-        params[&#39;name&#39;] = name
-    params[&#39;license_id&#39;] = self.license_id
-    return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;,
-                             json=payload,
-                             params=params,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-</dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
 <li><code><b><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
@@ -1658,7 +1475,9 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_properties" href="#client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
 <li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
 <li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
@@ -1770,134 +1589,6 @@ which contains a server’s response to an HTTP request.</dd>
 <ul class="hlist">
 <li><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="client.CustomerWeb34.list_group_properties"><code class="name flex">
-<span>def <span class="ident">list_group_properties</span></span>(<span>self, group_id: int = None, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the properties of a given group. It only returns the properties a Customer has access to.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>ID of the group you want to return the properties of.</dd>
-<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property namespace to retrieve.</dd>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property name.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_group_properties(self,
-                          group_id: int = None,
-                          namespace: str = None,
-                          name: str = None,
-                          payload: dict = None,
-                          headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
-        Args:
-            group_id (int): ID of the group you want to return the properties of.
-            namespace (str): Property namespace to retrieve.
-            name (str): Property name.
-            payload (dict): Custom payload to be used as request&#39;s data.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-    if payload is None:
-        payload = {}
-    params = {}
-    if namespace:
-        params[&#39;namespace&#39;] = namespace
-    if name:
-        params[&#39;name&#39;] = name
-    if group_id:
-        params[&#39;id&#39;] = str(group_id)
-    params[&#39;organization_id&#39;] = self.organization_id
-    return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
-                             json=payload,
-                             params=params,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-<dt id="client.CustomerWeb34.list_license_properties"><code class="name flex">
-<span>def <span class="ident">list_license_properties</span></span>(<span>self, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the properties of a given license. It only returns the properties a Customer has access to.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property namespace to retrieve.</dd>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property name.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_license_properties(self,
-                            namespace: str = None,
-                            name: str = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
-
-        Args:
-            namespace (str): Property namespace to retrieve.
-            name (str): Property name.
-            payload (dict): Custom payload to be used as request&#39;s data.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-    if payload is None:
-        payload = {}
-    params = {}
-    if namespace:
-        params[&#39;namespace&#39;] = namespace
-    if name:
-        params[&#39;name&#39;] = name
-    params[&#39;organization_id&#39;] = self.organization_id
-    return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;,
-                             json=payload,
-                             params=params,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-</dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
 <li><code><b><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
@@ -1919,268 +1610,9 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_properties" href="#client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
-<li><code><a title="client.CustomerWebInterface.remove_header" href="#client.CustomerWebInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="client.CustomerWebInterface.resume_chat" href="#client.CustomerWebInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.CustomerWebInterface.send_event" href="#client.CustomerWebInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.CustomerWebInterface.send_rich_message_postback" href="#client.CustomerWebInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.CustomerWebInterface.send_sneak_peek" href="#client.CustomerWebInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="client.CustomerWebInterface.set_customer_session_fields" href="#client.CustomerWebInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="client.CustomerWebInterface.start_chat" href="#client.CustomerWebInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.CustomerWebInterface.update_chat_properties" href="#client.CustomerWebInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.update_customer" href="#client.CustomerWebInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.CustomerWebInterface.update_event_properties" href="#client.CustomerWebInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.update_thread_properties" href="#client.CustomerWebInterface.update_thread_properties">update_thread_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.upload_file" href="#client.CustomerWebInterface.upload_file">upload_file</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
-<dt id="client.CustomerWeb35"><code class="flex name class">
-<span>class <span class="ident">CustomerWeb35</span></span>
-<span>(</span><span>organization_id: str, access_token: str, version: str, url: str, http2: bool)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Customer API version 3.5 class.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class CustomerWeb35(CustomerWebInterface):
-    &#39;&#39;&#39; Customer API version 3.5 class. &#39;&#39;&#39;
-    def __init__(self, organization_id: str, access_token: str, version: str,
-                 url: str, http2: bool) -&gt; CustomerWeb35:
-        super().__init__(access_token, version, url, http2)
-        if isinstance(organization_id, str):
-            self.organization_id = organization_id
-            self.query_string = f&#39;?organization_id={organization_id}&#39;
-        else:
-            raise ValueError(
-                &#39;Incorrect or missing `organization_id` argument (should be of type str.)&#39;
-            )
-
-    def list_license_properties(self,
-                                namespace: str = None,
-                                name: str = None,
-                                payload: dict = None,
-                                headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
-
-            Args:
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params[&#39;namespace&#39;] = namespace
-        if name:
-            params[&#39;name&#39;] = name
-        params[&#39;organization_id&#39;] = self.organization_id
-        return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;,
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)
-
-    def list_group_properties(self,
-                              group_id: int = None,
-                              namespace: str = None,
-                              name: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
-            Args:
-                group_id (int): ID of the group you want to return the properties of.
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params[&#39;namespace&#39;] = namespace
-        if name:
-            params[&#39;name&#39;] = name
-        if group_id:
-            params[&#39;id&#39;] = str(group_id)
-        params[&#39;organization_id&#39;] = self.organization_id
-        return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="client.CustomerWeb35.list_group_properties"><code class="name flex">
-<span>def <span class="ident">list_group_properties</span></span>(<span>self, group_id: int = None, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the properties of a given group. It only returns the properties a Customer has access to.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>ID of the group you want to return the properties of.</dd>
-<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property namespace to retrieve.</dd>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property name.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_group_properties(self,
-                          group_id: int = None,
-                          namespace: str = None,
-                          name: str = None,
-                          payload: dict = None,
-                          headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
-        Args:
-            group_id (int): ID of the group you want to return the properties of.
-            namespace (str): Property namespace to retrieve.
-            name (str): Property name.
-            payload (dict): Custom payload to be used as request&#39;s data.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-    if payload is None:
-        payload = {}
-    params = {}
-    if namespace:
-        params[&#39;namespace&#39;] = namespace
-    if name:
-        params[&#39;name&#39;] = name
-    if group_id:
-        params[&#39;id&#39;] = str(group_id)
-    params[&#39;organization_id&#39;] = self.organization_id
-    return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
-                             json=payload,
-                             params=params,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-<dt id="client.CustomerWeb35.list_license_properties"><code class="name flex">
-<span>def <span class="ident">list_license_properties</span></span>(<span>self, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the properties of a given license. It only returns the properties a Customer has access to.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property namespace to retrieve.</dd>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Property name.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_license_properties(self,
-                            namespace: str = None,
-                            name: str = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
-
-        Args:
-            namespace (str): Property namespace to retrieve.
-            name (str): Property name.
-            payload (dict): Custom payload to be used as request&#39;s data.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
-    if payload is None:
-        payload = {}
-    params = {}
-    if namespace:
-        params[&#39;namespace&#39;] = namespace
-    if name:
-        params[&#39;name&#39;] = name
-    params[&#39;organization_id&#39;] = self.organization_id
-    return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;,
-                             json=payload,
-                             params=params,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-</dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></b></code>:
-<ul class="hlist">
-<li><code><a title="client.CustomerWebInterface.accept_greeting" href="#client.CustomerWebInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="client.CustomerWebInterface.cancel_greeting" href="#client.CustomerWebInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="client.CustomerWebInterface.check_goals" href="#client.CustomerWebInterface.check_goals">check_goals</a></code></li>
-<li><code><a title="client.CustomerWebInterface.deactivate_chat" href="#client.CustomerWebInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.CustomerWebInterface.delete_chat_properties" href="#client.CustomerWebInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.delete_event_properties" href="#client.CustomerWebInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.delete_thread_properties" href="#client.CustomerWebInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_chat" href="#client.CustomerWebInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_configuration" href="#client.CustomerWebInterface.get_configuration">get_configuration</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_customer" href="#client.CustomerWebInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_dynamic_configuration" href="#client.CustomerWebInterface.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_form" href="#client.CustomerWebInterface.get_form">get_form</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_headers" href="#client.CustomerWebInterface.get_headers">get_headers</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_localization" href="#client.CustomerWebInterface.get_localization">get_localization</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
 <li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
 <li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
@@ -2808,6 +2240,69 @@ which contains a server’s response to an HTTP request.</dd>
             json=payload,
             headers=headers)
 
+    def list_license_properties(self,
+                                namespace: str = None,
+                                name: str = None,
+                                payload: dict = None,
+                                headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+            Args:
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params[&#39;namespace&#39;] = namespace
+        if name:
+            params[&#39;name&#39;] = name
+        return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;,
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
+    def list_group_properties(self,
+                              group_id: int = None,
+                              namespace: str = None,
+                              name: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
+            Args:
+                group_id (int): ID of the group you want to return the properties of.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params[&#39;namespace&#39;] = namespace
+        if name:
+            params[&#39;name&#39;] = name
+        if group_id:
+            params[&#39;id&#39;] = str(group_id)
+        return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
 # Customers
 
     def get_customer(self,
@@ -3106,7 +2601,6 @@ which contains a server’s response to an HTTP request.</dd>
 <ul class="hlist">
 <li><a title="client.CustomerWeb33" href="#client.CustomerWeb33">CustomerWeb33</a></li>
 <li><a title="client.CustomerWeb34" href="#client.CustomerWeb34">CustomerWeb34</a></li>
-<li><a title="client.CustomerWeb35" href="#client.CustomerWeb35">CustomerWeb35</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
@@ -4055,6 +3549,70 @@ which contains a server’s response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="client.CustomerWebInterface.list_group_properties"><code class="name flex">
+<span>def <span class="ident">list_group_properties</span></span>(<span>self, group_id: int = None, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the properties of a given group. It only returns the properties a Customer has access to.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>ID of the group you want to return the properties of.</dd>
+<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property namespace to retrieve.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property name.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_group_properties(self,
+                          group_id: int = None,
+                          namespace: str = None,
+                          name: str = None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns the properties of a given group. It only returns the properties a Customer has access to.
+        Args:
+            group_id (int): ID of the group you want to return the properties of.
+            namespace (str): Property namespace to retrieve.
+            name (str): Property name.
+            payload (dict): Custom payload to be used as request&#39;s data.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = {}
+    params = {}
+    if namespace:
+        params[&#39;namespace&#39;] = namespace
+    if name:
+        params[&#39;name&#39;] = name
+    if group_id:
+        params[&#39;id&#39;] = str(group_id)
+    return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
+                             json=payload,
+                             params=params,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="client.CustomerWebInterface.list_group_statuses"><code class="name flex">
 <span>def <span class="ident">list_group_statuses</span></span>(<span>self, all: bool = None, group_ids: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -4112,6 +3670,65 @@ which contains a server’s response to an HTTP request.</dd>
         f&#39;{self.api_url}/list_group_statuses{self.query_string}&#39;,
         json=payload,
         headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="client.CustomerWebInterface.list_license_properties"><code class="name flex">
+<span>def <span class="ident">list_license_properties</span></span>(<span>self, namespace: str = None, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the properties of a given license. It only returns the properties a Customer has access to.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property namespace to retrieve.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property name.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_license_properties(self,
+                            namespace: str = None,
+                            name: str = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+        Args:
+            namespace (str): Property namespace to retrieve.
+            name (str): Property name.
+            payload (dict): Custom payload to be used as request&#39;s data.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = {}
+    params = {}
+    if namespace:
+        params[&#39;namespace&#39;] = namespace
+    if name:
+        params[&#39;name&#39;] = name
+    return self.session.post(f&#39;{self.api_url}/list_license_properties&#39;,
+                             json=payload,
+                             params=params,
+                             headers=headers)</code></pre>
 </details>
 </dd>
 <dt id="client.CustomerWebInterface.list_threads"><code class="name flex">
@@ -4244,7 +3861,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.CustomerWebInterface.modify_header"><code class="name flex">
-<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> NoneType</span>
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Modifies provided header in session object.</p>
@@ -4267,7 +3884,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="client.CustomerWebInterface.remove_header"><code class="name flex">
-<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> NoneType</span>
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Removes provided header from session object.</p>
@@ -4973,24 +4590,9 @@ which contains a server’s response to an HTTP request.</dd>
 </li>
 <li>
 <h4><code><a title="client.CustomerWeb33" href="#client.CustomerWeb33">CustomerWeb33</a></code></h4>
-<ul class="">
-<li><code><a title="client.CustomerWeb33.list_group_properties" href="#client.CustomerWeb33.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.CustomerWeb33.list_license_properties" href="#client.CustomerWeb33.list_license_properties">list_license_properties</a></code></li>
-</ul>
 </li>
 <li>
 <h4><code><a title="client.CustomerWeb34" href="#client.CustomerWeb34">CustomerWeb34</a></code></h4>
-<ul class="">
-<li><code><a title="client.CustomerWeb34.list_group_properties" href="#client.CustomerWeb34.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.CustomerWeb34.list_license_properties" href="#client.CustomerWeb34.list_license_properties">list_license_properties</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="client.CustomerWeb35" href="#client.CustomerWeb35">CustomerWeb35</a></code></h4>
-<ul class="">
-<li><code><a title="client.CustomerWeb35.list_group_properties" href="#client.CustomerWeb35.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.CustomerWeb35.list_license_properties" href="#client.CustomerWeb35.list_license_properties">list_license_properties</a></code></li>
-</ul>
 </li>
 <li>
 <h4><code><a title="client.CustomerWebInterface" href="#client.CustomerWebInterface">CustomerWebInterface</a></code></h4>
@@ -5012,7 +4614,9 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="client.CustomerWebInterface.get_predicted_agent" href="#client.CustomerWebInterface.get_predicted_agent">get_predicted_agent</a></code></li>
 <li><code><a title="client.CustomerWebInterface.get_url_info" href="#client.CustomerWebInterface.get_url_info">get_url_info</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_chats" href="#client.CustomerWebInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_group_properties" href="#client.CustomerWebInterface.list_group_properties">list_group_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_group_statuses" href="#client.CustomerWebInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="client.CustomerWebInterface.list_license_properties" href="#client.CustomerWebInterface.list_license_properties">list_license_properties</a></code></li>
 <li><code><a title="client.CustomerWebInterface.list_threads" href="#client.CustomerWebInterface.list_threads">list_threads</a></code></li>
 <li><code><a title="client.CustomerWebInterface.mark_events_as_seen" href="#client.CustomerWebInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
 <li><code><a title="client.CustomerWebInterface.modify_header" href="#client.CustomerWebInterface.modify_header">modify_header</a></code></li>
@@ -5036,7 +4640,7 @@ which contains a server’s response to an HTTP request.</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

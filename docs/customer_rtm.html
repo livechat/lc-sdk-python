@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>client API documentation</title>
 <meta name="description" content="Customer RTM client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -29,35 +29,29 @@
 </summary>
 <pre><code class="python">&#39;&#39;&#39; Customer RTM client implementation. &#39;&#39;&#39;
 
-# pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
+# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0231
 
 from __future__ import annotations
 
 from abc import ABCMeta
-from configparser import ConfigParser
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.ws_client import WebsocketClient
-
-config = ConfigParser()
-config.read(&#39;configs/main.ini&#39;)
-stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
-api_url = config.get(&#39;api&#39;, &#39;url&#39;)
 
 
 class CustomerRTM:
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
     @staticmethod
     def get_client(license_id: int = None,
-                   version: str = stable_version,
-                   base_url: str = api_url,
+                   version: str = &#39;3.3&#39;,
+                   base_url: str = &#39;api.livechatinc.com&#39;,
                    organization_id: str = None) -&gt; CustomerRTMInterface:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
-                license_id (int): License ID. Required to use for API version &lt;= 3.3.
-                version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+                license_id (int): License ID. Required to use API v3.3.
+                version (str): API&#39;s version. Defaults to `3.3`.
+                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -66,11 +60,7 @@ class CustomerRTM:
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
-        client = {
-            &#39;3.3&#39;: CustomerRTM33,
-            &#39;3.4&#39;: CustomerRTM34,
-            &#39;3.5&#39;: CustomerRTM35,
-        }.get(version)
+        client = {&#39;3.3&#39;: CustomerRTM33, &#39;3.4&#39;: CustomerRTM34}.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
                 &#39;license_id&#39;: license_id,
@@ -81,12 +71,7 @@ class CustomerRTM:
                 &#39;organization_id&#39;: organization_id,
                 &#39;version&#39;: version,
                 &#39;url&#39;: base_url
-            },
-            &#39;3.5&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;version&#39;: version,
-                &#39;url&#39;: base_url
-            },
+            }
         }.get(version)
         if client:
             return client(**client_kwargs)
@@ -703,21 +688,6 @@ class CustomerRTM34(CustomerRTMInterface):
         else:
             raise ValueError(
                 &#39;Pipe was not opened. Please check your `organization_id` argument.&#39;
-            )
-
-
-class CustomerRTM35(CustomerRTMInterface):
-    &#39;&#39;&#39; Customer RTM version 3.5 class. &#39;&#39;&#39;
-    def __init__(self, organization_id: str, version: str,
-                 url: str) -&gt; CustomerRTM35:
-        if isinstance(organization_id, str):
-            self.ws = WebsocketClient(
-                url=
-                f&#39;wss://{url}/v{version}/customer/rtm/ws?organization_id={organization_id}&#39;
-            )
-        else:
-            raise ValueError(
-                &#39;Pipe was not opened. Please check your `organization_id` argument.&#39;
             )</code></pre>
 </details>
 </section>
@@ -743,15 +713,15 @@ class CustomerRTM35(CustomerRTMInterface):
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
     @staticmethod
     def get_client(license_id: int = None,
-                   version: str = stable_version,
-                   base_url: str = api_url,
+                   version: str = &#39;3.3&#39;,
+                   base_url: str = &#39;api.livechatinc.com&#39;,
                    organization_id: str = None) -&gt; CustomerRTMInterface:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
-                license_id (int): License ID. Required to use for API version &lt;= 3.3.
-                version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+                license_id (int): License ID. Required to use API v3.3.
+                version (str): API&#39;s version. Defaults to `3.3`.
+                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -760,11 +730,7 @@ class CustomerRTM35(CustomerRTMInterface):
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
-        client = {
-            &#39;3.3&#39;: CustomerRTM33,
-            &#39;3.4&#39;: CustomerRTM34,
-            &#39;3.5&#39;: CustomerRTM35,
-        }.get(version)
+        client = {&#39;3.3&#39;: CustomerRTM33, &#39;3.4&#39;: CustomerRTM34}.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
                 &#39;license_id&#39;: license_id,
@@ -775,12 +741,7 @@ class CustomerRTM35(CustomerRTMInterface):
                 &#39;organization_id&#39;: organization_id,
                 &#39;version&#39;: version,
                 &#39;url&#39;: base_url
-            },
-            &#39;3.5&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;version&#39;: version,
-                &#39;url&#39;: base_url
-            },
+            }
         }.get(version)
         if client:
             return client(**client_kwargs)
@@ -789,18 +750,18 @@ class CustomerRTM35(CustomerRTMInterface):
 <h3>Static methods</h3>
 <dl>
 <dt id="client.CustomerRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, version: str = '3.4', base_url: str = 'api.livechatinc.com', organization_id: str = None) ‑> <a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></span>
+<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, version: str = '3.3', base_url: str = 'api.livechatinc.com', organization_id: str = None) ‑> <a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Customer RTM version.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>License ID. Required to use for API version &lt;= 3.3.</dd>
+<dd>License ID. Required to use API v3.3.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's version. Defaults to the stable version of API.</dd>
+<dd>API's version. Defaults to <code>3.3</code>.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's base url. Defaults to API's production URL.</dd>
+<dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
 <dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Organization ID, replaced license ID in v3.4.</dd>
 </dl>
@@ -820,15 +781,15 @@ class CustomerRTM35(CustomerRTMInterface):
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(license_id: int = None,
-               version: str = stable_version,
-               base_url: str = api_url,
+               version: str = &#39;3.3&#39;,
+               base_url: str = &#39;api.livechatinc.com&#39;,
                organization_id: str = None) -&gt; CustomerRTMInterface:
     &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
         Args:
-            license_id (int): License ID. Required to use for API version &lt;= 3.3.
-            version (str): API&#39;s version. Defaults to the stable version of API.
-            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+            license_id (int): License ID. Required to use API v3.3.
+            version (str): API&#39;s version. Defaults to `3.3`.
+            base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
             organization_id (str): Organization ID, replaced license ID in v3.4.
 
         Returns:
@@ -837,11 +798,7 @@ def get_client(license_id: int = None,
         Raises:
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
-    client = {
-        &#39;3.3&#39;: CustomerRTM33,
-        &#39;3.4&#39;: CustomerRTM34,
-        &#39;3.5&#39;: CustomerRTM35,
-    }.get(version)
+    client = {&#39;3.3&#39;: CustomerRTM33, &#39;3.4&#39;: CustomerRTM34}.get(version)
     client_kwargs = {
         &#39;3.3&#39;: {
             &#39;license_id&#39;: license_id,
@@ -852,12 +809,7 @@ def get_client(license_id: int = None,
             &#39;organization_id&#39;: organization_id,
             &#39;version&#39;: version,
             &#39;url&#39;: base_url
-        },
-        &#39;3.5&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;version&#39;: version,
-            &#39;url&#39;: base_url
-        },
+        }
     }.get(version)
     if client:
         return client(**client_kwargs)
@@ -945,71 +897,6 @@ def get_client(license_id: int = None,
     &#39;&#39;&#39; Customer RTM version 3.4 class. &#39;&#39;&#39;
     def __init__(self, organization_id: str, version: str,
                  url: str) -&gt; CustomerRTM34:
-        if isinstance(organization_id, str):
-            self.ws = WebsocketClient(
-                url=
-                f&#39;wss://{url}/v{version}/customer/rtm/ws?organization_id={organization_id}&#39;
-            )
-        else:
-            raise ValueError(
-                &#39;Pipe was not opened. Please check your `organization_id` argument.&#39;
-            )</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></li>
-</ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></b></code>:
-<ul class="hlist">
-<li><code><a title="client.CustomerRTMInterface.accept_greeting" href="#client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.cancel_greeting" href="#client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.close_connection" href="#client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.deactivate_chat" href="#client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_chat_properties" href="#client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_event_properties" href="#client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_thread_properties" href="#client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_chat" href="#client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_customer" href="#client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_form" href="#client.CustomerRTMInterface.get_form">get_form</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_predicted_agent" href="#client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_url_info" href="#client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_chats" href="#client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_group_statuses" href="#client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_threads" href="#client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.login" href="#client.CustomerRTMInterface.login">login</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.mark_events_as_seen" href="#client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.open_connection" href="#client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.resume_chat" href="#client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_event" href="#client.CustomerRTMInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_rich_message_postback" href="#client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_sneak_peek" href="#client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.set_customer_session_fields" href="#client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.start_chat" href="#client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_chat_properties" href="#client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer" href="#client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer_page" href="#client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_event_properties" href="#client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_thread_properties" href="#client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
-<dt id="client.CustomerRTM35"><code class="flex name class">
-<span>class <span class="ident">CustomerRTM35</span></span>
-<span>(</span><span>organization_id: str, version: str, url: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Customer RTM version 3.5 class.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class CustomerRTM35(CustomerRTMInterface):
-    &#39;&#39;&#39; Customer RTM version 3.5 class. &#39;&#39;&#39;
-    def __init__(self, organization_id: str, version: str,
-                 url: str) -&gt; CustomerRTM35:
         if isinstance(organization_id, str):
             self.ws = WebsocketClient(
                 url=
@@ -1657,7 +1544,6 @@ def get_client(license_id: int = None,
 <ul class="hlist">
 <li><a title="client.CustomerRTM33" href="#client.CustomerRTM33">CustomerRTM33</a></li>
 <li><a title="client.CustomerRTM34" href="#client.CustomerRTM34">CustomerRTM34</a></li>
-<li><a title="client.CustomerRTM35" href="#client.CustomerRTM35">CustomerRTM35</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
@@ -1746,7 +1632,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.CustomerRTMInterface.close_connection"><code class="name flex">
-<span>def <span class="ident">close_connection</span></span>(<span>self) ‑> NoneType</span>
+<span>def <span class="ident">close_connection</span></span>(<span>self) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Closes WebSocket connection.</p></div>
@@ -2389,7 +2275,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.CustomerRTMInterface.open_connection"><code class="name flex">
-<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None) ‑> NoneType</span>
+<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Opens WebSocket connection.</p>
@@ -2980,9 +2866,6 @@ It overrides all other parameters provided for the method.</dd>
 <h4><code><a title="client.CustomerRTM34" href="#client.CustomerRTM34">CustomerRTM34</a></code></h4>
 </li>
 <li>
-<h4><code><a title="client.CustomerRTM35" href="#client.CustomerRTM35">CustomerRTM35</a></code></h4>
-</li>
-<li>
 <h4><code><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></code></h4>
 <ul class="">
 <li><code><a title="client.CustomerRTMInterface.accept_greeting" href="#client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
@@ -3022,7 +2905,7 @@ It overrides all other parameters provided for the method.</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

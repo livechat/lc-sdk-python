@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>client API documentation</title>
 <meta name="description" content="Agent RTM client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -30,31 +30,24 @@
 <pre><code class="python">&#39;&#39;&#39; Agent RTM client implementation. &#39;&#39;&#39;
 
 # pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0221
-from __future__ import annotations
 
 import typing
 from abc import ABCMeta
-from configparser import ConfigParser
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.ws_client import WebsocketClient
-
-config = ConfigParser()
-config.read(&#39;configs/main.ini&#39;)
-stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
-api_url = config.get(&#39;api&#39;, &#39;url&#39;)
 
 
 class AgentRTM:
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
     @staticmethod
-    def get_client(version: str = stable_version,
-                   base_url: str = api_url) -&gt; AgentRTMInterface:
+    def get_client(version: str = &#39;3.3&#39;,
+                   base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
             Args:
-                version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+                version (str): API&#39;s version. Defaults to `3.3`.
+                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
             Returns:
                 AgentRTMInterface: API client object for specified version.
@@ -64,8 +57,7 @@ class AgentRTM:
         &#39;&#39;&#39;
         client = {
             &#39;3.3&#39;: AgentRTM33(version, base_url),
-            &#39;3.4&#39;: AgentRTM34(version, base_url),
-            &#39;3.5&#39;: AgentRTM35(version, base_url),
+            &#39;3.4&#39;: AgentRTM34(version, base_url)
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -74,7 +66,7 @@ class AgentRTM:
 
 class AgentRTMInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; AgentRTM interface class. &#39;&#39;&#39;
-    def __init__(self, version: str, url: str) -&gt; AgentRTMInterface:
+    def __init__(self, version: str, url: str):
         self.ws = WebsocketClient(url=f&#39;wss://{url}/v{version}/agent/rtm/ws&#39;)
 
     def open_connection(self) -&gt; None:
@@ -85,7 +77,32 @@ class AgentRTMInterface(metaclass=ABCMeta):
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
         self.ws.close()
 
-    # Chats
+# Chats
+
+    def add_user_to_chat(self,
+                         chat_id: str = None,
+                         user_id: str = None,
+                         user_type: str = None,
+                         require_active_thread: bool = None,
+                         payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
+            one customer user type to the chat.
+
+            Args:
+                chat_id (str): Chat ID.
+                user_id (str): ID of the user that will be added to the chat.
+                user_type (str): Possible values: agent or customer.
+                require_active_thread (bool): A flag. If True, it adds a user to a chat
+                    only if that chat has an active thread; default False.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
 
     def list_chats(self,
                    filters: dict = None,
@@ -229,16 +246,11 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})
 
-    def deactivate_chat(self,
-                        id: str = None,
-                        ignore_requester_presence: bool = None,
-                        payload: dict = None) -&gt; dict:
+    def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
             Args:
                 id (str): Chat ID to deactivate.
-                ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
-                                                  without being present in the chat&#39;s users list.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -284,8 +296,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
     def transfer_chat(self,
                       id: str = None,
                       target: dict = None,
-                      ignore_agents_availability: bool = None,
-                      ignore_requester_presence: bool = None,
+                      force: bool = None,
                       payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Transfers a chat to an agent or a group.
 
@@ -293,10 +304,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
                 id (str): Chat ID.
                 target (dict): Target object. If missing, the chat will be
                         transferred within the current group.
-                ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
-                              when unable to assign any agent from the requested groups.
-                ignore_requester_presence (bool): If `True`, allows requester to transfer chat
-                                                  without being present in the chat&#39;s users list.
+                force (bool): A flag. If True, always transfers chats.
+                        Otherwise, fails when unable to assign any agent
+                        from the requested groups; default False.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -309,40 +319,10 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
 # Chat users
 
-    def add_user_to_chat(self,
-                         chat_id: str = None,
-                         user_id: str = None,
-                         user_type: str = None,
-                         visibility: str = None,
-                         ignore_requester_presence: bool = None,
-                         payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
-            one customer user type to the chat.
-
-            Args:
-                chat_id (str): Chat ID.
-                user_id (str): ID of the user that will be added to the chat.
-                user_type (str): Possible values: agent or customer.
-                visibility (str): Determines the visibility of events sent by
-                                  the agent. Possible values: `all` or `agents`.
-                ignore_requester_presence (bool): If `True`, allows requester to add user to chat
-                                                  without being present in the chat&#39;s users list.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for
-                                the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
-
     def remove_user_from_chat(self,
                               chat_id: str = None,
                               user_id: str = None,
                               user_type: str = None,
-                              ignore_requester_presence: bool = None,
                               payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Removes a user from chat.
 
@@ -350,8 +330,6 @@ class AgentRTMInterface(metaclass=ABCMeta):
                 chat_id (str): Chat ID.
                 user_id (str): ID of the user that will be added to the chat.
                 user_type (str): Possible values: agent or customer.
-                ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
-                                                  without being present in the chat&#39;s users list.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -915,14 +893,14 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
     def send_typing_indicator(self,
                               chat_id: str = None,
-                              visibility: str = None,
+                              recipients: str = None,
                               is_typing: bool = None,
                               payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends a typing indicator.
 
             Args:
                 chat_id (str): ID of the chat you want to send the typing indicator to.
-                visibility (str): Possible values: `all`, `agents`.
+                recipients (str): Possible values: all (default), agents.
                 is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
@@ -982,99 +960,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
 class AgentRTM33(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.3 class. &#39;&#39;&#39;
 
-    # Chats
-
-    def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
-
-            Args:
-                id (str): Chat ID to deactivate.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})
-
-    # Chat users
-
-    def add_user_to_chat(self,
-                         chat_id: str = None,
-                         user_id: str = None,
-                         user_type: str = None,
-                         require_active_thread: bool = None,
-                         payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
-            one customer user type to the chat.
-
-            Args:
-                chat_id (str): Chat ID.
-                user_id (str): ID of the user that will be added to the chat.
-                user_type (str): Possible values: agent or customer.
-                require_active_thread (bool): A flag. If True, it adds a user to a chat
-                    only if that chat has an active thread; default False.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
-
-    def remove_user_from_chat(self,
-                              chat_id: str = None,
-                              user_id: str = None,
-                              user_type: str = None,
-                              payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Removes a user from chat.
-
-            Args:
-                chat_id (str): Chat ID.
-                user_id (str): ID of the user that will be added to the chat.
-                user_type (str): Possible values: agent or customer.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;remove_user_from_chat&#39;,
-            &#39;payload&#39;: payload
-        })
-
     # Chat access
-
-    def transfer_chat(self,
-                      id: str = None,
-                      target: dict = None,
-                      force: bool = None,
-                      payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Transfers a chat to an agent or a group.
-
-            Args:
-                id (str): Chat ID.
-                target (dict): Target object. If missing, the chat will be
-                        transferred within the current group.
-                force (bool): A flag. If True, always transfers chats.
-                        Otherwise, fails when unable to assign any agent
-                        from the requested groups; default False.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;transfer_chat&#39;, &#39;payload&#39;: payload})
 
     def grant_chat_access(self,
                           id: str = None,
@@ -1120,18 +1006,131 @@ class AgentRTM33(AgentRTMInterface):
             &#39;payload&#39;: payload
         })
 
-    # Other
+
+class AgentRTM34(AgentRTMInterface):
+    &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;
+
+    # Chats
+
+    def add_user_to_chat(self,
+                         chat_id: str = None,
+                         user_id: str = None,
+                         user_type: str = None,
+                         visibility: str = None,
+                         ignore_requester_presence: bool = None,
+                         payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
+            one customer user type to the chat.
+
+            Args:
+                chat_id (str): Chat ID.
+                user_id (str): ID of the user that will be added to the chat.
+                user_type (str): Possible values: agent or customer.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
+                ignore_requester_presence (bool): If `True`, allows requester to add user to chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for
+                                the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
+
+    def deactivate_chat(self,
+                        id: str = None,
+                        ignore_requester_presence: bool = None,
+                        payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+
+            Args:
+                id (str): Chat ID to deactivate.
+                ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})
+
+# Chat access
+
+    def transfer_chat(self,
+                      id: str = None,
+                      target: dict = None,
+                      ignore_agents_availability: bool = None,
+                      ignore_requester_presence: bool = None,
+                      payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Transfers a chat to an agent or a group.
+
+            Args:
+                id (str): Chat ID.
+                target (dict): Target object. If missing, the chat will be
+                        transferred within the current group.
+                ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
+                              when unable to assign any agent from the requested groups.
+                ignore_requester_presence (bool): If `True`, allows requester to transfer chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;transfer_chat&#39;, &#39;payload&#39;: payload})
+
+# Chat users
+
+    def remove_user_from_chat(self,
+                              chat_id: str = None,
+                              user_id: str = None,
+                              user_type: str = None,
+                              ignore_requester_presence: bool = None,
+                              payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Removes a user from chat.
+
+            Args:
+                chat_id (str): Chat ID.
+                user_id (str): ID of the user that will be added to the chat.
+                user_type (str): Possible values: agent or customer.
+                ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;remove_user_from_chat&#39;,
+            &#39;payload&#39;: payload
+        })
+
+
+# Other
 
     def send_typing_indicator(self,
                               chat_id: str = None,
-                              recipients: str = None,
+                              visibility: str = None,
                               is_typing: bool = None,
                               payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends a typing indicator.
 
             Args:
                 chat_id (str): ID of the chat you want to send the typing indicator to.
-                recipients (str): Possible values: all (default), agents.
+                visibility (str): Possible values: `all`, `agents`.
                 is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
@@ -1144,15 +1143,7 @@ class AgentRTM33(AgentRTMInterface):
         return self.ws.send({
             &#39;action&#39;: &#39;send_typing_indicator&#39;,
             &#39;payload&#39;: payload
-        })
-
-
-class AgentRTM34(AgentRTMInterface):
-    &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;
-
-
-class AgentRTM35(AgentRTMInterface):
-    &#39;&#39;&#39; Agent RTM version 3.5 class. &#39;&#39;&#39;</code></pre>
+        })</code></pre>
 </details>
 </section>
 <section>
@@ -1176,13 +1167,13 @@ class AgentRTM35(AgentRTMInterface):
 <pre><code class="python">class AgentRTM:
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
     @staticmethod
-    def get_client(version: str = stable_version,
-                   base_url: str = api_url) -&gt; AgentRTMInterface:
+    def get_client(version: str = &#39;3.3&#39;,
+                   base_url: str = &#39;api.livechatinc.com&#39;):
         &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
             Args:
-                version (str): API&#39;s version. Defaults to the stable version of API.
-                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+                version (str): API&#39;s version. Defaults to `3.3`.
+                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
             Returns:
                 AgentRTMInterface: API client object for specified version.
@@ -1192,8 +1183,7 @@ class AgentRTM35(AgentRTMInterface):
         &#39;&#39;&#39;
         client = {
             &#39;3.3&#39;: AgentRTM33(version, base_url),
-            &#39;3.4&#39;: AgentRTM34(version, base_url),
-            &#39;3.5&#39;: AgentRTM35(version, base_url),
+            &#39;3.4&#39;: AgentRTM34(version, base_url)
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -1202,16 +1192,16 @@ class AgentRTM35(AgentRTMInterface):
 <h3>Static methods</h3>
 <dl>
 <dt id="client.AgentRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.4', base_url: str = 'api.livechatinc.com') ‑> <a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></span>
+<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.3', base_url: str = 'api.livechatinc.com')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Agent RTM version.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's version. Defaults to the stable version of API.</dd>
+<dd>API's version. Defaults to <code>3.3</code>.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's base url. Defaults to API's production URL.</dd>
+<dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1228,13 +1218,13 @@ class AgentRTM35(AgentRTMInterface):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def get_client(version: str = stable_version,
-               base_url: str = api_url) -&gt; AgentRTMInterface:
+def get_client(version: str = &#39;3.3&#39;,
+               base_url: str = &#39;api.livechatinc.com&#39;):
     &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
         Args:
-            version (str): API&#39;s version. Defaults to the stable version of API.
-            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+            version (str): API&#39;s version. Defaults to `3.3`.
+            base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
 
         Returns:
             AgentRTMInterface: API client object for specified version.
@@ -1244,8 +1234,7 @@ def get_client(version: str = stable_version,
     &#39;&#39;&#39;
     client = {
         &#39;3.3&#39;: AgentRTM33(version, base_url),
-        &#39;3.4&#39;: AgentRTM34(version, base_url),
-        &#39;3.5&#39;: AgentRTM35(version, base_url),
+        &#39;3.4&#39;: AgentRTM34(version, base_url)
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -1267,99 +1256,7 @@ def get_client(version: str = stable_version,
 <pre><code class="python">class AgentRTM33(AgentRTMInterface):
     &#39;&#39;&#39; Agent RTM version 3.3 class. &#39;&#39;&#39;
 
-    # Chats
-
-    def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
-
-            Args:
-                id (str): Chat ID to deactivate.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})
-
-    # Chat users
-
-    def add_user_to_chat(self,
-                         chat_id: str = None,
-                         user_id: str = None,
-                         user_type: str = None,
-                         require_active_thread: bool = None,
-                         payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
-            one customer user type to the chat.
-
-            Args:
-                chat_id (str): Chat ID.
-                user_id (str): ID of the user that will be added to the chat.
-                user_type (str): Possible values: agent or customer.
-                require_active_thread (bool): A flag. If True, it adds a user to a chat
-                    only if that chat has an active thread; default False.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
-
-    def remove_user_from_chat(self,
-                              chat_id: str = None,
-                              user_id: str = None,
-                              user_type: str = None,
-                              payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Removes a user from chat.
-
-            Args:
-                chat_id (str): Chat ID.
-                user_id (str): ID of the user that will be added to the chat.
-                user_type (str): Possible values: agent or customer.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;remove_user_from_chat&#39;,
-            &#39;payload&#39;: payload
-        })
-
     # Chat access
-
-    def transfer_chat(self,
-                      id: str = None,
-                      target: dict = None,
-                      force: bool = None,
-                      payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Transfers a chat to an agent or a group.
-
-            Args:
-                id (str): Chat ID.
-                target (dict): Target object. If missing, the chat will be
-                        transferred within the current group.
-                force (bool): A flag. If True, always transfers chats.
-                        Otherwise, fails when unable to assign any agent
-                        from the requested groups; default False.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;transfer_chat&#39;, &#39;payload&#39;: payload})
 
     def grant_chat_access(self,
                           id: str = None,
@@ -1403,32 +1300,6 @@ def get_client(version: str = stable_version,
         return self.ws.send({
             &#39;action&#39;: &#39;revoke_chat_access&#39;,
             &#39;payload&#39;: payload
-        })
-
-    # Other
-
-    def send_typing_indicator(self,
-                              chat_id: str = None,
-                              recipients: str = None,
-                              is_typing: bool = None,
-                              payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Sends a typing indicator.
-
-            Args:
-                chat_id (str): ID of the chat you want to send the typing indicator to.
-                recipients (str): Possible values: all (default), agents.
-                is_typing (bool): A flag that indicates if you are typing.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;send_typing_indicator&#39;,
-            &#39;payload&#39;: payload
         })</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -1437,100 +1308,6 @@ def get_client(version: str = stable_version,
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="client.AgentRTM33.add_user_to_chat"><code class="name flex">
-<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, require_active_thread: bool = None, payload: dict = None) ‑> dict</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Adds a user to the chat. You can't add more than
-one customer user type to the chat.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Chat ID.</dd>
-<dt><strong><code>user_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the user that will be added to the chat.</dd>
-<dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: agent or customer.</dd>
-<dt><strong><code>require_active_thread</code></strong> :&ensp;<code>bool</code></dt>
-<dd>A flag. If True, it adds a user to a chat
-only if that chat has an active thread; default False.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def add_user_to_chat(self,
-                     chat_id: str = None,
-                     user_id: str = None,
-                     user_type: str = None,
-                     require_active_thread: bool = None,
-                     payload: dict = None) -&gt; dict:
-    &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
-        one customer user type to the chat.
-
-        Args:
-            chat_id (str): Chat ID.
-            user_id (str): ID of the user that will be added to the chat.
-            user_type (str): Possible values: agent or customer.
-            require_active_thread (bool): A flag. If True, it adds a user to a chat
-                only if that chat has an active thread; default False.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            dict: Dictionary with response.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})</code></pre>
-</details>
-</dd>
-<dt id="client.AgentRTM33.deactivate_chat"><code class="name flex">
-<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> dict</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Deactivates a chat by closing the currently open thread.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Chat ID to deactivate.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
-    &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
-
-        Args:
-            id (str): Chat ID to deactivate.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            dict: Dictionary with response.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})</code></pre>
-</details>
-</dd>
 <dt id="client.AgentRTM33.grant_chat_access"><code class="name flex">
 <span>def <span class="ident">grant_chat_access</span></span>(<span>self, id: str = None, access: dict = None, payload: dict = None) ‑> dict</span>
 </code></dt>
@@ -1574,57 +1351,6 @@ It overrides all other parameters provided for the method.</dd>
         payload = prepare_payload(locals())
     return self.ws.send({
         &#39;action&#39;: &#39;grant_chat_access&#39;,
-        &#39;payload&#39;: payload
-    })</code></pre>
-</details>
-</dd>
-<dt id="client.AgentRTM33.remove_user_from_chat"><code class="name flex">
-<span>def <span class="ident">remove_user_from_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, payload: dict = None) ‑> dict</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Removes a user from chat.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Chat ID.</dd>
-<dt><strong><code>user_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the user that will be added to the chat.</dd>
-<dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: agent or customer.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def remove_user_from_chat(self,
-                          chat_id: str = None,
-                          user_id: str = None,
-                          user_type: str = None,
-                          payload: dict = None) -&gt; dict:
-    &#39;&#39;&#39; Removes a user from chat.
-
-        Args:
-            chat_id (str): Chat ID.
-            user_id (str): ID of the user that will be added to the chat.
-            user_type (str): Possible values: agent or customer.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            dict: Dictionary with response.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({
-        &#39;action&#39;: &#39;remove_user_from_chat&#39;,
         &#39;payload&#39;: payload
     })</code></pre>
 </details>
@@ -1676,8 +1402,379 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.AgentRTM33.send_typing_indicator"><code class="name flex">
-<span>def <span class="ident">send_typing_indicator</span></span>(<span>self, chat_id: str = None, recipients: str = None, is_typing: bool = None, payload: dict = None) ‑> dict</span>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></b></code>:
+<ul class="hlist">
+<li><code><a title="client.AgentRTMInterface.add_user_to_chat" href="#client.AgentRTMInterface.add_user_to_chat">add_user_to_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.ban_customer" href="#client.AgentRTMInterface.ban_customer">ban_customer</a></code></li>
+<li><code><a title="client.AgentRTMInterface.change_push_notifications" href="#client.AgentRTMInterface.change_push_notifications">change_push_notifications</a></code></li>
+<li><code><a title="client.AgentRTMInterface.close_connection" href="#client.AgentRTMInterface.close_connection">close_connection</a></code></li>
+<li><code><a title="client.AgentRTMInterface.create_customer" href="#client.AgentRTMInterface.create_customer">create_customer</a></code></li>
+<li><code><a title="client.AgentRTMInterface.deactivate_chat" href="#client.AgentRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.delete_chat_properties" href="#client.AgentRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="client.AgentRTMInterface.delete_event_properties" href="#client.AgentRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="client.AgentRTMInterface.delete_thread_properties" href="#client.AgentRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="client.AgentRTMInterface.follow_chat" href="#client.AgentRTMInterface.follow_chat">follow_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.follow_customer" href="#client.AgentRTMInterface.follow_customer">follow_customer</a></code></li>
+<li><code><a title="client.AgentRTMInterface.get_chat" href="#client.AgentRTMInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.get_customer" href="#client.AgentRTMInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="client.AgentRTMInterface.list_agents_for_transfer" href="#client.AgentRTMInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
+<li><code><a title="client.AgentRTMInterface.list_archives" href="#client.AgentRTMInterface.list_archives">list_archives</a></code></li>
+<li><code><a title="client.AgentRTMInterface.list_chats" href="#client.AgentRTMInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="client.AgentRTMInterface.list_customers" href="#client.AgentRTMInterface.list_customers">list_customers</a></code></li>
+<li><code><a title="client.AgentRTMInterface.list_routing_statuses" href="#client.AgentRTMInterface.list_routing_statuses">list_routing_statuses</a></code></li>
+<li><code><a title="client.AgentRTMInterface.list_threads" href="#client.AgentRTMInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="client.AgentRTMInterface.login" href="#client.AgentRTMInterface.login">login</a></code></li>
+<li><code><a title="client.AgentRTMInterface.logout" href="#client.AgentRTMInterface.logout">logout</a></code></li>
+<li><code><a title="client.AgentRTMInterface.mark_events_as_seen" href="#client.AgentRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="client.AgentRTMInterface.multicast" href="#client.AgentRTMInterface.multicast">multicast</a></code></li>
+<li><code><a title="client.AgentRTMInterface.open_connection" href="#client.AgentRTMInterface.open_connection">open_connection</a></code></li>
+<li><code><a title="client.AgentRTMInterface.remove_user_from_chat" href="#client.AgentRTMInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.resume_chat" href="#client.AgentRTMInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.send_event" href="#client.AgentRTMInterface.send_event">send_event</a></code></li>
+<li><code><a title="client.AgentRTMInterface.send_rich_message_postback" href="#client.AgentRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="client.AgentRTMInterface.send_typing_indicator" href="#client.AgentRTMInterface.send_typing_indicator">send_typing_indicator</a></code></li>
+<li><code><a title="client.AgentRTMInterface.set_away_status" href="#client.AgentRTMInterface.set_away_status">set_away_status</a></code></li>
+<li><code><a title="client.AgentRTMInterface.set_routing_status" href="#client.AgentRTMInterface.set_routing_status">set_routing_status</a></code></li>
+<li><code><a title="client.AgentRTMInterface.start_chat" href="#client.AgentRTMInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.tag_thread" href="#client.AgentRTMInterface.tag_thread">tag_thread</a></code></li>
+<li><code><a title="client.AgentRTMInterface.transfer_chat" href="#client.AgentRTMInterface.transfer_chat">transfer_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.unfollow_chat" href="#client.AgentRTMInterface.unfollow_chat">unfollow_chat</a></code></li>
+<li><code><a title="client.AgentRTMInterface.unfollow_customer" href="#client.AgentRTMInterface.unfollow_customer">unfollow_customer</a></code></li>
+<li><code><a title="client.AgentRTMInterface.untag_thread" href="#client.AgentRTMInterface.untag_thread">untag_thread</a></code></li>
+<li><code><a title="client.AgentRTMInterface.update_chat_properties" href="#client.AgentRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="client.AgentRTMInterface.update_customer" href="#client.AgentRTMInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="client.AgentRTMInterface.update_event_properties" href="#client.AgentRTMInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="client.AgentRTMInterface.update_thread_properties" href="#client.AgentRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="client.AgentRTM34"><code class="flex name class">
+<span>class <span class="ident">AgentRTM34</span></span>
+<span>(</span><span>version: str, url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Agent RTM version 3.4 class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AgentRTM34(AgentRTMInterface):
+    &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;
+
+    # Chats
+
+    def add_user_to_chat(self,
+                         chat_id: str = None,
+                         user_id: str = None,
+                         user_type: str = None,
+                         visibility: str = None,
+                         ignore_requester_presence: bool = None,
+                         payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
+            one customer user type to the chat.
+
+            Args:
+                chat_id (str): Chat ID.
+                user_id (str): ID of the user that will be added to the chat.
+                user_type (str): Possible values: agent or customer.
+                visibility (str): Determines the visibility of events sent by
+                                  the agent. Possible values: `all` or `agents`.
+                ignore_requester_presence (bool): If `True`, allows requester to add user to chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for
+                                the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
+
+    def deactivate_chat(self,
+                        id: str = None,
+                        ignore_requester_presence: bool = None,
+                        payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+
+            Args:
+                id (str): Chat ID to deactivate.
+                ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})
+
+# Chat access
+
+    def transfer_chat(self,
+                      id: str = None,
+                      target: dict = None,
+                      ignore_agents_availability: bool = None,
+                      ignore_requester_presence: bool = None,
+                      payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Transfers a chat to an agent or a group.
+
+            Args:
+                id (str): Chat ID.
+                target (dict): Target object. If missing, the chat will be
+                        transferred within the current group.
+                ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
+                              when unable to assign any agent from the requested groups.
+                ignore_requester_presence (bool): If `True`, allows requester to transfer chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;transfer_chat&#39;, &#39;payload&#39;: payload})
+
+# Chat users
+
+    def remove_user_from_chat(self,
+                              chat_id: str = None,
+                              user_id: str = None,
+                              user_type: str = None,
+                              ignore_requester_presence: bool = None,
+                              payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Removes a user from chat.
+
+            Args:
+                chat_id (str): Chat ID.
+                user_id (str): ID of the user that will be added to the chat.
+                user_type (str): Possible values: agent or customer.
+                ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
+                                                  without being present in the chat&#39;s users list.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;remove_user_from_chat&#39;,
+            &#39;payload&#39;: payload
+        })
+
+
+# Other
+
+    def send_typing_indicator(self,
+                              chat_id: str = None,
+                              visibility: str = None,
+                              is_typing: bool = None,
+                              payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Sends a typing indicator.
+
+            Args:
+                chat_id (str): ID of the chat you want to send the typing indicator to.
+                visibility (str): Possible values: `all`, `agents`.
+                is_typing (bool): A flag that indicates if you are typing.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;send_typing_indicator&#39;,
+            &#39;payload&#39;: payload
+        })</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="client.AgentRTM34.add_user_to_chat"><code class="name flex">
+<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, visibility: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a user to the chat. You can't add more than
+one customer user type to the chat.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chat ID.</dd>
+<dt><strong><code>user_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the user that will be added to the chat.</dd>
+<dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: agent or customer.</dd>
+<dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
+<dd>Determines the visibility of events sent by
+the agent. Possible values: <code>all</code> or <code>agents</code>.</dd>
+<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, allows requester to add user to chat
+without being present in the chat's users list.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for
+the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with response.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_user_to_chat(self,
+                     chat_id: str = None,
+                     user_id: str = None,
+                     user_type: str = None,
+                     visibility: str = None,
+                     ignore_requester_presence: bool = None,
+                     payload: dict = None) -&gt; dict:
+    &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
+        one customer user type to the chat.
+
+        Args:
+            chat_id (str): Chat ID.
+            user_id (str): ID of the user that will be added to the chat.
+            user_type (str): Possible values: agent or customer.
+            visibility (str): Determines the visibility of events sent by
+                              the agent. Possible values: `all` or `agents`.
+            ignore_requester_presence (bool): If `True`, allows requester to add user to chat
+                                              without being present in the chat&#39;s users list.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for
+                            the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})</code></pre>
+</details>
+</dd>
+<dt id="client.AgentRTM34.deactivate_chat"><code class="name flex">
+<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deactivates a chat by closing the currently open thread.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chat ID to deactivate.</dd>
+<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, allows requester to deactivate chat
+without being present in the chat's users list.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with response.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def deactivate_chat(self,
+                    id: str = None,
+                    ignore_requester_presence: bool = None,
+                    payload: dict = None) -&gt; dict:
+    &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
+
+        Args:
+            id (str): Chat ID to deactivate.
+            ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
+                                              without being present in the chat&#39;s users list.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})</code></pre>
+</details>
+</dd>
+<dt id="client.AgentRTM34.remove_user_from_chat"><code class="name flex">
+<span>def <span class="ident">remove_user_from_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes a user from chat.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chat ID.</dd>
+<dt><strong><code>user_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the user that will be added to the chat.</dd>
+<dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: agent or customer.</dd>
+<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, allows requester to remove user from chat
+without being present in the chat's users list.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with response.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_user_from_chat(self,
+                          chat_id: str = None,
+                          user_id: str = None,
+                          user_type: str = None,
+                          ignore_requester_presence: bool = None,
+                          payload: dict = None) -&gt; dict:
+    &#39;&#39;&#39; Removes a user from chat.
+
+        Args:
+            chat_id (str): Chat ID.
+            user_id (str): ID of the user that will be added to the chat.
+            user_type (str): Possible values: agent or customer.
+            ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
+                                              without being present in the chat&#39;s users list.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            dict: Dictionary with response.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({
+        &#39;action&#39;: &#39;remove_user_from_chat&#39;,
+        &#39;payload&#39;: payload
+    })</code></pre>
+</details>
+</dd>
+<dt id="client.AgentRTM34.send_typing_indicator"><code class="name flex">
+<span>def <span class="ident">send_typing_indicator</span></span>(<span>self, chat_id: str = None, visibility: str = None, is_typing: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends a typing indicator.</p>
@@ -1685,8 +1782,8 @@ It overrides all other parameters provided for the method.</dd>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the chat you want to send the typing indicator to.</dd>
-<dt><strong><code>recipients</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: all (default), agents.</dd>
+<dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: <code>all</code>, <code>agents</code>.</dd>
 <dt><strong><code>is_typing</code></strong> :&ensp;<code>bool</code></dt>
 <dd>A flag that indicates if you are typing.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
@@ -1704,14 +1801,14 @@ It overrides all other parameters provided for the method.</dd>
 </summary>
 <pre><code class="python">def send_typing_indicator(self,
                           chat_id: str = None,
-                          recipients: str = None,
+                          visibility: str = None,
                           is_typing: bool = None,
                           payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Sends a typing indicator.
 
         Args:
             chat_id (str): ID of the chat you want to send the typing indicator to.
-            recipients (str): Possible values: all (default), agents.
+            visibility (str): Possible values: `all`, `agents`.
             is_typing (bool): A flag that indicates if you are typing.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
@@ -1727,8 +1824,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.AgentRTM33.transfer_chat"><code class="name flex">
-<span>def <span class="ident">transfer_chat</span></span>(<span>self, id: str = None, target: dict = None, force: bool = None, payload: dict = None) ‑> dict</span>
+<dt id="client.AgentRTM34.transfer_chat"><code class="name flex">
+<span>def <span class="ident">transfer_chat</span></span>(<span>self, id: str = None, target: dict = None, ignore_agents_availability: bool = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transfers a chat to an agent or a group.</p>
@@ -1739,10 +1836,12 @@ It overrides all other parameters provided for the method.</dd>
 <dt><strong><code>target</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Target object. If missing, the chat will be
 transferred within the current group.</dd>
-<dt><strong><code>force</code></strong> :&ensp;<code>bool</code></dt>
-<dd>A flag. If True, always transfers chats.
-Otherwise, fails when unable to assign any agent
-from the requested groups; default False.</dd>
+<dt><strong><code>ignore_agents_availability</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, always transfers chats. Otherwise, fails
+when unable to assign any agent from the requested groups.</dd>
+<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If <code>True</code>, allows requester to transfer chat
+without being present in the chat's users list.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -1759,7 +1858,8 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def transfer_chat(self,
                   id: str = None,
                   target: dict = None,
-                  force: bool = None,
+                  ignore_agents_availability: bool = None,
+                  ignore_requester_presence: bool = None,
                   payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Transfers a chat to an agent or a group.
 
@@ -1767,9 +1867,10 @@ It overrides all other parameters provided for the method.</dd>
             id (str): Chat ID.
             target (dict): Target object. If missing, the chat will be
                     transferred within the current group.
-            force (bool): A flag. If True, always transfers chats.
-                    Otherwise, fails when unable to assign any agent
-                    from the requested groups; default False.
+            ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
+                          when unable to assign any agent from the requested groups.
+            ignore_requester_presence (bool): If `True`, allows requester to transfer chat
+                                              without being present in the chat&#39;s users list.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
 
@@ -1826,138 +1927,6 @@ It overrides all other parameters provided for the method.</dd>
 </li>
 </ul>
 </dd>
-<dt id="client.AgentRTM34"><code class="flex name class">
-<span>class <span class="ident">AgentRTM34</span></span>
-<span>(</span><span>version: str, url: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Agent RTM version 3.4 class.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class AgentRTM34(AgentRTMInterface):
-    &#39;&#39;&#39; Agent RTM version 3.4 class. &#39;&#39;&#39;</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></li>
-</ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></b></code>:
-<ul class="hlist">
-<li><code><a title="client.AgentRTMInterface.add_user_to_chat" href="#client.AgentRTMInterface.add_user_to_chat">add_user_to_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.ban_customer" href="#client.AgentRTMInterface.ban_customer">ban_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.change_push_notifications" href="#client.AgentRTMInterface.change_push_notifications">change_push_notifications</a></code></li>
-<li><code><a title="client.AgentRTMInterface.close_connection" href="#client.AgentRTMInterface.close_connection">close_connection</a></code></li>
-<li><code><a title="client.AgentRTMInterface.create_customer" href="#client.AgentRTMInterface.create_customer">create_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.deactivate_chat" href="#client.AgentRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.delete_chat_properties" href="#client.AgentRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.delete_event_properties" href="#client.AgentRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.delete_thread_properties" href="#client.AgentRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.follow_chat" href="#client.AgentRTMInterface.follow_chat">follow_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.follow_customer" href="#client.AgentRTMInterface.follow_customer">follow_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.get_chat" href="#client.AgentRTMInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.get_customer" href="#client.AgentRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_agents_for_transfer" href="#client.AgentRTMInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_archives" href="#client.AgentRTMInterface.list_archives">list_archives</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_chats" href="#client.AgentRTMInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_customers" href="#client.AgentRTMInterface.list_customers">list_customers</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_routing_statuses" href="#client.AgentRTMInterface.list_routing_statuses">list_routing_statuses</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_threads" href="#client.AgentRTMInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.AgentRTMInterface.login" href="#client.AgentRTMInterface.login">login</a></code></li>
-<li><code><a title="client.AgentRTMInterface.logout" href="#client.AgentRTMInterface.logout">logout</a></code></li>
-<li><code><a title="client.AgentRTMInterface.mark_events_as_seen" href="#client.AgentRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.AgentRTMInterface.multicast" href="#client.AgentRTMInterface.multicast">multicast</a></code></li>
-<li><code><a title="client.AgentRTMInterface.open_connection" href="#client.AgentRTMInterface.open_connection">open_connection</a></code></li>
-<li><code><a title="client.AgentRTMInterface.remove_user_from_chat" href="#client.AgentRTMInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.resume_chat" href="#client.AgentRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.send_event" href="#client.AgentRTMInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.AgentRTMInterface.send_rich_message_postback" href="#client.AgentRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.AgentRTMInterface.send_typing_indicator" href="#client.AgentRTMInterface.send_typing_indicator">send_typing_indicator</a></code></li>
-<li><code><a title="client.AgentRTMInterface.set_away_status" href="#client.AgentRTMInterface.set_away_status">set_away_status</a></code></li>
-<li><code><a title="client.AgentRTMInterface.set_routing_status" href="#client.AgentRTMInterface.set_routing_status">set_routing_status</a></code></li>
-<li><code><a title="client.AgentRTMInterface.start_chat" href="#client.AgentRTMInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.tag_thread" href="#client.AgentRTMInterface.tag_thread">tag_thread</a></code></li>
-<li><code><a title="client.AgentRTMInterface.transfer_chat" href="#client.AgentRTMInterface.transfer_chat">transfer_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.unfollow_chat" href="#client.AgentRTMInterface.unfollow_chat">unfollow_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.unfollow_customer" href="#client.AgentRTMInterface.unfollow_customer">unfollow_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.untag_thread" href="#client.AgentRTMInterface.untag_thread">untag_thread</a></code></li>
-<li><code><a title="client.AgentRTMInterface.update_chat_properties" href="#client.AgentRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.update_customer" href="#client.AgentRTMInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.update_event_properties" href="#client.AgentRTMInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.update_thread_properties" href="#client.AgentRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
-<dt id="client.AgentRTM35"><code class="flex name class">
-<span>class <span class="ident">AgentRTM35</span></span>
-<span>(</span><span>version: str, url: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Agent RTM version 3.5 class.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class AgentRTM35(AgentRTMInterface):
-    &#39;&#39;&#39; Agent RTM version 3.5 class. &#39;&#39;&#39;</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></li>
-</ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></b></code>:
-<ul class="hlist">
-<li><code><a title="client.AgentRTMInterface.add_user_to_chat" href="#client.AgentRTMInterface.add_user_to_chat">add_user_to_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.ban_customer" href="#client.AgentRTMInterface.ban_customer">ban_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.change_push_notifications" href="#client.AgentRTMInterface.change_push_notifications">change_push_notifications</a></code></li>
-<li><code><a title="client.AgentRTMInterface.close_connection" href="#client.AgentRTMInterface.close_connection">close_connection</a></code></li>
-<li><code><a title="client.AgentRTMInterface.create_customer" href="#client.AgentRTMInterface.create_customer">create_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.deactivate_chat" href="#client.AgentRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.delete_chat_properties" href="#client.AgentRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.delete_event_properties" href="#client.AgentRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.delete_thread_properties" href="#client.AgentRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.follow_chat" href="#client.AgentRTMInterface.follow_chat">follow_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.follow_customer" href="#client.AgentRTMInterface.follow_customer">follow_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.get_chat" href="#client.AgentRTMInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.get_customer" href="#client.AgentRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_agents_for_transfer" href="#client.AgentRTMInterface.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_archives" href="#client.AgentRTMInterface.list_archives">list_archives</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_chats" href="#client.AgentRTMInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_customers" href="#client.AgentRTMInterface.list_customers">list_customers</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_routing_statuses" href="#client.AgentRTMInterface.list_routing_statuses">list_routing_statuses</a></code></li>
-<li><code><a title="client.AgentRTMInterface.list_threads" href="#client.AgentRTMInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.AgentRTMInterface.login" href="#client.AgentRTMInterface.login">login</a></code></li>
-<li><code><a title="client.AgentRTMInterface.logout" href="#client.AgentRTMInterface.logout">logout</a></code></li>
-<li><code><a title="client.AgentRTMInterface.mark_events_as_seen" href="#client.AgentRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.AgentRTMInterface.multicast" href="#client.AgentRTMInterface.multicast">multicast</a></code></li>
-<li><code><a title="client.AgentRTMInterface.open_connection" href="#client.AgentRTMInterface.open_connection">open_connection</a></code></li>
-<li><code><a title="client.AgentRTMInterface.remove_user_from_chat" href="#client.AgentRTMInterface.remove_user_from_chat">remove_user_from_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.resume_chat" href="#client.AgentRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.send_event" href="#client.AgentRTMInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.AgentRTMInterface.send_rich_message_postback" href="#client.AgentRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.AgentRTMInterface.send_typing_indicator" href="#client.AgentRTMInterface.send_typing_indicator">send_typing_indicator</a></code></li>
-<li><code><a title="client.AgentRTMInterface.set_away_status" href="#client.AgentRTMInterface.set_away_status">set_away_status</a></code></li>
-<li><code><a title="client.AgentRTMInterface.set_routing_status" href="#client.AgentRTMInterface.set_routing_status">set_routing_status</a></code></li>
-<li><code><a title="client.AgentRTMInterface.start_chat" href="#client.AgentRTMInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.tag_thread" href="#client.AgentRTMInterface.tag_thread">tag_thread</a></code></li>
-<li><code><a title="client.AgentRTMInterface.transfer_chat" href="#client.AgentRTMInterface.transfer_chat">transfer_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.unfollow_chat" href="#client.AgentRTMInterface.unfollow_chat">unfollow_chat</a></code></li>
-<li><code><a title="client.AgentRTMInterface.unfollow_customer" href="#client.AgentRTMInterface.unfollow_customer">unfollow_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.untag_thread" href="#client.AgentRTMInterface.untag_thread">untag_thread</a></code></li>
-<li><code><a title="client.AgentRTMInterface.update_chat_properties" href="#client.AgentRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.update_customer" href="#client.AgentRTMInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.AgentRTMInterface.update_event_properties" href="#client.AgentRTMInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.AgentRTMInterface.update_thread_properties" href="#client.AgentRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
 <dt id="client.AgentRTMInterface"><code class="flex name class">
 <span>class <span class="ident">AgentRTMInterface</span></span>
 <span>(</span><span>version: str, url: str)</span>
@@ -1970,7 +1939,7 @@ It overrides all other parameters provided for the method.</dd>
 </summary>
 <pre><code class="python">class AgentRTMInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; AgentRTM interface class. &#39;&#39;&#39;
-    def __init__(self, version: str, url: str) -&gt; AgentRTMInterface:
+    def __init__(self, version: str, url: str):
         self.ws = WebsocketClient(url=f&#39;wss://{url}/v{version}/agent/rtm/ws&#39;)
 
     def open_connection(self) -&gt; None:
@@ -1981,7 +1950,32 @@ It overrides all other parameters provided for the method.</dd>
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
         self.ws.close()
 
-    # Chats
+# Chats
+
+    def add_user_to_chat(self,
+                         chat_id: str = None,
+                         user_id: str = None,
+                         user_type: str = None,
+                         require_active_thread: bool = None,
+                         payload: dict = None) -&gt; dict:
+        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
+            one customer user type to the chat.
+
+            Args:
+                chat_id (str): Chat ID.
+                user_id (str): ID of the user that will be added to the chat.
+                user_type (str): Possible values: agent or customer.
+                require_active_thread (bool): A flag. If True, it adds a user to a chat
+                    only if that chat has an active thread; default False.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                dict: Dictionary with response.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
 
     def list_chats(self,
                    filters: dict = None,
@@ -2125,16 +2119,11 @@ It overrides all other parameters provided for the method.</dd>
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})
 
-    def deactivate_chat(self,
-                        id: str = None,
-                        ignore_requester_presence: bool = None,
-                        payload: dict = None) -&gt; dict:
+    def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
             Args:
                 id (str): Chat ID to deactivate.
-                ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
-                                                  without being present in the chat&#39;s users list.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -2180,8 +2169,7 @@ It overrides all other parameters provided for the method.</dd>
     def transfer_chat(self,
                       id: str = None,
                       target: dict = None,
-                      ignore_agents_availability: bool = None,
-                      ignore_requester_presence: bool = None,
+                      force: bool = None,
                       payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Transfers a chat to an agent or a group.
 
@@ -2189,10 +2177,9 @@ It overrides all other parameters provided for the method.</dd>
                 id (str): Chat ID.
                 target (dict): Target object. If missing, the chat will be
                         transferred within the current group.
-                ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
-                              when unable to assign any agent from the requested groups.
-                ignore_requester_presence (bool): If `True`, allows requester to transfer chat
-                                                  without being present in the chat&#39;s users list.
+                force (bool): A flag. If True, always transfers chats.
+                        Otherwise, fails when unable to assign any agent
+                        from the requested groups; default False.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -2205,40 +2192,10 @@ It overrides all other parameters provided for the method.</dd>
 
 # Chat users
 
-    def add_user_to_chat(self,
-                         chat_id: str = None,
-                         user_id: str = None,
-                         user_type: str = None,
-                         visibility: str = None,
-                         ignore_requester_presence: bool = None,
-                         payload: dict = None) -&gt; dict:
-        &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
-            one customer user type to the chat.
-
-            Args:
-                chat_id (str): Chat ID.
-                user_id (str): ID of the user that will be added to the chat.
-                user_type (str): Possible values: agent or customer.
-                visibility (str): Determines the visibility of events sent by
-                                  the agent. Possible values: `all` or `agents`.
-                ignore_requester_presence (bool): If `True`, allows requester to add user to chat
-                                                  without being present in the chat&#39;s users list.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for
-                                the method.
-
-            Returns:
-                dict: Dictionary with response.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})
-
     def remove_user_from_chat(self,
                               chat_id: str = None,
                               user_id: str = None,
                               user_type: str = None,
-                              ignore_requester_presence: bool = None,
                               payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Removes a user from chat.
 
@@ -2246,8 +2203,6 @@ It overrides all other parameters provided for the method.</dd>
                 chat_id (str): Chat ID.
                 user_id (str): ID of the user that will be added to the chat.
                 user_type (str): Possible values: agent or customer.
-                ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
-                                                  without being present in the chat&#39;s users list.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -2811,14 +2766,14 @@ It overrides all other parameters provided for the method.</dd>
 
     def send_typing_indicator(self,
                               chat_id: str = None,
-                              visibility: str = None,
+                              recipients: str = None,
                               is_typing: bool = None,
                               payload: dict = None) -&gt; dict:
         &#39;&#39;&#39; Sends a typing indicator.
 
             Args:
                 chat_id (str): ID of the chat you want to send the typing indicator to.
-                visibility (str): Possible values: `all`, `agents`.
+                recipients (str): Possible values: all (default), agents.
                 is_typing (bool): A flag that indicates if you are typing.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
@@ -2878,12 +2833,11 @@ It overrides all other parameters provided for the method.</dd>
 <ul class="hlist">
 <li><a title="client.AgentRTM33" href="#client.AgentRTM33">AgentRTM33</a></li>
 <li><a title="client.AgentRTM34" href="#client.AgentRTM34">AgentRTM34</a></li>
-<li><a title="client.AgentRTM35" href="#client.AgentRTM35">AgentRTM35</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
 <dt id="client.AgentRTMInterface.add_user_to_chat"><code class="name flex">
-<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, visibility: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, require_active_thread: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a user to the chat. You can't add more than
@@ -2896,16 +2850,12 @@ one customer user type to the chat.</p>
 <dd>ID of the user that will be added to the chat.</dd>
 <dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: agent or customer.</dd>
-<dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
-<dd>Determines the visibility of events sent by
-the agent. Possible values: <code>all</code> or <code>agents</code>.</dd>
-<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
-<dd>If <code>True</code>, allows requester to add user to chat
-without being present in the chat's users list.</dd>
+<dt><strong><code>require_active_thread</code></strong> :&ensp;<code>bool</code></dt>
+<dd>A flag. If True, it adds a user to a chat
+only if that chat has an active thread; default False.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for
-the method.</dd>
+It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2920,8 +2870,7 @@ the method.</dd>
                      chat_id: str = None,
                      user_id: str = None,
                      user_type: str = None,
-                     visibility: str = None,
-                     ignore_requester_presence: bool = None,
+                     require_active_thread: bool = None,
                      payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Adds a user to the chat. You can&#39;t add more than
         one customer user type to the chat.
@@ -2930,13 +2879,10 @@ the method.</dd>
             chat_id (str): Chat ID.
             user_id (str): ID of the user that will be added to the chat.
             user_type (str): Possible values: agent or customer.
-            visibility (str): Determines the visibility of events sent by
-                              the agent. Possible values: `all` or `agents`.
-            ignore_requester_presence (bool): If `True`, allows requester to add user to chat
-                                              without being present in the chat&#39;s users list.
+            require_active_thread (bool): A flag. If True, it adds a user to a chat
+                only if that chat has an active thread; default False.
             payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for
-                            the method.
+                    It overrides all other parameters provided for the method.
 
         Returns:
             dict: Dictionary with response.
@@ -3044,7 +2990,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.AgentRTMInterface.close_connection"><code class="name flex">
-<span>def <span class="ident">close_connection</span></span>(<span>self) ‑> NoneType</span>
+<span>def <span class="ident">close_connection</span></span>(<span>self) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Closes WebSocket connection.</p></div>
@@ -3112,7 +3058,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.AgentRTMInterface.deactivate_chat"><code class="name flex">
-<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deactivates a chat by closing the currently open thread.</p>
@@ -3120,9 +3066,6 @@ It overrides all other parameters provided for the method.</dd>
 <dl>
 <dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Chat ID to deactivate.</dd>
-<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
-<dd>If <code>True</code>, allows requester to deactivate chat
-without being present in the chat's users list.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -3136,16 +3079,11 @@ It overrides all other parameters provided for the method.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def deactivate_chat(self,
-                    id: str = None,
-                    ignore_requester_presence: bool = None,
-                    payload: dict = None) -&gt; dict:
+<pre><code class="python">def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
         Args:
             id (str): Chat ID to deactivate.
-            ignore_requester_presence (bool): If `True`, allows requester to deactivate chat
-                                              without being present in the chat&#39;s users list.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
 
@@ -3958,7 +3896,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.AgentRTMInterface.multicast"><code class="name flex">
-<span>def <span class="ident">multicast</span></span>(<span>self, recipients: dict = None, content: typing.Any = None, type: str = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">multicast</span></span>(<span>self, recipients: dict = None, content: Any = None, type: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends a multicast (chat-unrelated communication).</p>
@@ -4006,7 +3944,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.AgentRTMInterface.open_connection"><code class="name flex">
-<span>def <span class="ident">open_connection</span></span>(<span>self) ‑> NoneType</span>
+<span>def <span class="ident">open_connection</span></span>(<span>self) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Opens WebSocket connection.</p></div>
@@ -4020,7 +3958,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.AgentRTMInterface.remove_user_from_chat"><code class="name flex">
-<span>def <span class="ident">remove_user_from_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">remove_user_from_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Removes a user from chat.</p>
@@ -4032,9 +3970,6 @@ It overrides all other parameters provided for the method.</dd>
 <dd>ID of the user that will be added to the chat.</dd>
 <dt><strong><code>user_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: agent or customer.</dd>
-<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
-<dd>If <code>True</code>, allows requester to remove user from chat
-without being present in the chat's users list.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -4052,7 +3987,6 @@ It overrides all other parameters provided for the method.</dd>
                           chat_id: str = None,
                           user_id: str = None,
                           user_type: str = None,
-                          ignore_requester_presence: bool = None,
                           payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Removes a user from chat.
 
@@ -4060,8 +3994,6 @@ It overrides all other parameters provided for the method.</dd>
             chat_id (str): Chat ID.
             user_id (str): ID of the user that will be added to the chat.
             user_type (str): Possible values: agent or customer.
-            ignore_requester_presence (bool): If `True`, allows requester to remove user from chat
-                                              without being present in the chat&#39;s users list.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
 
@@ -4230,7 +4162,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.AgentRTMInterface.send_typing_indicator"><code class="name flex">
-<span>def <span class="ident">send_typing_indicator</span></span>(<span>self, chat_id: str = None, visibility: str = None, is_typing: bool = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">send_typing_indicator</span></span>(<span>self, chat_id: str = None, recipients: str = None, is_typing: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends a typing indicator.</p>
@@ -4238,8 +4170,8 @@ It overrides all other parameters provided for the method.</dd>
 <dl>
 <dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the chat you want to send the typing indicator to.</dd>
-<dt><strong><code>visibility</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: <code>all</code>, <code>agents</code>.</dd>
+<dt><strong><code>recipients</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: all (default), agents.</dd>
 <dt><strong><code>is_typing</code></strong> :&ensp;<code>bool</code></dt>
 <dd>A flag that indicates if you are typing.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
@@ -4257,14 +4189,14 @@ It overrides all other parameters provided for the method.</dd>
 </summary>
 <pre><code class="python">def send_typing_indicator(self,
                           chat_id: str = None,
-                          visibility: str = None,
+                          recipients: str = None,
                           is_typing: bool = None,
                           payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Sends a typing indicator.
 
         Args:
             chat_id (str): ID of the chat you want to send the typing indicator to.
-            visibility (str): Possible values: `all`, `agents`.
+            recipients (str): Possible values: all (default), agents.
             is_typing (bool): A flag that indicates if you are typing.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
@@ -4464,7 +4396,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="client.AgentRTMInterface.transfer_chat"><code class="name flex">
-<span>def <span class="ident">transfer_chat</span></span>(<span>self, id: str = None, target: dict = None, ignore_agents_availability: bool = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> dict</span>
+<span>def <span class="ident">transfer_chat</span></span>(<span>self, id: str = None, target: dict = None, force: bool = None, payload: dict = None) ‑> dict</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transfers a chat to an agent or a group.</p>
@@ -4475,12 +4407,10 @@ It overrides all other parameters provided for the method.</dd>
 <dt><strong><code>target</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Target object. If missing, the chat will be
 transferred within the current group.</dd>
-<dt><strong><code>ignore_agents_availability</code></strong> :&ensp;<code>bool</code></dt>
-<dd>If <code>True</code>, always transfers chats. Otherwise, fails
-when unable to assign any agent from the requested groups.</dd>
-<dt><strong><code>ignore_requester_presence</code></strong> :&ensp;<code>bool</code></dt>
-<dd>If <code>True</code>, allows requester to transfer chat
-without being present in the chat's users list.</dd>
+<dt><strong><code>force</code></strong> :&ensp;<code>bool</code></dt>
+<dd>A flag. If True, always transfers chats.
+Otherwise, fails when unable to assign any agent
+from the requested groups; default False.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -4497,8 +4427,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def transfer_chat(self,
                   id: str = None,
                   target: dict = None,
-                  ignore_agents_availability: bool = None,
-                  ignore_requester_presence: bool = None,
+                  force: bool = None,
                   payload: dict = None) -&gt; dict:
     &#39;&#39;&#39; Transfers a chat to an agent or a group.
 
@@ -4506,10 +4435,9 @@ It overrides all other parameters provided for the method.</dd>
             id (str): Chat ID.
             target (dict): Target object. If missing, the chat will be
                     transferred within the current group.
-            ignore_agents_availability (bool): If `True`, always transfers chats. Otherwise, fails
-                          when unable to assign any agent from the requested groups.
-            ignore_requester_presence (bool): If `True`, allows requester to transfer chat
-                                              without being present in the chat&#39;s users list.
+            force (bool): A flag. If True, always transfers chats.
+                    Otherwise, fails when unable to assign any agent
+                    from the requested groups; default False.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
 
@@ -4881,20 +4809,19 @@ It overrides all other parameters provided for the method.</dd>
 <li>
 <h4><code><a title="client.AgentRTM33" href="#client.AgentRTM33">AgentRTM33</a></code></h4>
 <ul class="">
-<li><code><a title="client.AgentRTM33.add_user_to_chat" href="#client.AgentRTM33.add_user_to_chat">add_user_to_chat</a></code></li>
-<li><code><a title="client.AgentRTM33.deactivate_chat" href="#client.AgentRTM33.deactivate_chat">deactivate_chat</a></code></li>
 <li><code><a title="client.AgentRTM33.grant_chat_access" href="#client.AgentRTM33.grant_chat_access">grant_chat_access</a></code></li>
-<li><code><a title="client.AgentRTM33.remove_user_from_chat" href="#client.AgentRTM33.remove_user_from_chat">remove_user_from_chat</a></code></li>
 <li><code><a title="client.AgentRTM33.revoke_chat_access" href="#client.AgentRTM33.revoke_chat_access">revoke_chat_access</a></code></li>
-<li><code><a title="client.AgentRTM33.send_typing_indicator" href="#client.AgentRTM33.send_typing_indicator">send_typing_indicator</a></code></li>
-<li><code><a title="client.AgentRTM33.transfer_chat" href="#client.AgentRTM33.transfer_chat">transfer_chat</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="client.AgentRTM34" href="#client.AgentRTM34">AgentRTM34</a></code></h4>
-</li>
-<li>
-<h4><code><a title="client.AgentRTM35" href="#client.AgentRTM35">AgentRTM35</a></code></h4>
+<ul class="">
+<li><code><a title="client.AgentRTM34.add_user_to_chat" href="#client.AgentRTM34.add_user_to_chat">add_user_to_chat</a></code></li>
+<li><code><a title="client.AgentRTM34.deactivate_chat" href="#client.AgentRTM34.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="client.AgentRTM34.remove_user_from_chat" href="#client.AgentRTM34.remove_user_from_chat">remove_user_from_chat</a></code></li>
+<li><code><a title="client.AgentRTM34.send_typing_indicator" href="#client.AgentRTM34.send_typing_indicator">send_typing_indicator</a></code></li>
+<li><code><a title="client.AgentRTM34.transfer_chat" href="#client.AgentRTM34.transfer_chat">transfer_chat</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="client.AgentRTMInterface" href="#client.AgentRTMInterface">AgentRTMInterface</a></code></h4>
@@ -4948,7 +4875,7 @@ It overrides all other parameters provided for the method.</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>
