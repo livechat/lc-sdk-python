@@ -27,7 +27,7 @@ class CustomerWeb:
 
             Args:
                 license_id (int): License ID. Required to use API v3.3.
-                token (str): Full token with type (Bearer/Basic) that will be
+                token (str): Full token with type (Bearer) that will be
                                 used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
@@ -66,8 +66,13 @@ class CustomerWeb:
 
 class CustomerWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
-    def __init__(self, access_token: str, version: str, base_url: str,
-                 http2: bool) -> CustomerWebInterface:
+    def __init__(self,
+                 access_token: str,
+                 version: str,
+                 base_url: str,
+                 http2: bool,
+                 proxies=None,
+                 verify: bool = True) -> CustomerWebInterface:
         logger = HttpxLogger()
         self.api_url = f'https://{base_url}/v{version}/customer/action'
         if all([access_token, isinstance(access_token, str)]):
@@ -77,7 +82,9 @@ class CustomerWebInterface(metaclass=ABCMeta):
                 event_hooks={
                     'request': [logger.log_request],
                     'response': [logger.log_response]
-                })
+                },
+                proxies=proxies,
+                verify=verify)
         else:
             raise ValueError(
                 'Incorrect or missing `access_token` argument (should be of type str.)'

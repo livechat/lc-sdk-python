@@ -49,8 +49,13 @@ class AgentWeb:
 
 class AgentWebInterface(metaclass=ABCMeta):
     ''' Main class containing API methods. '''
-    def __init__(self, access_token: str, version: str, base_url: str,
-                 http2: bool) -> AgentWebInterface:
+    def __init__(self,
+                 access_token: str,
+                 version: str,
+                 base_url: str,
+                 http2: bool,
+                 proxies=None,
+                 verify: bool = True) -> AgentWebInterface:
         logger = HttpxLogger()
         self.api_url = f'https://{base_url}/v{version}/agent/action'
         self.session = httpx.Client(http2=http2,
@@ -58,7 +63,9 @@ class AgentWebInterface(metaclass=ABCMeta):
                                     event_hooks={
                                         'request': [logger.log_request],
                                         'response': [logger.log_response]
-                                    })
+                                    },
+                                    proxies=proxies,
+                                    verify=verify)
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.

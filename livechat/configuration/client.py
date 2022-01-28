@@ -46,8 +46,13 @@ class ConfigurationApi:
 
 class ConfigurationApiInterface(metaclass=ABCMeta):
     ''' Interface class. '''
-    def __init__(self, token: str, version: str, base_url: str,
-                 http2: bool) -> ConfigurationApiInterface:
+    def __init__(self,
+                 token: str,
+                 version: str,
+                 base_url: str,
+                 http2: bool,
+                 proxies=None,
+                 verify: bool = True) -> ConfigurationApiInterface:
         logger = HttpxLogger()
         self.api_url = f'https://{base_url}/v{version}/configuration/action'
         self.session = httpx.Client(http2=http2,
@@ -55,7 +60,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                     event_hooks={
                                         'request': [logger.log_request],
                                         'response': [logger.log_response]
-                                    })
+                                    },
+                                    proxies=proxies,
+                                    verify=verify)
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.
