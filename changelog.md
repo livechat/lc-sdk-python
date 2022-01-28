@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.11] - Unreleased
+
+### Added
+
+- Added proxy support to web interfaces
+
+
 ## [0.1.10] - 2021-12-02
 
 ### Added

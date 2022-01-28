@@ -27,7 +27,7 @@ class CustomerWeb:
 
             Args:
                 license_id (int): License ID. Required to use API v3.3.
-                token (str): Full token with type (Bearer/Basic) that will be
+                token (str): Full token with type (Bearer) that will be
                                 used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to `3.3`.
                 base_url (str): API's base url. Defaults to `api.livechatinc.com`.
