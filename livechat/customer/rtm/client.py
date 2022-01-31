@@ -8,6 +8,7 @@ from abc import ABCMeta
 from configparser import ConfigParser
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.structures import RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
 config = ConfigParser()
@@ -86,7 +87,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
         ''' Closes WebSocket connection. '''
         self.ws.close()
 
-    def login(self, token: str = None, payload: dict = None) -> dict:
+    def login(self, token: str = None, payload: dict = None) -> RtmResponse:
         ''' Logs in customer.
 
             Args:
@@ -95,7 +96,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -104,7 +106,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def list_group_statuses(self,
                             all: bool = None,
                             group_ids: list = None,
-                            payload: dict = None) -> dict:
+                            payload: dict = None) -> RtmResponse:
         ''' Lists statuses of groups.
 
             Args:
@@ -114,7 +116,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -127,7 +130,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    chat: dict = None,
                    active: bool = None,
                    continuous: bool = None,
-                   payload: dict = None) -> dict:
+                   payload: dict = None) -> RtmResponse:
         ''' Starts a chat.
 
             Args:
@@ -138,7 +141,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -148,7 +152,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                     chat: dict = None,
                     active: bool = None,
                     continuous: bool = None,
-                    payload: dict = None) -> dict:
+                    payload: dict = None) -> RtmResponse:
         ''' Restarts an archived chat.
 
             Args:
@@ -159,7 +163,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -168,7 +173,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def get_chat(self,
                  chat_id: str = None,
                  thread_id: str = None,
-                 payload: dict = None) -> dict:
+                 payload: dict = None) -> RtmResponse:
         ''' It returns a thread that the current Customer has access to in a given chat.
 
             Args:
@@ -178,7 +183,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -188,7 +194,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    limit: int = None,
                    sort_order: str = None,
                    page_id: str = None,
-                   payload: dict = None) -> dict:
+                   payload: dict = None) -> RtmResponse:
         ''' It returns summaries of the chats a Customer participated in.
 
             Args:
@@ -200,7 +206,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -212,7 +219,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                      limit: int = None,
                      page_id: str = None,
                      min_events_count: int = None,
-                     payload: dict = None) -> dict:
+                     payload: dict = None) -> RtmResponse:
         ''' It returns threads that the current Customer has access to in a given chat.
 
             Args:
@@ -227,13 +234,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'list_threads', 'payload': payload})
 
-    def deactivate_chat(self, id: str = None, payload: dict = None) -> dict:
+    def deactivate_chat(self,
+                        id: str = None,
+                        payload: dict = None) -> RtmResponse:
         ''' Deactivates a chat by closing the currently open thread.
 
             Args:
@@ -242,7 +252,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -252,7 +263,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
-                   payload: dict = None) -> dict:
+                   payload: dict = None) -> RtmResponse:
         ''' Sends an Event object.
 
             Args:
@@ -263,7 +274,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -272,7 +284,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def send_sneak_peek(self,
                         chat_id: str = None,
                         sneak_peek_text: str = None,
-                        payload: dict = None) -> dict:
+                        payload: dict = None) -> RtmResponse:
         ''' Sends a sneak peek to a chat.
 
             Args:
@@ -282,7 +294,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -293,7 +306,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                    thread_id: str = None,
                                    event_id: str = None,
                                    postback: dict = None,
-                                   payload: dict = None) -> dict:
+                                   payload: dict = None) -> RtmResponse:
         ''' Sends rich message postback.
 
             Args:
@@ -305,7 +318,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -317,7 +331,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def accept_greeting(self,
                         greeting_id: int = None,
                         unique_id: str = None,
-                        payload: dict = None) -> dict:
+                        payload: dict = None) -> RtmResponse:
         ''' Marks an incoming greeting as seen.
 
             Args:
@@ -327,7 +341,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -335,7 +350,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 
     def cancel_greeting(self,
                         unique_id: str = None,
-                        payload: dict = None) -> dict:
+                        payload: dict = None) -> RtmResponse:
         ''' Cancels a greeting.
 
             Args:
@@ -344,13 +359,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'cancel_greeting', 'payload': payload})
 
-    def get_url_info(self, url: str = None, payload: dict = None) -> dict:
+    def get_url_info(self,
+                     url: str = None,
+                     payload: dict = None) -> RtmResponse:
         ''' It returns the info on a given URL.
 
             Args:
@@ -359,7 +377,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -368,7 +387,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def get_form(self,
                  group_id: int = None,
                  type: str = None,
-                 payload: dict = None) -> dict:
+                 payload: dict = None) -> RtmResponse:
         ''' Returns an empty ticket form of a prechat or postchat survey.
 
             Args:
@@ -378,13 +397,14 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'get_form', 'payload': payload})
 
-    def get_predicted_agent(self, payload: dict = None) -> dict:
+    def get_predicted_agent(self, payload: dict = None) -> RtmResponse:
         ''' Gets the predicted Agent - the one the Customer will chat with when the chat starts.
 
             Args:
@@ -392,7 +412,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         return self.ws.send({
             'action': 'get_predicted_agent',
@@ -402,7 +423,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def mark_events_as_seen(self,
                             chat_id: str = None,
                             seen_up_to: str = None,
-                            payload: dict = None) -> dict:
+                            payload: dict = None) -> RtmResponse:
         ''' Marks events as seen by agent.
 
             Args:
@@ -412,7 +433,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -421,7 +443,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
             'payload': payload
         })
 
-    def get_customer(self, payload: dict = None) -> dict:
+    def get_customer(self, payload: dict = None) -> RtmResponse:
         ''' Returns the info about the customer requesting it.
 
             Args:
@@ -429,7 +451,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         return self.ws.send({
             'action': 'get_customer',
@@ -441,7 +464,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         email: str = None,
                         avatar: str = None,
                         session_fields: list = None,
-                        payload: dict = None) -> dict:
+                        payload: dict = None) -> RtmResponse:
         ''' Updates customer's properties.
 
             Args:
@@ -454,7 +477,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -463,7 +487,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def update_customer_page(self,
                              url: str = None,
                              title: str = None,
-                             payload: dict = None) -> dict:
+                             payload: dict = None) -> RtmResponse:
         ''' Updates customer's page.
 
             Args:
@@ -473,7 +497,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -484,7 +509,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 
     def set_customer_session_fields(self,
                                     session_fields: list = None,
-                                    payload: dict = None) -> dict:
+                                    payload: dict = None) -> RtmResponse:
         ''' Sets customer's session fields.
 
             Args:
@@ -493,7 +518,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -505,7 +531,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def delete_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -> dict:
+                               payload: dict = None) -> RtmResponse:
         ''' Deletes chat properties.
 
             Args:
@@ -515,7 +541,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -527,7 +554,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def update_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -> dict:
+                               payload: dict = None) -> RtmResponse:
         ''' Updates chat properties.
 
             Args:
@@ -537,7 +564,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -550,7 +578,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -> dict:
+                                 payload: dict = None) -> RtmResponse:
         ''' Deletes thread properties.
 
             Args:
@@ -561,7 +589,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -574,7 +603,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -> dict:
+                                 payload: dict = None) -> RtmResponse:
         ''' Updates thread properties.
 
             Args:
@@ -585,7 +614,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -599,7 +629,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -> dict:
+                                payload: dict = None) -> RtmResponse:
         ''' Deletes event properties.
 
             Args:
@@ -611,7 +641,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -625,7 +656,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -> dict:
+                                payload: dict = None) -> RtmResponse:
         ''' Updates event properties.
 
             Args:
@@ -637,7 +668,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         '''
         if payload is None:
             payload = prepare_payload(locals())
