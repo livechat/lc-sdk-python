@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
-<title>client API documentation</title>
+<meta name="generator" content="pdoc 0.9.2" />
+<title>livechat.configuration.client API documentation</title>
 <meta name="description" content="Configuration API client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>client</code></h1>
+<h1 class="title">Module <code>livechat.configuration.client</code></h1>
 </header>
 <section id="section-intro">
 <p>Configuration API client implementation.</p>
@@ -33,11 +33,17 @@
 from __future__ import annotations
 
 from abc import ABCMeta
+from configparser import ConfigParser
 
 import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.httpx_logger import HttpxLogger
+
+config = ConfigParser()
+config.read(&#39;configs/main.ini&#39;)
+stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
+api_url = config.get(&#39;api&#39;, &#39;url&#39;)
 
 
 class ConfigurationApi:
@@ -45,16 +51,16 @@ class ConfigurationApi:
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(token: str,
-                   version: str = &#39;3.3&#39;,
-                   base_url: str = &#39;api.livechatinc.com&#39;,
+                   version: str = stable_version,
+                   base_url: str = api_url,
                    http2: bool = False) -&gt; ConfigurationApiInterface:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API&#39;s version. Defaults to `3.3`.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                version (str): API&#39;s version. Defaults to the stable version of API.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
 
@@ -66,7 +72,8 @@ class ConfigurationApi:
         &#39;&#39;&#39;
         client = {
             &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url, http2),
-            &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url, http2)
+            &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url, http2),
+            &#39;3.5&#39;: ConfigurationApi35(token, &#39;3.5&#39;, base_url, http2),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -75,8 +82,13 @@ class ConfigurationApi:
 
 class ConfigurationApiInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
-    def __init__(self, token: str, version: str, base_url: str,
-                 http2: bool) -&gt; ConfigurationApiInterface:
+    def __init__(self,
+                 token: str,
+                 version: str,
+                 base_url: str,
+                 http2: bool,
+                 proxies=None,
+                 verify: bool = True) -&gt; ConfigurationApiInterface:
         logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = httpx.Client(http2=http2,
@@ -84,7 +96,9 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                     event_hooks={
                                         &#39;request&#39;: [logger.log_request],
                                         &#39;response&#39;: [logger.log_response]
-                                    })
+                                    },
+                                    proxies=proxies,
+                                    verify=verify)
 
     def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
@@ -1234,20 +1248,12 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                  json=payload,
                                  headers=headers)
 
-
-class ConfigurationApi33(ConfigurationApiInterface):
-    &#39;&#39;&#39; Configuration API client in version 3.3 class. &#39;&#39;&#39;
-
-
-class ConfigurationApi34(ConfigurationApiInterface):
-    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;
-
     # license/organization ID lookup
 
     def get_organization_id(self,
-                                   license_id: int = None,
-                                   params: dict = None,
-                                   headers: dict = None) -&gt; httpx.Response:
+                            license_id: int = None,
+                            params: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Returns organization ID by given license ID.
 
             Args:
@@ -1265,13 +1271,13 @@ class ConfigurationApi34(ConfigurationApiInterface):
         if params is None:
             params = prepare_payload(locals())
         return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
-                                 params=params,
-                                 headers=headers)
+                                params=params,
+                                headers=headers)
 
     def get_license_id(self,
-                                   organization_id: str = None,
-                                   params: dict = None,
-                                   headers: dict = None) -&gt; httpx.Response:
+                       organization_id: str = None,
+                       params: dict = None,
+                       headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Returns license ID by given organization ID.
 
             Args:
@@ -1289,8 +1295,20 @@ class ConfigurationApi34(ConfigurationApiInterface):
         if params is None:
             params = prepare_payload(locals())
         return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
-                                 params=params,
-                                 headers=headers)</code></pre>
+                                params=params,
+                                headers=headers)
+
+
+class ConfigurationApi33(ConfigurationApiInterface):
+    &#39;&#39;&#39; Configuration API client in version 3.3 class. &#39;&#39;&#39;
+
+
+class ConfigurationApi34(ConfigurationApiInterface):
+    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;
+
+
+class ConfigurationApi35(ConfigurationApiInterface):
+    &#39;&#39;&#39; Configuration API client in version 3.5 class. &#39;&#39;&#39;</code></pre>
 </details>
 </section>
 <section>
@@ -1302,7 +1320,7 @@ class ConfigurationApi34(ConfigurationApiInterface):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="client.ConfigurationApi"><code class="flex name class">
+<dt id="livechat.configuration.client.ConfigurationApi"><code class="flex name class">
 <span>class <span class="ident">ConfigurationApi</span></span>
 </code></dt>
 <dd>
@@ -1317,16 +1335,16 @@ API version.</p></div>
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(token: str,
-                   version: str = &#39;3.3&#39;,
-                   base_url: str = &#39;api.livechatinc.com&#39;,
+                   version: str = stable_version,
+                   base_url: str = api_url,
                    http2: bool = False) -&gt; ConfigurationApiInterface:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
-                version (str): API&#39;s version. Defaults to `3.3`.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                version (str): API&#39;s version. Defaults to the stable version of API.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
 
@@ -1338,7 +1356,8 @@ API version.</p></div>
         &#39;&#39;&#39;
         client = {
             &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url, http2),
-            &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url, http2)
+            &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url, http2),
+            &#39;3.5&#39;: ConfigurationApi35(token, &#39;3.5&#39;, base_url, http2),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -1346,8 +1365,8 @@ API version.</p></div>
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="client.ConfigurationApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.3', base_url: str = 'api.livechatinc.com', http2: bool = False) ‑> <a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></span>
+<dt id="livechat.configuration.client.ConfigurationApi.get_client"><code class="name flex">
+<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False) ‑> <a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -1357,16 +1376,16 @@ API version.</p></div>
 <dd>Full token with type (Bearer/Basic) that will be
 used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's version. Defaults to <code>3.3</code>.</dd>
+<dd>API's version. Defaults to the stable version of API.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
+<dd>API's base url. Defaults to API's production URL.</dd>
 <dt><strong><code>http2</code></strong> :&ensp;<code>bool</code></dt>
 <dd>A boolean indicating if HTTP/2 support should be
 enabled. Defaults to <code>False</code>.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code><a title="client.ConfigurationApi" href="#client.ConfigurationApi">ConfigurationApi</a></code></dt>
+<dt><code><a title="livechat.configuration.client.ConfigurationApi" href="#livechat.configuration.client.ConfigurationApi">ConfigurationApi</a></code></dt>
 <dd>API client object for specified version.</dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -1380,16 +1399,16 @@ enabled. Defaults to <code>False</code>.</dd>
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(token: str,
-               version: str = &#39;3.3&#39;,
-               base_url: str = &#39;api.livechatinc.com&#39;,
+               version: str = stable_version,
+               base_url: str = api_url,
                http2: bool = False) -&gt; ConfigurationApiInterface:
     &#39;&#39;&#39; Returns client for specific Configuration API version.
 
         Args:
             token (str): Full token with type (Bearer/Basic) that will be
                          used as `Authorization` header in requests to API.
-            version (str): API&#39;s version. Defaults to `3.3`.
-            base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+            version (str): API&#39;s version. Defaults to the stable version of API.
+            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
             http2 (bool): A boolean indicating if HTTP/2 support should be
                           enabled. Defaults to `False`.
 
@@ -1401,7 +1420,8 @@ def get_client(token: str,
     &#39;&#39;&#39;
     client = {
         &#39;3.3&#39;: ConfigurationApi33(token, &#39;3.3&#39;, base_url, http2),
-        &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url, http2)
+        &#39;3.4&#39;: ConfigurationApi34(token, &#39;3.4&#39;, base_url, http2),
+        &#39;3.5&#39;: ConfigurationApi35(token, &#39;3.5&#39;, base_url, http2),
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -1410,9 +1430,9 @@ def get_client(token: str,
 </dd>
 </dl>
 </dd>
-<dt id="client.ConfigurationApi33"><code class="flex name class">
+<dt id="livechat.configuration.client.ConfigurationApi33"><code class="flex name class">
 <span>class <span class="ident">ConfigurationApi33</span></span>
-<span>(</span><span>token: str, version: str, base_url: str, http2: bool)</span>
+<span>(</span><span>token: str, version: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Configuration API client in version 3.3 class.</p></div>
@@ -1425,62 +1445,64 @@ def get_client(token: str,
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
+<li><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
 </ul>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
+<li><code><b><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
 <ul class="hlist">
-<li><code><a title="client.ConfigurationApiInterface.add_auto_access" href="#client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.approve_agent" href="#client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_agent" href="#client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_bot" href="#client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_group" href="#client.ConfigurationApiInterface.create_group">create_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_agent" href="#client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_auto_access" href="#client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_bot" href="#client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_group" href="#client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_group_properties" href="#client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_license_properties" href="#client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.disable_license_webhooks" href="#client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.enable_license_webhooks" href="#client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_agent" href="#client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_bot" href="#client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_group" href="#client.ConfigurationApiInterface.get_group">get_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_headers" href="#client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_license_webhooks_state" href="#client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_agents" href="#client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_auto_accesses" href="#client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_bots" href="#client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_group_properties" href="#client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_groups" href="#client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_license_properties" href="#client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_properties" href="#client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_webhook_names" href="#client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_webhooks" href="#client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.modify_header" href="#client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.publish_property" href="#client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_auto_access" href="#client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_license_properties" href="#client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.add_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.approve_agent" href="#livechat.configuration.client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_agent" href="#livechat.configuration.client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_bot" href="#livechat.configuration.client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_group" href="#livechat.configuration.client.ConfigurationApiInterface.create_group">create_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_agent" href="#livechat.configuration.client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_bot" href="#livechat.configuration.client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_group" href="#livechat.configuration.client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_agent" href="#livechat.configuration.client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_bot" href="#livechat.configuration.client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_group" href="#livechat.configuration.client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_headers" href="#livechat.configuration.client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_license_id" href="#livechat.configuration.client.ConfigurationApiInterface.get_license_id">get_license_id</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state" href="#livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_organization_id" href="#livechat.configuration.client.ConfigurationApiInterface.get_organization_id">get_organization_id</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_agents" href="#livechat.configuration.client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses" href="#livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_bots" href="#livechat.configuration.client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_groups" href="#livechat.configuration.client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_webhook_names" href="#livechat.configuration.client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.modify_header" href="#livechat.configuration.client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.publish_property" href="#livechat.configuration.client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.register_property" href="#livechat.configuration.client.ConfigurationApiInterface.register_property">register_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.register_webhook" href="#livechat.configuration.client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.remove_header" href="#livechat.configuration.client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension" href="#livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.suspend_agent" href="#livechat.configuration.client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unregister_property" href="#livechat.configuration.client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unregister_webhook" href="#livechat.configuration.client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent" href="#livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_agent" href="#livechat.configuration.client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_bot" href="#livechat.configuration.client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_group" href="#livechat.configuration.client.ConfigurationApiInterface.update_group">update_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="client.ConfigurationApi34"><code class="flex name class">
+<dt id="livechat.configuration.client.ConfigurationApi34"><code class="flex name class">
 <span>class <span class="ident">ConfigurationApi34</span></span>
-<span>(</span><span>token: str, version: str, base_url: str, http2: bool)</span>
+<span>(</span><span>token: str, version: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Configuration API client in version 3.4 class.</p></div>
@@ -1489,223 +1511,138 @@ def get_client(token: str,
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ConfigurationApi34(ConfigurationApiInterface):
-    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;
-
-    # license/organization ID lookup
-
-    def get_organization_id(self,
-                                   license_id: int = None,
-                                   params: dict = None,
-                                   headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns organization ID by given license ID.
-
-            Args:
-                license_id (int): License ID to get organization ID for.
-                params (dict): Custom params to be used in request&#39;s query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
-                                 params=params,
-                                 headers=headers)
-
-    def get_license_id(self,
-                                   organization_id: str = None,
-                                   params: dict = None,
-                                   headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns license ID by given organization ID.
-
-            Args:
-                organization_id (str): Organization ID to get license ID for.
-                params (dict): Custom params to be used in request&#39;s query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
-                                 params=params,
-                                 headers=headers)</code></pre>
+    &#39;&#39;&#39; Configuration API client in version 3.4 class. &#39;&#39;&#39;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
+<li><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="client.ConfigurationApi34.get_license_id"><code class="name flex">
-<span>def <span class="ident">get_license_id</span></span>(<span>self, organization_id: str = None, params: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns license ID by given organization ID.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Organization ID to get license ID for.</dd>
-<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom params to be used in request's query string.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_license_id(self,
-                               organization_id: str = None,
-                               params: dict = None,
-                               headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns license ID by given organization ID.
-
-        Args:
-            organization_id (str): Organization ID to get license ID for.
-            params (dict): Custom params to be used in request&#39;s query string.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    if params is None:
-        params = prepare_payload(locals())
-    return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
-                             params=params,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-<dt id="client.ConfigurationApi34.get_organization_id"><code class="name flex">
-<span>def <span class="ident">get_organization_id</span></span>(<span>self, license_id: int = None, params: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns organization ID by given license ID.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>License ID to get organization ID for.</dd>
-<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom params to be used in request's query string.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_organization_id(self,
-                               license_id: int = None,
-                               params: dict = None,
-                               headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns organization ID by given license ID.
-
-        Args:
-            license_id (int): License ID to get organization ID for.
-            params (dict): Custom params to be used in request&#39;s query string.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    if params is None:
-        params = prepare_payload(locals())
-    return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
-                             params=params,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-</dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
+<li><code><b><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
 <ul class="hlist">
-<li><code><a title="client.ConfigurationApiInterface.add_auto_access" href="#client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.approve_agent" href="#client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_agent" href="#client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_bot" href="#client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_group" href="#client.ConfigurationApiInterface.create_group">create_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_agent" href="#client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_auto_access" href="#client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_bot" href="#client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_group" href="#client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_group_properties" href="#client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_license_properties" href="#client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.disable_license_webhooks" href="#client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.enable_license_webhooks" href="#client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_agent" href="#client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_bot" href="#client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_group" href="#client.ConfigurationApiInterface.get_group">get_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_headers" href="#client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_license_webhooks_state" href="#client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_agents" href="#client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_auto_accesses" href="#client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_bots" href="#client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_group_properties" href="#client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_groups" href="#client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_license_properties" href="#client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_properties" href="#client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_webhook_names" href="#client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_webhooks" href="#client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.modify_header" href="#client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.publish_property" href="#client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_auto_access" href="#client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_license_properties" href="#client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.add_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.approve_agent" href="#livechat.configuration.client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_agent" href="#livechat.configuration.client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_bot" href="#livechat.configuration.client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_group" href="#livechat.configuration.client.ConfigurationApiInterface.create_group">create_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_agent" href="#livechat.configuration.client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_bot" href="#livechat.configuration.client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_group" href="#livechat.configuration.client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_agent" href="#livechat.configuration.client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_bot" href="#livechat.configuration.client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_group" href="#livechat.configuration.client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_headers" href="#livechat.configuration.client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_license_id" href="#livechat.configuration.client.ConfigurationApiInterface.get_license_id">get_license_id</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state" href="#livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_organization_id" href="#livechat.configuration.client.ConfigurationApiInterface.get_organization_id">get_organization_id</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_agents" href="#livechat.configuration.client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses" href="#livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_bots" href="#livechat.configuration.client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_groups" href="#livechat.configuration.client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_webhook_names" href="#livechat.configuration.client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.modify_header" href="#livechat.configuration.client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.publish_property" href="#livechat.configuration.client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.register_property" href="#livechat.configuration.client.ConfigurationApiInterface.register_property">register_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.register_webhook" href="#livechat.configuration.client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.remove_header" href="#livechat.configuration.client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension" href="#livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.suspend_agent" href="#livechat.configuration.client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unregister_property" href="#livechat.configuration.client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unregister_webhook" href="#livechat.configuration.client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent" href="#livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_agent" href="#livechat.configuration.client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_bot" href="#livechat.configuration.client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_group" href="#livechat.configuration.client.ConfigurationApiInterface.update_group">update_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="client.ConfigurationApiInterface"><code class="flex name class">
+<dt id="livechat.configuration.client.ConfigurationApi35"><code class="flex name class">
+<span>class <span class="ident">ConfigurationApi35</span></span>
+<span>(</span><span>token: str, version: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Configuration API client in version 3.5 class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConfigurationApi35(ConfigurationApiInterface):
+    &#39;&#39;&#39; Configuration API client in version 3.5 class. &#39;&#39;&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
+<ul class="hlist">
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.add_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.approve_agent" href="#livechat.configuration.client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_agent" href="#livechat.configuration.client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_bot" href="#livechat.configuration.client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_group" href="#livechat.configuration.client.ConfigurationApiInterface.create_group">create_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_agent" href="#livechat.configuration.client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_bot" href="#livechat.configuration.client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_group" href="#livechat.configuration.client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_agent" href="#livechat.configuration.client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_bot" href="#livechat.configuration.client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_group" href="#livechat.configuration.client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_headers" href="#livechat.configuration.client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_license_id" href="#livechat.configuration.client.ConfigurationApiInterface.get_license_id">get_license_id</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state" href="#livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_organization_id" href="#livechat.configuration.client.ConfigurationApiInterface.get_organization_id">get_organization_id</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_agents" href="#livechat.configuration.client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses" href="#livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_bots" href="#livechat.configuration.client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_groups" href="#livechat.configuration.client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_webhook_names" href="#livechat.configuration.client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.modify_header" href="#livechat.configuration.client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.publish_property" href="#livechat.configuration.client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.register_property" href="#livechat.configuration.client.ConfigurationApiInterface.register_property">register_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.register_webhook" href="#livechat.configuration.client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.remove_header" href="#livechat.configuration.client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension" href="#livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.suspend_agent" href="#livechat.configuration.client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unregister_property" href="#livechat.configuration.client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unregister_webhook" href="#livechat.configuration.client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent" href="#livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_agent" href="#livechat.configuration.client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_bot" href="#livechat.configuration.client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_group" href="#livechat.configuration.client.ConfigurationApiInterface.update_group">update_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="livechat.configuration.client.ConfigurationApiInterface"><code class="flex name class">
 <span>class <span class="ident">ConfigurationApiInterface</span></span>
-<span>(</span><span>token: str, version: str, base_url: str, http2: bool)</span>
+<span>(</span><span>token: str, version: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Interface class.</p></div>
@@ -1715,8 +1652,13 @@ which contains a server’s response to an HTTP request.</dd>
 </summary>
 <pre><code class="python">class ConfigurationApiInterface(metaclass=ABCMeta):
     &#39;&#39;&#39; Interface class. &#39;&#39;&#39;
-    def __init__(self, token: str, version: str, base_url: str,
-                 http2: bool) -&gt; ConfigurationApiInterface:
+    def __init__(self,
+                 token: str,
+                 version: str,
+                 base_url: str,
+                 http2: bool,
+                 proxies=None,
+                 verify: bool = True) -&gt; ConfigurationApiInterface:
         logger = HttpxLogger()
         self.api_url = f&#39;https://{base_url}/v{version}/configuration/action&#39;
         self.session = httpx.Client(http2=http2,
@@ -1724,7 +1666,9 @@ which contains a server’s response to an HTTP request.</dd>
                                     event_hooks={
                                         &#39;request&#39;: [logger.log_request],
                                         &#39;response&#39;: [logger.log_response]
-                                    })
+                                    },
+                                    proxies=proxies,
+                                    verify=verify)
 
     def modify_header(self, header: dict) -&gt; None:
         &#39;&#39;&#39; Modifies provided header in session object.
@@ -2872,16 +2816,67 @@ which contains a server’s response to an HTTP request.</dd>
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/get_license_webhooks_state&#39;,
                                  json=payload,
-                                 headers=headers)</code></pre>
+                                 headers=headers)
+
+    # license/organization ID lookup
+
+    def get_organization_id(self,
+                            license_id: int = None,
+                            params: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns organization ID by given license ID.
+
+            Args:
+                license_id (int): License ID to get organization ID for.
+                params (dict): Custom params to be used in request&#39;s query string.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
+                                params=params,
+                                headers=headers)
+
+    def get_license_id(self,
+                       organization_id: str = None,
+                       params: dict = None,
+                       headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns license ID by given organization ID.
+
+            Args:
+                organization_id (str): Organization ID to get license ID for.
+                params (dict): Custom params to be used in request&#39;s query string.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
+                                params=params,
+                                headers=headers)</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="client.ConfigurationApi33" href="#client.ConfigurationApi33">ConfigurationApi33</a></li>
-<li><a title="client.ConfigurationApi34" href="#client.ConfigurationApi34">ConfigurationApi34</a></li>
+<li><a title="livechat.configuration.client.ConfigurationApi33" href="#livechat.configuration.client.ConfigurationApi33">ConfigurationApi33</a></li>
+<li><a title="livechat.configuration.client.ConfigurationApi34" href="#livechat.configuration.client.ConfigurationApi34">ConfigurationApi34</a></li>
+<li><a title="livechat.configuration.client.ConfigurationApi35" href="#livechat.configuration.client.ConfigurationApi35">ConfigurationApi35</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="client.ConfigurationApiInterface.add_auto_access"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.add_auto_access"><code class="name flex">
 <span>def <span class="ident">add_auto_access</span></span>(<span>self, access: dict = None, conditions: dict = None, description: str = None, next_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2947,7 +2942,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.approve_agent"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.approve_agent"><code class="name flex">
 <span>def <span class="ident">approve_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -2999,7 +2994,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.create_agent"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.create_agent"><code class="name flex">
 <span>def <span class="ident">create_agent</span></span>(<span>self, id: str = None, name: str = None, role: str = None, avatar_path: str = None, job_title: str = None, mobile: str = None, max_chats_count: int = None, awaiting_approval: bool = None, groups: list = None, notifications: list = None, email_subscriptions: list = None, work_scheduler: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3101,7 +3096,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.create_bot"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.create_bot"><code class="name flex">
 <span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3177,7 +3172,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.create_group"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.create_group"><code class="name flex">
 <span>def <span class="ident">create_group</span></span>(<span>self, name: str = None, language_code: str = None, agent_priorities: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3237,7 +3232,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.delete_agent"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.delete_agent"><code class="name flex">
 <span>def <span class="ident">delete_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3289,7 +3284,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.delete_auto_access"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.delete_auto_access"><code class="name flex">
 <span>def <span class="ident">delete_auto_access</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3341,7 +3336,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.delete_bot"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.delete_bot"><code class="name flex">
 <span>def <span class="ident">delete_bot</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3393,7 +3388,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.delete_group"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.delete_group"><code class="name flex">
 <span>def <span class="ident">delete_group</span></span>(<span>self, id: int = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3445,7 +3440,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.delete_group_properties"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.delete_group_properties"><code class="name flex">
 <span>def <span class="ident">delete_group_properties</span></span>(<span>self, id: int = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3501,7 +3496,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.delete_license_properties"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.delete_license_properties"><code class="name flex">
 <span>def <span class="ident">delete_license_properties</span></span>(<span>self, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3553,7 +3548,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.disable_license_webhooks"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks"><code class="name flex">
 <span>def <span class="ident">disable_license_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3605,7 +3600,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.enable_license_webhooks"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks"><code class="name flex">
 <span>def <span class="ident">enable_license_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3659,7 +3654,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.get_agent"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.get_agent"><code class="name flex">
 <span>def <span class="ident">get_agent</span></span>(<span>self, id: str = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3715,7 +3710,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.get_bot"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.get_bot"><code class="name flex">
 <span>def <span class="ident">get_bot</span></span>(<span>self, id: str = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3771,7 +3766,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.get_group"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.get_group"><code class="name flex">
 <span>def <span class="ident">get_group</span></span>(<span>self, id: int = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3827,7 +3822,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.get_headers"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.get_headers"><code class="name flex">
 <span>def <span class="ident">get_headers</span></span>(<span>self) ‑> dict</span>
 </code></dt>
 <dd>
@@ -3850,7 +3845,59 @@ which contains a server’s response to an HTTP request.</dd>
     return dict(self.session.headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.get_license_webhooks_state"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.get_license_id"><code class="name flex">
+<span>def <span class="ident">get_license_id</span></span>(<span>self, organization_id: str = None, params: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns license ID by given organization ID.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Organization ID to get license ID for.</dd>
+<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom params to be used in request's query string.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_license_id(self,
+                   organization_id: str = None,
+                   params: dict = None,
+                   headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns license ID by given organization ID.
+
+        Args:
+            organization_id (str): Organization ID to get license ID for.
+            params (dict): Custom params to be used in request&#39;s query string.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if params is None:
+        params = prepare_payload(locals())
+    return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
+                            params=params,
+                            headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state"><code class="name flex">
 <span>def <span class="ident">get_license_webhooks_state</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3904,7 +3951,59 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_agents"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.get_organization_id"><code class="name flex">
+<span>def <span class="ident">get_organization_id</span></span>(<span>self, license_id: int = None, params: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns organization ID by given license ID.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>License ID to get organization ID for.</dd>
+<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom params to be used in request's query string.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_organization_id(self,
+                        license_id: int = None,
+                        params: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns organization ID by given license ID.
+
+        Args:
+            license_id (int): License ID to get organization ID for.
+            params (dict): Custom params to be used in request&#39;s query string.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if params is None:
+        params = prepare_payload(locals())
+    return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
+                            params=params,
+                            headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_agents"><code class="name flex">
 <span>def <span class="ident">list_agents</span></span>(<span>self, filters: dict = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3960,7 +4059,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_auto_accesses"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses"><code class="name flex">
 <span>def <span class="ident">list_auto_accesses</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4005,7 +4104,7 @@ which contains a server’s response to an HTTP request.</p></div>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_bots"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_bots"><code class="name flex">
 <span>def <span class="ident">list_bots</span></span>(<span>self, all: bool = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4061,7 +4160,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_group_properties"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_group_properties"><code class="name flex">
 <span>def <span class="ident">list_group_properties</span></span>(<span>self, id: int = None, namespace: str = None, name_prefix: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4121,7 +4220,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_groups"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_groups"><code class="name flex">
 <span>def <span class="ident">list_groups</span></span>(<span>self, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4173,7 +4272,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_license_properties"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_license_properties"><code class="name flex">
 <span>def <span class="ident">list_license_properties</span></span>(<span>self, namespace: str = None, name_prefix: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4229,7 +4328,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_properties"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_properties"><code class="name flex">
 <span>def <span class="ident">list_properties</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4281,7 +4380,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_webhook_names"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_webhook_names"><code class="name flex">
 <span>def <span class="ident">list_webhook_names</span></span>(<span>self, version: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4333,7 +4432,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.list_webhooks"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.list_webhooks"><code class="name flex">
 <span>def <span class="ident">list_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4385,8 +4484,8 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.modify_header"><code class="name flex">
-<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> None</span>
+<dt id="livechat.configuration.client.ConfigurationApiInterface.modify_header"><code class="name flex">
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Modifies provided header in session object.</p>
@@ -4408,7 +4507,7 @@ which contains a server’s response to an HTTP request.</dd>
     self.session.headers.update(header)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.publish_property"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.publish_property"><code class="name flex">
 <span>def <span class="ident">publish_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, access_type: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4468,7 +4567,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.register_property"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.register_property"><code class="name flex">
 <span>def <span class="ident">register_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, type: str = None, access: dict = None, description: str = None, domain: list = None, range: dict = None, default_value: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4548,7 +4647,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.register_webhook"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.register_webhook"><code class="name flex">
 <span>def <span class="ident">register_webhook</span></span>(<span>self, action: str = None, secret_key: str = None, url: str = None, additional_data: list = None, description: str = None, filters: dict = None, owner_client_id: str = None, type: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4630,8 +4729,8 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.remove_header"><code class="name flex">
-<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> None</span>
+<dt id="livechat.configuration.client.ConfigurationApiInterface.remove_header"><code class="name flex">
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Removes provided header from session object.</p>
@@ -4654,7 +4753,7 @@ which contains a server’s response to an HTTP request.</dd>
         del self.session.headers[key]</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.request_agent_unsuspension"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension"><code class="name flex">
 <span>def <span class="ident">request_agent_unsuspension</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4704,7 +4803,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.suspend_agent"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.suspend_agent"><code class="name flex">
 <span>def <span class="ident">suspend_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4756,7 +4855,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.unregister_property"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.unregister_property"><code class="name flex">
 <span>def <span class="ident">unregister_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4812,7 +4911,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.unregister_webhook"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.unregister_webhook"><code class="name flex">
 <span>def <span class="ident">unregister_webhook</span></span>(<span>self, id: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4868,7 +4967,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.unsuspend_agent"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent"><code class="name flex">
 <span>def <span class="ident">unsuspend_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4920,7 +5019,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.update_agent"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.update_agent"><code class="name flex">
 <span>def <span class="ident">update_agent</span></span>(<span>self, id: str = None, name: str = None, role: str = None, avatar_path: str = None, job_title: str = None, mobile: str = None, max_chats_count: int = None, groups: list = None, notifications: list = None, email_subscriptions: list = None, work_scheduler: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5016,7 +5115,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.update_auto_access"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.update_auto_access"><code class="name flex">
 <span>def <span class="ident">update_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5074,7 +5173,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.update_bot"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.update_bot"><code class="name flex">
 <span>def <span class="ident">update_bot</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5154,7 +5253,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.update_group"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.update_group"><code class="name flex">
 <span>def <span class="ident">update_group</span></span>(<span>self, id: int = None, name: str = None, language_code: str = None, agent_priorities: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5218,7 +5317,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.update_group_properties"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.update_group_properties"><code class="name flex">
 <span>def <span class="ident">update_group_properties</span></span>(<span>self, group_id: int = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5276,7 +5375,7 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="client.ConfigurationApiInterface.update_license_properties"><code class="name flex">
+<dt id="livechat.configuration.client.ConfigurationApiInterface.update_license_properties"><code class="name flex">
 <span>def <span class="ident">update_license_properties</span></span>(<span>self, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5341,70 +5440,76 @@ which contains a server’s response to an HTTP request.</dd>
 <ul></ul>
 </div>
 <ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="livechat.configuration" href="index.html">livechat.configuration</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="client.ConfigurationApi" href="#client.ConfigurationApi">ConfigurationApi</a></code></h4>
+<h4><code><a title="livechat.configuration.client.ConfigurationApi" href="#livechat.configuration.client.ConfigurationApi">ConfigurationApi</a></code></h4>
 <ul class="">
-<li><code><a title="client.ConfigurationApi.get_client" href="#client.ConfigurationApi.get_client">get_client</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApi.get_client" href="#livechat.configuration.client.ConfigurationApi.get_client">get_client</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="client.ConfigurationApi33" href="#client.ConfigurationApi33">ConfigurationApi33</a></code></h4>
+<h4><code><a title="livechat.configuration.client.ConfigurationApi33" href="#livechat.configuration.client.ConfigurationApi33">ConfigurationApi33</a></code></h4>
 </li>
 <li>
-<h4><code><a title="client.ConfigurationApi34" href="#client.ConfigurationApi34">ConfigurationApi34</a></code></h4>
-<ul class="">
-<li><code><a title="client.ConfigurationApi34.get_license_id" href="#client.ConfigurationApi34.get_license_id">get_license_id</a></code></li>
-<li><code><a title="client.ConfigurationApi34.get_organization_id" href="#client.ConfigurationApi34.get_organization_id">get_organization_id</a></code></li>
-</ul>
+<h4><code><a title="livechat.configuration.client.ConfigurationApi34" href="#livechat.configuration.client.ConfigurationApi34">ConfigurationApi34</a></code></h4>
 </li>
 <li>
-<h4><code><a title="client.ConfigurationApiInterface" href="#client.ConfigurationApiInterface">ConfigurationApiInterface</a></code></h4>
+<h4><code><a title="livechat.configuration.client.ConfigurationApi35" href="#livechat.configuration.client.ConfigurationApi35">ConfigurationApi35</a></code></h4>
+</li>
+<li>
+<h4><code><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></code></h4>
 <ul class="">
-<li><code><a title="client.ConfigurationApiInterface.add_auto_access" href="#client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.approve_agent" href="#client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_agent" href="#client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_bot" href="#client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.create_group" href="#client.ConfigurationApiInterface.create_group">create_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_agent" href="#client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_auto_access" href="#client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_bot" href="#client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_group" href="#client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_group_properties" href="#client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.delete_license_properties" href="#client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.disable_license_webhooks" href="#client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.enable_license_webhooks" href="#client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_agent" href="#client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_bot" href="#client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_group" href="#client.ConfigurationApiInterface.get_group">get_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_headers" href="#client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.get_license_webhooks_state" href="#client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_agents" href="#client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_auto_accesses" href="#client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_bots" href="#client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_group_properties" href="#client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_groups" href="#client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_license_properties" href="#client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_properties" href="#client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_webhook_names" href="#client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.list_webhooks" href="#client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.modify_header" href="#client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.publish_property" href="#client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.register_property" href="#client.ConfigurationApiInterface.register_property">register_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.register_webhook" href="#client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.remove_header" href="#client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.request_agent_unsuspension" href="#client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.suspend_agent" href="#client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unregister_property" href="#client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unregister_webhook" href="#client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.unsuspend_agent" href="#client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_agent" href="#client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_auto_access" href="#client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_bot" href="#client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_group" href="#client.ConfigurationApiInterface.update_group">update_group</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_group_properties" href="#client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
-<li><code><a title="client.ConfigurationApiInterface.update_license_properties" href="#client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.add_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.approve_agent" href="#livechat.configuration.client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_agent" href="#livechat.configuration.client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_bot" href="#livechat.configuration.client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_group" href="#livechat.configuration.client.ConfigurationApiInterface.create_group">create_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_agent" href="#livechat.configuration.client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_bot" href="#livechat.configuration.client.ConfigurationApiInterface.delete_bot">delete_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_group" href="#livechat.configuration.client.ConfigurationApiInterface.delete_group">delete_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.delete_group_properties">delete_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.delete_license_properties">delete_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.disable_license_webhooks">disable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.enable_license_webhooks">enable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_agent" href="#livechat.configuration.client.ConfigurationApiInterface.get_agent">get_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_bot" href="#livechat.configuration.client.ConfigurationApiInterface.get_bot">get_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_group" href="#livechat.configuration.client.ConfigurationApiInterface.get_group">get_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_headers" href="#livechat.configuration.client.ConfigurationApiInterface.get_headers">get_headers</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_license_id" href="#livechat.configuration.client.ConfigurationApiInterface.get_license_id">get_license_id</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state" href="#livechat.configuration.client.ConfigurationApiInterface.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.get_organization_id" href="#livechat.configuration.client.ConfigurationApiInterface.get_organization_id">get_organization_id</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_agents" href="#livechat.configuration.client.ConfigurationApiInterface.list_agents">list_agents</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses" href="#livechat.configuration.client.ConfigurationApiInterface.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_bots" href="#livechat.configuration.client.ConfigurationApiInterface.list_bots">list_bots</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_group_properties">list_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_groups" href="#livechat.configuration.client.ConfigurationApiInterface.list_groups">list_groups</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_properties" href="#livechat.configuration.client.ConfigurationApiInterface.list_properties">list_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_webhook_names" href="#livechat.configuration.client.ConfigurationApiInterface.list_webhook_names">list_webhook_names</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.list_webhooks" href="#livechat.configuration.client.ConfigurationApiInterface.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.modify_header" href="#livechat.configuration.client.ConfigurationApiInterface.modify_header">modify_header</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.publish_property" href="#livechat.configuration.client.ConfigurationApiInterface.publish_property">publish_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.register_property" href="#livechat.configuration.client.ConfigurationApiInterface.register_property">register_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.register_webhook" href="#livechat.configuration.client.ConfigurationApiInterface.register_webhook">register_webhook</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.remove_header" href="#livechat.configuration.client.ConfigurationApiInterface.remove_header">remove_header</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension" href="#livechat.configuration.client.ConfigurationApiInterface.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.suspend_agent" href="#livechat.configuration.client.ConfigurationApiInterface.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unregister_property" href="#livechat.configuration.client.ConfigurationApiInterface.unregister_property">unregister_property</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unregister_webhook" href="#livechat.configuration.client.ConfigurationApiInterface.unregister_webhook">unregister_webhook</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent" href="#livechat.configuration.client.ConfigurationApiInterface.unsuspend_agent">unsuspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_agent" href="#livechat.configuration.client.ConfigurationApiInterface.update_agent">update_agent</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.update_auto_access">update_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_bot" href="#livechat.configuration.client.ConfigurationApiInterface.update_bot">update_bot</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_group" href="#livechat.configuration.client.ConfigurationApiInterface.update_group">update_group</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_group_properties" href="#livechat.configuration.client.ConfigurationApiInterface.update_group_properties">update_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.update_license_properties" href="#livechat.configuration.client.ConfigurationApiInterface.update_license_properties">update_license_properties</a></code></li>
 </ul>
 </li>
 </ul>
@@ -5413,7 +5518,7 @@ which contains a server’s response to an HTTP request.</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
 </body>
 </html>

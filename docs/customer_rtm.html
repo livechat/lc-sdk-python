@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
-<title>client API documentation</title>
+<meta name="generator" content="pdoc 0.9.2" />
+<title>livechat.customer.rtm.client API documentation</title>
 <meta name="description" content="Customer RTM client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>client</code></h1>
+<h1 class="title">Module <code>livechat.customer.rtm.client</code></h1>
 </header>
 <section id="section-intro">
 <p>Customer RTM client implementation.</p>
@@ -29,29 +29,36 @@
 </summary>
 <pre><code class="python">&#39;&#39;&#39; Customer RTM client implementation. &#39;&#39;&#39;
 
-# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0231
+# pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
 
 from __future__ import annotations
 
 from abc import ABCMeta
+from configparser import ConfigParser
 
 from livechat.utils.helpers import prepare_payload
+from livechat.utils.structures import RtmResponse
 from livechat.utils.ws_client import WebsocketClient
+
+config = ConfigParser()
+config.read(&#39;configs/main.ini&#39;)
+stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
+api_url = config.get(&#39;api&#39;, &#39;url&#39;)
 
 
 class CustomerRTM:
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
     @staticmethod
     def get_client(license_id: int = None,
-                   version: str = &#39;3.3&#39;,
-                   base_url: str = &#39;api.livechatinc.com&#39;,
+                   version: str = stable_version,
+                   base_url: str = api_url,
                    organization_id: str = None) -&gt; CustomerRTMInterface:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
-                license_id (int): License ID. Required to use API v3.3.
-                version (str): API&#39;s version. Defaults to `3.3`.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                license_id (int): License ID. Required to use for API version &lt;= 3.3.
+                version (str): API&#39;s version. Defaults to the stable version of API.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -60,7 +67,11 @@ class CustomerRTM:
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
-        client = {&#39;3.3&#39;: CustomerRTM33, &#39;3.4&#39;: CustomerRTM34}.get(version)
+        client = {
+            &#39;3.3&#39;: CustomerRTM33,
+            &#39;3.4&#39;: CustomerRTM34,
+            &#39;3.5&#39;: CustomerRTM35,
+        }.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
                 &#39;license_id&#39;: license_id,
@@ -71,7 +82,12 @@ class CustomerRTM:
                 &#39;organization_id&#39;: organization_id,
                 &#39;version&#39;: version,
                 &#39;url&#39;: base_url
-            }
+            },
+            &#39;3.5&#39;: {
+                &#39;organization_id&#39;: organization_id,
+                &#39;version&#39;: version,
+                &#39;url&#39;: base_url
+            },
         }.get(version)
         if client:
             return client(**client_kwargs)
@@ -100,7 +116,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
         self.ws.close()
 
-    def login(self, token: str = None, payload: dict = None) -&gt; dict:
+    def login(self, token: str = None, payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in customer.
 
             Args:
@@ -109,7 +125,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -118,7 +135,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def list_group_statuses(self,
                             all: bool = None,
                             group_ids: list = None,
-                            payload: dict = None) -&gt; dict:
+                            payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Lists statuses of groups.
 
             Args:
@@ -128,7 +145,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -141,7 +159,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    chat: dict = None,
                    active: bool = None,
                    continuous: bool = None,
-                   payload: dict = None) -&gt; dict:
+                   payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Starts a chat.
 
             Args:
@@ -152,7 +170,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -162,7 +181,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                     chat: dict = None,
                     active: bool = None,
                     continuous: bool = None,
-                    payload: dict = None) -&gt; dict:
+                    payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Restarts an archived chat.
 
             Args:
@@ -173,7 +192,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -182,7 +202,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def get_chat(self,
                  chat_id: str = None,
                  thread_id: str = None,
-                 payload: dict = None) -&gt; dict:
+                 payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; It returns a thread that the current Customer has access to in a given chat.
 
             Args:
@@ -192,7 +212,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -202,7 +223,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    limit: int = None,
                    sort_order: str = None,
                    page_id: str = None,
-                   payload: dict = None) -&gt; dict:
+                   payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; It returns summaries of the chats a Customer participated in.
 
             Args:
@@ -214,7 +235,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -226,7 +248,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                      limit: int = None,
                      page_id: str = None,
                      min_events_count: int = None,
-                     payload: dict = None) -&gt; dict:
+                     payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; It returns threads that the current Customer has access to in a given chat.
 
             Args:
@@ -241,13 +263,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;list_threads&#39;, &#39;payload&#39;: payload})
 
-    def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
+    def deactivate_chat(self,
+                        id: str = None,
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
             Args:
@@ -256,7 +281,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -266,7 +292,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
-                   payload: dict = None) -&gt; dict:
+                   payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends an Event object.
 
             Args:
@@ -277,7 +303,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -286,7 +313,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def send_sneak_peek(self,
                         chat_id: str = None,
                         sneak_peek_text: str = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends a sneak peek to a chat.
 
             Args:
@@ -296,7 +323,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -307,7 +335,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                    thread_id: str = None,
                                    event_id: str = None,
                                    postback: dict = None,
-                                   payload: dict = None) -&gt; dict:
+                                   payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends rich message postback.
 
             Args:
@@ -319,7 +347,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -331,7 +360,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def accept_greeting(self,
                         greeting_id: int = None,
                         unique_id: str = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Marks an incoming greeting as seen.
 
             Args:
@@ -341,7 +370,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -349,7 +379,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 
     def cancel_greeting(self,
                         unique_id: str = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Cancels a greeting.
 
             Args:
@@ -358,13 +388,16 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;cancel_greeting&#39;, &#39;payload&#39;: payload})
 
-    def get_url_info(self, url: str = None, payload: dict = None) -&gt; dict:
+    def get_url_info(self,
+                     url: str = None,
+                     payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; It returns the info on a given URL.
 
             Args:
@@ -373,7 +406,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -382,7 +416,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def get_form(self,
                  group_id: int = None,
                  type: str = None,
-                 payload: dict = None) -&gt; dict:
+                 payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
 
             Args:
@@ -392,13 +426,14 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_form&#39;, &#39;payload&#39;: payload})
 
-    def get_predicted_agent(self, payload: dict = None) -&gt; dict:
+    def get_predicted_agent(self, payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
 
             Args:
@@ -406,7 +441,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         return self.ws.send({
             &#39;action&#39;: &#39;get_predicted_agent&#39;,
@@ -416,7 +452,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def mark_events_as_seen(self,
                             chat_id: str = None,
                             seen_up_to: str = None,
-                            payload: dict = None) -&gt; dict:
+                            payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Marks events as seen by agent.
 
             Args:
@@ -426,7 +462,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -435,7 +472,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
             &#39;payload&#39;: payload
         })
 
-    def get_customer(self, payload: dict = None) -&gt; dict:
+    def get_customer(self, payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Returns the info about the customer requesting it.
 
             Args:
@@ -443,7 +480,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         return self.ws.send({
             &#39;action&#39;: &#39;get_customer&#39;,
@@ -455,7 +493,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         email: str = None,
                         avatar: str = None,
                         session_fields: list = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates customer&#39;s properties.
 
             Args:
@@ -468,7 +506,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -477,7 +516,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def update_customer_page(self,
                              url: str = None,
                              title: str = None,
-                             payload: dict = None) -&gt; dict:
+                             payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates customer&#39;s page.
 
             Args:
@@ -487,7 +526,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -498,7 +538,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
 
     def set_customer_session_fields(self,
                                     session_fields: list = None,
-                                    payload: dict = None) -&gt; dict:
+                                    payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sets customer&#39;s session fields.
 
             Args:
@@ -507,7 +547,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -519,7 +560,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def delete_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -&gt; dict:
+                               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deletes chat properties.
 
             Args:
@@ -529,7 +570,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -541,7 +583,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
     def update_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -&gt; dict:
+                               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates chat properties.
 
             Args:
@@ -551,7 +593,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -564,7 +607,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -&gt; dict:
+                                 payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deletes thread properties.
 
             Args:
@@ -575,7 +618,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -588,7 +632,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -&gt; dict:
+                                 payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates thread properties.
 
             Args:
@@ -599,7 +643,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -613,7 +658,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -&gt; dict:
+                                payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deletes event properties.
 
             Args:
@@ -625,7 +670,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -639,7 +685,7 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -&gt; dict:
+                                payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates event properties.
 
             Args:
@@ -651,7 +697,8 @@ class CustomerRTMInterface(metaclass=ABCMeta):
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -688,6 +735,21 @@ class CustomerRTM34(CustomerRTMInterface):
         else:
             raise ValueError(
                 &#39;Pipe was not opened. Please check your `organization_id` argument.&#39;
+            )
+
+
+class CustomerRTM35(CustomerRTMInterface):
+    &#39;&#39;&#39; Customer RTM version 3.5 class. &#39;&#39;&#39;
+    def __init__(self, organization_id: str, version: str,
+                 url: str) -&gt; CustomerRTM35:
+        if isinstance(organization_id, str):
+            self.ws = WebsocketClient(
+                url=
+                f&#39;wss://{url}/v{version}/customer/rtm/ws?organization_id={organization_id}&#39;
+            )
+        else:
+            raise ValueError(
+                &#39;Pipe was not opened. Please check your `organization_id` argument.&#39;
             )</code></pre>
 </details>
 </section>
@@ -700,7 +762,7 @@ class CustomerRTM34(CustomerRTMInterface):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="client.CustomerRTM"><code class="flex name class">
+<dt id="livechat.customer.rtm.client.CustomerRTM"><code class="flex name class">
 <span>class <span class="ident">CustomerRTM</span></span>
 </code></dt>
 <dd>
@@ -713,15 +775,15 @@ class CustomerRTM34(CustomerRTMInterface):
     &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
     @staticmethod
     def get_client(license_id: int = None,
-                   version: str = &#39;3.3&#39;,
-                   base_url: str = &#39;api.livechatinc.com&#39;,
+                   version: str = stable_version,
+                   base_url: str = api_url,
                    organization_id: str = None) -&gt; CustomerRTMInterface:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
-                license_id (int): License ID. Required to use API v3.3.
-                version (str): API&#39;s version. Defaults to `3.3`.
-                base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+                license_id (int): License ID. Required to use for API version &lt;= 3.3.
+                version (str): API&#39;s version. Defaults to the stable version of API.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -730,7 +792,11 @@ class CustomerRTM34(CustomerRTMInterface):
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
-        client = {&#39;3.3&#39;: CustomerRTM33, &#39;3.4&#39;: CustomerRTM34}.get(version)
+        client = {
+            &#39;3.3&#39;: CustomerRTM33,
+            &#39;3.4&#39;: CustomerRTM34,
+            &#39;3.5&#39;: CustomerRTM35,
+        }.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
                 &#39;license_id&#39;: license_id,
@@ -741,7 +807,12 @@ class CustomerRTM34(CustomerRTMInterface):
                 &#39;organization_id&#39;: organization_id,
                 &#39;version&#39;: version,
                 &#39;url&#39;: base_url
-            }
+            },
+            &#39;3.5&#39;: {
+                &#39;organization_id&#39;: organization_id,
+                &#39;version&#39;: version,
+                &#39;url&#39;: base_url
+            },
         }.get(version)
         if client:
             return client(**client_kwargs)
@@ -749,25 +820,25 @@ class CustomerRTM34(CustomerRTMInterface):
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="client.CustomerRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, version: str = '3.3', base_url: str = 'api.livechatinc.com', organization_id: str = None) ‑> <a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></span>
+<dt id="livechat.customer.rtm.client.CustomerRTM.get_client"><code class="name flex">
+<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, version: str = '3.4', base_url: str = 'api.livechatinc.com', organization_id: str = None) ‑> <a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Customer RTM version.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>License ID. Required to use API v3.3.</dd>
+<dd>License ID. Required to use for API version &lt;= 3.3.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's version. Defaults to <code>3.3</code>.</dd>
+<dd>API's version. Defaults to the stable version of API.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
-<dd>API's base url. Defaults to <code>api.livechatinc.com</code>.</dd>
+<dd>API's base url. Defaults to API's production URL.</dd>
 <dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Organization ID, replaced license ID in v3.4.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></code></dt>
+<dt><code><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></code></dt>
 <dd>API client object for specified version.</dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -781,15 +852,15 @@ class CustomerRTM34(CustomerRTMInterface):
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(license_id: int = None,
-               version: str = &#39;3.3&#39;,
-               base_url: str = &#39;api.livechatinc.com&#39;,
+               version: str = stable_version,
+               base_url: str = api_url,
                organization_id: str = None) -&gt; CustomerRTMInterface:
     &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
         Args:
-            license_id (int): License ID. Required to use API v3.3.
-            version (str): API&#39;s version. Defaults to `3.3`.
-            base_url (str): API&#39;s base url. Defaults to `api.livechatinc.com`.
+            license_id (int): License ID. Required to use for API version &lt;= 3.3.
+            version (str): API&#39;s version. Defaults to the stable version of API.
+            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
             organization_id (str): Organization ID, replaced license ID in v3.4.
 
         Returns:
@@ -798,7 +869,11 @@ def get_client(license_id: int = None,
         Raises:
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
-    client = {&#39;3.3&#39;: CustomerRTM33, &#39;3.4&#39;: CustomerRTM34}.get(version)
+    client = {
+        &#39;3.3&#39;: CustomerRTM33,
+        &#39;3.4&#39;: CustomerRTM34,
+        &#39;3.5&#39;: CustomerRTM35,
+    }.get(version)
     client_kwargs = {
         &#39;3.3&#39;: {
             &#39;license_id&#39;: license_id,
@@ -809,7 +884,12 @@ def get_client(license_id: int = None,
             &#39;organization_id&#39;: organization_id,
             &#39;version&#39;: version,
             &#39;url&#39;: base_url
-        }
+        },
+        &#39;3.5&#39;: {
+            &#39;organization_id&#39;: organization_id,
+            &#39;version&#39;: version,
+            &#39;url&#39;: base_url
+        },
     }.get(version)
     if client:
         return client(**client_kwargs)
@@ -818,7 +898,7 @@ def get_client(license_id: int = None,
 </dd>
 </dl>
 </dd>
-<dt id="client.CustomerRTM33"><code class="flex name class">
+<dt id="livechat.customer.rtm.client.CustomerRTM33"><code class="flex name class">
 <span>class <span class="ident">CustomerRTM33</span></span>
 <span>(</span><span>license_id: int, version: str, url: str)</span>
 </code></dt>
@@ -844,46 +924,46 @@ def get_client(license_id: int = None,
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></li>
+<li><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></li>
 </ul>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></b></code>:
+<li><code><b><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></b></code>:
 <ul class="hlist">
-<li><code><a title="client.CustomerRTMInterface.accept_greeting" href="#client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.cancel_greeting" href="#client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.close_connection" href="#client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.deactivate_chat" href="#client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_chat_properties" href="#client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_event_properties" href="#client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_thread_properties" href="#client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_chat" href="#client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_customer" href="#client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_form" href="#client.CustomerRTMInterface.get_form">get_form</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_predicted_agent" href="#client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_url_info" href="#client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_chats" href="#client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_group_statuses" href="#client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_threads" href="#client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.login" href="#client.CustomerRTMInterface.login">login</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.mark_events_as_seen" href="#client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.open_connection" href="#client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.resume_chat" href="#client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_event" href="#client.CustomerRTMInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_rich_message_postback" href="#client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_sneak_peek" href="#client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.set_customer_session_fields" href="#client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.start_chat" href="#client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_chat_properties" href="#client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer" href="#client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer_page" href="#client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_event_properties" href="#client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_thread_properties" href="#client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.close_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_form" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_form">get_form</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_url_info" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_chats" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_threads" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.login" href="#livechat.customer.rtm.client.CustomerRTMInterface.login">login</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen" href="#livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.open_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.resume_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_event" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_event">send_event</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields" href="#livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.start_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="client.CustomerRTM34"><code class="flex name class">
+<dt id="livechat.customer.rtm.client.CustomerRTM34"><code class="flex name class">
 <span>class <span class="ident">CustomerRTM34</span></span>
 <span>(</span><span>organization_id: str, version: str, url: str)</span>
 </code></dt>
@@ -909,46 +989,111 @@ def get_client(license_id: int = None,
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></li>
+<li><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></li>
 </ul>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></b></code>:
+<li><code><b><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></b></code>:
 <ul class="hlist">
-<li><code><a title="client.CustomerRTMInterface.accept_greeting" href="#client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.cancel_greeting" href="#client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.close_connection" href="#client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.deactivate_chat" href="#client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_chat_properties" href="#client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_event_properties" href="#client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_thread_properties" href="#client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_chat" href="#client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_customer" href="#client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_form" href="#client.CustomerRTMInterface.get_form">get_form</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_predicted_agent" href="#client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_url_info" href="#client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_chats" href="#client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_group_statuses" href="#client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_threads" href="#client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.login" href="#client.CustomerRTMInterface.login">login</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.mark_events_as_seen" href="#client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.open_connection" href="#client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.resume_chat" href="#client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_event" href="#client.CustomerRTMInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_rich_message_postback" href="#client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_sneak_peek" href="#client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.set_customer_session_fields" href="#client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.start_chat" href="#client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_chat_properties" href="#client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer" href="#client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer_page" href="#client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_event_properties" href="#client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_thread_properties" href="#client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.close_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_form" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_form">get_form</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_url_info" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_chats" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_threads" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.login" href="#livechat.customer.rtm.client.CustomerRTMInterface.login">login</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen" href="#livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.open_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.resume_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_event" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_event">send_event</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields" href="#livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.start_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="client.CustomerRTMInterface"><code class="flex name class">
+<dt id="livechat.customer.rtm.client.CustomerRTM35"><code class="flex name class">
+<span>class <span class="ident">CustomerRTM35</span></span>
+<span>(</span><span>organization_id: str, version: str, url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Customer RTM version 3.5 class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CustomerRTM35(CustomerRTMInterface):
+    &#39;&#39;&#39; Customer RTM version 3.5 class. &#39;&#39;&#39;
+    def __init__(self, organization_id: str, version: str,
+                 url: str) -&gt; CustomerRTM35:
+        if isinstance(organization_id, str):
+            self.ws = WebsocketClient(
+                url=
+                f&#39;wss://{url}/v{version}/customer/rtm/ws?organization_id={organization_id}&#39;
+            )
+        else:
+            raise ValueError(
+                &#39;Pipe was not opened. Please check your `organization_id` argument.&#39;
+            )</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></b></code>:
+<ul class="hlist">
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.close_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_form" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_form">get_form</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_url_info" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_chats" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_threads" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.login" href="#livechat.customer.rtm.client.CustomerRTMInterface.login">login</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen" href="#livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.open_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.resume_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_event" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_event">send_event</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields" href="#livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.start_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface"><code class="flex name class">
 <span>class <span class="ident">CustomerRTMInterface</span></span>
 <span>(</span><span>license_id: int, version: str, url: str, organization_id: str)</span>
 </code></dt>
@@ -980,7 +1125,7 @@ def get_client(license_id: int = None,
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
         self.ws.close()
 
-    def login(self, token: str = None, payload: dict = None) -&gt; dict:
+    def login(self, token: str = None, payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in customer.
 
             Args:
@@ -989,7 +1134,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -998,7 +1144,7 @@ def get_client(license_id: int = None,
     def list_group_statuses(self,
                             all: bool = None,
                             group_ids: list = None,
-                            payload: dict = None) -&gt; dict:
+                            payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Lists statuses of groups.
 
             Args:
@@ -1008,7 +1154,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1021,7 +1168,7 @@ def get_client(license_id: int = None,
                    chat: dict = None,
                    active: bool = None,
                    continuous: bool = None,
-                   payload: dict = None) -&gt; dict:
+                   payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Starts a chat.
 
             Args:
@@ -1032,7 +1179,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1042,7 +1190,7 @@ def get_client(license_id: int = None,
                     chat: dict = None,
                     active: bool = None,
                     continuous: bool = None,
-                    payload: dict = None) -&gt; dict:
+                    payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Restarts an archived chat.
 
             Args:
@@ -1053,7 +1201,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1062,7 +1211,7 @@ def get_client(license_id: int = None,
     def get_chat(self,
                  chat_id: str = None,
                  thread_id: str = None,
-                 payload: dict = None) -&gt; dict:
+                 payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; It returns a thread that the current Customer has access to in a given chat.
 
             Args:
@@ -1072,7 +1221,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1082,7 +1232,7 @@ def get_client(license_id: int = None,
                    limit: int = None,
                    sort_order: str = None,
                    page_id: str = None,
-                   payload: dict = None) -&gt; dict:
+                   payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; It returns summaries of the chats a Customer participated in.
 
             Args:
@@ -1094,7 +1244,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1106,7 +1257,7 @@ def get_client(license_id: int = None,
                      limit: int = None,
                      page_id: str = None,
                      min_events_count: int = None,
-                     payload: dict = None) -&gt; dict:
+                     payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; It returns threads that the current Customer has access to in a given chat.
 
             Args:
@@ -1121,13 +1272,16 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;list_threads&#39;, &#39;payload&#39;: payload})
 
-    def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
+    def deactivate_chat(self,
+                        id: str = None,
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
             Args:
@@ -1136,7 +1290,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1146,7 +1301,7 @@ def get_client(license_id: int = None,
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
-                   payload: dict = None) -&gt; dict:
+                   payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends an Event object.
 
             Args:
@@ -1157,7 +1312,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1166,7 +1322,7 @@ def get_client(license_id: int = None,
     def send_sneak_peek(self,
                         chat_id: str = None,
                         sneak_peek_text: str = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends a sneak peek to a chat.
 
             Args:
@@ -1176,7 +1332,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1187,7 +1344,7 @@ def get_client(license_id: int = None,
                                    thread_id: str = None,
                                    event_id: str = None,
                                    postback: dict = None,
-                                   payload: dict = None) -&gt; dict:
+                                   payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends rich message postback.
 
             Args:
@@ -1199,7 +1356,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1211,7 +1369,7 @@ def get_client(license_id: int = None,
     def accept_greeting(self,
                         greeting_id: int = None,
                         unique_id: str = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Marks an incoming greeting as seen.
 
             Args:
@@ -1221,7 +1379,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1229,7 +1388,7 @@ def get_client(license_id: int = None,
 
     def cancel_greeting(self,
                         unique_id: str = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Cancels a greeting.
 
             Args:
@@ -1238,13 +1397,16 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;cancel_greeting&#39;, &#39;payload&#39;: payload})
 
-    def get_url_info(self, url: str = None, payload: dict = None) -&gt; dict:
+    def get_url_info(self,
+                     url: str = None,
+                     payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; It returns the info on a given URL.
 
             Args:
@@ -1253,7 +1415,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1262,7 +1425,7 @@ def get_client(license_id: int = None,
     def get_form(self,
                  group_id: int = None,
                  type: str = None,
-                 payload: dict = None) -&gt; dict:
+                 payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
 
             Args:
@@ -1272,13 +1435,14 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_form&#39;, &#39;payload&#39;: payload})
 
-    def get_predicted_agent(self, payload: dict = None) -&gt; dict:
+    def get_predicted_agent(self, payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
 
             Args:
@@ -1286,7 +1450,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         return self.ws.send({
             &#39;action&#39;: &#39;get_predicted_agent&#39;,
@@ -1296,7 +1461,7 @@ def get_client(license_id: int = None,
     def mark_events_as_seen(self,
                             chat_id: str = None,
                             seen_up_to: str = None,
-                            payload: dict = None) -&gt; dict:
+                            payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Marks events as seen by agent.
 
             Args:
@@ -1306,7 +1471,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1315,7 +1481,7 @@ def get_client(license_id: int = None,
             &#39;payload&#39;: payload
         })
 
-    def get_customer(self, payload: dict = None) -&gt; dict:
+    def get_customer(self, payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Returns the info about the customer requesting it.
 
             Args:
@@ -1323,7 +1489,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         return self.ws.send({
             &#39;action&#39;: &#39;get_customer&#39;,
@@ -1335,7 +1502,7 @@ def get_client(license_id: int = None,
                         email: str = None,
                         avatar: str = None,
                         session_fields: list = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates customer&#39;s properties.
 
             Args:
@@ -1348,7 +1515,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1357,7 +1525,7 @@ def get_client(license_id: int = None,
     def update_customer_page(self,
                              url: str = None,
                              title: str = None,
-                             payload: dict = None) -&gt; dict:
+                             payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates customer&#39;s page.
 
             Args:
@@ -1367,7 +1535,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1378,7 +1547,7 @@ def get_client(license_id: int = None,
 
     def set_customer_session_fields(self,
                                     session_fields: list = None,
-                                    payload: dict = None) -&gt; dict:
+                                    payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sets customer&#39;s session fields.
 
             Args:
@@ -1387,7 +1556,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1399,7 +1569,7 @@ def get_client(license_id: int = None,
     def delete_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -&gt; dict:
+                               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deletes chat properties.
 
             Args:
@@ -1409,7 +1579,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1421,7 +1592,7 @@ def get_client(license_id: int = None,
     def update_chat_properties(self,
                                id: str = None,
                                properties: dict = None,
-                               payload: dict = None) -&gt; dict:
+                               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates chat properties.
 
             Args:
@@ -1431,7 +1602,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1444,7 +1616,7 @@ def get_client(license_id: int = None,
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -&gt; dict:
+                                 payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deletes thread properties.
 
             Args:
@@ -1455,7 +1627,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1468,7 +1641,7 @@ def get_client(license_id: int = None,
                                  chat_id: str = None,
                                  thread_id: str = None,
                                  properties: dict = None,
-                                 payload: dict = None) -&gt; dict:
+                                 payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates thread properties.
 
             Args:
@@ -1479,7 +1652,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1493,7 +1667,7 @@ def get_client(license_id: int = None,
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -&gt; dict:
+                                payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deletes event properties.
 
             Args:
@@ -1505,7 +1679,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1519,7 +1694,7 @@ def get_client(license_id: int = None,
                                 thread_id: str = None,
                                 event_id: str = None,
                                 properties: dict = None,
-                                payload: dict = None) -&gt; dict:
+                                payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Updates event properties.
 
             Args:
@@ -1531,7 +1706,8 @@ def get_client(license_id: int = None,
                         It overrides all other parameters provided for the method.
 
             Returns:
-                dict: Dictionary with response.
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
@@ -1542,13 +1718,14 @@ def get_client(license_id: int = None,
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="client.CustomerRTM33" href="#client.CustomerRTM33">CustomerRTM33</a></li>
-<li><a title="client.CustomerRTM34" href="#client.CustomerRTM34">CustomerRTM34</a></li>
+<li><a title="livechat.customer.rtm.client.CustomerRTM33" href="#livechat.customer.rtm.client.CustomerRTM33">CustomerRTM33</a></li>
+<li><a title="livechat.customer.rtm.client.CustomerRTM34" href="#livechat.customer.rtm.client.CustomerRTM34">CustomerRTM34</a></li>
+<li><a title="livechat.customer.rtm.client.CustomerRTM35" href="#livechat.customer.rtm.client.CustomerRTM35">CustomerRTM35</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="client.CustomerRTMInterface.accept_greeting"><code class="name flex">
-<span>def <span class="ident">accept_greeting</span></span>(<span>self, greeting_id: int = None, unique_id: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting"><code class="name flex">
+<span>def <span class="ident">accept_greeting</span></span>(<span>self, greeting_id: int = None, unique_id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Marks an incoming greeting as seen.</p>
@@ -1564,8 +1741,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1574,7 +1752,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def accept_greeting(self,
                     greeting_id: int = None,
                     unique_id: str = None,
-                    payload: dict = None) -&gt; dict:
+                    payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Marks an incoming greeting as seen.
 
         Args:
@@ -1584,15 +1762,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;accept_greeting&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.cancel_greeting"><code class="name flex">
-<span>def <span class="ident">cancel_greeting</span></span>(<span>self, unique_id: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting"><code class="name flex">
+<span>def <span class="ident">cancel_greeting</span></span>(<span>self, unique_id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Cancels a greeting.</p>
@@ -1606,8 +1785,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1615,7 +1795,7 @@ It overrides all other parameters provided for the method.</dd>
 </summary>
 <pre><code class="python">def cancel_greeting(self,
                     unique_id: str = None,
-                    payload: dict = None) -&gt; dict:
+                    payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Cancels a greeting.
 
         Args:
@@ -1624,15 +1804,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;cancel_greeting&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.close_connection"><code class="name flex">
-<span>def <span class="ident">close_connection</span></span>(<span>self) ‑> None</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.close_connection"><code class="name flex">
+<span>def <span class="ident">close_connection</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Closes WebSocket connection.</p></div>
@@ -1645,8 +1826,8 @@ It overrides all other parameters provided for the method.</dd>
     self.ws.close()</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.deactivate_chat"><code class="name flex">
-<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat"><code class="name flex">
+<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deactivates a chat by closing the currently open thread.</p>
@@ -1660,14 +1841,17 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; dict:
+<pre><code class="python">def deactivate_chat(self,
+                    id: str = None,
+                    payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
         Args:
@@ -1676,15 +1860,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.delete_chat_properties"><code class="name flex">
-<span>def <span class="ident">delete_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties"><code class="name flex">
+<span>def <span class="ident">delete_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deletes chat properties.</p>
@@ -1700,8 +1885,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1710,7 +1896,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def delete_chat_properties(self,
                            id: str = None,
                            properties: dict = None,
-                           payload: dict = None) -&gt; dict:
+                           payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Deletes chat properties.
 
         Args:
@@ -1720,7 +1906,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -1730,8 +1917,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.delete_event_properties"><code class="name flex">
-<span>def <span class="ident">delete_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties"><code class="name flex">
+<span>def <span class="ident">delete_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deletes event properties.</p>
@@ -1751,8 +1938,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1763,7 +1951,7 @@ It overrides all other parameters provided for the method.</dd>
                             thread_id: str = None,
                             event_id: str = None,
                             properties: dict = None,
-                            payload: dict = None) -&gt; dict:
+                            payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Deletes event properties.
 
         Args:
@@ -1775,7 +1963,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -1785,8 +1974,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.delete_thread_properties"><code class="name flex">
-<span>def <span class="ident">delete_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties"><code class="name flex">
+<span>def <span class="ident">delete_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deletes thread properties.</p>
@@ -1804,8 +1993,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1815,7 +2005,7 @@ It overrides all other parameters provided for the method.</dd>
                              chat_id: str = None,
                              thread_id: str = None,
                              properties: dict = None,
-                             payload: dict = None) -&gt; dict:
+                             payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Deletes thread properties.
 
         Args:
@@ -1826,7 +2016,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -1836,8 +2027,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_chat"><code class="name flex">
-<span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_chat"><code class="name flex">
+<span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>It returns a thread that the current Customer has access to in a given chat.</p>
@@ -1853,8 +2044,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1863,7 +2055,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def get_chat(self,
              chat_id: str = None,
              thread_id: str = None,
-             payload: dict = None) -&gt; dict:
+             payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; It returns a thread that the current Customer has access to in a given chat.
 
         Args:
@@ -1873,15 +2065,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;get_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_customer"><code class="name flex">
-<span>def <span class="ident">get_customer</span></span>(<span>self, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_customer"><code class="name flex">
+<span>def <span class="ident">get_customer</span></span>(<span>self, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the info about the customer requesting it.</p>
@@ -1893,14 +2086,15 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_customer(self, payload: dict = None) -&gt; dict:
+<pre><code class="python">def get_customer(self, payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Returns the info about the customer requesting it.
 
         Args:
@@ -1908,7 +2102,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     return self.ws.send({
         &#39;action&#39;: &#39;get_customer&#39;,
@@ -1916,8 +2111,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_form"><code class="name flex">
-<span>def <span class="ident">get_form</span></span>(<span>self, group_id: int = None, type: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_form"><code class="name flex">
+<span>def <span class="ident">get_form</span></span>(<span>self, group_id: int = None, type: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns an empty ticket form of a prechat or postchat survey.</p>
@@ -1933,8 +2128,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1943,7 +2139,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def get_form(self,
              group_id: int = None,
              type: str = None,
-             payload: dict = None) -&gt; dict:
+             payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Returns an empty ticket form of a prechat or postchat survey.
 
         Args:
@@ -1953,15 +2149,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;get_form&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_predicted_agent"><code class="name flex">
-<span>def <span class="ident">get_predicted_agent</span></span>(<span>self, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent"><code class="name flex">
+<span>def <span class="ident">get_predicted_agent</span></span>(<span>self, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the predicted Agent - the one the Customer will chat with when the chat starts.</p>
@@ -1973,14 +2170,15 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_predicted_agent(self, payload: dict = None) -&gt; dict:
+<pre><code class="python">def get_predicted_agent(self, payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
 
         Args:
@@ -1988,7 +2186,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     return self.ws.send({
         &#39;action&#39;: &#39;get_predicted_agent&#39;,
@@ -1996,8 +2195,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.get_url_info"><code class="name flex">
-<span>def <span class="ident">get_url_info</span></span>(<span>self, url: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.get_url_info"><code class="name flex">
+<span>def <span class="ident">get_url_info</span></span>(<span>self, url: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>It returns the info on a given URL.</p>
@@ -2011,14 +2210,17 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_url_info(self, url: str = None, payload: dict = None) -&gt; dict:
+<pre><code class="python">def get_url_info(self,
+                 url: str = None,
+                 payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; It returns the info on a given URL.
 
         Args:
@@ -2027,15 +2229,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;get_url_info&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.list_chats"><code class="name flex">
-<span>def <span class="ident">list_chats</span></span>(<span>self, limit: int = None, sort_order: str = None, page_id: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.list_chats"><code class="name flex">
+<span>def <span class="ident">list_chats</span></span>(<span>self, limit: int = None, sort_order: str = None, page_id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>It returns summaries of the chats a Customer participated in.</p>
@@ -2054,8 +2257,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2065,7 +2269,7 @@ It overrides all other parameters provided for the method.</dd>
                limit: int = None,
                sort_order: str = None,
                page_id: str = None,
-               payload: dict = None) -&gt; dict:
+               payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; It returns summaries of the chats a Customer participated in.
 
         Args:
@@ -2077,15 +2281,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;list_chats&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.list_group_statuses"><code class="name flex">
-<span>def <span class="ident">list_group_statuses</span></span>(<span>self, all: bool = None, group_ids: list = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses"><code class="name flex">
+<span>def <span class="ident">list_group_statuses</span></span>(<span>self, all: bool = None, group_ids: list = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Lists statuses of groups.</p>
@@ -2101,8 +2306,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2111,7 +2317,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def list_group_statuses(self,
                         all: bool = None,
                         group_ids: list = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Lists statuses of groups.
 
         Args:
@@ -2121,7 +2327,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -2131,8 +2338,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.list_threads"><code class="name flex">
-<span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, sort_order: str = None, limit: int = None, page_id: str = None, min_events_count: int = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.list_threads"><code class="name flex">
+<span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, sort_order: str = None, limit: int = None, page_id: str = None, min_events_count: int = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>It returns threads that the current Customer has access to in a given chat.</p>
@@ -2155,8 +2362,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2168,7 +2376,7 @@ It overrides all other parameters provided for the method.</dd>
                  limit: int = None,
                  page_id: str = None,
                  min_events_count: int = None,
-                 payload: dict = None) -&gt; dict:
+                 payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; It returns threads that the current Customer has access to in a given chat.
 
         Args:
@@ -2183,15 +2391,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;list_threads&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.login"><code class="name flex">
-<span>def <span class="ident">login</span></span>(<span>self, token: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.login"><code class="name flex">
+<span>def <span class="ident">login</span></span>(<span>self, token: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Logs in customer.</p>
@@ -2204,14 +2413,15 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def login(self, token: str = None, payload: dict = None) -&gt; dict:
+<pre><code class="python">def login(self, token: str = None, payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Logs in customer.
 
         Args:
@@ -2220,15 +2430,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.mark_events_as_seen"><code class="name flex">
-<span>def <span class="ident">mark_events_as_seen</span></span>(<span>self, chat_id: str = None, seen_up_to: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen"><code class="name flex">
+<span>def <span class="ident">mark_events_as_seen</span></span>(<span>self, chat_id: str = None, seen_up_to: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Marks events as seen by agent.</p>
@@ -2244,8 +2455,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2254,7 +2466,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def mark_events_as_seen(self,
                         chat_id: str = None,
                         seen_up_to: str = None,
-                        payload: dict = None) -&gt; dict:
+                        payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Marks events as seen by agent.
 
         Args:
@@ -2264,7 +2476,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -2274,8 +2487,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.open_connection"><code class="name flex">
-<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None) ‑> None</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.open_connection"><code class="name flex">
+<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Opens WebSocket connection.</p>
@@ -2300,8 +2513,8 @@ It overrides all other parameters provided for the method.</dd>
         self.ws.open()</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.resume_chat"><code class="name flex">
-<span>def <span class="ident">resume_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.resume_chat"><code class="name flex">
+<span>def <span class="ident">resume_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Restarts an archived chat.</p>
@@ -2319,8 +2532,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2330,7 +2544,7 @@ It overrides all other parameters provided for the method.</dd>
                 chat: dict = None,
                 active: bool = None,
                 continuous: bool = None,
-                payload: dict = None) -&gt; dict:
+                payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Restarts an archived chat.
 
         Args:
@@ -2341,15 +2555,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.send_event"><code class="name flex">
-<span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.send_event"><code class="name flex">
+<span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends an Event object.</p>
@@ -2367,8 +2582,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2378,7 +2594,7 @@ It overrides all other parameters provided for the method.</dd>
                chat_id: str = None,
                event: dict = None,
                attach_to_last_thread: bool = None,
-               payload: dict = None) -&gt; dict:
+               payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Sends an Event object.
 
         Args:
@@ -2389,15 +2605,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.send_rich_message_postback"><code class="name flex">
-<span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, postback: dict = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback"><code class="name flex">
+<span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, postback: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends rich message postback.</p>
@@ -2417,8 +2634,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2429,7 +2647,7 @@ It overrides all other parameters provided for the method.</dd>
                                thread_id: str = None,
                                event_id: str = None,
                                postback: dict = None,
-                               payload: dict = None) -&gt; dict:
+                               payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Sends rich message postback.
 
         Args:
@@ -2441,7 +2659,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -2451,8 +2670,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.send_sneak_peek"><code class="name flex">
-<span>def <span class="ident">send_sneak_peek</span></span>(<span>self, chat_id: str = None, sneak_peek_text: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek"><code class="name flex">
+<span>def <span class="ident">send_sneak_peek</span></span>(<span>self, chat_id: str = None, sneak_peek_text: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends a sneak peek to a chat.</p>
@@ -2468,8 +2687,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2478,7 +2698,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def send_sneak_peek(self,
                     chat_id: str = None,
                     sneak_peek_text: str = None,
-                    payload: dict = None) -&gt; dict:
+                    payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Sends a sneak peek to a chat.
 
         Args:
@@ -2488,15 +2708,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;send_sneak_peek&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.set_customer_session_fields"><code class="name flex">
-<span>def <span class="ident">set_customer_session_fields</span></span>(<span>self, session_fields: list = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields"><code class="name flex">
+<span>def <span class="ident">set_customer_session_fields</span></span>(<span>self, session_fields: list = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sets customer's session fields.</p>
@@ -2510,8 +2731,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2519,7 +2741,7 @@ It overrides all other parameters provided for the method.</dd>
 </summary>
 <pre><code class="python">def set_customer_session_fields(self,
                                 session_fields: list = None,
-                                payload: dict = None) -&gt; dict:
+                                payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Sets customer&#39;s session fields.
 
         Args:
@@ -2528,7 +2750,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -2538,8 +2761,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.start_chat"><code class="name flex">
-<span>def <span class="ident">start_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.start_chat"><code class="name flex">
+<span>def <span class="ident">start_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Starts a chat.</p>
@@ -2557,8 +2780,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2568,7 +2792,7 @@ It overrides all other parameters provided for the method.</dd>
                chat: dict = None,
                active: bool = None,
                continuous: bool = None,
-               payload: dict = None) -&gt; dict:
+               payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Starts a chat.
 
         Args:
@@ -2579,15 +2803,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;start_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_chat_properties"><code class="name flex">
-<span>def <span class="ident">update_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties"><code class="name flex">
+<span>def <span class="ident">update_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates chat properties.</p>
@@ -2603,8 +2828,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2613,7 +2839,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def update_chat_properties(self,
                            id: str = None,
                            properties: dict = None,
-                           payload: dict = None) -&gt; dict:
+                           payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Updates chat properties.
 
         Args:
@@ -2623,7 +2849,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -2633,8 +2860,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_customer"><code class="name flex">
-<span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_customer"><code class="name flex">
+<span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates customer's properties.</p>
@@ -2655,8 +2882,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2667,7 +2895,7 @@ It overrides all other parameters provided for the method.</dd>
                     email: str = None,
                     avatar: str = None,
                     session_fields: list = None,
-                    payload: dict = None) -&gt; dict:
+                    payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Updates customer&#39;s properties.
 
         Args:
@@ -2680,15 +2908,16 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;update_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_customer_page"><code class="name flex">
-<span>def <span class="ident">update_customer_page</span></span>(<span>self, url: str = None, title: str = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page"><code class="name flex">
+<span>def <span class="ident">update_customer_page</span></span>(<span>self, url: str = None, title: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates customer's page.</p>
@@ -2704,8 +2933,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2714,7 +2944,7 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def update_customer_page(self,
                          url: str = None,
                          title: str = None,
-                         payload: dict = None) -&gt; dict:
+                         payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Updates customer&#39;s page.
 
         Args:
@@ -2724,7 +2954,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -2734,8 +2965,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_event_properties"><code class="name flex">
-<span>def <span class="ident">update_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties"><code class="name flex">
+<span>def <span class="ident">update_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates event properties.</p>
@@ -2755,8 +2986,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2767,7 +2999,7 @@ It overrides all other parameters provided for the method.</dd>
                             thread_id: str = None,
                             event_id: str = None,
                             properties: dict = None,
-                            payload: dict = None) -&gt; dict:
+                            payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Updates event properties.
 
         Args:
@@ -2779,7 +3011,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -2789,8 +3022,8 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="client.CustomerRTMInterface.update_thread_properties"><code class="name flex">
-<span>def <span class="ident">update_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> dict</span>
+<dt id="livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties"><code class="name flex">
+<span>def <span class="ident">update_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates thread properties.</p>
@@ -2808,8 +3041,9 @@ It overrides all other parameters provided for the method.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Dictionary with response.</dd>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -2819,7 +3053,7 @@ It overrides all other parameters provided for the method.</dd>
                              chat_id: str = None,
                              thread_id: str = None,
                              properties: dict = None,
-                             payload: dict = None) -&gt; dict:
+                             payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Updates thread properties.
 
         Args:
@@ -2830,7 +3064,8 @@ It overrides all other parameters provided for the method.</dd>
                     It overrides all other parameters provided for the method.
 
         Returns:
-            dict: Dictionary with response.
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
@@ -2851,52 +3086,60 @@ It overrides all other parameters provided for the method.</dd>
 <ul></ul>
 </div>
 <ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="livechat.customer.rtm" href="index.html">livechat.customer.rtm</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="client.CustomerRTM" href="#client.CustomerRTM">CustomerRTM</a></code></h4>
+<h4><code><a title="livechat.customer.rtm.client.CustomerRTM" href="#livechat.customer.rtm.client.CustomerRTM">CustomerRTM</a></code></h4>
 <ul class="">
-<li><code><a title="client.CustomerRTM.get_client" href="#client.CustomerRTM.get_client">get_client</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTM.get_client" href="#livechat.customer.rtm.client.CustomerRTM.get_client">get_client</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="client.CustomerRTM33" href="#client.CustomerRTM33">CustomerRTM33</a></code></h4>
+<h4><code><a title="livechat.customer.rtm.client.CustomerRTM33" href="#livechat.customer.rtm.client.CustomerRTM33">CustomerRTM33</a></code></h4>
 </li>
 <li>
-<h4><code><a title="client.CustomerRTM34" href="#client.CustomerRTM34">CustomerRTM34</a></code></h4>
+<h4><code><a title="livechat.customer.rtm.client.CustomerRTM34" href="#livechat.customer.rtm.client.CustomerRTM34">CustomerRTM34</a></code></h4>
 </li>
 <li>
-<h4><code><a title="client.CustomerRTMInterface" href="#client.CustomerRTMInterface">CustomerRTMInterface</a></code></h4>
+<h4><code><a title="livechat.customer.rtm.client.CustomerRTM35" href="#livechat.customer.rtm.client.CustomerRTM35">CustomerRTM35</a></code></h4>
+</li>
+<li>
+<h4><code><a title="livechat.customer.rtm.client.CustomerRTMInterface" href="#livechat.customer.rtm.client.CustomerRTMInterface">CustomerRTMInterface</a></code></h4>
 <ul class="">
-<li><code><a title="client.CustomerRTMInterface.accept_greeting" href="#client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.cancel_greeting" href="#client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.close_connection" href="#client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.deactivate_chat" href="#client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_chat_properties" href="#client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_event_properties" href="#client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.delete_thread_properties" href="#client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_chat" href="#client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_customer" href="#client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_form" href="#client.CustomerRTMInterface.get_form">get_form</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_predicted_agent" href="#client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.get_url_info" href="#client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_chats" href="#client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_group_statuses" href="#client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.list_threads" href="#client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.login" href="#client.CustomerRTMInterface.login">login</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.mark_events_as_seen" href="#client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.open_connection" href="#client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.resume_chat" href="#client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_event" href="#client.CustomerRTMInterface.send_event">send_event</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_rich_message_postback" href="#client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.send_sneak_peek" href="#client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.set_customer_session_fields" href="#client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.start_chat" href="#client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_chat_properties" href="#client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer" href="#client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_customer_page" href="#client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_event_properties" href="#client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="client.CustomerRTMInterface.update_thread_properties" href="#client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.accept_greeting">accept_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting" href="#livechat.customer.rtm.client.CustomerRTMInterface.cancel_greeting">cancel_greeting</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.close_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.close_connection">close_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_chat">get_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_form" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_form">get_form</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_predicted_agent">get_predicted_agent</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.get_url_info" href="#livechat.customer.rtm.client.CustomerRTMInterface.get_url_info">get_url_info</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_chats" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_chats">list_chats</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_group_statuses">list_group_statuses</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.list_threads" href="#livechat.customer.rtm.client.CustomerRTMInterface.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.login" href="#livechat.customer.rtm.client.CustomerRTMInterface.login">login</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen" href="#livechat.customer.rtm.client.CustomerRTMInterface.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.open_connection" href="#livechat.customer.rtm.client.CustomerRTMInterface.open_connection">open_connection</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.resume_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.resume_chat">resume_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_event" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_event">send_event</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek" href="#livechat.customer.rtm.client.CustomerRTMInterface.send_sneak_peek">send_sneak_peek</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields" href="#livechat.customer.rtm.client.CustomerRTMInterface.set_customer_session_fields">set_customer_session_fields</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.start_chat" href="#livechat.customer.rtm.client.CustomerRTMInterface.start_chat">start_chat</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer">update_customer</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_customer_page">update_customer_page</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties" href="#livechat.customer.rtm.client.CustomerRTMInterface.update_thread_properties">update_thread_properties</a></code></li>
 </ul>
 </li>
 </ul>
@@ -2905,7 +3148,7 @@ It overrides all other parameters provided for the method.</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
 </body>
 </html>
