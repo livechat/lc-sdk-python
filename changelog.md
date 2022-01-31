@@ -1,11 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [TBD] - 2022-01-TBD
+
+## [TBD] - Unreleased
 
 ### Added
 - API stable version 3.4 as a default.
 - API dev preview version 3.5 support.
+- Proxy support to web interfaces.
 
 ## [0.1.10] - 2021-12-02
 
