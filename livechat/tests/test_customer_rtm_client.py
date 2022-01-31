@@ -93,7 +93,7 @@ def test_client_logs_in_with_payload():
 
 def test_rtm_response_structure():
     ''' Test if returned `RtmResponse` structure contains expected properties. '''
-    client = CustomerRTM.get_client(license_id=LICENSE_ID)
+    client = CustomerRTM.get_client(organization_id=ORGANIZATION_ID)
     client.open_connection()
     response = client.login(token='Bearer 10386012')
     client.close_connection()
