@@ -2,9 +2,16 @@
 
 # pylint: disable=E1120,W0621
 
+from configparser import ConfigParser
+
 import pytest
 
 from livechat.configuration.client import ConfigurationApi
+
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api', 'stable')
+api_url = config.get('api', 'url')
 
 
 @pytest.fixture
@@ -40,7 +47,7 @@ def test_get_client_with_non_existing_version():
 
 def test_get_client_with_valid_args(conf_api_client):
     ''' Test if production API URL is used and token is added to headers for valid args. '''
-    assert conf_api_client.api_url == 'https://api.livechatinc.com/v3.3/configuration/action'
+    assert conf_api_client.api_url == f'https://{api_url}/v{stable_version}/configuration/action'
     assert conf_api_client.session.headers.get('Authorization') == 'test'
 
 
