@@ -2,12 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [TBD] - Unreleased
+## [0.2.0] - 2021-01-31
 
 ### Added
 - API stable version 3.4 as a default.
 - API dev preview version 3.5 support.
 - Proxy support to web interfaces.
+- RtmResponse structure for RTM clients.
 
 ## [0.1.10] - 2021-12-02
 
