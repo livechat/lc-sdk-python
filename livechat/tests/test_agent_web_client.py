@@ -2,11 +2,16 @@
 
 # pylint: disable=E1120,W0621
 
+from configparser import ConfigParser
+
 import pytest
 
 from livechat.agent.web.client import AgentWeb
 
-VALID_VERSION = '3.3'
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api', 'stable')
+api_url = config.get('api', 'url')
 ACCESS_TOKEN_INVALID = 'foo'
 
 
@@ -43,7 +48,7 @@ def test_get_client_with_non_existing_version():
 
 def test_get_client_with_valid_args(agent_web_api_client):
     ''' Test if production API URL is used and token is added to headers for valid args. '''
-    assert agent_web_api_client.api_url == 'https://api.livechatinc.com/v3.3/agent/action'
+    assert agent_web_api_client.api_url == f'https://{api_url}/v{stable_version}/agent/action'
     assert agent_web_api_client.session.headers.get(
         'Authorization') == ACCESS_TOKEN_INVALID
 

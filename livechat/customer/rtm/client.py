@@ -5,24 +5,30 @@
 from __future__ import annotations
 
 from abc import ABCMeta
+from configparser import ConfigParser
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.ws_client import WebsocketClient
+
+config = ConfigParser()
+config.read('configs/main.ini')
+stable_version = config.get('api', 'stable')
+api_url = config.get('api', 'url')
 
 
 class CustomerRTM:
     ''' Main class that gets specific client. '''
     @staticmethod
     def get_client(license_id: int = None,
-                   version: str = '3.3',
-                   base_url: str = 'api.livechatinc.com',
+                   version: str = stable_version,
+                   base_url: str = api_url,
                    organization_id: str = None) -> CustomerRTMInterface:
         ''' Returns client for specific Customer RTM version.
 
             Args:
-                license_id (int): License ID. Required to use API v3.3.
-                version (str): API's version. Defaults to `3.3`.
-                base_url (str): API's base url. Defaults to `api.livechatinc.com`.
+                license_id (int): License ID. Required to use for API version <= 3.3.
+                version (str): API's version. Defaults to the stable version of API.
+                base_url (str): API's base url. Defaults to API's production URL.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -31,7 +37,11 @@ class CustomerRTM:
             Raises:
                 ValueError: If the specified version does not exist.
         '''
-        client = {'3.3': CustomerRTM33, '3.4': CustomerRTM34}.get(version)
+        client = {
+            '3.3': CustomerRTM33,
+            '3.4': CustomerRTM34,
+            '3.5': CustomerRTM35,
+        }.get(version)
         client_kwargs = {
             '3.3': {
                 'license_id': license_id,
@@ -42,7 +52,12 @@ class CustomerRTM:
                 'organization_id': organization_id,
                 'version': version,
                 'url': base_url
-            }
+            },
+            '3.5': {
+                'organization_id': organization_id,
+                'version': version,
+                'url': base_url
+            },
         }.get(version)
         if client:
             return client(**client_kwargs)
@@ -651,6 +666,21 @@ class CustomerRTM34(CustomerRTMInterface):
     ''' Customer RTM version 3.4 class. '''
     def __init__(self, organization_id: str, version: str,
                  url: str) -> CustomerRTM34:
+        if isinstance(organization_id, str):
+            self.ws = WebsocketClient(
+                url=
+                f'wss://{url}/v{version}/customer/rtm/ws?organization_id={organization_id}'
+            )
+        else:
+            raise ValueError(
+                'Pipe was not opened. Please check your `organization_id` argument.'
+            )
+
+
+class CustomerRTM35(CustomerRTMInterface):
+    ''' Customer RTM version 3.5 class. '''
+    def __init__(self, organization_id: str, version: str,
+                 url: str) -> CustomerRTM35:
         if isinstance(organization_id, str):
             self.ws = WebsocketClient(
                 url=
