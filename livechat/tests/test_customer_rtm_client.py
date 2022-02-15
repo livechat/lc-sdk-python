@@ -2,17 +2,14 @@
 
 # pylint: disable=E1120,W0621,C0103
 
-from configparser import ConfigParser
-
 import pytest
 
+from livechat.config import CONFIG
 from livechat.customer.rtm.client import CustomerRTM
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-dev_version = config.get('api', 'dev')
-api_url = config.get('api', 'url')
+stable_version = CONFIG.get('stable')
+dev_version = CONFIG.get('dev')
+api_url = CONFIG.get('url')
 
 ORGANIZATION_ID = '30007dab-4c18-4169-978d-02f776e476a5'
 

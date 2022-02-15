@@ -2,16 +2,13 @@
 
 # pylint: disable=E1120,W0621
 
-from configparser import ConfigParser
-
 import pytest
 
 from livechat.agent.web.client import AgentWeb
+from livechat.config import CONFIG
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-api_url = config.get('api', 'url')
+stable_version = CONFIG.get('stable')
+api_url = CONFIG.get('url')
 ACCESS_TOKEN_INVALID = 'foo'
 
 

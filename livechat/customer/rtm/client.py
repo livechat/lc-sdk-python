@@ -5,16 +5,14 @@
 from __future__ import annotations
 
 from abc import ABCMeta
-from configparser import ConfigParser
 
+from livechat.config import CONFIG
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-api_url = config.get('api', 'url')
+stable_version = CONFIG.get('stable')
+api_url = CONFIG.get('url')
 
 
 class CustomerRTM:

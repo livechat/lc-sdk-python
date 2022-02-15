@@ -2,16 +2,13 @@
 
 # pylint: disable=E1120,W0621,C0103
 
-from configparser import ConfigParser
-
 import pytest
 
 from livechat.agent.rtm.client import AgentRTM
+from livechat.config import CONFIG
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-api_url = config.get('api', 'url')
+stable_version = CONFIG.get('stable')
+api_url = CONFIG.get('url')
 
 
 def test_get_client_with_non_existing_version():
