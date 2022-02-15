@@ -2,17 +2,17 @@
 
 # pylint: disable=E1120,W0621,C0103,R1702
 
-from configparser import ConfigParser
+import os
 
 import pytest
 import websocket
+from dotenv import load_dotenv
 
 from livechat.utils.ws_client import WebsocketClient
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-api_url = config.get('api', 'url')
+load_dotenv()
+stable_version = os.getenv('STABLE')
+api_url = os.getenv('URL')
 query_string = 'organization_id=30007dab-4c18-4169-978d-02f776e476a5'
 
 

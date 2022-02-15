@@ -2,17 +2,17 @@
 
 # pylint: disable=E1120,W0621
 
-from configparser import ConfigParser
+import os
 
 import pytest
+from dotenv import load_dotenv
 
 from livechat.customer.web.client import CustomerWeb
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-dev_version = config.get('api', 'dev')
-api_url = config.get('api', 'url')
+load_dotenv()
+stable_version = os.getenv('STABLE')
+dev_version = os.getenv('DEV')
+api_url = os.getenv('URL')
 
 ORGANIZATION_ID = '30007dab-4c18-4169-978d-02f776e476a5'
 ACCESS_TOKEN_INVALID = 'foo'

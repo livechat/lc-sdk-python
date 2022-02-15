@@ -3,19 +3,19 @@
 # pylint: disable=W0613,R0913,W0622,C0103
 from __future__ import annotations
 
+import os
 import typing
 from abc import ABCMeta
-from configparser import ConfigParser
 
 import httpx
+from dotenv import load_dotenv
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.httpx_logger import HttpxLogger
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-api_url = config.get('api', 'url')
+load_dotenv()
+stable_version = os.getenv('STABLE')
+api_url = os.getenv('URL')
 
 
 # pylint: disable=R0903
