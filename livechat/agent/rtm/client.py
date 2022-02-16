@@ -5,16 +5,14 @@ from __future__ import annotations
 
 import typing
 from abc import ABCMeta
-from configparser import ConfigParser
 
+from livechat.config import CONFIG
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-api_url = config.get('api', 'url')
+stable_version = CONFIG.get('stable')
+api_url = CONFIG.get('url')
 
 
 class AgentRTM:
@@ -244,7 +242,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'follow_chat', 'payload': payload})
 
-    def unfollow_chat(self, id: str = None, payload: dict = None) -> RtmResponse:
+    def unfollow_chat(self,
+                      id: str = None,
+                      payload: dict = None) -> RtmResponse:
         ''' Removes the requester from the chat followers.
 
             Args:
@@ -601,7 +601,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
 # Customers
 
-    def get_customer(self, id: str = None, payload: dict = None) -> RtmResponse:
+    def get_customer(self,
+                     id: str = None,
+                     payload: dict = None) -> RtmResponse:
         ''' Returns the info about the Customer with a given ID.
 
             Args:
@@ -718,7 +720,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'ban_customer', 'payload': payload})
 
-    def follow_customer(self, id: str = None, payload: dict = None) -> RtmResponse:
+    def follow_customer(self,
+                        id: str = None,
+                        payload: dict = None) -> RtmResponse:
         ''' Marks a customer as followed.
 
             Args:
@@ -734,7 +738,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'follow_customer', 'payload': payload})
 
-    def unfollow_customer(self, id: str = None, payload: dict = None) -> RtmResponse:
+    def unfollow_customer(self,
+                          id: str = None,
+                          payload: dict = None) -> RtmResponse:
         ''' Removes the agent from the list of customer's followers.
 
             Args:
@@ -842,7 +848,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             'payload': payload
         })
 
-    def set_away_status(self, away: bool = None, payload: dict = None) -> RtmResponse:
+    def set_away_status(self,
+                        away: bool = None,
+                        payload: dict = None) -> RtmResponse:
         ''' Sets an Agent's connection to the away state.
 
             Args:
@@ -995,7 +1003,9 @@ class AgentRTM33(AgentRTMInterface):
 
     # Chats
 
-    def deactivate_chat(self, id: str = None, payload: dict = None) -> RtmResponse:
+    def deactivate_chat(self,
+                        id: str = None,
+                        payload: dict = None) -> RtmResponse:
         ''' Deactivates a chat by closing the currently open thread.
 
             Args:

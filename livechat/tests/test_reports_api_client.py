@@ -2,16 +2,13 @@
 
 # pylint: disable=E1120,W0621
 
-from configparser import ConfigParser
-
 import pytest
 
+from livechat.config import CONFIG
 from livechat.reports.client import ReportsApi
 
-config = ConfigParser()
-config.read('configs/main.ini')
-stable_version = config.get('api', 'stable')
-api_url = config.get('api', 'url')
+stable_version = CONFIG.get('stable')
+api_url = CONFIG.get('url')
 
 
 @pytest.fixture
