@@ -1,8 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2022-02-16
 
-## [0.2.0] - 2021-01-31
+### Changed
+- Handling of configuration file.
+
+## [0.2.0] - 2022-01-31
 
 ### Added
 - API stable version 3.4 as a default.
