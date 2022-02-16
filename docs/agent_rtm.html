@@ -34,16 +34,14 @@ from __future__ import annotations
 
 import typing
 from abc import ABCMeta
-from configparser import ConfigParser
 
+from livechat.config import CONFIG
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
-config = ConfigParser()
-config.read(&#39;configs/main.ini&#39;)
-stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
-api_url = config.get(&#39;api&#39;, &#39;url&#39;)
+stable_version = CONFIG.get(&#39;stable&#39;)
+api_url = CONFIG.get(&#39;url&#39;)
 
 
 class AgentRTM:
@@ -273,7 +271,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;follow_chat&#39;, &#39;payload&#39;: payload})
 
-    def unfollow_chat(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def unfollow_chat(self,
+                      id: str = None,
+                      payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Removes the requester from the chat followers.
 
             Args:
@@ -630,7 +630,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
 # Customers
 
-    def get_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def get_customer(self,
+                     id: str = None,
+                     payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Returns the info about the Customer with a given ID.
 
             Args:
@@ -747,7 +749,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;ban_customer&#39;, &#39;payload&#39;: payload})
 
-    def follow_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def follow_customer(self,
+                        id: str = None,
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Marks a customer as followed.
 
             Args:
@@ -763,7 +767,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;follow_customer&#39;, &#39;payload&#39;: payload})
 
-    def unfollow_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def unfollow_customer(self,
+                          id: str = None,
+                          payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers.
 
             Args:
@@ -871,7 +877,9 @@ class AgentRTMInterface(metaclass=ABCMeta):
             &#39;payload&#39;: payload
         })
 
-    def set_away_status(self, away: bool = None, payload: dict = None) -&gt; RtmResponse:
+    def set_away_status(self,
+                        away: bool = None,
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sets an Agent&#39;s connection to the away state.
 
             Args:
@@ -1024,7 +1032,9 @@ class AgentRTM33(AgentRTMInterface):
 
     # Chats
 
-    def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def deactivate_chat(self,
+                        id: str = None,
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
             Args:
@@ -1316,7 +1326,9 @@ def get_client(version: str = stable_version,
 
     # Chats
 
-    def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def deactivate_chat(self,
+                        id: str = None,
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
             Args:
@@ -1572,7 +1584,9 @@ It overrides all other parameters provided for the method.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def deactivate_chat(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+<pre><code class="python">def deactivate_chat(self,
+                    id: str = None,
+                    payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Deactivates a chat by closing the currently open thread.
 
         Args:
@@ -2236,7 +2250,9 @@ It overrides all other parameters provided for the method.</dd>
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;follow_chat&#39;, &#39;payload&#39;: payload})
 
-    def unfollow_chat(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def unfollow_chat(self,
+                      id: str = None,
+                      payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Removes the requester from the chat followers.
 
             Args:
@@ -2593,7 +2609,9 @@ It overrides all other parameters provided for the method.</dd>
 
 # Customers
 
-    def get_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def get_customer(self,
+                     id: str = None,
+                     payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Returns the info about the Customer with a given ID.
 
             Args:
@@ -2710,7 +2728,9 @@ It overrides all other parameters provided for the method.</dd>
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;ban_customer&#39;, &#39;payload&#39;: payload})
 
-    def follow_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def follow_customer(self,
+                        id: str = None,
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Marks a customer as followed.
 
             Args:
@@ -2726,7 +2746,9 @@ It overrides all other parameters provided for the method.</dd>
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;follow_customer&#39;, &#39;payload&#39;: payload})
 
-    def unfollow_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+    def unfollow_customer(self,
+                          id: str = None,
+                          payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers.
 
             Args:
@@ -2834,7 +2856,9 @@ It overrides all other parameters provided for the method.</dd>
             &#39;payload&#39;: payload
         })
 
-    def set_away_status(self, away: bool = None, payload: dict = None) -&gt; RtmResponse:
+    def set_away_status(self,
+                        away: bool = None,
+                        payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sets an Agent&#39;s connection to the away state.
 
             Args:
@@ -3496,7 +3520,9 @@ It overrides all other parameters provided for the method.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def follow_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+<pre><code class="python">def follow_customer(self,
+                    id: str = None,
+                    payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Marks a customer as followed.
 
         Args:
@@ -3582,7 +3608,9 @@ It overrides all other parameters provided for the method.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+<pre><code class="python">def get_customer(self,
+                 id: str = None,
+                 payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Returns the info about the Customer with a given ID.
 
         Args:
@@ -4464,7 +4492,9 @@ It overrides all other parameters provided for the method.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def set_away_status(self, away: bool = None, payload: dict = None) -&gt; RtmResponse:
+<pre><code class="python">def set_away_status(self,
+                    away: bool = None,
+                    payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Sets an Agent&#39;s connection to the away state.
 
         Args:
@@ -4715,7 +4745,9 @@ It overrides all other parameters provided for the method.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def unfollow_chat(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+<pre><code class="python">def unfollow_chat(self,
+                  id: str = None,
+                  payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Removes the requester from the chat followers.
 
         Args:
@@ -4755,7 +4787,9 @@ It overrides all other parameters provided for the method.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def unfollow_customer(self, id: str = None, payload: dict = None) -&gt; RtmResponse:
+<pre><code class="python">def unfollow_customer(self,
+                      id: str = None,
+                      payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers.
 
         Args:

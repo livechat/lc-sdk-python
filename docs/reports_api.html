@@ -34,17 +34,15 @@
 from __future__ import annotations
 
 from abc import ABCMeta
-from configparser import ConfigParser
 
 import httpx
 
+from livechat.config import CONFIG
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.httpx_logger import HttpxLogger
 
-config = ConfigParser()
-config.read(&#39;configs/main.ini&#39;)
-stable_version = config.get(&#39;api&#39;, &#39;stable&#39;)
-api_url = config.get(&#39;api&#39;, &#39;url&#39;)
+stable_version = CONFIG.get(&#39;stable&#39;)
+api_url = CONFIG.get(&#39;url&#39;)
 
 
 class ReportsApi:
