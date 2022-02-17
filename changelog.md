@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - TBA
+
+### Changed
+- Added new param `owner_client_id` in Configuration API `create_bot` for Interface and v3.5 classes.
+
 ## [0.2.1] - 2022-02-16
 
 ### Changed

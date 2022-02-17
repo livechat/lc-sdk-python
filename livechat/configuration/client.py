@@ -478,6 +478,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                    webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
+                   owner_client_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -> httpx.Response:
         ''' Creates a new Bot.
@@ -490,6 +491,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot's work scheduler should operate.
+                owner_client_id (str): Required only when authorizing via PATs.
+                The request will be rejected if you provide owner_client_id when authorizing with a Bearer Token.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -1278,3 +1281,40 @@ class ConfigurationApi34(ConfigurationApiInterface):
 
 class ConfigurationApi35(ConfigurationApiInterface):
     ''' Configuration API client in version 3.5 class. '''
+    def create_bot(self,
+                   name: str = None,
+                   avatar: str = None,
+                   max_chats_count: int = None,
+                   groups: list = None,
+                   webhooks: dict = None,
+                   work_scheduler: dict = None,
+                   timezone: str = None,
+                   owner_client_id: str = None,
+                   payload: dict = None,
+                   headers: dict = None) -> httpx.Response:
+        ''' Creates a new Bot.
+
+            Args:
+                name (str): Display name.
+                avatar (str): Avatar URL.
+                max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                groups (list): Groups the Bot belongs to.
+                webhooks (dict): Webhooks sent to the Bot.
+                work_scheduler (dict): Work scheduler options to set for the new Bot.
+                timezone (str): The time zone in which the Bot's work scheduler should operate.
+                owner_client_id (str): ID of the client bot will be assigned to.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/create_bot',
+                                 json=payload,
+                                 headers=headers)
