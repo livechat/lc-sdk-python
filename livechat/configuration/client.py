@@ -492,7 +492,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot's work scheduler should operate.
                 owner_client_id (str): Required only when authorizing via PATs.
-                The request will be rejected if you provide owner_client_id when authorizing with a Bearer Token.
+                                The request will be rejected if you provide owner_client_id when authorizing with a Bearer Token.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
