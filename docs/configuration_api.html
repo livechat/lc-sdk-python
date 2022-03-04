@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>livechat.configuration.client API documentation</title>
 <meta name="description" content="Configuration API client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -507,6 +507,7 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                    webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
+                   owner_client_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Creates a new Bot.
@@ -519,6 +520,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                 webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
+                owner_client_id (str): Required only when authorizing via PATs.
+                The request will be rejected if you provide owner_client_id when authorizing with a Bearer Token.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -1306,7 +1309,45 @@ class ConfigurationApi34(ConfigurationApiInterface):
 
 
 class ConfigurationApi35(ConfigurationApiInterface):
-    &#39;&#39;&#39; Configuration API client in version 3.5 class. &#39;&#39;&#39;</code></pre>
+    &#39;&#39;&#39; Configuration API client in version 3.5 class. &#39;&#39;&#39;
+
+    def create_bot(self,
+                   name: str = None,
+                   avatar: str = None,
+                   max_chats_count: int = None,
+                   groups: list = None,
+                   webhooks: dict = None,
+                   work_scheduler: dict = None,
+                   timezone: str = None,
+                   owner_client_id: str = None,
+                   payload: dict = None,
+                   headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Creates a new Bot.
+
+            Args:
+                name (str): Display name.
+                avatar (str): Avatar URL.
+                max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                groups (list): Groups the Bot belongs to.
+                webhooks (dict): Webhooks sent to the Bot.
+                work_scheduler (dict): Work scheduler options to set for the new Bot.
+                timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
+                owner_client_id (str): ID of the client bot will be assigned to.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/create_bot&#39;,
+                                 json=payload,
+                                 headers=headers)</code></pre>
 </details>
 </section>
 <section>
@@ -1579,12 +1620,133 @@ def get_client(token: str,
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ConfigurationApi35(ConfigurationApiInterface):
-    &#39;&#39;&#39; Configuration API client in version 3.5 class. &#39;&#39;&#39;</code></pre>
+    &#39;&#39;&#39; Configuration API client in version 3.5 class. &#39;&#39;&#39;
+
+    def create_bot(self,
+                   name: str = None,
+                   avatar: str = None,
+                   max_chats_count: int = None,
+                   groups: list = None,
+                   webhooks: dict = None,
+                   work_scheduler: dict = None,
+                   timezone: str = None,
+                   owner_client_id: str = None,
+                   payload: dict = None,
+                   headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Creates a new Bot.
+
+            Args:
+                name (str): Display name.
+                avatar (str): Avatar URL.
+                max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                groups (list): Groups the Bot belongs to.
+                webhooks (dict): Webhooks sent to the Bot.
+                work_scheduler (dict): Work scheduler options to set for the new Bot.
+                timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
+                owner_client_id (str): ID of the client bot will be assigned to.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/create_bot&#39;,
+                                 json=payload,
+                                 headers=headers)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></li>
 </ul>
+<h3>Methods</h3>
+<dl>
+<dt id="livechat.configuration.client.ConfigurationApi35.create_bot"><code class="name flex">
+<span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a new Bot.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Display name.</dd>
+<dt><strong><code>avatar</code></strong> :&ensp;<code>str</code></dt>
+<dd>Avatar URL.</dd>
+<dt><strong><code>max_chats_count</code></strong> :&ensp;<code>int</code></dt>
+<dd>Max. number of incoming chats that can be routed to the Bot; default: 6.</dd>
+<dt><strong><code>groups</code></strong> :&ensp;<code>list</code></dt>
+<dd>Groups the Bot belongs to.</dd>
+<dt><strong><code>webhooks</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Webhooks sent to the Bot.</dd>
+<dt><strong><code>work_scheduler</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Work scheduler options to set for the new Bot.</dd>
+<dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
+<dd>The time zone in which the Bot's work scheduler should operate.</dd>
+<dt><strong><code>owner_client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the client bot will be assigned to.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_bot(self,
+               name: str = None,
+               avatar: str = None,
+               max_chats_count: int = None,
+               groups: list = None,
+               webhooks: dict = None,
+               work_scheduler: dict = None,
+               timezone: str = None,
+               owner_client_id: str = None,
+               payload: dict = None,
+               headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Creates a new Bot.
+
+        Args:
+            name (str): Display name.
+            avatar (str): Avatar URL.
+            max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+            groups (list): Groups the Bot belongs to.
+            webhooks (dict): Webhooks sent to the Bot.
+            work_scheduler (dict): Work scheduler options to set for the new Bot.
+            timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
+            owner_client_id (str): ID of the client bot will be assigned to.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/create_bot&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
 <li><code><b><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></b></code>:
@@ -1592,7 +1754,6 @@ def get_client(token: str,
 <li><code><a title="livechat.configuration.client.ConfigurationApiInterface.add_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.add_auto_access">add_auto_access</a></code></li>
 <li><code><a title="livechat.configuration.client.ConfigurationApiInterface.approve_agent" href="#livechat.configuration.client.ConfigurationApiInterface.approve_agent">approve_agent</a></code></li>
 <li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_agent" href="#livechat.configuration.client.ConfigurationApiInterface.create_agent">create_agent</a></code></li>
-<li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_bot" href="#livechat.configuration.client.ConfigurationApiInterface.create_bot">create_bot</a></code></li>
 <li><code><a title="livechat.configuration.client.ConfigurationApiInterface.create_group" href="#livechat.configuration.client.ConfigurationApiInterface.create_group">create_group</a></code></li>
 <li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_agent" href="#livechat.configuration.client.ConfigurationApiInterface.delete_agent">delete_agent</a></code></li>
 <li><code><a title="livechat.configuration.client.ConfigurationApiInterface.delete_auto_access" href="#livechat.configuration.client.ConfigurationApiInterface.delete_auto_access">delete_auto_access</a></code></li>
@@ -2077,6 +2238,7 @@ def get_client(token: str,
                    webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
+                   owner_client_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Creates a new Bot.
@@ -2089,6 +2251,8 @@ def get_client(token: str,
                 webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
+                owner_client_id (str): Required only when authorizing via PATs.
+                The request will be rejected if you provide owner_client_id when authorizing with a Bearer Token.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -3095,7 +3259,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="livechat.configuration.client.ConfigurationApiInterface.create_bot"><code class="name flex">
-<span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a new Bot.</p>
@@ -3115,6 +3279,9 @@ which contains a server’s response to an HTTP request.</dd>
 <dd>Work scheduler options to set for the new Bot.</dd>
 <dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
 <dd>The time zone in which the Bot's work scheduler should operate.</dd>
+<dt><strong><code>owner_client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Required only when authorizing via PATs. </dd>
+<dt>The request will be rejected if you provide owner_client_id when authorizing with a Bearer Token.</dt>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -3141,6 +3308,7 @@ which contains a server’s response to an HTTP request.</dd>
                webhooks: dict = None,
                work_scheduler: dict = None,
                timezone: str = None,
+               owner_client_id: str = None,
                payload: dict = None,
                headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Creates a new Bot.
@@ -3153,6 +3321,8 @@ which contains a server’s response to an HTTP request.</dd>
             webhooks (dict): Webhooks sent to the Bot.
             work_scheduler (dict): Work scheduler options to set for the new Bot.
             timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
+            owner_client_id (str): Required only when authorizing via PATs.
+            The request will be rejected if you provide owner_client_id when authorizing with a Bearer Token.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -4483,7 +4653,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="livechat.configuration.client.ConfigurationApiInterface.modify_header"><code class="name flex">
-<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> NoneType</span>
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Modifies provided header in session object.</p>
@@ -4728,7 +4898,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="livechat.configuration.client.ConfigurationApiInterface.remove_header"><code class="name flex">
-<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> NoneType</span>
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Removes provided header from session object.</p>
@@ -5459,6 +5629,9 @@ which contains a server’s response to an HTTP request.</dd>
 </li>
 <li>
 <h4><code><a title="livechat.configuration.client.ConfigurationApi35" href="#livechat.configuration.client.ConfigurationApi35">ConfigurationApi35</a></code></h4>
+<ul class="">
+<li><code><a title="livechat.configuration.client.ConfigurationApi35.create_bot" href="#livechat.configuration.client.ConfigurationApi35.create_bot">create_bot</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="livechat.configuration.client.ConfigurationApiInterface" href="#livechat.configuration.client.ConfigurationApiInterface">ConfigurationApiInterface</a></code></h4>
@@ -5516,7 +5689,7 @@ which contains a server’s response to an HTTP request.</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>
