@@ -1322,7 +1322,7 @@ class ConfigurationApi35(ConfigurationApiInterface):
     def list_channels(self,
                       payload: dict = None,
                       headers: dict = None) -> httpx.Response:
-        ''' Returns all existing auto access data structures.
+        ''' List all license activity per communication channel.
 
         Args:
             payload (dict): Custom payload to be used as request's data.
