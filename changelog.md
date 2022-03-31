@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Added new param `owner_client_id` in Configuration API `create_bot` for Interface and v3.5 classes.
+- Added new methods related to product information (list_channels, check_product_limits) in configuration-api v3.5.
 
 ## [0.2.1] - 2022-02-16
 
