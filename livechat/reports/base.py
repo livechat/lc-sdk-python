@@ -8,9 +8,9 @@ from __future__ import annotations
 from typing import Union
 
 from livechat.config import CONFIG
-from livechat.reports.versions.v33 import ReportsApiV33
-from livechat.reports.versions.v34 import ReportsApiV34
-from livechat.reports.versions.v35 import ReportsApiV35
+from livechat.reports.api.v33 import ReportsApiV33
+from livechat.reports.api.v34 import ReportsApiV34
+from livechat.reports.api.v35 import ReportsApiV35
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
