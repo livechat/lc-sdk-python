@@ -1,6 +1,6 @@
 ''' Reports API client example usage. '''
 
-from livechat.reports.client import ReportsApi
+from livechat.reports.base import ReportsApi
 
 # Get number of chats occured during specified period.
 reports_api = ReportsApi.get_client(token='<your access token>')
