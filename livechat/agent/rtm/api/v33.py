@@ -9,7 +9,7 @@ from livechat.utils.ws_client import WebsocketClient
 # pylint: disable=unused-argument, too-many-arguments, invalid-name, redefined-builtin
 
 
-class AgentRTMV33:
+class AgentRtmV33:
     ''' Agent RTM API Class containing methods in version 3.3. '''
     def __init__(self, url: str):
         self.ws = WebsocketClient(url=f'wss://{url}/v3.3/agent/rtm/ws')
