@@ -5,7 +5,7 @@
 import pytest
 
 from livechat.config import CONFIG
-from livechat.customer.web.client import CustomerWeb
+from livechat.customer.web.base import CustomerWeb
 
 stable_version = CONFIG.get('stable')
 dev_version = CONFIG.get('dev')
