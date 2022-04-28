@@ -404,8 +404,7 @@ class ConfigurationApiV35(HttpClient):
                    owner_client_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -> httpx.Response:
-        ''' Creates a new Bot.
-
+        ''' Creates a new bot.
             Args:
                 name (str): Display name.
                 avatar (str): Avatar URL.
@@ -414,14 +413,12 @@ class ConfigurationApiV35(HttpClient):
                 webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot's work scheduler should operate.
-                owner_client_id (str): Required only when authorizing via PATs.
-                                The request will be rejected if you provide owner_client_id when authorizing with a Bearer Token.
+                owner_client_id (str): ID of the client bot will be assigned to.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
                                 however, these method-level parameters will not be persisted across requests.
-
             Returns:
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request.
@@ -1192,3 +1189,46 @@ class ConfigurationApiV35(HttpClient):
         return self.session.get(f'{self.api_url}/get_organization_id',
                                 params=params,
                                 headers=headers)
+
+    def list_channels(self,
+                      payload: dict = None,
+                      headers: dict = None) -> httpx.Response:
+        ''' List all license activity per communication channel.
+        Args:
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/list_channels',
+                                 json=payload,
+                                 headers=headers)
+
+    def check_product_limits(self,
+                             plan: str = None,
+                             payload: dict = None,
+                             headers: dict = None) -> httpx.Response:
+        ''' Checks product limits for plans.
+            Args:
+                plan (str): License plan to check limit for.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/check_product_limits_for_plan',
+            json=payload,
+            headers=headers)
