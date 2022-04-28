@@ -1,4 +1,4 @@
-''' Reports API client class in version 3.5. '''
+''' Reports API module with client class in version 3.5. '''
 
 import httpx
 

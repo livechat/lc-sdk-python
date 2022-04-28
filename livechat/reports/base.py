@@ -1,4 +1,4 @@
-''' Base class that allows retrieval of client for specific Reports
+''' Module with base class that allows retrieval of client for specific Reports
     API version. '''
 
 # pylint: disable=W0613,W0622,C0103,R0913,R0903
@@ -37,7 +37,7 @@ class ReportsApi:
                               enabled. Defaults to `False`.
 
             Returns:
-                ReportsApiV: API client object for specified version.
+                ReportsApi: API client object for specified version.
 
             Raises:
                 ValueError: If the specified version does not exist.

@@ -1,4 +1,5 @@
-''' Base HTTP client class with HTTP session and headers modificaiton methods. '''
+''' Base module with HTTP client class for session, sending requests and headers
+    manipulation. '''
 
 import httpx
 
@@ -6,7 +7,7 @@ from livechat.utils.httpx_logger import HttpxLogger
 
 
 class HttpClient:
-    ''' Base HTTP client class with HTTP session and headers modificaiton methods. '''
+    ''' HTTP client class for session, sending requests and headers manipulation. '''
     def __init__(self,
                  token: str,
                  base_url: str,
