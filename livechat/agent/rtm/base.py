@@ -3,6 +3,8 @@
 # pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0221
 from __future__ import annotations
 
+from typing import Union
+
 from livechat.agent.rtm.api.v33 import AgentRTMV33
 from livechat.agent.rtm.api.v34 import AgentRTMV34
 from livechat.agent.rtm.api.v35 import AgentRTMV35
@@ -15,8 +17,10 @@ api_url = CONFIG.get('url')
 class AgentRTM:
     ''' Main class that gets specific client. '''
     @staticmethod
-    def get_client(version: str = stable_version,
-                   base_url: str = api_url) -> AgentRTMInterface:
+    def get_client(
+        version: str = stable_version,
+        base_url: str = api_url
+    ) -> Union[AgentRTMV33, AgentRTMV34, AgentRTMV35]:
         ''' Returns client for specific Agent RTM version.
 
             Args:
