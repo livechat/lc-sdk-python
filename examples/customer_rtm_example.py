@@ -1,9 +1,9 @@
 ''' Customer RTM client example usage. '''
 
-from livechat.customer.rtm.client import CustomerRTM
+from livechat.customer.rtm.base import CustomerRTM
 
 customer_rtm = CustomerRTM.get_client(license_id=12345)
-customer_rtm.open_connection()
+customer_rtm.ws.open()
 customer_rtm.login(token='Bearer <your bearer token>')
 response = customer_rtm.start_chat(continuous=True)
 chat_id = response.payload.get('chat_id')
@@ -16,4 +16,4 @@ customer_rtm.send_event(chat_id=chat_id,
                         })
 customer_rtm.get_chat(chat_id=chat_id, thread_id=thread_id)
 customer_rtm.deactivate_chat(id=chat_id)
-customer_rtm.close_connection()
+customer_rtm.ws.close()

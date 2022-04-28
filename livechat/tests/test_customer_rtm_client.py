@@ -5,31 +5,13 @@
 import pytest
 
 from livechat.config import CONFIG
-from livechat.customer.rtm.client import CustomerRTM
+from livechat.customer.rtm.base import CustomerRTM
 
 stable_version = CONFIG.get('stable')
 dev_version = CONFIG.get('dev')
 api_url = CONFIG.get('url')
 
 ORGANIZATION_ID = '30007dab-4c18-4169-978d-02f776e476a5'
-
-
-def test_get_client_without_args():
-    ''' Test if ValueError raised without args. '''
-    with pytest.raises(ValueError) as exception:
-        CustomerRTM.get_client()
-    assert str(
-        exception.value
-    ) == 'Pipe was not opened. Please check your `organization_id` argument.'
-
-
-def test_get_client_with_incorrect_organization_id_type():
-    ''' Test if ValueError raised with incorrect `organization_id` type. '''
-    with pytest.raises(ValueError) as exception:
-        CustomerRTM.get_client(organization_id=420)
-    assert str(
-        exception.value
-    ) == 'Pipe was not opened. Please check your `organization_id` argument.'
 
 
 def test_get_client_with_non_existing_version():
@@ -42,10 +24,10 @@ def test_get_client_with_non_existing_version():
 def test_get_client():
     ''' Test if created client opens and closes socket in default url. '''
     client = CustomerRTM.get_client(organization_id=ORGANIZATION_ID)
-    client.open_connection()
+    client.ws.open()
     opened_state = client.ws.keep_running
     client_url = client.ws.url
-    client.close_connection()
+    client.ws.close()
     closed_state = client.ws.keep_running
     assert client_url == f'wss://{api_url}/v{stable_version}/customer/rtm/ws?organization_id={ORGANIZATION_ID}', 'Incorrect WS address.'
     assert opened_state is True, 'Client did not open socket.'
@@ -55,9 +37,9 @@ def test_get_client():
 def test_client_logs_in_with_token():
     ''' Test if created client can send request. '''
     client = CustomerRTM.get_client(organization_id=ORGANIZATION_ID)
-    client.open_connection()
+    client.ws.open()
     response = client.login(token='Bearer 10386012')
-    client.close_connection()
+    client.ws.close()
     assert response.payload == {
         'error': {
             'type': 'authentication',
@@ -69,7 +51,7 @@ def test_client_logs_in_with_token():
 def test_client_logs_in_with_payload():
     ''' Test if created client can send request. '''
     client = CustomerRTM.get_client(organization_id=ORGANIZATION_ID)
-    client.open_connection()
+    client.ws.open()
     response = client.login(
         payload={
             'customer_page': {
@@ -79,7 +61,7 @@ def test_client_logs_in_with_payload():
             },
             'token': 'Bearer 10386012'
         })
-    client.close_connection()
+    client.ws.close()
     assert response.payload == {
         'error': {
             'type': 'authentication',
@@ -91,9 +73,9 @@ def test_client_logs_in_with_payload():
 def test_rtm_response_structure():
     ''' Test if returned `RtmResponse` structure contains expected properties. '''
     client = CustomerRTM.get_client(organization_id=ORGANIZATION_ID)
-    client.open_connection()
+    client.ws.open()
     response = client.login(token='Bearer 10386012')
-    client.close_connection()
+    client.ws.close()
     assert isinstance(response.request_id,
                       str) and len(response.request_id) >= 1
     assert response.action == 'login'
