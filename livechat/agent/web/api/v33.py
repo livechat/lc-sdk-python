@@ -20,7 +20,7 @@ class AgentWebV33(HttpClient):
                  proxies=None,
                  verify: bool = True):
         super().__init__(access_token, base_url, http2, proxies, verify)
-        self.api_url = f'https://{base_url}/v3.4/agent/action'
+        self.api_url = f'https://{base_url}/v3.3/agent/action'
 
     # Chats
 
