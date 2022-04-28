@@ -4,7 +4,7 @@
 
 import pytest
 
-from livechat.agent.web.client import AgentWeb
+from livechat.agent.web.base import AgentWeb
 from livechat.config import CONFIG
 
 stable_version = CONFIG.get('stable')

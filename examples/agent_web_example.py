@@ -1,6 +1,6 @@
 ''' Agent WEB client example usage. '''
 
-from livechat.agent.web.client import AgentWeb
+from livechat.agent.web.base import AgentWeb
 
 agent_web = AgentWeb.get_client(access_token='<your access token>')
 results = agent_web.start_chat(continuous=True)

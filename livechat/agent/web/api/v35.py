@@ -1,101 +1,28 @@
-''' Agent Web client implementation. '''
+''' Agent Web client implementation for v3.5. '''
 
 # pylint: disable=W0613,R0913,W0622,C0103,W0221
 from __future__ import annotations
 
 import typing
-from abc import ABCMeta
 
 import httpx
 
-from livechat.config import CONFIG
 from livechat.utils.helpers import prepare_payload
-from livechat.utils.httpx_logger import HttpxLogger
-
-stable_version = CONFIG.get('stable')
-api_url = CONFIG.get('url')
-
+from livechat.utils.http_client import HttpClient
 
 # pylint: disable=R0903
-class AgentWeb:
-    ''' Allows retrieval of client for specific Agent Web
-        API version. '''
-    @staticmethod
-    def get_client(access_token: str,
-                   version: str = stable_version,
-                   base_url: str = api_url,
-                   http2: bool = False) -> AgentWebInterface:
-        ''' Returns client for specific API version.
-
-            Args:
-                token (str): Full token with type (Bearer/Basic) that will be
-                                used as `Authorization` header in requests to API.
-                version (str): API's version. Defaults to the stable version of API.
-                base_url (str): API's base url. Defaults to API's production URL.
-                http2 (bool): A boolean indicating if HTTP/2 support should be
-                              enabled. Defaults to `False`.
-
-            Returns:
-                API client object for specified version based on
-                `AgentWebApiInterface`.
-
-            Raises:
-                ValueError: If the specified version does not exist.
-        '''
-        client = {
-            '3.3': AgentWeb33(access_token, version, base_url, http2),
-            '3.4': AgentWeb34(access_token, version, base_url, http2),
-            '3.5': AgentWeb35(access_token, version, base_url, http2),
-        }.get(version)
-        if not client:
-            raise ValueError('Provided version does not exist.')
-        return client
 
 
-class AgentWebInterface(metaclass=ABCMeta):
-    ''' Main class containing API methods. '''
+class AgentWebV35(HttpClient):
+    ''' Agent Web API Class containing methods in version 3.5. '''
     def __init__(self,
                  access_token: str,
-                 version: str,
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True) -> AgentWebInterface:
-        logger = HttpxLogger()
-        self.api_url = f'https://{base_url}/v{version}/agent/action'
-        self.session = httpx.Client(http2=http2,
-                                    headers={'Authorization': access_token},
-                                    event_hooks={
-                                        'request': [logger.log_request],
-                                        'response': [logger.log_response]
-                                    },
-                                    proxies=proxies,
-                                    verify=verify)
-
-    def modify_header(self, header: dict) -> None:
-        ''' Modifies provided header in session object.
-
-            Args:
-                header (dict): Header which needs to be modified.
-        '''
-        self.session.headers.update(header)
-
-    def remove_header(self, key) -> None:
-        ''' Removes provided header from session object.
-
-            Args:
-                key (str): Key which needs to be removed from the header.
-        '''
-        if key in self.session.headers:
-            del self.session.headers[key]
-
-    def get_headers(self) -> dict:
-        ''' Returns current header values in session object.
-
-            Returns:
-                dict: Response which presents current header values in session object.
-        '''
-        return dict(self.session.headers)
+                 verify: bool = True):
+        super().__init__(access_token, base_url, http2, proxies, verify)
+        self.api_url = f'https://{base_url}/v3.5/agent/action'
 
     # Chats
 
@@ -1140,216 +1067,3 @@ class AgentWebInterface(metaclass=ABCMeta):
         return self.session.post(f'{self.api_url}/list_agents_for_transfer',
                                  json=payload,
                                  headers=headers)
-
-
-class AgentWeb33(AgentWebInterface):
-    ''' Agent API version 3.3 class. '''
-
-    # Chats
-
-    def deactivate_chat(self,
-                        id: str = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
-        ''' Deactivates a chat by closing the currently open thread.
-            Sending messages to this thread will no longer be possible.
-
-            Args:
-                id (str): Chat ID to deactivate.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/deactivate_chat',
-                                 json=payload,
-                                 headers=headers)
-
-    # Chat users
-
-    def add_user_to_chat(self,
-                         chat_id: str = None,
-                         user_id: str = None,
-                         user_type: str = None,
-                         require_active_thread: bool = None,
-                         payload: dict = None,
-                         headers: dict = None) -> httpx.Response:
-        ''' Adds a user to the chat. You can't add more than one customer user type to the chat.
-
-            Args:
-                chat_id (str): chat ID.
-                user_id (str): user ID.
-                user_type (str): Possible values: agent or customer.
-                require_active_thread (bool): If true, it adds a user to a chat
-                                              only if that chat has an active
-                                              thread; default false.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/add_user_to_chat',
-                                 json=payload,
-                                 headers=headers)
-
-    def remove_user_from_chat(self,
-                              chat_id: str = None,
-                              user_id: str = None,
-                              user_type: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -> httpx.Response:
-        ''' Removes a user from chat.
-
-            Args:
-                chat_id (str): chat ID.
-                user_id (str): user ID.
-                user_type (str): Possible values: agent or customer.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/remove_user_from_chat',
-                                 json=payload,
-                                 headers=headers)
-
-    # Chat access
-
-    def transfer_chat(self,
-                      id: str = None,
-                      target: dict = None,
-                      force: bool = None,
-                      payload: dict = None,
-                      headers: dict = None) -> httpx.Response:
-        ''' Transfers a chat to an agent or a group.
-
-            Args:
-                id (str): chat ID
-                target (dict): If missing, chat will be transferred within the current group.
-                force (bool): If true, always transfers chats. Otherwise, fails
-                              when unable to assign any agent from the requested groups; default false.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/transfer_chat',
-                                 json=payload,
-                                 headers=headers)
-
-    def grant_chat_access(self,
-                          id: str = None,
-                          access: dict = None,
-                          payload: dict = None,
-                          headers: dict = None) -> httpx.Response:
-        ''' Grants access to a new chat without overwriting the existing ones.
-
-            Args:
-                id (str): chat ID
-                access (dict): Dict containing chat access (type and id)
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/grant_chat_access',
-                                 json=payload,
-                                 headers=headers)
-
-    def revoke_chat_access(self,
-                           id: str = None,
-                           access: dict = None,
-                           payload: dict = None,
-                           headers: dict = None) -> httpx.Response:
-        ''' Revoke access to a chat.
-
-            Args:
-                id (str): chat ID
-                access (dict): Dict containing chat access (type and id)
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/revoke_chat_access',
-                                 json=payload,
-                                 headers=headers)
-
-    # Other
-
-    def send_typing_indicator(self,
-                              chat_id: str = None,
-                              recipients: str = None,
-                              is_typing: bool = None,
-                              payload: dict = None,
-                              headers: dict = None) -> httpx.Response:
-        ''' Sends typing indicator.
-
-            Args:
-                chat_id (str): ID of the chat that to send the typing indicator to.
-                recipients (str): Default: all; agents.
-                is_typing (bool): A flag that indicates if you are typing.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/send_typing_indicator',
-                                 json=payload,
-                                 headers=headers)
-
-
-class AgentWeb34(AgentWebInterface):
-    ''' Agent API version 3.4 class. '''
-
-
-class AgentWeb35(AgentWebInterface):
-    ''' Agent API version 3.5 class. '''
