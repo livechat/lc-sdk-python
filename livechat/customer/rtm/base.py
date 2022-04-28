@@ -31,7 +31,7 @@ class CustomerRTM:
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
-                CustomerRTMInterface: API client object for specified version.
+                CustomerRTM: API client object for specified version.
 
             Raises:
                 ValueError: If the specified version does not exist.
