@@ -31,8 +31,7 @@ class AgentWeb:
                               enabled. Defaults to `False`.
 
             Returns:
-                API client object for specified version based on
-                `AgentWebApiInterface`.
+                API client object for specified version.
 
             Raises:
                 ValueError: If the specified version does not exist.
