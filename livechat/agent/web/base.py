@@ -3,6 +3,8 @@
 # pylint: disable=W0613,R0913,W0622,C0103,W0221
 from __future__ import annotations
 
+from typing import Union
+
 from livechat.agent.web.api.v33 import AgentWebV33
 from livechat.agent.web.api.v34 import AgentWebV34
 from livechat.agent.web.api.v35 import AgentWebV35
@@ -16,10 +18,12 @@ class AgentWeb:
     ''' Allows retrieval of client for specific Agent Web
         API version. '''
     @staticmethod
-    def get_client(access_token: str,
-                   version: str = stable_version,
-                   base_url: str = api_url,
-                   http2: bool = False):
+    def get_client(
+            access_token: str,
+            version: str = stable_version,
+            base_url: str = api_url,
+            http2: bool = False
+    ) -> Union[AgentWebV33, AgentWebV34, AgentWebV35]:
         ''' Returns client for specific API version.
 
             Args:
