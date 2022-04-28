@@ -1,6 +1,6 @@
 ''' Configuration API client example usage. '''
 
-from livechat.configuration.client import ConfigurationApi
+from livechat.configuration.base import ConfigurationApi
 
 # Get list of existing groups.
 configuration_api = ConfigurationApi.get_client(token='<your access token>')
