@@ -1,98 +1,21 @@
-''' Configuration API client implementation. '''
-
-# pylint: disable=W0613,W0622,C0103,R0913,R0903
-from __future__ import annotations
-
-from abc import ABCMeta
+''' Configuration API module with client class in version 3.3. '''
 
 import httpx
 
-from livechat.config import CONFIG
 from livechat.utils.helpers import prepare_payload
-from livechat.utils.httpx_logger import HttpxLogger
-
-stable_version = CONFIG.get('stable')
-api_url = CONFIG.get('url')
+from livechat.utils.http_client import HttpClient
 
 
-class ConfigurationApi:
-    ''' Main class that allows retrieval of client for specific Configuration
-        API version. '''
-    @staticmethod
-    def get_client(token: str,
-                   version: str = stable_version,
-                   base_url: str = api_url,
-                   http2: bool = False) -> ConfigurationApiInterface:
-        ''' Returns client for specific Configuration API version.
-
-            Args:
-                token (str): Full token with type (Bearer/Basic) that will be
-                             used as `Authorization` header in requests to API.
-                version (str): API's version. Defaults to the stable version of API.
-                base_url (str): API's base url. Defaults to API's production URL.
-                http2 (bool): A boolean indicating if HTTP/2 support should be
-                              enabled. Defaults to `False`.
-
-            Returns:
-                ConfigurationApi: API client object for specified version.
-
-            Raises:
-                ValueError: If the specified version does not exist.
-        '''
-        client = {
-            '3.3': ConfigurationApi33(token, '3.3', base_url, http2),
-            '3.4': ConfigurationApi34(token, '3.4', base_url, http2),
-            '3.5': ConfigurationApi35(token, '3.5', base_url, http2),
-        }.get(version)
-        if not client:
-            raise ValueError('Provided version does not exist.')
-        return client
-
-
-class ConfigurationApiInterface(metaclass=ABCMeta):
-    ''' Interface class. '''
+class ConfigurationApiV33(HttpClient):
+    ''' Configuration API client class in version 3.3. '''
     def __init__(self,
                  token: str,
-                 version: str,
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True) -> ConfigurationApiInterface:
-        logger = HttpxLogger()
-        self.api_url = f'https://{base_url}/v{version}/configuration/action'
-        self.session = httpx.Client(http2=http2,
-                                    headers={'Authorization': token},
-                                    event_hooks={
-                                        'request': [logger.log_request],
-                                        'response': [logger.log_response]
-                                    },
-                                    proxies=proxies,
-                                    verify=verify)
-
-    def modify_header(self, header: dict) -> None:
-        ''' Modifies provided header in session object.
-
-            Args:
-                header (dict): Header which needs to be modified.
-        '''
-        self.session.headers.update(header)
-
-    def remove_header(self, key: str) -> None:
-        ''' Removes provided header from session object.
-
-            Args:
-                key (str): Key which needs to be removed from the header.
-        '''
-        if key in self.session.headers:
-            del self.session.headers[key]
-
-    def get_headers(self) -> dict:
-        ''' Returns current header values in session object.
-
-            Returns:
-                dict: Response which presents current header values in session object.
-        '''
-        return dict(self.session.headers)
+                 verify: bool = True):
+        super().__init__(token, base_url, http2, proxies, verify)
+        self.api_url = f'https://{base_url}/v3.3/configuration/action'
 
 # Agents
 
@@ -1031,7 +954,6 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                  json=payload,
                                  headers=headers)
 
-
 # Webhooks
 
     def register_webhook(self,
@@ -1220,31 +1142,8 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                  json=payload,
                                  headers=headers)
 
-    # license/organization ID lookup
 
-    def get_organization_id(self,
-                            license_id: int = None,
-                            params: dict = None,
-                            headers: dict = None) -> httpx.Response:
-        ''' Returns organization ID by given license ID.
-
-            Args:
-                license_id (int): License ID to get organization ID for.
-                params (dict): Custom params to be used in request's query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f'{self.api_url}/get_organization_id',
-                                params=params,
-                                headers=headers)
+# Other
 
     def get_license_id(self,
                        organization_id: str = None,
@@ -1270,40 +1169,15 @@ class ConfigurationApiInterface(metaclass=ABCMeta):
                                 params=params,
                                 headers=headers)
 
-
-class ConfigurationApi33(ConfigurationApiInterface):
-    ''' Configuration API client in version 3.3 class. '''
-
-
-class ConfigurationApi34(ConfigurationApiInterface):
-    ''' Configuration API client in version 3.4 class. '''
-
-
-class ConfigurationApi35(ConfigurationApiInterface):
-    ''' Configuration API client in version 3.5 class. '''
-    def create_bot(self,
-                   name: str = None,
-                   avatar: str = None,
-                   max_chats_count: int = None,
-                   groups: list = None,
-                   webhooks: dict = None,
-                   work_scheduler: dict = None,
-                   timezone: str = None,
-                   owner_client_id: str = None,
-                   payload: dict = None,
-                   headers: dict = None) -> httpx.Response:
-        ''' Creates a new Bot.
+    def get_organization_id(self,
+                            license_id: int = None,
+                            params: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Returns organization ID by given license ID.
 
             Args:
-                name (str): Display name.
-                avatar (str): Avatar URL.
-                max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
-                groups (list): Groups the Bot belongs to.
-                webhooks (dict): Webhooks sent to the Bot.
-                work_scheduler (dict): Work scheduler options to set for the new Bot.
-                timezone (str): The time zone in which the Bot's work scheduler should operate.
-                owner_client_id (str): ID of the client bot will be assigned to.
-                payload (dict): Custom payload to be used as request's data.
+                license_id (int): License ID to get organization ID for.
+                params (dict): Custom params to be used in request's query string.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
@@ -1313,55 +1187,8 @@ class ConfigurationApi35(ConfigurationApiInterface):
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request.
         '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/create_bot',
-                                 json=payload,
-                                 headers=headers)
-
-    def list_channels(self,
-                      payload: dict = None,
-                      headers: dict = None) -> httpx.Response:
-        ''' List all license activity per communication channel.
-
-        Args:
-            payload (dict): Custom payload to be used as request's data.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/list_channels',
-                                 json=payload,
-                                 headers=headers)
-
-    def check_product_limits(self,
-                             plan: str = None,
-                             payload: dict = None,
-                             headers: dict = None) -> httpx.Response:
-        ''' Checks product limits for plans.
-
-            Args:
-                plan (str): License plan to check limit for.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(
-            f'{self.api_url}/check_product_limits_for_plan',
-            json=payload,
-            headers=headers)
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f'{self.api_url}/get_organization_id',
+                                params=params,
+                                headers=headers)

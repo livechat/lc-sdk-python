@@ -5,7 +5,7 @@
 import pytest
 
 from livechat.config import CONFIG
-from livechat.configuration.client import ConfigurationApi
+from livechat.configuration.base import ConfigurationApi
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
