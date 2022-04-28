@@ -28,7 +28,7 @@ class AgentRTM:
                 base_url (str): API's base url. Defaults to API's production URL.
 
             Returns:
-                AgentRTMInterface: API client object for specified version.
+                API client object for specified version.
 
             Raises:
                 ValueError: If the specified version does not exist.
