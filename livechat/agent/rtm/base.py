@@ -34,10 +34,10 @@ class AgentRTM:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': AgentRtmV33(base_url),
-            '3.4': AgentRtmV34(base_url),
-            '3.5': AgentRtmV35(base_url),
+            '3.3': AgentRtmV33,
+            '3.4': AgentRtmV34,
+            '3.5': AgentRtmV35,
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
-        return client
+        return client(base_url)
