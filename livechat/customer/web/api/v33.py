@@ -945,3 +945,28 @@ class CustomerWebV33(HttpClient):
             f'{self.api_url}/cancel_greeting{self.query_string}',
             json=payload,
             headers=headers)
+
+    def request_email_verification(self,
+                                   callback_uri: str = None,
+                                   payload: dict = None,
+                                   headers: dict = None) -> httpx.Response:
+        ''' Requests the verification of the customer's email address by sending them a verification email
+            with the identity confirmation link.
+
+            Args:
+                callback_uri (str): URI to be called after the customer confirms their email address.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/request_email_verification{self.query_string}',
+            json=payload,
+            headers=headers)
