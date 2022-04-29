@@ -1,6 +1,6 @@
 ''' Agent RTM client example usage. '''
 
-from livechat.agent.rtm.client import AgentRTM
+from livechat.agent.rtm.base import AgentRTM
 
 agent_rtm = AgentRTM.get_client()
 agent_rtm.open_connection()

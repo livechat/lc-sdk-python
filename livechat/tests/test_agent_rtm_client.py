@@ -4,7 +4,7 @@
 
 import pytest
 
-from livechat.agent.rtm.client import AgentRTM
+from livechat.agent.rtm.base import AgentRTM
 from livechat.config import CONFIG
 
 stable_version = CONFIG.get('stable')
