@@ -25,13 +25,13 @@ class CustomerRTM:
         ''' Returns client for specific Customer RTM version.
 
             Args:
-                license_id (int): License ID. Required to use for API version <= 3.3.
                 version (str): API's version. Defaults to the stable version of API.
                 base_url (str): API's base url. Defaults to API's production URL.
+                license_id (int): License ID. Required to use for API version <= 3.3.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
-                CustomerRTM: API client object for specified version.
+                API client object for specified version.
 
             Raises:
                 ValueError: If the specified version does not exist.
