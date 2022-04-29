@@ -37,10 +37,24 @@ class CustomerRTM:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': CustomerRtmV33(base_url, license_id),
-            '3.4': CustomerRtmV34(base_url, organization_id),
-            '3.5': CustomerRtmV35(base_url, organization_id),
+            '3.3': CustomerRtmV33,
+            '3.4': CustomerRtmV34,
+            '3.5': CustomerRtmV35,
         }.get(version)
-        if not client:
-            raise ValueError('Provided version does not exist.')
-        return client
+        client_kwargs = {
+            '3.3': {
+                'license_id': license_id,
+                'base_url': base_url
+            },
+            '3.4': {
+                'organization_id': organization_id,
+                'base_url': base_url
+            },
+            '3.5': {
+                'organization_id': organization_id,
+                'base_url': base_url
+            },
+        }.get(version)
+        if client:
+            return client(**client_kwargs)
+        raise ValueError('Provided version does not exist.')

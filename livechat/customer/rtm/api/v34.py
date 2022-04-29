@@ -10,10 +10,29 @@ from livechat.utils.ws_client import WebsocketClient
 class CustomerRtmV34:
     ''' Customer RTM API client class in version 3.4. '''
     def __init__(self, base_url: str, organization_id: str):
-        self.ws = WebsocketClient(
-            url=
-            f'wss://{base_url}/v3.4/customer/rtm/ws?organization_id={organization_id}'
-        )
+        if isinstance(organization_id, str):
+            self.ws = WebsocketClient(
+                url=
+                f'wss://{base_url}/v3.4/customer/rtm/ws?organization_id={organization_id}'
+            )
+        else:
+            raise ValueError(
+                f'Provided `organization_id` (`{organization_id}`) seems invalid. Websocket connection may not open.'
+            )
+
+    def open_connection(self, origin: dict = None) -> None:
+        ''' Opens WebSocket connection.
+            Args:
+                origin (dict): Specifies origin while creating websocket connection.
+        '''
+        if origin:
+            self.ws.open(origin=origin)
+        else:
+            self.ws.open()
+
+    def close_connection(self) -> None:
+        ''' Closes WebSocket connection. '''
+        self.ws.close()
 
 # Chats
 
