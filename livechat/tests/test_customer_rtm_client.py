@@ -5,7 +5,7 @@
 import pytest
 
 from livechat.config import CONFIG
-from livechat.customer.rtm.client import CustomerRTM
+from livechat.customer.rtm.base import CustomerRTM
 
 stable_version = CONFIG.get('stable')
 dev_version = CONFIG.get('dev')
@@ -20,7 +20,7 @@ def test_get_client_without_args():
         CustomerRTM.get_client()
     assert str(
         exception.value
-    ) == 'Pipe was not opened. Please check your `organization_id` argument.'
+    ) == 'Provided `organization_id` (`None`) seems invalid. Websocket connection may not open.'
 
 
 def test_get_client_with_incorrect_organization_id_type():
@@ -29,7 +29,7 @@ def test_get_client_with_incorrect_organization_id_type():
         CustomerRTM.get_client(organization_id=420)
     assert str(
         exception.value
-    ) == 'Pipe was not opened. Please check your `organization_id` argument.'
+    ) == 'Provided `organization_id` (`420`) seems invalid. Websocket connection may not open.'
 
 
 def test_get_client_with_non_existing_version():

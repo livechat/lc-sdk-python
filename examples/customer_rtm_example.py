@@ -1,6 +1,6 @@
 ''' Customer RTM client example usage. '''
 
-from livechat.customer.rtm.client import CustomerRTM
+from livechat.customer.rtm.base import CustomerRTM
 
 customer_rtm = CustomerRTM.get_client(license_id=12345)
 customer_rtm.open_connection()
