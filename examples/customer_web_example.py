@@ -1,6 +1,6 @@
 ''' Customer WEB client example usage. '''
 
-from livechat.customer.web.client import CustomerWeb
+from livechat.customer.web.base import CustomerWeb
 
 customer_web = CustomerWeb.get_client(license_id=12345,
                                       access_token='<your access token>')

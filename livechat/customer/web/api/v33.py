@@ -1,135 +1,38 @@
-''' Customer Web client implementation. '''
-
-# pylint: disable=W0613,R0913,W0622,C0103
+''' Module containing Customer Web API client class in v3.3. '''
 from __future__ import annotations
 
 import typing
-from abc import ABCMeta
 
 import httpx
 
-from livechat.config import CONFIG
 from livechat.utils.helpers import prepare_payload
-from livechat.utils.httpx_logger import HttpxLogger
-
-stable_version = CONFIG.get('stable')
-api_url = CONFIG.get('url')
+from livechat.utils.http_client import HttpClient
 
 
-# pylint: disable=R0903
-class CustomerWeb:
-    ''' Allows retrieval of client for specific Customer Web
-        API version. '''
-    @staticmethod
-    def get_client(license_id: int = None,
-                   access_token: str = None,
-                   version: str = stable_version,
-                   base_url: str = api_url,
-                   http2: bool = False,
-                   organization_id: str = None) -> CustomerWebInterface:
-        ''' Returns client for specific API version.
-
-            Args:
-                license_id (int): License ID. Required to use for API version <= 3.3.
-                token (str): Full token with type (Bearer/Basic) that will be
-                             used as `Authorization` header in requests to API.
-                version (str): API's version. Defaults to the stable version of API.
-                base_url (str): API's base url. Defaults to API's production URL.
-                http2 (bool): A boolean indicating if HTTP/2 support should be
-                              enabled. Defaults to `False`.
-                organization_id (str): Organization ID, replaced license ID in v3.4.
-
-            Returns:
-                API client object for specified version based on
-                `CustomerWebApiInterface`.
-
-            Raises:
-                ValueError: If the specified version does not exist.
-        '''
-        client = {
-            '3.3': CustomerWeb33,
-            '3.4': CustomerWeb34,
-            '3.5': CustomerWeb35,
-        }.get(version)
-        client_kwargs = {
-            '3.3': {
-                'license_id': license_id,
-                'access_token': access_token,
-                'version': version,
-                'url': base_url,
-                'http2': http2
-            },
-            '3.4': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'version': version,
-                'url': base_url,
-                'http2': http2
-            },
-            '3.5': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'version': version,
-                'url': base_url,
-                'http2': http2
-            },
-        }.get(version)
-        if client:
-            return client(**client_kwargs)
-        raise ValueError('Provided version does not exist.')
-
-
-class CustomerWebInterface(metaclass=ABCMeta):
-    ''' Main class containing API methods. '''
+class CustomerWebV33(HttpClient):
+    ''' Customer Web API Class containing methods in version 3.3. '''
     def __init__(self,
+                 license_id: int,
                  access_token: str,
-                 version: str,
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True) -> CustomerWebInterface:
-        logger = HttpxLogger()
-        self.api_url = f'https://{base_url}/v{version}/customer/action'
+                 verify: bool = True):
         if all([access_token, isinstance(access_token, str)]):
-            self.session = httpx.Client(
-                http2=http2,
-                headers={'Authorization': access_token},
-                event_hooks={
-                    'request': [logger.log_request],
-                    'response': [logger.log_response]
-                },
-                proxies=proxies,
-                verify=verify)
+            super().__init__(access_token, base_url, http2, proxies, verify)
         else:
             raise ValueError(
                 'Incorrect or missing `access_token` argument (should be of type str.)'
             )
-        self.query_string = None  # overwritten in concrete classes.
 
-    def modify_header(self, header: dict) -> None:
-        ''' Modifies provided header in session object.
-
-            Args:
-                header (dict): Header which needs to be modified.
-        '''
-        self.session.headers.update(header)
-
-    def remove_header(self, key: str) -> None:
-        ''' Removes provided header from session object.
-
-            Args:
-                key (str): Key which needs to be removed from the header.
-        '''
-        if key in self.session.headers:
-            del self.session.headers[key]
-
-    def get_headers(self) -> dict:
-        ''' Returns current header values in session object.
-
-            Returns:
-                dict: Response which presents current header values in session object.
-        '''
-        return dict(self.session.headers)
+        self.api_url = f'https://{base_url}/v3.3/customer/action'
+        if isinstance(license_id, int):
+            self.license_id = license_id
+            self.query_string = f'?license_id={str(license_id)}'
+        else:
+            raise ValueError(
+                'Incorrect or missing `license_id` argument (should be of type int.)'
+            )
 
 # Chats
 
@@ -684,6 +587,71 @@ class CustomerWebInterface(metaclass=ABCMeta):
             json=payload,
             headers=headers)
 
+    def list_license_properties(self,
+                                namespace: str = None,
+                                name: str = None,
+                                payload: dict = None,
+                                headers: dict = None) -> httpx.Response:
+        ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
+
+            Args:
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request's data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params['namespace'] = namespace
+        if name:
+            params['name'] = name
+        params['license_id'] = self.license_id
+        return self.session.post(f'{self.api_url}/list_license_properties',
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
+    def list_group_properties(self,
+                              group_id: int = None,
+                              namespace: str = None,
+                              name: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -> httpx.Response:
+        ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
+            Args:
+                group_id (int): ID of the group you want to return the properties of.
+                namespace (str): Property namespace to retrieve.
+                name (str): Property name.
+                payload (dict): Custom payload to be used as request's data.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = {}
+        params = {}
+        if namespace:
+            params['namespace'] = namespace
+        if name:
+            params['name'] = name
+        if group_id:
+            params['id'] = str(group_id)
+        params['license_id'] = self.license_id
+        return self.session.post(f'{self.api_url}/list_group_properties',
+                                 json=payload,
+                                 params=params,
+                                 headers=headers)
+
 # Customers
 
     def get_customer(self,
@@ -978,31 +946,17 @@ class CustomerWebInterface(metaclass=ABCMeta):
             json=payload,
             headers=headers)
 
-
-class CustomerWeb33(CustomerWebInterface):
-    ''' Customer API version 3.3 class. '''
-    def __init__(self, license_id: int, access_token: str, version: str,
-                 url: str, http2: bool) -> CustomerWeb33:
-        super().__init__(access_token, version, url, http2)
-        if isinstance(license_id, int):
-            self.license_id = license_id
-            self.query_string = f'?license_id={str(license_id)}'
-        else:
-            raise ValueError(
-                'Incorrect or missing `license_id` argument (should be of type int.)'
-            )
-
-    def list_license_properties(self,
-                                namespace: str = None,
-                                name: str = None,
-                                payload: dict = None,
-                                headers: dict = None) -> httpx.Response:
-        ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
+    def request_email_verification(self,
+                                   callback_uri: str = None,
+                                   payload: dict = None,
+                                   headers: dict = None) -> httpx.Response:
+        ''' Requests the verification of the customer's email address by sending them a verification email
+            with the identity confirmation link.
 
             Args:
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
+                callback_uri (str): URI to be called after the customer confirms their email address.
                 payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
                                 however, these method-level parameters will not be persisted across requests.
@@ -1011,206 +965,8 @@ class CustomerWeb33(CustomerWebInterface):
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. '''
         if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params['namespace'] = namespace
-        if name:
-            params['name'] = name
-        params['license_id'] = self.license_id
-        return self.session.post(f'{self.api_url}/list_license_properties',
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)
-
-    def list_group_properties(self,
-                              group_id: int = None,
-                              namespace: str = None,
-                              name: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -> httpx.Response:
-        ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
-            Args:
-                group_id (int): ID of the group you want to return the properties of.
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request's data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params['namespace'] = namespace
-        if name:
-            params['name'] = name
-        if group_id:
-            params['id'] = str(group_id)
-        params['license_id'] = self.license_id
-        return self.session.post(f'{self.api_url}/list_group_properties',
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)
-
-
-class CustomerWeb34(CustomerWebInterface):
-    ''' Customer API version 3.4 class. '''
-    def __init__(self, organization_id: str, access_token: str, version: str,
-                 url: str, http2: bool) -> CustomerWeb34:
-        super().__init__(access_token, version, url, http2)
-        if isinstance(organization_id, str):
-            self.organization_id = organization_id
-            self.query_string = f'?organization_id={organization_id}'
-        else:
-            raise ValueError(
-                'Incorrect or missing `organization_id` argument (should be of type str.)'
-            )
-
-    def list_license_properties(self,
-                                namespace: str = None,
-                                name: str = None,
-                                payload: dict = None,
-                                headers: dict = None) -> httpx.Response:
-        ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
-
-            Args:
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request's data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params['namespace'] = namespace
-        if name:
-            params['name'] = name
-        params['organization_id'] = self.organization_id
-        return self.session.post(f'{self.api_url}/list_license_properties',
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)
-
-    def list_group_properties(self,
-                              group_id: int = None,
-                              namespace: str = None,
-                              name: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -> httpx.Response:
-        ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
-            Args:
-                group_id (int): ID of the group you want to return the properties of.
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request's data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params['namespace'] = namespace
-        if name:
-            params['name'] = name
-        if group_id:
-            params['id'] = str(group_id)
-        params['organization_id'] = self.organization_id
-        return self.session.post(f'{self.api_url}/list_group_properties',
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)
-
-
-class CustomerWeb35(CustomerWebInterface):
-    ''' Customer API version 3.5 class. '''
-    def __init__(self, organization_id: str, access_token: str, version: str,
-                 url: str, http2: bool) -> CustomerWeb35:
-        super().__init__(access_token, version, url, http2)
-        if isinstance(organization_id, str):
-            self.organization_id = organization_id
-            self.query_string = f'?organization_id={organization_id}'
-        else:
-            raise ValueError(
-                'Incorrect or missing `organization_id` argument (should be of type str.)'
-            )
-
-    def list_license_properties(self,
-                                namespace: str = None,
-                                name: str = None,
-                                payload: dict = None,
-                                headers: dict = None) -> httpx.Response:
-        ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
-
-            Args:
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request's data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params['namespace'] = namespace
-        if name:
-            params['name'] = name
-        params['organization_id'] = self.organization_id
-        return self.session.post(f'{self.api_url}/list_license_properties',
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)
-
-    def list_group_properties(self,
-                              group_id: int = None,
-                              namespace: str = None,
-                              name: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -> httpx.Response:
-        ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
-            Args:
-                group_id (int): ID of the group you want to return the properties of.
-                namespace (str): Property namespace to retrieve.
-                name (str): Property name.
-                payload (dict): Custom payload to be used as request's data.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = {}
-        params = {}
-        if namespace:
-            params['namespace'] = namespace
-        if name:
-            params['name'] = name
-        if group_id:
-            params['id'] = str(group_id)
-        params['organization_id'] = self.organization_id
-        return self.session.post(f'{self.api_url}/list_group_properties',
-                                 json=payload,
-                                 params=params,
-                                 headers=headers)
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/request_email_verification{self.query_string}',
+            json=payload,
+            headers=headers)

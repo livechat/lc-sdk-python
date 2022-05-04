@@ -1,51 +1,18 @@
-''' Agent RTM client implementation. '''
+''' Module containing Agent RTM API client implementation for v3.5. '''
 
-# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0221
-from __future__ import annotations
+from typing import Any
 
-import typing
-from abc import ABCMeta
-
-from livechat.config import CONFIG
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
-stable_version = CONFIG.get('stable')
-api_url = CONFIG.get('url')
+# pylint: disable=unused-argument, too-many-arguments, invalid-name, redefined-builtin
 
 
-class AgentRTM:
-    ''' Main class that gets specific client. '''
-    @staticmethod
-    def get_client(version: str = stable_version,
-                   base_url: str = api_url) -> AgentRTMInterface:
-        ''' Returns client for specific Agent RTM version.
-
-            Args:
-                version (str): API's version. Defaults to the stable version of API.
-                base_url (str): API's base url. Defaults to API's production URL.
-
-            Returns:
-                AgentRTMInterface: API client object for specified version.
-
-            Raises:
-                ValueError: If the specified version does not exist.
-        '''
-        client = {
-            '3.3': AgentRTM33(version, base_url),
-            '3.4': AgentRTM34(version, base_url),
-            '3.5': AgentRTM35(version, base_url),
-        }.get(version)
-        if not client:
-            raise ValueError('Provided version does not exist.')
-        return client
-
-
-class AgentRTMInterface(metaclass=ABCMeta):
-    ''' AgentRTM interface class. '''
-    def __init__(self, version: str, url: str) -> AgentRTMInterface:
-        self.ws = WebsocketClient(url=f'wss://{url}/v{version}/agent/rtm/ws')
+class AgentRtmV35:
+    ''' Agent RTM API Class containing methods in version 3.5. '''
+    def __init__(self, url: str):
+        self.ws = WebsocketClient(url=f'wss://{url}/v3.5/agent/rtm/ws')
 
     def open_connection(self) -> None:
         ''' Opens WebSocket connection. '''
@@ -956,7 +923,7 @@ class AgentRTMInterface(metaclass=ABCMeta):
 
     def multicast(self,
                   recipients: dict = None,
-                  content: typing.Any = None,
+                  content: Any = None,
                   type: str = None,
                   payload: dict = None) -> RtmResponse:
         ''' Sends a multicast (chat-unrelated communication).
@@ -996,188 +963,3 @@ class AgentRTMInterface(metaclass=ABCMeta):
             'action': 'list_agents_for_transfer',
             'payload': payload
         })
-
-
-class AgentRTM33(AgentRTMInterface):
-    ''' Agent RTM version 3.3 class. '''
-
-    # Chats
-
-    def deactivate_chat(self,
-                        id: str = None,
-                        payload: dict = None) -> RtmResponse:
-        ''' Deactivates a chat by closing the currently open thread.
-
-            Args:
-                id (str): Chat ID to deactivate.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'deactivate_chat', 'payload': payload})
-
-    # Chat users
-
-    def add_user_to_chat(self,
-                         chat_id: str = None,
-                         user_id: str = None,
-                         user_type: str = None,
-                         require_active_thread: bool = None,
-                         payload: dict = None) -> RtmResponse:
-        ''' Adds a user to the chat. You can't add more than
-            one customer user type to the chat.
-
-            Args:
-                chat_id (str): Chat ID.
-                user_id (str): ID of the user that will be added to the chat.
-                user_type (str): Possible values: agent or customer.
-                require_active_thread (bool): A flag. If True, it adds a user to a chat
-                    only if that chat has an active thread; default False.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'add_user_to_chat', 'payload': payload})
-
-    def remove_user_from_chat(self,
-                              chat_id: str = None,
-                              user_id: str = None,
-                              user_type: str = None,
-                              payload: dict = None) -> RtmResponse:
-        ''' Removes a user from chat.
-
-            Args:
-                chat_id (str): Chat ID.
-                user_id (str): ID of the user that will be added to the chat.
-                user_type (str): Possible values: agent or customer.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'remove_user_from_chat',
-            'payload': payload
-        })
-
-    # Chat access
-
-    def transfer_chat(self,
-                      id: str = None,
-                      target: dict = None,
-                      force: bool = None,
-                      payload: dict = None) -> RtmResponse:
-        ''' Transfers a chat to an agent or a group.
-
-            Args:
-                id (str): Chat ID.
-                target (dict): Target object. If missing, the chat will be
-                        transferred within the current group.
-                force (bool): A flag. If True, always transfers chats.
-                        Otherwise, fails when unable to assign any agent
-                        from the requested groups; default False.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'transfer_chat', 'payload': payload})
-
-    def grant_chat_access(self,
-                          id: str = None,
-                          access: dict = None,
-                          payload: dict = None) -> RtmResponse:
-        ''' Grants access to a new chat without overwriting the existing ones.
-
-            Args:
-                id (str): Chat ID.
-                access (dict): Access object.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'grant_chat_access',
-            'payload': payload
-        })
-
-    def revoke_chat_access(self,
-                           id: str = None,
-                           access: dict = None,
-                           payload: dict = None) -> RtmResponse:
-        ''' Revokes access to a chat.
-
-            Args:
-                id (str): Chat ID.
-                access (dict): Access object.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'revoke_chat_access',
-            'payload': payload
-        })
-
-    # Other
-
-    def send_typing_indicator(self,
-                              chat_id: str = None,
-                              recipients: str = None,
-                              is_typing: bool = None,
-                              payload: dict = None) -> RtmResponse:
-        ''' Sends a typing indicator.
-
-            Args:
-                chat_id (str): ID of the chat you want to send the typing indicator to.
-                recipients (str): Possible values: all (default), agents.
-                is_typing (bool): A flag that indicates if you are typing.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'send_typing_indicator',
-            'payload': payload
-        })
-
-
-class AgentRTM34(AgentRTMInterface):
-    ''' Agent RTM version 3.4 class. '''
-
-
-class AgentRTM35(AgentRTMInterface):
-    ''' Agent RTM version 3.5 class. '''
