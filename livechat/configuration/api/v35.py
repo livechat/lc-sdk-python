@@ -60,7 +60,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -86,7 +86,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -112,7 +112,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -158,7 +158,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -182,7 +182,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -206,7 +206,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -230,7 +230,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -253,7 +253,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -277,7 +277,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -310,7 +310,7 @@ class ConfigurationApiV35(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
+                            which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -332,7 +332,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -356,7 +356,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -383,7 +383,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -421,7 +421,7 @@ class ConfigurationApiV35(HttpClient):
                                 however, these method-level parameters will not be persisted across requests.
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -445,7 +445,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -483,7 +483,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -509,7 +509,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -535,7 +535,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -565,7 +565,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -595,7 +595,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -619,7 +619,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -643,7 +643,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -669,7 +669,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -709,7 +709,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -735,7 +735,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -763,7 +763,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -787,7 +787,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -812,7 +812,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -838,7 +838,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -862,7 +862,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -889,7 +889,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -917,7 +917,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -943,11 +943,113 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/delete_group_properties',
+                                 json=payload,
+                                 headers=headers)
+
+# Tags
+
+    def create_tag(self,
+                   name: str = None,
+                   group_ids: list = None,
+                   payload: dict = None,
+                   headers: dict = None) -> httpx.Response:
+        ''' Creates a new tag.
+
+            Args:
+                name (str): Name of the new tag. Matching the name of an existing tag is case-insensitive.
+                group_ids (list): List of groups' IDs for the tag. Can be empty.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/create_tag',
+                                 json=payload,
+                                 headers=headers)
+
+    def delete_tag(self,
+                   name: str = None,
+                   payload: dict = None,
+                   headers: dict = None) -> httpx.Response:
+        ''' Deletes an existing tag.
+
+            Args:
+                name (str): Name of the tag to delete. Matching the name of an existing tag is case-insensitive.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/delete_tag',
+                                 json=payload,
+                                 headers=headers)
+
+    def list_tags(self,
+                  filters: dict = None,
+                  payload: dict = None,
+                  headers: dict = None) -> httpx.Response:
+        ''' Lists the exisiting tags.
+
+            Args:
+                filters (dict): Possible request filters.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/list_tags',
+                                 json=payload,
+                                 headers=headers)
+
+    def update_tag(self,
+                   name: str = None,
+                   group_ids: list = None,
+                   payload: dict = None,
+                   headers: dict = None) -> httpx.Response:
+        ''' Updates an existing tag.
+
+            Args:
+                name (str): Name of the tag to update. Matching the name of an existing tag is case-insensitive.
+                group_ids (list): List of groups' IDs for the tag. Can be empty.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/update_tag',
                                  json=payload,
                                  headers=headers)
 
@@ -983,7 +1085,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1007,7 +1109,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1033,7 +1135,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1057,7 +1159,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1082,7 +1184,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1106,7 +1208,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1131,7 +1233,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1158,7 +1260,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if params is None:
             params = prepare_payload(locals())
@@ -1182,7 +1284,7 @@ class ConfigurationApiV35(HttpClient):
 
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if params is None:
             params = prepare_payload(locals())
@@ -1202,7 +1304,7 @@ class ConfigurationApiV35(HttpClient):
                             however, these method-level parameters will not be persisted across requests.
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -1224,7 +1326,7 @@ class ConfigurationApiV35(HttpClient):
                                 however, these method-level parameters will not be persisted across requests.
             Returns:
                 httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
