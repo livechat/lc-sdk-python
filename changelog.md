@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.3.0] - TBA
+## [0.3.0] - 2022-05-10
 
 ### Added
 - New methods in configuration-api v3.5 for tags management: `create_tag`, `list_tags`, `update_tag`, `delete_tag`.
