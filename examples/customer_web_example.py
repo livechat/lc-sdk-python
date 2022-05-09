@@ -2,7 +2,7 @@
 
 from livechat.customer.web.base import CustomerWeb
 
-customer_web = CustomerWeb.get_client(license_id=12345,
+customer_web = CustomerWeb.get_client(organization_id='foo-bar-baz',
                                       access_token='<your access token>')
 results = customer_web.start_chat(continuous=True)
 chat_id = results.json().get('chat_id')

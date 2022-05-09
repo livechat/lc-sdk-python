@@ -2,7 +2,7 @@
 
 from livechat.customer.rtm.base import CustomerRTM
 
-customer_rtm = CustomerRTM.get_client(license_id=12345)
+customer_rtm = CustomerRTM.get_client(organization_id='foo-bar-baz')
 customer_rtm.open_connection()
 customer_rtm.login(token='Bearer <your bearer token>')
 response = customer_rtm.start_chat(continuous=True)
