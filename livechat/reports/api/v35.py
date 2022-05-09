@@ -17,7 +17,7 @@ class ReportsApiV35(HttpClient):
         super().__init__(token, base_url, http2, proxies, verify)
         self.api_url = f'https://{base_url}/v3.5/reports'
 
-    # Chats
+# Chats
 
     def duration(self,
                  distribution: str = None,
@@ -317,7 +317,7 @@ class ReportsApiV35(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    # Agents
+# Agents
 
     def availability(self,
                      distribution: str = None,
@@ -376,5 +376,36 @@ class ReportsApiV35(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/agents/performance',
+                                 json=payload,
+                                 headers=headers)
+
+
+# Tags
+
+    def chat_usage(self,
+                   timezone: str = None,
+                   filters: dict = None,
+                   payload: dict = None,
+                   headers: dict = None) -> httpx.Response:
+        ''' Shows the total number of chats marked with each tag.
+
+        Args:
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/tags/chat_usage',
                                  json=payload,
                                  headers=headers)
