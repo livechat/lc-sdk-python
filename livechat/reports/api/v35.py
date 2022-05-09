@@ -382,11 +382,11 @@ class ReportsApiV35(HttpClient):
 
 # Tags
 
-    def chat_usage(self,
-                   timezone: str = None,
-                   filters: dict = None,
-                   payload: dict = None,
-                   headers: dict = None) -> httpx.Response:
+    def tags_chat_usage(self,
+                        timezone: str = None,
+                        filters: dict = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
         ''' Shows the total number of chats marked with each tag.
 
         Args:
