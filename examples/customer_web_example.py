@@ -2,8 +2,9 @@
 
 from livechat.customer.web.base import CustomerWeb
 
-customer_web = CustomerWeb.get_client(organization_id='foo-bar-baz',
-                                      access_token='<your access token>')
+customer_web = CustomerWeb.get_client(
+    organization_id='142cf3ad-5d54-4cf6-8ce1-3773d14d7f3f',
+    access_token='<your access token>')
 results = customer_web.start_chat(continuous=True)
 chat_id = results.json().get('chat_id')
 thread_id = results.json().get('thread_id')

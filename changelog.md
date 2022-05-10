@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - New methods in configuration-api v3.5 for tags management: `create_tag`, `list_tags`, `update_tag`, `delete_tag`.
+- New method in reports-api v3.5 for getting tags usage statistics in chats: `tags_chat_usage`.
 
 ### Changed
 - Major refactoring: classes with API methods for each version are now held in separate modules
