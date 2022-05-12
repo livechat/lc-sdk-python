@@ -9,7 +9,7 @@ from livechat.utils.ws_client import WebsocketClient
 
 class CustomerRtmV33:
     ''' Customer RTM API client class in version 3.3. '''
-    def __init__(self, base_url: str, license_id: str):
+    def __init__(self, license_id: str, base_url: str):
         if isinstance(license_id, (int, str)):
             self.ws = WebsocketClient(
                 url=
