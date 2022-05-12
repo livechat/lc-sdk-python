@@ -1,9 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.2.2] - TBA
+## [0.3.0] - 2022-05-10
+
+### Added
+- New methods in configuration-api v3.5 for tags management: `create_tag`, `list_tags`, `update_tag`, `delete_tag`.
+- New method in reports-api v3.5 for getting tags usage statistics in chats: `tags_chat_usage`.
 
 ### Changed
+- Major refactoring: classes with API methods for each version are now held in separate modules
+  This is possibly breaking change, please make sure if your imports point to `livechat.<service>.<transport>.base`).
+  When in doubt, please compare with the updated `examples` directory.
 - Added new param `owner_client_id` in Configuration API `create_bot` for Interface and v3.5 classes.
 - Added new methods related to product information (`list_channels`, `check_product_limits`) in Configuration API v3.5.
 
