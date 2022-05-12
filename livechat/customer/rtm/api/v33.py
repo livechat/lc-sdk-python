@@ -15,9 +15,10 @@ class CustomerRtmV33:
                 url=
                 f'wss://{base_url}/v3.3/customer/rtm/ws?license_id={license_id}'
             )
-        raise ValueError(
-            f'Provided `license_id` (`{license_id}`) seems invalid. Websocket connection may not open.'
-        )
+        else:
+            raise ValueError(
+                f'Provided `license_id` (`{license_id}`) seems invalid. Websocket connection may not open.'
+            )
 
     def open_connection(self, origin: dict = None) -> None:
         ''' Opens WebSocket connection.
