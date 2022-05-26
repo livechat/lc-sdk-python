@@ -9,7 +9,7 @@ response = agent_rtm.start_chat(continuous=True)
 chat_id = response.payload.get('chat_id')
 thread_id = response.payload.get('thread_id')
 
-# Get all messages including the non-response messages (e.g. pushes). Returns a list
+# Get `incoming_chat` push from all messages including the non-response messages (i.e. pushes)
 incoming_chat_push = agent_rtm.ws.messages[0]
 
 agent_rtm.send_event(chat_id=chat_id,
