@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2022-05-26
+
+### Changed
+- Updated httpx dependency to a version which fixes a potential vulnerability.
+- Updated readme file and extended examples with getting pushes from the websocket client.
+
 ## [0.3.0] - 2022-05-10
 
 ### Added

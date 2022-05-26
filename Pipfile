@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 websocket-client= "1.2.1"
 urllib3 = "1.26.6"
-httpx = {extras = ["http2"], version = "0.19.0"}
+httpx = {extras = ["http2"], version = "0.23.0"}
 
 [dev-packages]
 pre-commit = "2.10.1"
