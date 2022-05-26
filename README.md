@@ -9,18 +9,18 @@ For protocol documentation of LiveChat APIs, please go to [Livechat Platform Doc
 ## Technical docs
 
 Agent Chat API:
-* [RTM API](https://livechat.github.io/lc-sdk-python/agent_rtm.html)
-* [WEB API](https://livechat.github.io/lc-sdk-python/agent_web.html)
+* [RTM API](https://livechat.github.io/lc-sdk-python/agent_rtm/index.html)
+* [WEB API](https://livechat.github.io/lc-sdk-python/agent_web/index.html)
 
 Customer Chat API:
-* [RTM API](https://livechat.github.io/lc-sdk-python/customer_rtm.html)
-* [WEB API](https://livechat.github.io/lc-sdk-python/customer_web.html)
+* [RTM API](https://livechat.github.io/lc-sdk-python/customer_rtm/index.html)
+* [WEB API](https://livechat.github.io/lc-sdk-python/customer_web/index.html)
 
 Management:
-* [Configuration API](https://livechat.github.io/lc-sdk-python/configuration_api.html)
+* [Configuration API](https://livechat.github.io/lc-sdk-python/configuration/index.html)
 
 Reports:
-* [Reports API](https://livechat.github.io/lc-sdk-python/reports_api.html)
+* [Reports API](https://livechat.github.io/lc-sdk-python/reports/index.html)
 
 ## Installation
 
@@ -32,91 +32,8 @@ pip install lc-sdk-python
 
 ## Usage
 
-### Agent RTM API usage example
-
-Basic example on how to login as an agent and change routing status to `not_accepting_chats`.
-
-First, create your AgentRTM client and log in:
-```python
->>> from livechat.agent import AgentRTM
->>> my_agent = AgentRTM.get_client()
->>> my_agent.login(token='Bearer <your bearer token>')
-INFO:root:
-REQUEST:
-{
-    "action": "login",
-    "payload": {
-        "token": "Bearer <your bearer token>
-    },
-    "request_id": "5571081909"
-}
-INFO:root:
-RESPONSES:
-{
-    "response": {
-        "request_id": "5571081909",
-        "action": "login",
-        "type": "response",
-        "payload": {
-            ...
-        },
-        "success": true
-    },
-    "pushes": []
-}
-```
-
-Now you can change the routing status of the agent:
-
-```python
->>> my_agent.set_routing_status(status='not_accepting_chats')
-INFO:root:
-REQUEST:
-{
-    "action": "set_routing_status",
-    "payload": {
-        "status": "not_accepting_chats"
-    },
-    "request_id": "8214452850"
-}
-INFO:root:
-RESPONSES:
-{
-    "response": {
-        "request_id": "8214452850",
-        "action": "set_routing_status",
-        "type": "response",
-        "payload": {},
-        "success": true
-        ...
-    }
-}
-```
-
-Finally, log out:
-
-```python
->>> my_agent.logout()
-INFO:root:
-REQUEST:
-{
-    "action": "logout",
-    "payload": {},
-    "request_id": "629300202"
-}
-INFO:root:
-RESPONSES:
-{
-    "response": {
-        "request_id": "629300202",
-        "action": "logout",
-        "type": "response",
-        "success": true
-    },
-    "pushes": []
-}
-```
-
+Usage examples can be found here:
+[examples](https://github.com/livechat/lc-sdk-python/tree/master/examples)
 
 ## Feedback
 
