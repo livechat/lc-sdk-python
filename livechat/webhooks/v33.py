@@ -90,11 +90,11 @@ class ChatTransferred:
 @dataclass
 class UserAddedToChat:
     chat_id: str
-    user: dict
     reason: str
     requester_id: str
     thread_id: str = None
     user_type: str = None
+    user: dict = None
 
 
 @dataclass
