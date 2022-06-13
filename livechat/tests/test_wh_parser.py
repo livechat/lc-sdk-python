@@ -1,9 +1,14 @@
 ''' Webhooks parser tests. '''
 
+import inspect
+
 import pytest
 
 from livechat.config import CONFIG
 from livechat.webhooks.parser import parse_webhook
+from livechat.webhooks.v33 import WebhookV33, action_to_data_class_mapping_v_33
+from livechat.webhooks.v34 import WebhookV34, action_to_data_class_mapping_v_34
+from livechat.webhooks.v35 import WebhookV35, action_to_data_class_mapping_v_35
 
 # pylint: disable=redefined-outer-name
 
@@ -24,6 +29,31 @@ def webhook_body() -> dict:
         },
         'additional_data': {}
     }
+
+
+@pytest.fixture(scope='session')
+def webhook_data_class_and_mapping() -> tuple:
+    ''' Returns a tuple with webhook data class and actions to payload's
+        data classes mapping for the stable version. '''
+    return {
+        '3.3': (WebhookV33, action_to_data_class_mapping_v_33),
+        '3.4': (WebhookV34, action_to_data_class_mapping_v_34),
+        '3.5': (WebhookV35, action_to_data_class_mapping_v_35),
+    }.get(stable_version)
+
+
+def test_action_to_data_class_mapping_items_equal_class_definitions(
+        webhook_data_class_and_mapping: tuple):
+    ''' Test if number of action => data class pairs in `action_to_data_class_mapping`
+        is equal to the number of payloads data classes definitions - 1 (main
+        webhook data class) '''
+    webhook_data_class, action_to_data_class_mapping = webhook_data_class_and_mapping
+    webhooks_data_classes_module = inspect.getmodule(webhook_data_class)
+    classes_defs_number = len(
+        inspect.getmembers(webhooks_data_classes_module, inspect.isclass))
+    assert len(action_to_data_class_mapping) == classes_defs_number - 1, \
+        ('Number of action => data class pairs in `action_to_data_class_mapping` '
+        'is not equal to the number of payload data classes definitions.')
 
 
 @pytest.mark.parametrize('optional_field', [True, False])
