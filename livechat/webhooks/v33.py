@@ -16,31 +16,7 @@ class WebhookV33:
 
     def payload_data_class(self):
         ''' Returns payload's data class for webhook's action. '''
-        return {
-            'incoming_chat': IncomingChat,
-            'chat_deactivated': ChatDeactivated,
-            'chat_access_granted': ChatAccessGranted,
-            'chat_access_revoked': ChatAccessRevoked,
-            'chat_transferred': ChatTransferred,
-            'user_added_to_chat': UserAddedToChat,
-            'user_removed_from_chat': UserRemovedFromChat,
-            'incoming_event': IncomingEvent,
-            'event_updated': EventUpdated,
-            'incoming_rich_message_postback': IncomingRichMessagePostback,
-            'chat_properties_updated': ChatPropertiesUpdated,
-            'chat_properties_deleted': ChatPropertiesDeleted,
-            'thread_properties_updated': ThreadPropertiesUpdated,
-            'thread_properties_deleted': ThreadPropertiesDeleted,
-            'event_properties_updated': EventPropertiesUpdated,
-            'event_properties_deleted': EventPropertiesDeleted,
-            'thread_tagged': ThreadTagged,
-            'thread_untagged': ThreadUntagged,
-            'routing_status_set': RoutingStatusSet,
-            'agent_deleted': AgentDeleted,
-            'incoming_customer': IncomingCustomer,
-            'customer_session_fields_updated': CustomerSessionFieldsUpdated,
-            'events_marked_as_seen': EventsMarkedAsSeen,
-        }[self.action]
+        return action_to_data_class_mapping_v_33[self.action]
 
 
 # Chats
@@ -232,3 +208,31 @@ class EventsMarkedAsSeen:
     user_id: str
     chat_id: str
     seen_up_to: str
+
+
+# Webhook's action mapping to coressponding payload's data class definition
+action_to_data_class_mapping_v_33 = {
+    'incoming_chat': IncomingChat,
+    'chat_deactivated': ChatDeactivated,
+    'chat_access_granted': ChatAccessGranted,
+    'chat_access_revoked': ChatAccessRevoked,
+    'chat_transferred': ChatTransferred,
+    'user_added_to_chat': UserAddedToChat,
+    'user_removed_from_chat': UserRemovedFromChat,
+    'incoming_event': IncomingEvent,
+    'event_updated': EventUpdated,
+    'incoming_rich_message_postback': IncomingRichMessagePostback,
+    'chat_properties_updated': ChatPropertiesUpdated,
+    'chat_properties_deleted': ChatPropertiesDeleted,
+    'thread_properties_updated': ThreadPropertiesUpdated,
+    'thread_properties_deleted': ThreadPropertiesDeleted,
+    'event_properties_updated': EventPropertiesUpdated,
+    'event_properties_deleted': EventPropertiesDeleted,
+    'thread_tagged': ThreadTagged,
+    'thread_untagged': ThreadUntagged,
+    'routing_status_set': RoutingStatusSet,
+    'agent_deleted': AgentDeleted,
+    'incoming_customer': IncomingCustomer,
+    'customer_session_fields_updated': CustomerSessionFieldsUpdated,
+    'events_marked_as_seen': EventsMarkedAsSeen,
+}
