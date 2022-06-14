@@ -319,6 +319,27 @@ class GroupUpdated:
     agent_priorities: dict = None
 
 
+@dataclass
+class TagCreated:
+    name: str
+    author_id: str
+    created_at: str
+    group_ids: list
+
+
+@dataclass
+class TagDeleted:
+    name: str
+
+
+@dataclass
+class TagUpdated:
+    name: str
+    group_ids: list
+    author_id: str = None
+    created_at: str = None
+
+
 # Other
 
 
@@ -366,5 +387,8 @@ action_to_data_class_mapping_v_35 = {
     'group_created': GroupCreated,
     'group_deleted': GroupDeleted,
     'group_updated': GroupUpdated,
+    'tag_created': TagCreated,
+    'tag_deleted': TagDeleted,
+    'tag_updated': TagUpdated,
     'events_marked_as_seen': EventsMarkedAsSeen,
 }
