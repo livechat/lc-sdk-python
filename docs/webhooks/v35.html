@@ -348,6 +348,27 @@ class GroupUpdated:
     agent_priorities: dict = None
 
 
+@dataclass
+class TagCreated:
+    name: str
+    author_id: str
+    created_at: str
+    group_ids: list
+
+
+@dataclass
+class TagDeleted:
+    name: str
+
+
+@dataclass
+class TagUpdated:
+    name: str
+    group_ids: list
+    author_id: str = None
+    created_at: str = None
+
+
 # Other
 
 
@@ -395,6 +416,9 @@ action_to_data_class_mapping_v_35 = {
     &#39;group_created&#39;: GroupCreated,
     &#39;group_deleted&#39;: GroupDeleted,
     &#39;group_updated&#39;: GroupUpdated,
+    &#39;tag_created&#39;: TagCreated,
+    &#39;tag_deleted&#39;: TagDeleted,
+    &#39;tag_updated&#39;: TagUpdated,
     &#39;events_marked_as_seen&#39;: EventsMarkedAsSeen,
 }</code></pre>
 </details>
@@ -1448,6 +1472,99 @@ action_to_data_class_mapping_v_35 = {
 </dd>
 </dl>
 </dd>
+<dt id="webhooks.v35.TagCreated"><code class="flex name class">
+<span>class <span class="ident">TagCreated</span></span>
+<span>(</span><span>name: str, author_id: str, created_at: str, group_ids: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TagCreated(name: str, author_id: str, created_at: str, group_ids: list)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TagCreated:
+    name: str
+    author_id: str
+    created_at: str
+    group_ids: list</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="webhooks.v35.TagCreated.author_id"><code class="name">var <span class="ident">author_id</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="webhooks.v35.TagCreated.created_at"><code class="name">var <span class="ident">created_at</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="webhooks.v35.TagCreated.group_ids"><code class="name">var <span class="ident">group_ids</span> : list</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="webhooks.v35.TagCreated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="webhooks.v35.TagDeleted"><code class="flex name class">
+<span>class <span class="ident">TagDeleted</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TagDeleted(name: str)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TagDeleted:
+    name: str</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="webhooks.v35.TagDeleted.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="webhooks.v35.TagUpdated"><code class="flex name class">
+<span>class <span class="ident">TagUpdated</span></span>
+<span>(</span><span>name: str, group_ids: list, author_id: str = None, created_at: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TagUpdated(name: str, group_ids: list, author_id: str = None, created_at: str = None)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TagUpdated:
+    name: str
+    group_ids: list
+    author_id: str = None
+    created_at: str = None</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="webhooks.v35.TagUpdated.author_id"><code class="name">var <span class="ident">author_id</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="webhooks.v35.TagUpdated.created_at"><code class="name">var <span class="ident">created_at</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="webhooks.v35.TagUpdated.group_ids"><code class="name">var <span class="ident">group_ids</span> : list</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="webhooks.v35.TagUpdated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="webhooks.v35.ThreadPropertiesDeleted"><code class="flex name class">
 <span>class <span class="ident">ThreadPropertiesDeleted</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, properties: dict)</span>
@@ -2007,6 +2124,30 @@ action_to_data_class_mapping_v_35 = {
 <ul class="">
 <li><code><a title="webhooks.v35.RoutingStatusSet.agent_id" href="#webhooks.v35.RoutingStatusSet.agent_id">agent_id</a></code></li>
 <li><code><a title="webhooks.v35.RoutingStatusSet.status" href="#webhooks.v35.RoutingStatusSet.status">status</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="webhooks.v35.TagCreated" href="#webhooks.v35.TagCreated">TagCreated</a></code></h4>
+<ul class="">
+<li><code><a title="webhooks.v35.TagCreated.author_id" href="#webhooks.v35.TagCreated.author_id">author_id</a></code></li>
+<li><code><a title="webhooks.v35.TagCreated.created_at" href="#webhooks.v35.TagCreated.created_at">created_at</a></code></li>
+<li><code><a title="webhooks.v35.TagCreated.group_ids" href="#webhooks.v35.TagCreated.group_ids">group_ids</a></code></li>
+<li><code><a title="webhooks.v35.TagCreated.name" href="#webhooks.v35.TagCreated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="webhooks.v35.TagDeleted" href="#webhooks.v35.TagDeleted">TagDeleted</a></code></h4>
+<ul class="">
+<li><code><a title="webhooks.v35.TagDeleted.name" href="#webhooks.v35.TagDeleted.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="webhooks.v35.TagUpdated" href="#webhooks.v35.TagUpdated">TagUpdated</a></code></h4>
+<ul class="">
+<li><code><a title="webhooks.v35.TagUpdated.author_id" href="#webhooks.v35.TagUpdated.author_id">author_id</a></code></li>
+<li><code><a title="webhooks.v35.TagUpdated.created_at" href="#webhooks.v35.TagUpdated.created_at">created_at</a></code></li>
+<li><code><a title="webhooks.v35.TagUpdated.group_ids" href="#webhooks.v35.TagUpdated.group_ids">group_ids</a></code></li>
+<li><code><a title="webhooks.v35.TagUpdated.name" href="#webhooks.v35.TagUpdated.name">name</a></code></li>
 </ul>
 </li>
 <li>
