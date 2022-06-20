@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.2] - TBA
+
+### Added
+- Webhooks support. Allows to easily convert webhook's body into parsed data classes.
+
 ## [0.3.1] - 2022-05-26
 
 ### Changed
