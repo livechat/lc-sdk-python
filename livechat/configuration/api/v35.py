@@ -1241,7 +1241,6 @@ class ConfigurationApiV35(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-
 # Other
 
     def get_license_id(self,
@@ -1334,3 +1333,120 @@ class ConfigurationApiV35(HttpClient):
             f'{self.api_url}/check_product_limits_for_plan',
             json=payload,
             headers=headers)
+
+
+# Batch requests
+
+    def batch_create_agents(self,
+                            requests: list,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Batch method for `create_agent`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_create_agents',
+                                 json=payload,
+                                 headers=headers)
+
+    def batch_delete_agents(self,
+                            requests: list,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Batch method for `delete_agent`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_delete_agents',
+                                 json=payload,
+                                 headers=headers)
+
+    def batch_update_agents(self,
+                            requests: list,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Batch method for `update_agent`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_update_agents',
+                                 json=payload,
+                                 headers=headers)
+
+    def batch_approve_agents(self,
+                             requests: list,
+                             payload: dict = None,
+                             headers: dict = None) -> httpx.Response:
+        ''' Batch method for `approve_agent`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_approve_agents',
+                                 json=payload,
+                                 headers=headers)
+
+    def batch_suspend_agents(self,
+                             requests: list,
+                             payload: dict = None,
+                             headers: dict = None) -> httpx.Response:
+        ''' Batch method for `suspend_agent`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_suspend_agents',
+                                 json=payload,
+                                 headers=headers)
+
+    def batch_unsuspend_agents(self,
+                               requests: list,
+                               payload: dict = None,
+                               headers: dict = None) -> httpx.Response:
+        ''' Batch method for `unsuspend_agent`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_unsuspend_agents',
+                                 json=payload,
+                                 headers=headers)
