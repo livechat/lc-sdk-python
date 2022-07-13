@@ -241,9 +241,9 @@ class CustomerWebV34(HttpClient):
            '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(
+        return self.session.get(
             f'{self.api_url}/get_dynamic_configuration{self.query_string}',
-            json=payload,
+            params=payload,
             headers=headers)
 
     def get_configuration(self,
@@ -269,9 +269,9 @@ class CustomerWebV34(HttpClient):
          '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(
+        return self.session.get(
             f'{self.api_url}/get_configuration{self.query_string}',
-            json=payload,
+            params=payload,
             headers=headers)
 
 # Events
