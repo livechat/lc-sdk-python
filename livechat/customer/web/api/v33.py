@@ -409,9 +409,9 @@ class CustomerWebV33(HttpClient):
                                 which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(
+        return self.session.get(
             f'{self.api_url}/get_localization{self.query_string}',
-            json=payload,
+            params=payload,
             headers=headers)
 
 # Properties
