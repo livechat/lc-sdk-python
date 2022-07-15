@@ -324,7 +324,7 @@ class CustomerWebV35(HttpClient):
                                 which contains a server’s response to an HTTP request. '''
         return self.session.post(
             f'{self.api_url}/upload_file{self.query_string}',
-            content=file.read(),
+            files=file,
             headers=headers)
 
     def send_rich_message_postback(self,
