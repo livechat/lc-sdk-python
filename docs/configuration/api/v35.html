@@ -1367,7 +1367,7 @@ class ConfigurationApiV35(HttpClient):
 # Batch requests
 
     def batch_create_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `create_agent`.
@@ -1386,7 +1386,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_delete_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `delete_agent`.
@@ -1405,7 +1405,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_update_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `update_agent`.
@@ -1424,7 +1424,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_approve_agents(self,
-                             requests: list,
+                             requests: list = None,
                              payload: dict = None,
                              headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `approve_agent`.
@@ -1443,7 +1443,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_suspend_agents(self,
-                             requests: list,
+                             requests: list = None,
                              payload: dict = None,
                              headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `suspend_agent`.
@@ -1462,7 +1462,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_unsuspend_agents(self,
-                               requests: list,
+                               requests: list = None,
                                payload: dict = None,
                                headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `unsuspend_agent`.
@@ -2832,7 +2832,7 @@ class ConfigurationApiV35(HttpClient):
 # Batch requests
 
     def batch_create_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `create_agent`.
@@ -2851,7 +2851,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_delete_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `delete_agent`.
@@ -2870,7 +2870,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_update_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `update_agent`.
@@ -2889,7 +2889,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_approve_agents(self,
-                             requests: list,
+                             requests: list = None,
                              payload: dict = None,
                              headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `approve_agent`.
@@ -2908,7 +2908,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_suspend_agents(self,
-                             requests: list,
+                             requests: list = None,
                              payload: dict = None,
                              headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `suspend_agent`.
@@ -2927,7 +2927,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_unsuspend_agents(self,
-                               requests: list,
+                               requests: list = None,
                                payload: dict = None,
                                headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `unsuspend_agent`.
@@ -3070,7 +3070,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.batch_approve_agents"><code class="name flex">
-<span>def <span class="ident">batch_approve_agents</span></span>(<span>self, requests: list, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">batch_approve_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Batch method for <code>approve_agent</code>.</p>
@@ -3090,7 +3090,7 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_approve_agents(self,
-                         requests: list,
+                         requests: list = None,
                          payload: dict = None,
                          headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `approve_agent`.
@@ -3110,7 +3110,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.batch_create_agents"><code class="name flex">
-<span>def <span class="ident">batch_create_agents</span></span>(<span>self, requests: list, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">batch_create_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Batch method for <code>create_agent</code>.</p>
@@ -3130,7 +3130,7 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_create_agents(self,
-                        requests: list,
+                        requests: list = None,
                         payload: dict = None,
                         headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `create_agent`.
@@ -3150,7 +3150,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.batch_delete_agents"><code class="name flex">
-<span>def <span class="ident">batch_delete_agents</span></span>(<span>self, requests: list, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">batch_delete_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Batch method for <code>delete_agent</code>.</p>
@@ -3170,7 +3170,7 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_delete_agents(self,
-                        requests: list,
+                        requests: list = None,
                         payload: dict = None,
                         headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `delete_agent`.
@@ -3190,7 +3190,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.batch_suspend_agents"><code class="name flex">
-<span>def <span class="ident">batch_suspend_agents</span></span>(<span>self, requests: list, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">batch_suspend_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Batch method for <code>suspend_agent</code>.</p>
@@ -3210,7 +3210,7 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_suspend_agents(self,
-                         requests: list,
+                         requests: list = None,
                          payload: dict = None,
                          headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `suspend_agent`.
@@ -3230,7 +3230,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.batch_unsuspend_agents"><code class="name flex">
-<span>def <span class="ident">batch_unsuspend_agents</span></span>(<span>self, requests: list, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">batch_unsuspend_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Batch method for <code>unsuspend_agent</code>.</p>
@@ -3250,7 +3250,7 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_unsuspend_agents(self,
-                           requests: list,
+                           requests: list = None,
                            payload: dict = None,
                            headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `unsuspend_agent`.
@@ -3270,7 +3270,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.batch_update_agents"><code class="name flex">
-<span>def <span class="ident">batch_update_agents</span></span>(<span>self, requests: list, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">batch_update_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Batch method for <code>update_agent</code>.</p>
@@ -3290,7 +3290,7 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_update_agents(self,
-                        requests: list,
+                        requests: list = None,
                         payload: dict = None,
                         headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `update_agent`.
