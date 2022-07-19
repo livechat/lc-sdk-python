@@ -590,14 +590,12 @@ class CustomerWebV35(HttpClient):
     def list_license_properties(self,
                                 namespace: str = None,
                                 name: str = None,
-                                payload: dict = None,
                                 headers: dict = None) -> httpx.Response:
         ''' Returns the properties of a given license. It only returns the properties a Customer has access to.
 
             Args:
                 namespace (str): Property namespace to retrieve.
                 name (str): Property name.
-                payload (dict): Custom payload to be used as request's data.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
                                 however, these method-level parameters will not be persisted across requests.
@@ -605,16 +603,13 @@ class CustomerWebV35(HttpClient):
             Returns:
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = {}
         params = {}
         if namespace:
             params['namespace'] = namespace
         if name:
             params['name'] = name
         params['organization_id'] = self.organization_id
-        return self.session.post(f'{self.api_url}/list_license_properties',
-                                 json=payload,
+        return self.session.get(f'{self.api_url}/list_license_properties',
                                  params=params,
                                  headers=headers)
 
@@ -622,14 +617,12 @@ class CustomerWebV35(HttpClient):
                               group_id: int = None,
                               namespace: str = None,
                               name: str = None,
-                              payload: dict = None,
                               headers: dict = None) -> httpx.Response:
         ''' Returns the properties of a given group. It only returns the properties a Customer has access to.
             Args:
                 group_id (int): ID of the group you want to return the properties of.
                 namespace (str): Property namespace to retrieve.
                 name (str): Property name.
-                payload (dict): Custom payload to be used as request's data.
                 headers (dict): Custom headers to be used with session headers.
                                 They will be merged with session-level values that are set,
                                 however, these method-level parameters will not be persisted across requests.
@@ -637,18 +630,15 @@ class CustomerWebV35(HttpClient):
             Returns:
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. '''
-        if payload is None:
-            payload = {}
         params = {}
         if namespace:
             params['namespace'] = namespace
         if name:
             params['name'] = name
-        if group_id:
+        if group_id != None:
             params['id'] = str(group_id)
         params['organization_id'] = self.organization_id
-        return self.session.post(f'{self.api_url}/list_group_properties',
-                                 json=payload,
+        return self.session.get(f'{self.api_url}/list_group_properties',
                                  params=params,
                                  headers=headers)
 
