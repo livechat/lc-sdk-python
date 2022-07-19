@@ -1338,7 +1338,7 @@ class ConfigurationApiV35(HttpClient):
 # Batch requests
 
     def batch_create_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -> httpx.Response:
         ''' Batch method for `create_agent`.
@@ -1357,7 +1357,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_delete_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -> httpx.Response:
         ''' Batch method for `delete_agent`.
@@ -1376,7 +1376,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_update_agents(self,
-                            requests: list,
+                            requests: list = None,
                             payload: dict = None,
                             headers: dict = None) -> httpx.Response:
         ''' Batch method for `update_agent`.
@@ -1395,7 +1395,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_approve_agents(self,
-                             requests: list,
+                             requests: list = None,
                              payload: dict = None,
                              headers: dict = None) -> httpx.Response:
         ''' Batch method for `approve_agent`.
@@ -1414,7 +1414,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_suspend_agents(self,
-                             requests: list,
+                             requests: list = None,
                              payload: dict = None,
                              headers: dict = None) -> httpx.Response:
         ''' Batch method for `suspend_agent`.
@@ -1433,7 +1433,7 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_unsuspend_agents(self,
-                               requests: list,
+                               requests: list = None,
                                payload: dict = None,
                                headers: dict = None) -> httpx.Response:
         ''' Batch method for `unsuspend_agent`.
