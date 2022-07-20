@@ -635,7 +635,7 @@ class CustomerWebV35(HttpClient):
             params['namespace'] = namespace
         if name:
             params['name'] = name
-        if group_id != None:
+        if group_id is not None:
             params['id'] = str(group_id)
         params['organization_id'] = self.organization_id
         return self.session.get(f'{self.api_url}/list_group_properties',
