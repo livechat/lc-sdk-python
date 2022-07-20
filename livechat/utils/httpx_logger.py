@@ -19,7 +19,7 @@ class HttpxLogger:
         ''' Log request details. '''
         request_send_time = datetime.now().strftime('%Y-%m-%d, %H:%M:%S.%f')
         self.logger.info(
-            f'\nREQUEST:\n {request.method} {request.url}\n PARAMS:\n {request.content.decode("utf-8")}'
+            f'\nREQUEST:\n {request.method} {request.url}\n PARAMS:\n {request.stream.read().decode("utf-8")}'
         )
         self.logger.debug(
             f'\n SEND TIME: {request_send_time}\n HEADERS:\n {json.dumps(dict(request.headers.items()), indent=4)}'
