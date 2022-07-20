@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.3] - 2022-07-20
+
+### Added
+- Support fo new batch methods in configuration-api v3.5: `batch_create_agents`, `batch_delete_agents`, `batch_update_agents`, `batch_approve_agents`, `batch_suspend_agents`, `batch_unsuspend_agents`.
+
+### Changed
+- Updated requirements.txt.
+
+### Bugfixes
+- Fix HTTP method in `get_dynamic_configuration`, `get_configuration`, `get_localization`, `list_group_properties`, `list_license_properties` and `delete_event_properties`.
+- Fix `upload_file` method by changing the way of uploading files; using HTTP multipart encoding.
+
 ## [0.3.2] - 2022-06-20
 
 ### Added
