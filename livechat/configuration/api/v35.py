@@ -938,7 +938,7 @@ class ConfigurationApiV35(HttpClient):
             Args:
                 namespace (str): Properties namespace.
                 name_prefix (str): Properties name prefix.
-                group_ids (List[str]): IDs of the groups to filter the properties by.
+                group_ids (List[int]): IDs of the groups to filter the properties by.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
