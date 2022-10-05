@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.4] - TBA
+
+### Added
+- New method in configuration-api v3.5: `list_groups_properties`.
+
 ## [0.3.3] - 2022-07-20
 
 ### Added

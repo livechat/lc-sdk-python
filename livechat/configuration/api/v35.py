@@ -1,5 +1,7 @@
 ''' Configuration API module with client class in version 3.5. '''
 
+from typing import List
+
 import httpx
 
 from livechat.utils.helpers import prepare_payload
@@ -922,6 +924,34 @@ class ConfigurationApiV35(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/list_group_properties',
+                                 json=payload,
+                                 headers=headers)
+
+    def list_groups_properties(self,
+                               namespace: str = None,
+                               name_prefix: str = None,
+                               group_ids: List[int] = None,
+                               payload: dict = None,
+                               headers: dict = None) -> httpx.Response:
+        ''' Returns the properties set within multiple groups.
+
+            Args:
+                namespace (str): Properties namespace.
+                name_prefix (str): Properties name prefix.
+                group_ids (List[int]): IDs of the groups to filter the properties by.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/list_groups_properties',
                                  json=payload,
                                  headers=headers)
 
