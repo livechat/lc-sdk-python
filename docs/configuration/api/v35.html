@@ -967,7 +967,7 @@ class ConfigurationApiV35(HttpClient):
             Args:
                 namespace (str): Properties namespace.
                 name_prefix (str): Properties name prefix.
-                group_ids (List[str]): IDs of the groups to filter the properties by.
+                group_ids (List[int]): IDs of the groups to filter the properties by.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -2460,7 +2460,7 @@ class ConfigurationApiV35(HttpClient):
             Args:
                 namespace (str): Properties namespace.
                 name_prefix (str): Properties name prefix.
-                group_ids (List[str]): IDs of the groups to filter the properties by.
+                group_ids (List[int]): IDs of the groups to filter the properties by.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -4837,7 +4837,7 @@ which contains a server's response to an HTTP request.</dd>
 <dd>Properties namespace.</dd>
 <dt><strong><code>name_prefix</code></strong> :&ensp;<code>str</code></dt>
 <dd>Properties name prefix.</dd>
-<dt><strong><code>group_ids</code></strong> :&ensp;<code>List[str]</code></dt>
+<dt><strong><code>group_ids</code></strong> :&ensp;<code>List[int]</code></dt>
 <dd>IDs of the groups to filter the properties by.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
@@ -4868,7 +4868,7 @@ which contains a server's response to an HTTP request.</dd>
         Args:
             namespace (str): Properties namespace.
             name_prefix (str): Properties name prefix.
-            group_ids (List[str]): IDs of the groups to filter the properties by.
+            group_ids (List[int]): IDs of the groups to filter the properties by.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
