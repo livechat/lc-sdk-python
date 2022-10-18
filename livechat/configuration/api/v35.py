@@ -899,34 +899,6 @@ class ConfigurationApiV35(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def list_group_properties(self,
-                              id: int = None,
-                              namespace: str = None,
-                              name_prefix: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -> httpx.Response:
-        ''' Returns the properties set within a group.
-
-            Args:
-                id (int): ID of the group you retrieve properties from.
-                namespace (str): Properties namespace.
-                name_prefix (str): Properties name prefix.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server's response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/list_group_properties',
-                                 json=payload,
-                                 headers=headers)
-
     def list_groups_properties(self,
                                namespace: str = None,
                                name_prefix: str = None,

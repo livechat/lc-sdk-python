@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - New method in configuration-api v3.5: `list_groups_properties`.
 
+### Removed
+- Support for `list_group_properties` method in configuration-api v3.5 class.
+
 ## [0.3.3] - 2022-07-20
 
 ### Added
