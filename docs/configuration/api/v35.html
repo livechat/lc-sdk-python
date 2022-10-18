@@ -928,34 +928,6 @@ class ConfigurationApiV35(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def list_group_properties(self,
-                              id: int = None,
-                              namespace: str = None,
-                              name_prefix: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns the properties set within a group.
-
-            Args:
-                id (int): ID of the group you retrieve properties from.
-                namespace (str): Properties namespace.
-                name_prefix (str): Properties name prefix.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server&#39;s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
-                                 json=payload,
-                                 headers=headers)
-
     def list_groups_properties(self,
                                namespace: str = None,
                                name_prefix: str = None,
@@ -2418,34 +2390,6 @@ class ConfigurationApiV35(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/update_group_properties&#39;,
-                                 json=payload,
-                                 headers=headers)
-
-    def list_group_properties(self,
-                              id: int = None,
-                              namespace: str = None,
-                              name_prefix: str = None,
-                              payload: dict = None,
-                              headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns the properties set within a group.
-
-            Args:
-                id (int): ID of the group you retrieve properties from.
-                namespace (str): Properties namespace.
-                name_prefix (str): Properties name prefix.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server&#39;s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -4714,66 +4658,6 @@ which contains a server's response to an HTTP request.</p></div>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="configuration.api.v35.ConfigurationApiV35.list_group_properties"><code class="name flex">
-<span>def <span class="ident">list_group_properties</span></span>(<span>self, id: int = None, namespace: str = None, name_prefix: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the properties set within a group.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>int</code></dt>
-<dd>ID of the group you retrieve properties from.</dd>
-<dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
-<dd>Properties namespace.</dd>
-<dt><strong><code>name_prefix</code></strong> :&ensp;<code>str</code></dt>
-<dd>Properties name prefix.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server's response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_group_properties(self,
-                          id: int = None,
-                          namespace: str = None,
-                          name_prefix: str = None,
-                          payload: dict = None,
-                          headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns the properties set within a group.
-
-        Args:
-            id (int): ID of the group you retrieve properties from.
-            namespace (str): Properties namespace.
-            name_prefix (str): Properties name prefix.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server&#39;s response to an HTTP request.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/list_group_properties&#39;,
-                             json=payload,
-                             headers=headers)</code></pre>
-</details>
-</dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.list_groups"><code class="name flex">
 <span>def <span class="ident">list_groups</span></span>(<span>self, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -6115,6 +5999,11 @@ which contains a server's response to an HTTP request.</dd>
 <ul></ul>
 </div>
 <ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="configuration.api" href="index.html">configuration.api</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
@@ -6152,7 +6041,6 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_auto_accesses" href="#configuration.api.v35.ConfigurationApiV35.list_auto_accesses">list_auto_accesses</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_bots" href="#configuration.api.v35.ConfigurationApiV35.list_bots">list_bots</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_channels" href="#configuration.api.v35.ConfigurationApiV35.list_channels">list_channels</a></code></li>
-<li><code><a title="configuration.api.v35.ConfigurationApiV35.list_group_properties" href="#configuration.api.v35.ConfigurationApiV35.list_group_properties">list_group_properties</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_groups" href="#configuration.api.v35.ConfigurationApiV35.list_groups">list_groups</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_groups_properties" href="#configuration.api.v35.ConfigurationApiV35.list_groups_properties">list_groups_properties</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_license_properties" href="#configuration.api.v35.ConfigurationApiV35.list_license_properties">list_license_properties</a></code></li>
