@@ -25,6 +25,8 @@ class CustomerWeb:
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True,
         organization_id: str = None
     ) -> Union[CustomerWebV33, CustomerWebV34, CustomerWebV35]:
         ''' Returns client for specific API version.
@@ -37,6 +39,11 @@ class CustomerWeb:
                 base_url (str): API's base url. Defaults to API's production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
+                proxies (dict): Optional. A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): Oprional. SSL certificates (a.k.a CA bundle) used to
+                               verify the identity of requested hosts. Either `True` (default CA bundle),
+                               a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                               (which will disable verification).
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -56,19 +63,25 @@ class CustomerWeb:
                 'license_id': license_id,
                 'access_token': access_token,
                 'base_url': base_url,
-                'http2': http2
+                'http2': http2,
+                'proxies': proxies,
+                'verify': verify
             },
             '3.4': {
                 'organization_id': organization_id,
                 'access_token': access_token,
                 'base_url': base_url,
-                'http2': http2
+                'http2': http2,
+                'proxies': proxies,
+                'verify': verify
             },
             '3.5': {
                 'organization_id': organization_id,
                 'access_token': access_token,
                 'base_url': base_url,
-                'http2': http2
+                'http2': http2,
+                'proxies': proxies,
+                'verify': verify
             },
         }.get(version)
         if client:

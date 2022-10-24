@@ -283,7 +283,7 @@ class ReportsApiV34(HttpClient):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/agents/response_time',
+        return self.session.post(f'{self.api_url}/chats/response_time',
                                  json=payload,
                                  headers=headers)
 
@@ -313,7 +313,7 @@ class ReportsApiV34(HttpClient):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/agents/first_response_time',
+        return self.session.post(f'{self.api_url}/chats/first_response_time',
                                  json=payload,
                                  headers=headers)
 

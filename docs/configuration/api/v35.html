@@ -428,8 +428,9 @@ class ConfigurationApiV35(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
+                   default_group_priority: str = None,
+                   job_title: str = None,
                    groups: list = None,
-                   webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    owner_client_id: str = None,
@@ -440,8 +441,9 @@ class ConfigurationApiV35(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                default_group_priority (str): The default routing priority for a group without defined priority.
+                job_title (str): Bot&#39;s job title.
                 groups (list): Groups the Bot belongs to.
-                webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
                 owner_client_id (str): ID of the client bot will be assigned to.
@@ -490,7 +492,7 @@ class ConfigurationApiV35(HttpClient):
                    avatar: str = None,
                    max_chats_count: int = None,
                    groups: list = None,
-                   webhooks: dict = None,
+                   default_group_priority: str = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    payload: dict = None,
@@ -503,7 +505,7 @@ class ConfigurationApiV35(HttpClient):
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
                 groups (list): Groups the Bot belongs to.
-                webhooks (dict): Webhooks sent to the Bot.
+                default_group_priority (str): The default routing priority for a group without defined priority.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
                 payload (dict): Custom payload to be used as request&#39;s data.
@@ -1273,55 +1275,6 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
 # Other
-
-    def get_license_id(self,
-                       organization_id: str = None,
-                       params: dict = None,
-                       headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns license ID by given organization ID.
-
-            Args:
-                organization_id (str): Organization ID to get license ID for.
-                params (dict): Custom params to be used in request&#39;s query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server&#39;s response to an HTTP request.
-        &#39;&#39;&#39;
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
-                                params=params,
-                                headers=headers)
-
-    def get_organization_id(self,
-                            license_id: int = None,
-                            params: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns organization ID by given license ID.
-
-            Args:
-                license_id (int): License ID to get organization ID for.
-                params (dict): Custom params to be used in request&#39;s query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server&#39;s response to an HTTP request.
-        &#39;&#39;&#39;
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
-                                params=params,
-                                headers=headers)
-
     def list_channels(self,
                       payload: dict = None,
                       headers: dict = None) -&gt; httpx.Response:
@@ -1342,7 +1295,7 @@ class ConfigurationApiV35(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def check_product_limits(self,
+    def check_product_limits_for_plan(self,
                              plan: str = None,
                              payload: dict = None,
                              headers: dict = None) -&gt; httpx.Response:
@@ -1362,6 +1315,27 @@ class ConfigurationApiV35(HttpClient):
             payload = prepare_payload(locals())
         return self.session.post(
             f&#39;{self.api_url}/check_product_limits_for_plan&#39;,
+            json=payload,
+            headers=headers)
+
+    def get_product_source(self,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Retrieves the source parameters that were passed when activating the LiveChat product.
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.get(
+            f&#39;{self.api_url}/get_product_source&#39;,
             json=payload,
             headers=headers)
 
@@ -1893,8 +1867,9 @@ class ConfigurationApiV35(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
+                   default_group_priority: str = None,
+                   job_title: str = None,
                    groups: list = None,
-                   webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    owner_client_id: str = None,
@@ -1905,8 +1880,9 @@ class ConfigurationApiV35(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                default_group_priority (str): The default routing priority for a group without defined priority.
+                job_title (str): Bot&#39;s job title.
                 groups (list): Groups the Bot belongs to.
-                webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
                 owner_client_id (str): ID of the client bot will be assigned to.
@@ -1955,7 +1931,7 @@ class ConfigurationApiV35(HttpClient):
                    avatar: str = None,
                    max_chats_count: int = None,
                    groups: list = None,
-                   webhooks: dict = None,
+                   default_group_priority: str = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    payload: dict = None,
@@ -1968,7 +1944,7 @@ class ConfigurationApiV35(HttpClient):
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
                 groups (list): Groups the Bot belongs to.
-                webhooks (dict): Webhooks sent to the Bot.
+                default_group_priority (str): The default routing priority for a group without defined priority.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
                 payload (dict): Custom payload to be used as request&#39;s data.
@@ -2738,55 +2714,6 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
 # Other
-
-    def get_license_id(self,
-                       organization_id: str = None,
-                       params: dict = None,
-                       headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns license ID by given organization ID.
-
-            Args:
-                organization_id (str): Organization ID to get license ID for.
-                params (dict): Custom params to be used in request&#39;s query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server&#39;s response to an HTTP request.
-        &#39;&#39;&#39;
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
-                                params=params,
-                                headers=headers)
-
-    def get_organization_id(self,
-                            license_id: int = None,
-                            params: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns organization ID by given license ID.
-
-            Args:
-                license_id (int): License ID to get organization ID for.
-                params (dict): Custom params to be used in request&#39;s query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server&#39;s response to an HTTP request.
-        &#39;&#39;&#39;
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
-                                params=params,
-                                headers=headers)
-
     def list_channels(self,
                       payload: dict = None,
                       headers: dict = None) -&gt; httpx.Response:
@@ -2807,7 +2734,7 @@ class ConfigurationApiV35(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def check_product_limits(self,
+    def check_product_limits_for_plan(self,
                              plan: str = None,
                              payload: dict = None,
                              headers: dict = None) -&gt; httpx.Response:
@@ -2827,6 +2754,27 @@ class ConfigurationApiV35(HttpClient):
             payload = prepare_payload(locals())
         return self.session.post(
             f&#39;{self.api_url}/check_product_limits_for_plan&#39;,
+            json=payload,
+            headers=headers)
+
+    def get_product_source(self,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Retrieves the source parameters that were passed when activating the LiveChat product.
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.get(
+            f&#39;{self.api_url}/get_product_source&#39;,
             json=payload,
             headers=headers)
 
@@ -3311,8 +3259,8 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="configuration.api.v35.ConfigurationApiV35.check_product_limits"><code class="name flex">
-<span>def <span class="ident">check_product_limits</span></span>(<span>self, plan: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<dt id="configuration.api.v35.ConfigurationApiV35.check_product_limits_for_plan"><code class="name flex">
+<span>def <span class="ident">check_product_limits_for_plan</span></span>(<span>self, plan: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Checks product limits for plans.</p>
@@ -3338,7 +3286,7 @@ which contains a server's response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def check_product_limits(self,
+<pre><code class="python">def check_product_limits_for_plan(self,
                          plan: str = None,
                          payload: dict = None,
                          headers: dict = None) -&gt; httpx.Response:
@@ -3465,7 +3413,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.create_bot"><code class="name flex">
-<span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, default_group_priority: str = None, job_title: str = None, groups: list = None, work_scheduler: dict = None, timezone: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a new bot.</p>
@@ -3477,10 +3425,12 @@ which contains a server's response to an HTTP request.</dd>
 <dd>Avatar URL.</dd>
 <dt><strong><code>max_chats_count</code></strong> :&ensp;<code>int</code></dt>
 <dd>Max. number of incoming chats that can be routed to the Bot; default: 6.</dd>
+<dt><strong><code>default_group_priority</code></strong> :&ensp;<code>str</code></dt>
+<dd>The default routing priority for a group without defined priority.</dd>
+<dt><strong><code>job_title</code></strong> :&ensp;<code>str</code></dt>
+<dd>Bot's job title.</dd>
 <dt><strong><code>groups</code></strong> :&ensp;<code>list</code></dt>
 <dd>Groups the Bot belongs to.</dd>
-<dt><strong><code>webhooks</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Webhooks sent to the Bot.</dd>
 <dt><strong><code>work_scheduler</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Work scheduler options to set for the new Bot.</dd>
 <dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
@@ -3509,8 +3459,9 @@ which contains a server's response to an HTTP request.</dd>
                name: str = None,
                avatar: str = None,
                max_chats_count: int = None,
+               default_group_priority: str = None,
+               job_title: str = None,
                groups: list = None,
-               webhooks: dict = None,
                work_scheduler: dict = None,
                timezone: str = None,
                owner_client_id: str = None,
@@ -3521,8 +3472,9 @@ which contains a server's response to an HTTP request.</dd>
             name (str): Display name.
             avatar (str): Avatar URL.
             max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+            default_group_priority (str): The default routing priority for a group without defined priority.
+            job_title (str): Bot&#39;s job title.
             groups (list): Groups the Bot belongs to.
-            webhooks (dict): Webhooks sent to the Bot.
             work_scheduler (dict): Work scheduler options to set for the new Bot.
             timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
             owner_client_id (str): ID of the client bot will be assigned to.
@@ -4300,58 +4252,6 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="configuration.api.v35.ConfigurationApiV35.get_license_id"><code class="name flex">
-<span>def <span class="ident">get_license_id</span></span>(<span>self, organization_id: str = None, params: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns license ID by given organization ID.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Organization ID to get license ID for.</dd>
-<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom params to be used in request's query string.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server's response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_license_id(self,
-                   organization_id: str = None,
-                   params: dict = None,
-                   headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns license ID by given organization ID.
-
-        Args:
-            organization_id (str): Organization ID to get license ID for.
-            params (dict): Custom params to be used in request&#39;s query string.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server&#39;s response to an HTTP request.
-    &#39;&#39;&#39;
-    if params is None:
-        params = prepare_payload(locals())
-    return self.session.get(f&#39;{self.api_url}/get_license_id&#39;,
-                            params=params,
-                            headers=headers)</code></pre>
-</details>
-</dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.get_license_webhooks_state"><code class="name flex">
 <span>def <span class="ident">get_license_webhooks_state</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -4406,17 +4306,15 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="configuration.api.v35.ConfigurationApiV35.get_organization_id"><code class="name flex">
-<span>def <span class="ident">get_organization_id</span></span>(<span>self, license_id: int = None, params: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<dt id="configuration.api.v35.ConfigurationApiV35.get_product_source"><code class="name flex">
+<span>def <span class="ident">get_product_source</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns organization ID by given license ID.</p>
+<div class="desc"><p>Retrieves the source parameters that were passed when activating the LiveChat product.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>License ID to get organization ID for.</dd>
-<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom params to be used in request's query string.
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
 <dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom headers to be used with session headers.
@@ -4433,29 +4331,26 @@ which contains a server's response to an HTTP request.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_organization_id(self,
-                        license_id: int = None,
-                        params: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns organization ID by given license ID.
-
+<pre><code class="python">def get_product_source(self,
+                       payload: dict = None,
+                       headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Retrieves the source parameters that were passed when activating the LiveChat product.
         Args:
-            license_id (int): License ID to get organization ID for.
-            params (dict): Custom params to be used in request&#39;s query string.
+            payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
                             They will be merged with session-level values that are set,
                             however, these method-level parameters will not be persisted across requests.
-
         Returns:
             httpx.Response: The Response object from `httpx` library,
                             which contains a server&#39;s response to an HTTP request.
     &#39;&#39;&#39;
-    if params is None:
-        params = prepare_payload(locals())
-    return self.session.get(f&#39;{self.api_url}/get_organization_id&#39;,
-                            params=params,
-                            headers=headers)</code></pre>
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.get(
+        f&#39;{self.api_url}/get_product_source&#39;,
+        json=payload,
+        headers=headers)</code></pre>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.list_agents"><code class="name flex">
@@ -5677,7 +5572,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v35.ConfigurationApiV35.update_bot"><code class="name flex">
-<span>def <span class="ident">update_bot</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">update_bot</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, default_group_priority: str = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates an existing Bot.</p>
@@ -5693,8 +5588,8 @@ which contains a server's response to an HTTP request.</dd>
 <dd>Max. number of incoming chats that can be routed to the Bot.</dd>
 <dt><strong><code>groups</code></strong> :&ensp;<code>list</code></dt>
 <dd>Groups the Bot belongs to.</dd>
-<dt><strong><code>webhooks</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Webhooks sent to the Bot.</dd>
+<dt><strong><code>default_group_priority</code></strong> :&ensp;<code>str</code></dt>
+<dd>The default routing priority for a group without defined priority.</dd>
 <dt><strong><code>work_scheduler</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Work scheduler options to set for the new Bot.</dd>
 <dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
@@ -5723,7 +5618,7 @@ which contains a server's response to an HTTP request.</dd>
                avatar: str = None,
                max_chats_count: int = None,
                groups: list = None,
-               webhooks: dict = None,
+               default_group_priority: str = None,
                work_scheduler: dict = None,
                timezone: str = None,
                payload: dict = None,
@@ -5736,7 +5631,7 @@ which contains a server's response to an HTTP request.</dd>
             avatar (str): Avatar URL.
             max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
             groups (list): Groups the Bot belongs to.
-            webhooks (dict): Webhooks sent to the Bot.
+            default_group_priority (str): The default routing priority for a group without defined priority.
             work_scheduler (dict): Work scheduler options to set for the new Bot.
             timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
             payload (dict): Custom payload to be used as request&#39;s data.
@@ -6017,7 +5912,7 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.batch_suspend_agents" href="#configuration.api.v35.ConfigurationApiV35.batch_suspend_agents">batch_suspend_agents</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.batch_unsuspend_agents" href="#configuration.api.v35.ConfigurationApiV35.batch_unsuspend_agents">batch_unsuspend_agents</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.batch_update_agents" href="#configuration.api.v35.ConfigurationApiV35.batch_update_agents">batch_update_agents</a></code></li>
-<li><code><a title="configuration.api.v35.ConfigurationApiV35.check_product_limits" href="#configuration.api.v35.ConfigurationApiV35.check_product_limits">check_product_limits</a></code></li>
+<li><code><a title="configuration.api.v35.ConfigurationApiV35.check_product_limits_for_plan" href="#configuration.api.v35.ConfigurationApiV35.check_product_limits_for_plan">check_product_limits_for_plan</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.create_agent" href="#configuration.api.v35.ConfigurationApiV35.create_agent">create_agent</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.create_bot" href="#configuration.api.v35.ConfigurationApiV35.create_bot">create_bot</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.create_group" href="#configuration.api.v35.ConfigurationApiV35.create_group">create_group</a></code></li>
@@ -6034,9 +5929,8 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.get_agent" href="#configuration.api.v35.ConfigurationApiV35.get_agent">get_agent</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.get_bot" href="#configuration.api.v35.ConfigurationApiV35.get_bot">get_bot</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.get_group" href="#configuration.api.v35.ConfigurationApiV35.get_group">get_group</a></code></li>
-<li><code><a title="configuration.api.v35.ConfigurationApiV35.get_license_id" href="#configuration.api.v35.ConfigurationApiV35.get_license_id">get_license_id</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.get_license_webhooks_state" href="#configuration.api.v35.ConfigurationApiV35.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
-<li><code><a title="configuration.api.v35.ConfigurationApiV35.get_organization_id" href="#configuration.api.v35.ConfigurationApiV35.get_organization_id">get_organization_id</a></code></li>
+<li><code><a title="configuration.api.v35.ConfigurationApiV35.get_product_source" href="#configuration.api.v35.ConfigurationApiV35.get_product_source">get_product_source</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_agents" href="#configuration.api.v35.ConfigurationApiV35.list_agents">list_agents</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_auto_accesses" href="#configuration.api.v35.ConfigurationApiV35.list_auto_accesses">list_auto_accesses</a></code></li>
 <li><code><a title="configuration.api.v35.ConfigurationApiV35.list_bots" href="#configuration.api.v35.ConfigurationApiV35.list_bots">list_bots</a></code></li>

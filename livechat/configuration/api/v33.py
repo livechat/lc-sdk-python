@@ -397,8 +397,9 @@ class ConfigurationApiV33(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
+                   default_group_priority: str = None,
+                   job_title: str = None,
                    groups: list = None,
-                   webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    owner_client_id: str = None,
@@ -410,8 +411,9 @@ class ConfigurationApiV33(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                default_group_priority (str): The default routing priority for a group without defined priority.
+                job_title (str): Bot's job title.
                 groups (list): Groups the Bot belongs to.
-                webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot's work scheduler should operate.
                 owner_client_id (str): Required only when authorizing via PATs.
@@ -461,8 +463,8 @@ class ConfigurationApiV33(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
+                   default_group_priority: str = None,
                    groups: list = None,
-                   webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    payload: dict = None,
@@ -474,6 +476,7 @@ class ConfigurationApiV33(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
+                default_group_priority (str): The default routing priority for a group without defined priority.
                 groups (list): Groups the Bot belongs to.
                 webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.

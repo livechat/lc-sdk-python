@@ -399,8 +399,9 @@ class ConfigurationApiV35(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
+                   default_group_priority: str = None,
+                   job_title: str = None,
                    groups: list = None,
-                   webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    owner_client_id: str = None,
@@ -411,8 +412,9 @@ class ConfigurationApiV35(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                default_group_priority (str): The default routing priority for a group without defined priority.
+                job_title (str): Bot's job title.
                 groups (list): Groups the Bot belongs to.
-                webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot's work scheduler should operate.
                 owner_client_id (str): ID of the client bot will be assigned to.
@@ -461,7 +463,7 @@ class ConfigurationApiV35(HttpClient):
                    avatar: str = None,
                    max_chats_count: int = None,
                    groups: list = None,
-                   webhooks: dict = None,
+                   default_group_priority: str = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    payload: dict = None,
@@ -474,7 +476,7 @@ class ConfigurationApiV35(HttpClient):
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
                 groups (list): Groups the Bot belongs to.
-                webhooks (dict): Webhooks sent to the Bot.
+                default_group_priority (str): The default routing priority for a group without defined priority.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot's work scheduler should operate.
                 payload (dict): Custom payload to be used as request's data.
@@ -1245,54 +1247,6 @@ class ConfigurationApiV35(HttpClient):
 
 # Other
 
-    def get_license_id(self,
-                       organization_id: str = None,
-                       params: dict = None,
-                       headers: dict = None) -> httpx.Response:
-        ''' Returns license ID by given organization ID.
-
-            Args:
-                organization_id (str): Organization ID to get license ID for.
-                params (dict): Custom params to be used in request's query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server's response to an HTTP request.
-        '''
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f'{self.api_url}/get_license_id',
-                                params=params,
-                                headers=headers)
-
-    def get_organization_id(self,
-                            license_id: int = None,
-                            params: dict = None,
-                            headers: dict = None) -> httpx.Response:
-        ''' Returns organization ID by given license ID.
-
-            Args:
-                license_id (int): License ID to get organization ID for.
-                params (dict): Custom params to be used in request's query string.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server's response to an HTTP request.
-        '''
-        if params is None:
-            params = prepare_payload(locals())
-        return self.session.get(f'{self.api_url}/get_organization_id',
-                                params=params,
-                                headers=headers)
-
     def list_channels(self,
                       payload: dict = None,
                       headers: dict = None) -> httpx.Response:
@@ -1313,10 +1267,10 @@ class ConfigurationApiV35(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def check_product_limits(self,
-                             plan: str = None,
-                             payload: dict = None,
-                             headers: dict = None) -> httpx.Response:
+    def check_product_limits_for_plan(self,
+                                      plan: str = None,
+                                      payload: dict = None,
+                                      headers: dict = None) -> httpx.Response:
         ''' Checks product limits for plans.
             Args:
                 plan (str): License plan to check limit for.
@@ -1335,6 +1289,26 @@ class ConfigurationApiV35(HttpClient):
             f'{self.api_url}/check_product_limits_for_plan',
             json=payload,
             headers=headers)
+
+    def get_product_source(self,
+                           payload: dict = None,
+                           headers: dict = None) -> httpx.Response:
+        ''' Retrieves the source parameters that were passed when activating the LiveChat product.
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.get(f'{self.api_url}/get_product_source',
+                                json=payload,
+                                headers=headers)
 
 
 # Batch requests
