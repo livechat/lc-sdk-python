@@ -1,4 +1,4 @@
-''' Basic configuration module. '''
+''' Basic configuration module with API's URL and versions. '''
 
 CONFIG = {
     'url': 'api.livechatinc.com',

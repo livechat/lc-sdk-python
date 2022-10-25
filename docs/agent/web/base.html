@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>livechat.reports.base API documentation</title>
-<meta name="description" content="Module with base class that allows retrieval of client for specific Reports
-API version." />
+<title>livechat.agent.web.base API documentation</title>
+<meta name="description" content="Module with class allowing retrieval of client for specific version of Agent Web API." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -20,63 +19,60 @@ API version." />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>livechat.reports.base</code></h1>
+<h1 class="title">Module <code>livechat.agent.web.base</code></h1>
 </header>
 <section id="section-intro">
-<p>Module with base class that allows retrieval of client for specific Reports
-API version.</p>
+<p>Module with class allowing retrieval of client for specific version of Agent Web API.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#39;&#39;&#39; Module with base class that allows retrieval of client for specific Reports
-    API version. &#39;&#39;&#39;
+<pre><code class="python">&#39;&#39;&#39; Module with class allowing retrieval of client for specific version of Agent Web API. &#39;&#39;&#39;
 
-# pylint: disable=W0613,W0622,C0103,R0913,R0903
-
+# pylint: disable=W0613,R0913,W0622,C0103,W0221
 from __future__ import annotations
 
 from typing import Union
 
+from livechat.agent.web.api.v33 import AgentWebV33
+from livechat.agent.web.api.v34 import AgentWebV34
+from livechat.agent.web.api.v35 import AgentWebV35
 from livechat.config import CONFIG
-from livechat.reports.api.v33 import ReportsApiV33
-from livechat.reports.api.v34 import ReportsApiV34
-from livechat.reports.api.v35 import ReportsApiV35
 
 stable_version = CONFIG.get(&#39;stable&#39;)
 api_url = CONFIG.get(&#39;url&#39;)
 
 
-class ReportsApi:
-    &#39;&#39;&#39; Base class that allows retrieval of client for specific Reports
+class AgentWeb:
+    &#39;&#39;&#39; Allows retrieval of client for specific Agent Web
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(
-        token: str,
-        version: str = stable_version,
-        base_url: str = api_url,
-        http2: bool = False
-    ) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
-        &#39;&#39;&#39; Returns client for specific Reports API version.
+            access_token: str,
+            version: str = stable_version,
+            base_url: str = api_url,
+            http2: bool = False
+    ) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35]:
+        &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
-                             used as `Authorization` header in requests to API.
+                                used as `Authorization` header in requests to API.
                 version (str): API&#39;s version. Defaults to the stable version of API.
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
 
             Returns:
-                ReportsApi: API client object for specified version.
+                API client object for specified version.
 
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: ReportsApiV33(token, base_url, http2),
-            &#39;3.4&#39;: ReportsApiV34(token, base_url, http2),
-            &#39;3.5&#39;: ReportsApiV35(token, base_url, http2),
+            &#39;3.3&#39;: AgentWebV33(access_token, base_url, http2),
+            &#39;3.4&#39;: AgentWebV34(access_token, base_url, http2),
+            &#39;3.5&#39;: AgentWebV35(access_token, base_url, http2),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -92,46 +88,46 @@ class ReportsApi:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="livechat.reports.base.ReportsApi"><code class="flex name class">
-<span>class <span class="ident">ReportsApi</span></span>
+<dt id="livechat.agent.web.base.AgentWeb"><code class="flex name class">
+<span>class <span class="ident">AgentWeb</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class that allows retrieval of client for specific Reports
+<div class="desc"><p>Allows retrieval of client for specific Agent Web
 API version.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ReportsApi:
-    &#39;&#39;&#39; Base class that allows retrieval of client for specific Reports
+<pre><code class="python">class AgentWeb:
+    &#39;&#39;&#39; Allows retrieval of client for specific Agent Web
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(
-        token: str,
-        version: str = stable_version,
-        base_url: str = api_url,
-        http2: bool = False
-    ) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
-        &#39;&#39;&#39; Returns client for specific Reports API version.
+            access_token: str,
+            version: str = stable_version,
+            base_url: str = api_url,
+            http2: bool = False
+    ) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35]:
+        &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
                 token (str): Full token with type (Bearer/Basic) that will be
-                             used as `Authorization` header in requests to API.
+                                used as `Authorization` header in requests to API.
                 version (str): API&#39;s version. Defaults to the stable version of API.
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
 
             Returns:
-                ReportsApi: API client object for specified version.
+                API client object for specified version.
 
             Raises:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: ReportsApiV33(token, base_url, http2),
-            &#39;3.4&#39;: ReportsApiV34(token, base_url, http2),
-            &#39;3.5&#39;: ReportsApiV35(token, base_url, http2),
+            &#39;3.3&#39;: AgentWebV33(access_token, base_url, http2),
+            &#39;3.4&#39;: AgentWebV34(access_token, base_url, http2),
+            &#39;3.5&#39;: AgentWebV35(access_token, base_url, http2),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -139,11 +135,11 @@ API version.</p></div>
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="livechat.reports.base.ReportsApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False) ‑> Union[<a title="livechat.reports.api.v33.ReportsApiV33" href="api/v33.html#livechat.reports.api.v33.ReportsApiV33">ReportsApiV33</a>, <a title="livechat.reports.api.v34.ReportsApiV34" href="api/v34.html#livechat.reports.api.v34.ReportsApiV34">ReportsApiV34</a>, <a title="livechat.reports.api.v35.ReportsApiV35" href="api/v35.html#livechat.reports.api.v35.ReportsApiV35">ReportsApiV35</a>]</span>
+<dt id="livechat.agent.web.base.AgentWeb.get_client"><code class="name flex">
+<span>def <span class="ident">get_client</span></span>(<span>access_token: str, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False) ‑> Union[<a title="livechat.agent.web.api.v33.AgentWebV33" href="api/v33.html#livechat.agent.web.api.v33.AgentWebV33">AgentWebV33</a>, <a title="livechat.agent.web.api.v34.AgentWebV34" href="api/v34.html#livechat.agent.web.api.v34.AgentWebV34">AgentWebV34</a>, <a title="livechat.agent.web.api.v35.AgentWebV35" href="api/v35.html#livechat.agent.web.api.v35.AgentWebV35">AgentWebV35</a>]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns client for specific Reports API version.</p>
+<div class="desc"><p>Returns client for specific API version.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>token</code></strong> :&ensp;<code>str</code></dt>
@@ -158,10 +154,7 @@ used as <code>Authorization</code> header in requests to API.</dd>
 enabled. Defaults to <code>False</code>.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="livechat.reports.base.ReportsApi" href="#livechat.reports.base.ReportsApi">ReportsApi</a></code></dt>
-<dd>API client object for specified version.</dd>
-</dl>
+<p>API client object for specified version.</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code>ValueError</code></dt>
@@ -173,31 +166,31 @@ enabled. Defaults to <code>False</code>.</dd>
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(
-    token: str,
-    version: str = stable_version,
-    base_url: str = api_url,
-    http2: bool = False
-) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
-    &#39;&#39;&#39; Returns client for specific Reports API version.
+        access_token: str,
+        version: str = stable_version,
+        base_url: str = api_url,
+        http2: bool = False
+) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35]:
+    &#39;&#39;&#39; Returns client for specific API version.
 
         Args:
             token (str): Full token with type (Bearer/Basic) that will be
-                         used as `Authorization` header in requests to API.
+                            used as `Authorization` header in requests to API.
             version (str): API&#39;s version. Defaults to the stable version of API.
             base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
             http2 (bool): A boolean indicating if HTTP/2 support should be
                           enabled. Defaults to `False`.
 
         Returns:
-            ReportsApi: API client object for specified version.
+            API client object for specified version.
 
         Raises:
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-        &#39;3.3&#39;: ReportsApiV33(token, base_url, http2),
-        &#39;3.4&#39;: ReportsApiV34(token, base_url, http2),
-        &#39;3.5&#39;: ReportsApiV35(token, base_url, http2),
+        &#39;3.3&#39;: AgentWebV33(access_token, base_url, http2),
+        &#39;3.4&#39;: AgentWebV34(access_token, base_url, http2),
+        &#39;3.5&#39;: AgentWebV35(access_token, base_url, http2),
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -217,15 +210,15 @@ def get_client(
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="livechat.reports" href="index.html">livechat.reports</a></code></li>
+<li><code><a title="livechat.agent.web" href="index.html">livechat.agent.web</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="livechat.reports.base.ReportsApi" href="#livechat.reports.base.ReportsApi">ReportsApi</a></code></h4>
+<h4><code><a title="livechat.agent.web.base.AgentWeb" href="#livechat.agent.web.base.AgentWeb">AgentWeb</a></code></h4>
 <ul class="">
-<li><code><a title="livechat.reports.base.ReportsApi.get_client" href="#livechat.reports.base.ReportsApi.get_client">get_client</a></code></li>
+<li><code><a title="livechat.agent.web.base.AgentWeb.get_client" href="#livechat.agent.web.base.AgentWeb.get_client">get_client</a></code></li>
 </ul>
 </li>
 </ul>

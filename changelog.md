@@ -16,6 +16,9 @@ All notable changes to this project will be documented in this file.
 - Fix paths for `response_time` and `first_response_time` methods in reports-api v3.4/v3.5 classes.
 - Fix `upload_file` method in agent-api v3.4/v3.5 classes.
 
+### Changed
+- Internal documentation main page and structure.
+
 ### Removed
 - Support for `list_group_properties`, `get_license_id` and `get_organization_id` method in configuration-api v3.5 class.
 - Support for `webhook` parameter in `create_bot` and `update_bot` methods in configuration-api v3.3/v3.4/v3.5 classes.

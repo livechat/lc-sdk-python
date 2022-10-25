@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>livechat.configuration.api API documentation</title>
-<meta name="description" content="" />
+<title>livechat.agent.rtm.base API documentation</title>
+<meta name="description" content="Agent RTM client implementation." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,32 +19,160 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>livechat.configuration.api</code></h1>
+<h1 class="title">Module <code>livechat.agent.rtm.base</code></h1>
 </header>
 <section id="section-intro">
+<p>Agent RTM client implementation.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39; Agent RTM client implementation. &#39;&#39;&#39;
+
+# pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0221
+from __future__ import annotations
+
+from typing import Union
+
+from livechat.agent.rtm.api.v33 import AgentRtmV33
+from livechat.agent.rtm.api.v34 import AgentRtmV34
+from livechat.agent.rtm.api.v35 import AgentRtmV35
+from livechat.config import CONFIG
+
+stable_version = CONFIG.get(&#39;stable&#39;)
+api_url = CONFIG.get(&#39;url&#39;)
+
+
+class AgentRTM:
+    &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
+    @staticmethod
+    def get_client(
+        version: str = stable_version,
+        base_url: str = api_url
+    ) -&gt; Union[AgentRtmV33, AgentRtmV34, AgentRtmV35]:
+        &#39;&#39;&#39; Returns client for specific Agent RTM version.
+
+            Args:
+                version (str): API&#39;s version. Defaults to the stable version of API.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+
+            Returns:
+                API client object for specified version.
+
+            Raises:
+                ValueError: If the specified version does not exist.
+        &#39;&#39;&#39;
+        client = {
+            &#39;3.3&#39;: AgentRtmV33,
+            &#39;3.4&#39;: AgentRtmV34,
+            &#39;3.5&#39;: AgentRtmV35,
+        }.get(version)
+        if not client:
+            raise ValueError(&#39;Provided version does not exist.&#39;)
+        return client(base_url)</code></pre>
+</details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="livechat.configuration.api.v33" href="v33.html">livechat.configuration.api.v33</a></code></dt>
+<dt id="livechat.agent.rtm.base.AgentRTM"><code class="flex name class">
+<span>class <span class="ident">AgentRTM</span></span>
+</code></dt>
 <dd>
-<div class="desc"><p>Configuration API module with client class in version 3.3.</p></div>
-</dd>
-<dt><code class="name"><a title="livechat.configuration.api.v34" href="v34.html">livechat.configuration.api.v34</a></code></dt>
+<div class="desc"><p>Main class that gets specific client.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AgentRTM:
+    &#39;&#39;&#39; Main class that gets specific client. &#39;&#39;&#39;
+    @staticmethod
+    def get_client(
+        version: str = stable_version,
+        base_url: str = api_url
+    ) -&gt; Union[AgentRtmV33, AgentRtmV34, AgentRtmV35]:
+        &#39;&#39;&#39; Returns client for specific Agent RTM version.
+
+            Args:
+                version (str): API&#39;s version. Defaults to the stable version of API.
+                base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+
+            Returns:
+                API client object for specified version.
+
+            Raises:
+                ValueError: If the specified version does not exist.
+        &#39;&#39;&#39;
+        client = {
+            &#39;3.3&#39;: AgentRtmV33,
+            &#39;3.4&#39;: AgentRtmV34,
+            &#39;3.5&#39;: AgentRtmV35,
+        }.get(version)
+        if not client:
+            raise ValueError(&#39;Provided version does not exist.&#39;)
+        return client(base_url)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="livechat.agent.rtm.base.AgentRTM.get_client"><code class="name flex">
+<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.4', base_url: str = 'api.livechatinc.com') ‑> Union[<a title="livechat.agent.rtm.api.v33.AgentRtmV33" href="api/v33.html#livechat.agent.rtm.api.v33.AgentRtmV33">AgentRtmV33</a>, <a title="livechat.agent.rtm.api.v34.AgentRtmV34" href="api/v34.html#livechat.agent.rtm.api.v34.AgentRtmV34">AgentRtmV34</a>, <a title="livechat.agent.rtm.api.v35.AgentRtmV35" href="api/v35.html#livechat.agent.rtm.api.v35.AgentRtmV35">AgentRtmV35</a>]</span>
+</code></dt>
 <dd>
-<div class="desc"><p>Configuration API module with client class in version 3.4.</p></div>
-</dd>
-<dt><code class="name"><a title="livechat.configuration.api.v35" href="v35.html">livechat.configuration.api.v35</a></code></dt>
-<dd>
-<div class="desc"><p>Configuration API module with client class in version 3.5.</p></div>
+<div class="desc"><p>Returns client for specific Agent RTM version.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
+<dd>API's version. Defaults to the stable version of API.</dd>
+<dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>API's base url. Defaults to API's production URL.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>API client object for specified version.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>If the specified version does not exist.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_client(
+    version: str = stable_version,
+    base_url: str = api_url
+) -&gt; Union[AgentRtmV33, AgentRtmV34, AgentRtmV35]:
+    &#39;&#39;&#39; Returns client for specific Agent RTM version.
+
+        Args:
+            version (str): API&#39;s version. Defaults to the stable version of API.
+            base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
+
+        Returns:
+            API client object for specified version.
+
+        Raises:
+            ValueError: If the specified version does not exist.
+    &#39;&#39;&#39;
+    client = {
+        &#39;3.3&#39;: AgentRtmV33,
+        &#39;3.4&#39;: AgentRtmV34,
+        &#39;3.5&#39;: AgentRtmV35,
+    }.get(version)
+    if not client:
+        raise ValueError(&#39;Provided version does not exist.&#39;)
+    return client(base_url)</code></pre>
+</details>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -55,14 +183,17 @@
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="livechat.configuration" href="../index.html">livechat.configuration</a></code></li>
+<li><code><a title="livechat.agent.rtm" href="index.html">livechat.agent.rtm</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li><code><a title="livechat.configuration.api.v33" href="v33.html">livechat.configuration.api.v33</a></code></li>
-<li><code><a title="livechat.configuration.api.v34" href="v34.html">livechat.configuration.api.v34</a></code></li>
-<li><code><a title="livechat.configuration.api.v35" href="v35.html">livechat.configuration.api.v35</a></code></li>
+<li>
+<h4><code><a title="livechat.agent.rtm.base.AgentRTM" href="#livechat.agent.rtm.base.AgentRTM">AgentRTM</a></code></h4>
+<ul class="">
+<li><code><a title="livechat.agent.rtm.base.AgentRTM.get_client" href="#livechat.agent.rtm.base.AgentRTM.get_client">get_client</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
