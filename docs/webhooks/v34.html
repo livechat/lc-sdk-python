@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
-<title>webhooks.v34 API documentation</title>
+<meta name="generator" content="pdoc 0.10.0" />
+<title>livechat.webhooks.v34 API documentation</title>
 <meta name="description" content="API v3.4 webhooks data classes." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>webhooks.v34</code></h1>
+<h1 class="title">Module <code>livechat.webhooks.v34</code></h1>
 </header>
 <section id="section-intro">
 <p>API v3.4 webhooks data classes.</p>
@@ -408,7 +408,7 @@ action_to_data_class_mapping_v_34 = {
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="webhooks.v34.AgentApproved"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AgentApproved"><code class="flex name class">
 <span>class <span class="ident">AgentApproved</span></span>
 <span>(</span><span>id: str)</span>
 </code></dt>
@@ -423,13 +423,13 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AgentApproved.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentApproved.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.AgentCreated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AgentCreated"><code class="flex name class">
 <span>class <span class="ident">AgentCreated</span></span>
 <span>(</span><span>id: str, name: str, awaiting_approval: bool, role: str = None, avatar: str = None, job_title: str = None, mobile: str = None, max_chats_count: int = None, groups: list = None, notifications: list = None, email_subscriptions: list = None, work_scheduler: dict = None)</span>
 </code></dt>
@@ -455,57 +455,57 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AgentCreated.avatar"><code class="name">var <span class="ident">avatar</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.avatar"><code class="name">var <span class="ident">avatar</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.awaiting_approval"><code class="name">var <span class="ident">awaiting_approval</span> : bool</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.awaiting_approval"><code class="name">var <span class="ident">awaiting_approval</span> : bool</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.email_subscriptions"><code class="name">var <span class="ident">email_subscriptions</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.email_subscriptions"><code class="name">var <span class="ident">email_subscriptions</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.groups"><code class="name">var <span class="ident">groups</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.groups"><code class="name">var <span class="ident">groups</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.job_title"><code class="name">var <span class="ident">job_title</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.job_title"><code class="name">var <span class="ident">job_title</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.max_chats_count"><code class="name">var <span class="ident">max_chats_count</span> : int</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.max_chats_count"><code class="name">var <span class="ident">max_chats_count</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.mobile"><code class="name">var <span class="ident">mobile</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.mobile"><code class="name">var <span class="ident">mobile</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.notifications"><code class="name">var <span class="ident">notifications</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.notifications"><code class="name">var <span class="ident">notifications</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.role"><code class="name">var <span class="ident">role</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.role"><code class="name">var <span class="ident">role</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentCreated.work_scheduler"><code class="name">var <span class="ident">work_scheduler</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.AgentCreated.work_scheduler"><code class="name">var <span class="ident">work_scheduler</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.AgentDeleted"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AgentDeleted"><code class="flex name class">
 <span>class <span class="ident">AgentDeleted</span></span>
 <span>(</span><span>id: str)</span>
 </code></dt>
@@ -520,13 +520,13 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AgentDeleted.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentDeleted.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.AgentSuspended"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AgentSuspended"><code class="flex name class">
 <span>class <span class="ident">AgentSuspended</span></span>
 <span>(</span><span>id: str)</span>
 </code></dt>
@@ -541,13 +541,13 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AgentSuspended.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentSuspended.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.AgentUnsuspended"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AgentUnsuspended"><code class="flex name class">
 <span>class <span class="ident">AgentUnsuspended</span></span>
 <span>(</span><span>id: str)</span>
 </code></dt>
@@ -562,13 +562,13 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AgentUnsuspended.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentUnsuspended.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.AgentUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AgentUpdated"><code class="flex name class">
 <span>class <span class="ident">AgentUpdated</span></span>
 <span>(</span><span>id: str, name: str = None, role: str = None, avatar: str = None, job_title: str = None, mobile: str = None, max_chats_count: int = None, groups: list = None, notifications: list = None, email_subscriptions: list = None, work_scheduler: dict = None)</span>
 </code></dt>
@@ -593,53 +593,53 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AgentUpdated.avatar"><code class="name">var <span class="ident">avatar</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.avatar"><code class="name">var <span class="ident">avatar</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.email_subscriptions"><code class="name">var <span class="ident">email_subscriptions</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.email_subscriptions"><code class="name">var <span class="ident">email_subscriptions</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.groups"><code class="name">var <span class="ident">groups</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.groups"><code class="name">var <span class="ident">groups</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.job_title"><code class="name">var <span class="ident">job_title</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.job_title"><code class="name">var <span class="ident">job_title</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.max_chats_count"><code class="name">var <span class="ident">max_chats_count</span> : int</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.max_chats_count"><code class="name">var <span class="ident">max_chats_count</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.mobile"><code class="name">var <span class="ident">mobile</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.mobile"><code class="name">var <span class="ident">mobile</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.notifications"><code class="name">var <span class="ident">notifications</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.notifications"><code class="name">var <span class="ident">notifications</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.role"><code class="name">var <span class="ident">role</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.role"><code class="name">var <span class="ident">role</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AgentUpdated.work_scheduler"><code class="name">var <span class="ident">work_scheduler</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.AgentUpdated.work_scheduler"><code class="name">var <span class="ident">work_scheduler</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.AutoAccessAdded"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AutoAccessAdded"><code class="flex name class">
 <span>class <span class="ident">AutoAccessAdded</span></span>
 <span>(</span><span>id: str, description: str, access: dict, conditions: dict, next_id: str = None)</span>
 </code></dt>
@@ -658,29 +658,29 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AutoAccessAdded.access"><code class="name">var <span class="ident">access</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessAdded.access"><code class="name">var <span class="ident">access</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AutoAccessAdded.conditions"><code class="name">var <span class="ident">conditions</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessAdded.conditions"><code class="name">var <span class="ident">conditions</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AutoAccessAdded.description"><code class="name">var <span class="ident">description</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessAdded.description"><code class="name">var <span class="ident">description</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AutoAccessAdded.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessAdded.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AutoAccessAdded.next_id"><code class="name">var <span class="ident">next_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessAdded.next_id"><code class="name">var <span class="ident">next_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.AutoAccessDeleted"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AutoAccessDeleted"><code class="flex name class">
 <span>class <span class="ident">AutoAccessDeleted</span></span>
 <span>(</span><span>id: str)</span>
 </code></dt>
@@ -695,13 +695,13 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AutoAccessDeleted.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessDeleted.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.AutoAccessUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.AutoAccessUpdated"><code class="flex name class">
 <span>class <span class="ident">AutoAccessUpdated</span></span>
 <span>(</span><span>id: str, description: str = None, access: dict = None, conditions: dict = None, next_id: str = None)</span>
 </code></dt>
@@ -720,29 +720,29 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.AutoAccessUpdated.access"><code class="name">var <span class="ident">access</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessUpdated.access"><code class="name">var <span class="ident">access</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AutoAccessUpdated.conditions"><code class="name">var <span class="ident">conditions</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessUpdated.conditions"><code class="name">var <span class="ident">conditions</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AutoAccessUpdated.description"><code class="name">var <span class="ident">description</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessUpdated.description"><code class="name">var <span class="ident">description</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AutoAccessUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.AutoAccessUpdated.next_id"><code class="name">var <span class="ident">next_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.AutoAccessUpdated.next_id"><code class="name">var <span class="ident">next_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.BotCreated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.BotCreated"><code class="flex name class">
 <span>class <span class="ident">BotCreated</span></span>
 <span>(</span><span>id: str, name: str, default_group_priority: str, owner_client_id: str, avatar: str = None, max_chats_count: int = None, groups: list = None, work_scheduler: dict = None, timezone: str = None, job_title: str = None)</span>
 </code></dt>
@@ -766,49 +766,49 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.BotCreated.avatar"><code class="name">var <span class="ident">avatar</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.avatar"><code class="name">var <span class="ident">avatar</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.default_group_priority"><code class="name">var <span class="ident">default_group_priority</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.default_group_priority"><code class="name">var <span class="ident">default_group_priority</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.groups"><code class="name">var <span class="ident">groups</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.groups"><code class="name">var <span class="ident">groups</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.job_title"><code class="name">var <span class="ident">job_title</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.job_title"><code class="name">var <span class="ident">job_title</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.max_chats_count"><code class="name">var <span class="ident">max_chats_count</span> : int</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.max_chats_count"><code class="name">var <span class="ident">max_chats_count</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.owner_client_id"><code class="name">var <span class="ident">owner_client_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.owner_client_id"><code class="name">var <span class="ident">owner_client_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.timezone"><code class="name">var <span class="ident">timezone</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.timezone"><code class="name">var <span class="ident">timezone</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotCreated.work_scheduler"><code class="name">var <span class="ident">work_scheduler</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.BotCreated.work_scheduler"><code class="name">var <span class="ident">work_scheduler</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.BotDeleted"><code class="flex name class">
+<dt id="livechat.webhooks.v34.BotDeleted"><code class="flex name class">
 <span>class <span class="ident">BotDeleted</span></span>
 <span>(</span><span>id: str)</span>
 </code></dt>
@@ -823,13 +823,13 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.BotDeleted.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotDeleted.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.BotUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.BotUpdated"><code class="flex name class">
 <span>class <span class="ident">BotUpdated</span></span>
 <span>(</span><span>id: str, name: str = None, avatar: str = None, max_chats_count: int = None, default_group_priority: str = None, groups: list = None, work_scheduler: dict = None, timezone: str = None, job_title: str = None)</span>
 </code></dt>
@@ -852,45 +852,45 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.BotUpdated.avatar"><code class="name">var <span class="ident">avatar</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.avatar"><code class="name">var <span class="ident">avatar</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotUpdated.default_group_priority"><code class="name">var <span class="ident">default_group_priority</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.default_group_priority"><code class="name">var <span class="ident">default_group_priority</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotUpdated.groups"><code class="name">var <span class="ident">groups</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.groups"><code class="name">var <span class="ident">groups</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotUpdated.job_title"><code class="name">var <span class="ident">job_title</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.job_title"><code class="name">var <span class="ident">job_title</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotUpdated.max_chats_count"><code class="name">var <span class="ident">max_chats_count</span> : int</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.max_chats_count"><code class="name">var <span class="ident">max_chats_count</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotUpdated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotUpdated.timezone"><code class="name">var <span class="ident">timezone</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.timezone"><code class="name">var <span class="ident">timezone</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.BotUpdated.work_scheduler"><code class="name">var <span class="ident">work_scheduler</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.BotUpdated.work_scheduler"><code class="name">var <span class="ident">work_scheduler</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ChatAccessUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ChatAccessUpdated"><code class="flex name class">
 <span>class <span class="ident">ChatAccessUpdated</span></span>
 <span>(</span><span>id: str, access: dict)</span>
 </code></dt>
@@ -906,17 +906,17 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ChatAccessUpdated.access"><code class="name">var <span class="ident">access</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.ChatAccessUpdated.access"><code class="name">var <span class="ident">access</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatAccessUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatAccessUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ChatDeactivated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ChatDeactivated"><code class="flex name class">
 <span>class <span class="ident">ChatDeactivated</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, user_id: str = None)</span>
 </code></dt>
@@ -933,21 +933,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ChatDeactivated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatDeactivated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatDeactivated.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatDeactivated.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatDeactivated.user_id"><code class="name">var <span class="ident">user_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatDeactivated.user_id"><code class="name">var <span class="ident">user_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ChatPropertiesDeleted"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ChatPropertiesDeleted"><code class="flex name class">
 <span>class <span class="ident">ChatPropertiesDeleted</span></span>
 <span>(</span><span>chat_id: str, properties: dict)</span>
 </code></dt>
@@ -963,17 +963,17 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ChatPropertiesDeleted.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatPropertiesDeleted.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatPropertiesDeleted.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.ChatPropertiesDeleted.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ChatPropertiesUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ChatPropertiesUpdated"><code class="flex name class">
 <span>class <span class="ident">ChatPropertiesUpdated</span></span>
 <span>(</span><span>chat_id: str, properties: dict)</span>
 </code></dt>
@@ -989,17 +989,17 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ChatPropertiesUpdated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatPropertiesUpdated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatPropertiesUpdated.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.ChatPropertiesUpdated.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ChatTransferred"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ChatTransferred"><code class="flex name class">
 <span>class <span class="ident">ChatTransferred</span></span>
 <span>(</span><span>chat_id: str, reason: str, transferred_to: dict, thread_id: str = None, requester_id: str = None, queue: dict = None)</span>
 </code></dt>
@@ -1019,33 +1019,33 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ChatTransferred.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatTransferred.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatTransferred.queue"><code class="name">var <span class="ident">queue</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.ChatTransferred.queue"><code class="name">var <span class="ident">queue</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatTransferred.reason"><code class="name">var <span class="ident">reason</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatTransferred.reason"><code class="name">var <span class="ident">reason</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatTransferred.requester_id"><code class="name">var <span class="ident">requester_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatTransferred.requester_id"><code class="name">var <span class="ident">requester_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatTransferred.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ChatTransferred.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ChatTransferred.transferred_to"><code class="name">var <span class="ident">transferred_to</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.ChatTransferred.transferred_to"><code class="name">var <span class="ident">transferred_to</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.CustomerSessionFieldsUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.CustomerSessionFieldsUpdated"><code class="flex name class">
 <span>class <span class="ident">CustomerSessionFieldsUpdated</span></span>
 <span>(</span><span>id: str, session_fields: list, active_chat: dict = None)</span>
 </code></dt>
@@ -1062,21 +1062,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.CustomerSessionFieldsUpdated.active_chat"><code class="name">var <span class="ident">active_chat</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.CustomerSessionFieldsUpdated.active_chat"><code class="name">var <span class="ident">active_chat</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.CustomerSessionFieldsUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.CustomerSessionFieldsUpdated.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.CustomerSessionFieldsUpdated.session_fields"><code class="name">var <span class="ident">session_fields</span> : list</code></dt>
+<dt id="livechat.webhooks.v34.CustomerSessionFieldsUpdated.session_fields"><code class="name">var <span class="ident">session_fields</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.EventPropertiesDeleted"><code class="flex name class">
+<dt id="livechat.webhooks.v34.EventPropertiesDeleted"><code class="flex name class">
 <span>class <span class="ident">EventPropertiesDeleted</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, event_id: str, properties: dict)</span>
 </code></dt>
@@ -1094,25 +1094,25 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.EventPropertiesDeleted.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventPropertiesDeleted.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventPropertiesDeleted.event_id"><code class="name">var <span class="ident">event_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventPropertiesDeleted.event_id"><code class="name">var <span class="ident">event_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventPropertiesDeleted.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.EventPropertiesDeleted.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventPropertiesDeleted.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventPropertiesDeleted.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.EventPropertiesUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.EventPropertiesUpdated"><code class="flex name class">
 <span>class <span class="ident">EventPropertiesUpdated</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, event_id: str, properties: dict)</span>
 </code></dt>
@@ -1130,25 +1130,25 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.EventPropertiesUpdated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventPropertiesUpdated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventPropertiesUpdated.event_id"><code class="name">var <span class="ident">event_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventPropertiesUpdated.event_id"><code class="name">var <span class="ident">event_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventPropertiesUpdated.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.EventPropertiesUpdated.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventPropertiesUpdated.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventPropertiesUpdated.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.EventUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.EventUpdated"><code class="flex name class">
 <span>class <span class="ident">EventUpdated</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, event: dict)</span>
 </code></dt>
@@ -1165,21 +1165,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.EventUpdated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventUpdated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventUpdated.event"><code class="name">var <span class="ident">event</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.EventUpdated.event"><code class="name">var <span class="ident">event</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventUpdated.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventUpdated.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.EventsMarkedAsSeen"><code class="flex name class">
+<dt id="livechat.webhooks.v34.EventsMarkedAsSeen"><code class="flex name class">
 <span>class <span class="ident">EventsMarkedAsSeen</span></span>
 <span>(</span><span>user_id: str, chat_id: str, seen_up_to: str)</span>
 </code></dt>
@@ -1196,21 +1196,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.EventsMarkedAsSeen.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventsMarkedAsSeen.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventsMarkedAsSeen.seen_up_to"><code class="name">var <span class="ident">seen_up_to</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventsMarkedAsSeen.seen_up_to"><code class="name">var <span class="ident">seen_up_to</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.EventsMarkedAsSeen.user_id"><code class="name">var <span class="ident">user_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.EventsMarkedAsSeen.user_id"><code class="name">var <span class="ident">user_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.GroupCreated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.GroupCreated"><code class="flex name class">
 <span>class <span class="ident">GroupCreated</span></span>
 <span>(</span><span>id: int, name: str, language_code: str, agent_priorities: dict)</span>
 </code></dt>
@@ -1228,25 +1228,25 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.GroupCreated.agent_priorities"><code class="name">var <span class="ident">agent_priorities</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.GroupCreated.agent_priorities"><code class="name">var <span class="ident">agent_priorities</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.GroupCreated.id"><code class="name">var <span class="ident">id</span> : int</code></dt>
+<dt id="livechat.webhooks.v34.GroupCreated.id"><code class="name">var <span class="ident">id</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.GroupCreated.language_code"><code class="name">var <span class="ident">language_code</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.GroupCreated.language_code"><code class="name">var <span class="ident">language_code</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.GroupCreated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.GroupCreated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.GroupDeleted"><code class="flex name class">
+<dt id="livechat.webhooks.v34.GroupDeleted"><code class="flex name class">
 <span>class <span class="ident">GroupDeleted</span></span>
 <span>(</span><span>id: str)</span>
 </code></dt>
@@ -1261,13 +1261,13 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.GroupDeleted.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.GroupDeleted.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.GroupUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.GroupUpdated"><code class="flex name class">
 <span>class <span class="ident">GroupUpdated</span></span>
 <span>(</span><span>id: int, name: str = None, language_code: str = None, agent_priorities: dict = None)</span>
 </code></dt>
@@ -1285,25 +1285,25 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.GroupUpdated.agent_priorities"><code class="name">var <span class="ident">agent_priorities</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.GroupUpdated.agent_priorities"><code class="name">var <span class="ident">agent_priorities</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.GroupUpdated.id"><code class="name">var <span class="ident">id</span> : int</code></dt>
+<dt id="livechat.webhooks.v34.GroupUpdated.id"><code class="name">var <span class="ident">id</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.GroupUpdated.language_code"><code class="name">var <span class="ident">language_code</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.GroupUpdated.language_code"><code class="name">var <span class="ident">language_code</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.GroupUpdated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.GroupUpdated.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.IncomingChat"><code class="flex name class">
+<dt id="livechat.webhooks.v34.IncomingChat"><code class="flex name class">
 <span>class <span class="ident">IncomingChat</span></span>
 <span>(</span><span>chat: dict, transferred_from: dict = None)</span>
 </code></dt>
@@ -1319,17 +1319,17 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.IncomingChat.chat"><code class="name">var <span class="ident">chat</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.IncomingChat.chat"><code class="name">var <span class="ident">chat</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.IncomingChat.transferred_from"><code class="name">var <span class="ident">transferred_from</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.IncomingChat.transferred_from"><code class="name">var <span class="ident">transferred_from</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.IncomingCustomer"><code class="flex name class">
+<dt id="livechat.webhooks.v34.IncomingCustomer"><code class="flex name class">
 <span>class <span class="ident">IncomingCustomer</span></span>
 <span>(</span><span>customer: dict)</span>
 </code></dt>
@@ -1344,13 +1344,13 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.IncomingCustomer.customer"><code class="name">var <span class="ident">customer</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.IncomingCustomer.customer"><code class="name">var <span class="ident">customer</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.IncomingEvent"><code class="flex name class">
+<dt id="livechat.webhooks.v34.IncomingEvent"><code class="flex name class">
 <span>class <span class="ident">IncomingEvent</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, event: dict = None)</span>
 </code></dt>
@@ -1367,21 +1367,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.IncomingEvent.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.IncomingEvent.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.IncomingEvent.event"><code class="name">var <span class="ident">event</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.IncomingEvent.event"><code class="name">var <span class="ident">event</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.IncomingEvent.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.IncomingEvent.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.IncomingRichMessagePostback"><code class="flex name class">
+<dt id="livechat.webhooks.v34.IncomingRichMessagePostback"><code class="flex name class">
 <span>class <span class="ident">IncomingRichMessagePostback</span></span>
 <span>(</span><span>user_id: str, chat_id: str, thread_id: str, event_id: str, postback: dict)</span>
 </code></dt>
@@ -1400,29 +1400,29 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.IncomingRichMessagePostback.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.IncomingRichMessagePostback.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.IncomingRichMessagePostback.event_id"><code class="name">var <span class="ident">event_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.IncomingRichMessagePostback.event_id"><code class="name">var <span class="ident">event_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.IncomingRichMessagePostback.postback"><code class="name">var <span class="ident">postback</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.IncomingRichMessagePostback.postback"><code class="name">var <span class="ident">postback</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.IncomingRichMessagePostback.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.IncomingRichMessagePostback.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.IncomingRichMessagePostback.user_id"><code class="name">var <span class="ident">user_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.IncomingRichMessagePostback.user_id"><code class="name">var <span class="ident">user_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.RoutingStatusSet"><code class="flex name class">
+<dt id="livechat.webhooks.v34.RoutingStatusSet"><code class="flex name class">
 <span>class <span class="ident">RoutingStatusSet</span></span>
 <span>(</span><span>agent_id: str, status: str)</span>
 </code></dt>
@@ -1438,17 +1438,17 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.RoutingStatusSet.agent_id"><code class="name">var <span class="ident">agent_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.RoutingStatusSet.agent_id"><code class="name">var <span class="ident">agent_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.RoutingStatusSet.status"><code class="name">var <span class="ident">status</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.RoutingStatusSet.status"><code class="name">var <span class="ident">status</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ThreadPropertiesDeleted"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ThreadPropertiesDeleted"><code class="flex name class">
 <span>class <span class="ident">ThreadPropertiesDeleted</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, properties: dict)</span>
 </code></dt>
@@ -1465,21 +1465,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ThreadPropertiesDeleted.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadPropertiesDeleted.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ThreadPropertiesDeleted.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.ThreadPropertiesDeleted.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ThreadPropertiesDeleted.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadPropertiesDeleted.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ThreadPropertiesUpdated"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ThreadPropertiesUpdated"><code class="flex name class">
 <span>class <span class="ident">ThreadPropertiesUpdated</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, properties: dict)</span>
 </code></dt>
@@ -1496,21 +1496,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ThreadPropertiesUpdated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadPropertiesUpdated.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ThreadPropertiesUpdated.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.ThreadPropertiesUpdated.properties"><code class="name">var <span class="ident">properties</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ThreadPropertiesUpdated.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadPropertiesUpdated.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ThreadTagged"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ThreadTagged"><code class="flex name class">
 <span>class <span class="ident">ThreadTagged</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, tag: str)</span>
 </code></dt>
@@ -1527,21 +1527,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ThreadTagged.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadTagged.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ThreadTagged.tag"><code class="name">var <span class="ident">tag</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadTagged.tag"><code class="name">var <span class="ident">tag</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ThreadTagged.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadTagged.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.ThreadUntagged"><code class="flex name class">
+<dt id="livechat.webhooks.v34.ThreadUntagged"><code class="flex name class">
 <span>class <span class="ident">ThreadUntagged</span></span>
 <span>(</span><span>chat_id: str, thread_id: str, tag: str)</span>
 </code></dt>
@@ -1558,21 +1558,21 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.ThreadUntagged.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadUntagged.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ThreadUntagged.tag"><code class="name">var <span class="ident">tag</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadUntagged.tag"><code class="name">var <span class="ident">tag</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.ThreadUntagged.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.ThreadUntagged.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.UserAddedToChat"><code class="flex name class">
+<dt id="livechat.webhooks.v34.UserAddedToChat"><code class="flex name class">
 <span>class <span class="ident">UserAddedToChat</span></span>
 <span>(</span><span>chat_id: str, reason: str, requester_id: str, thread_id: str = None, user_type: str = None, user: dict = None)</span>
 </code></dt>
@@ -1592,33 +1592,33 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.UserAddedToChat.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserAddedToChat.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserAddedToChat.reason"><code class="name">var <span class="ident">reason</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserAddedToChat.reason"><code class="name">var <span class="ident">reason</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserAddedToChat.requester_id"><code class="name">var <span class="ident">requester_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserAddedToChat.requester_id"><code class="name">var <span class="ident">requester_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserAddedToChat.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserAddedToChat.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserAddedToChat.user"><code class="name">var <span class="ident">user</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.UserAddedToChat.user"><code class="name">var <span class="ident">user</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserAddedToChat.user_type"><code class="name">var <span class="ident">user_type</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserAddedToChat.user_type"><code class="name">var <span class="ident">user_type</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.UserRemovedFromChat"><code class="flex name class">
+<dt id="livechat.webhooks.v34.UserRemovedFromChat"><code class="flex name class">
 <span>class <span class="ident">UserRemovedFromChat</span></span>
 <span>(</span><span>chat_id: str, user_id: str, reason: str, requester_id: str, thread_id: str = None, user_type: str = None)</span>
 </code></dt>
@@ -1638,33 +1638,33 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.UserRemovedFromChat.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserRemovedFromChat.chat_id"><code class="name">var <span class="ident">chat_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserRemovedFromChat.reason"><code class="name">var <span class="ident">reason</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserRemovedFromChat.reason"><code class="name">var <span class="ident">reason</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserRemovedFromChat.requester_id"><code class="name">var <span class="ident">requester_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserRemovedFromChat.requester_id"><code class="name">var <span class="ident">requester_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserRemovedFromChat.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserRemovedFromChat.thread_id"><code class="name">var <span class="ident">thread_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserRemovedFromChat.user_id"><code class="name">var <span class="ident">user_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserRemovedFromChat.user_id"><code class="name">var <span class="ident">user_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.UserRemovedFromChat.user_type"><code class="name">var <span class="ident">user_type</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.UserRemovedFromChat.user_type"><code class="name">var <span class="ident">user_type</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="webhooks.v34.WebhookV34"><code class="flex name class">
+<dt id="livechat.webhooks.v34.WebhookV34"><code class="flex name class">
 <span>class <span class="ident">WebhookV34</span></span>
 <span>(</span><span>webhook_id: str, secret_key: str, action: str, organization_id: str, additional_data: dict, payload: dict)</span>
 </code></dt>
@@ -1688,34 +1688,34 @@ action_to_data_class_mapping_v_34 = {
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="webhooks.v34.WebhookV34.action"><code class="name">var <span class="ident">action</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.WebhookV34.action"><code class="name">var <span class="ident">action</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.WebhookV34.additional_data"><code class="name">var <span class="ident">additional_data</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.WebhookV34.additional_data"><code class="name">var <span class="ident">additional_data</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.WebhookV34.organization_id"><code class="name">var <span class="ident">organization_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.WebhookV34.organization_id"><code class="name">var <span class="ident">organization_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.WebhookV34.payload"><code class="name">var <span class="ident">payload</span> : dict</code></dt>
+<dt id="livechat.webhooks.v34.WebhookV34.payload"><code class="name">var <span class="ident">payload</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.WebhookV34.secret_key"><code class="name">var <span class="ident">secret_key</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.WebhookV34.secret_key"><code class="name">var <span class="ident">secret_key</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="webhooks.v34.WebhookV34.webhook_id"><code class="name">var <span class="ident">webhook_id</span> : str</code></dt>
+<dt id="livechat.webhooks.v34.WebhookV34.webhook_id"><code class="name">var <span class="ident">webhook_id</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="webhooks.v34.WebhookV34.payload_data_class"><code class="name flex">
+<dt id="livechat.webhooks.v34.WebhookV34.payload_data_class"><code class="name flex">
 <span>def <span class="ident">payload_data_class</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -1742,337 +1742,337 @@ action_to_data_class_mapping_v_34 = {
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="webhooks" href="index.html">webhooks</a></code></li>
+<li><code><a title="livechat.webhooks" href="index.html">livechat.webhooks</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="webhooks.v34.AgentApproved" href="#webhooks.v34.AgentApproved">AgentApproved</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AgentApproved" href="#livechat.webhooks.v34.AgentApproved">AgentApproved</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.AgentApproved.id" href="#webhooks.v34.AgentApproved.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentApproved.id" href="#livechat.webhooks.v34.AgentApproved.id">id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.AgentCreated" href="#webhooks.v34.AgentCreated">AgentCreated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AgentCreated" href="#livechat.webhooks.v34.AgentCreated">AgentCreated</a></code></h4>
 <ul class="two-column">
-<li><code><a title="webhooks.v34.AgentCreated.avatar" href="#webhooks.v34.AgentCreated.avatar">avatar</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.awaiting_approval" href="#webhooks.v34.AgentCreated.awaiting_approval">awaiting_approval</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.email_subscriptions" href="#webhooks.v34.AgentCreated.email_subscriptions">email_subscriptions</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.groups" href="#webhooks.v34.AgentCreated.groups">groups</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.id" href="#webhooks.v34.AgentCreated.id">id</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.job_title" href="#webhooks.v34.AgentCreated.job_title">job_title</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.max_chats_count" href="#webhooks.v34.AgentCreated.max_chats_count">max_chats_count</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.mobile" href="#webhooks.v34.AgentCreated.mobile">mobile</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.name" href="#webhooks.v34.AgentCreated.name">name</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.notifications" href="#webhooks.v34.AgentCreated.notifications">notifications</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.role" href="#webhooks.v34.AgentCreated.role">role</a></code></li>
-<li><code><a title="webhooks.v34.AgentCreated.work_scheduler" href="#webhooks.v34.AgentCreated.work_scheduler">work_scheduler</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.avatar" href="#livechat.webhooks.v34.AgentCreated.avatar">avatar</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.awaiting_approval" href="#livechat.webhooks.v34.AgentCreated.awaiting_approval">awaiting_approval</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.email_subscriptions" href="#livechat.webhooks.v34.AgentCreated.email_subscriptions">email_subscriptions</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.groups" href="#livechat.webhooks.v34.AgentCreated.groups">groups</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.id" href="#livechat.webhooks.v34.AgentCreated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.job_title" href="#livechat.webhooks.v34.AgentCreated.job_title">job_title</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.max_chats_count" href="#livechat.webhooks.v34.AgentCreated.max_chats_count">max_chats_count</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.mobile" href="#livechat.webhooks.v34.AgentCreated.mobile">mobile</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.name" href="#livechat.webhooks.v34.AgentCreated.name">name</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.notifications" href="#livechat.webhooks.v34.AgentCreated.notifications">notifications</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.role" href="#livechat.webhooks.v34.AgentCreated.role">role</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentCreated.work_scheduler" href="#livechat.webhooks.v34.AgentCreated.work_scheduler">work_scheduler</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.AgentDeleted" href="#webhooks.v34.AgentDeleted">AgentDeleted</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AgentDeleted" href="#livechat.webhooks.v34.AgentDeleted">AgentDeleted</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.AgentDeleted.id" href="#webhooks.v34.AgentDeleted.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentDeleted.id" href="#livechat.webhooks.v34.AgentDeleted.id">id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.AgentSuspended" href="#webhooks.v34.AgentSuspended">AgentSuspended</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AgentSuspended" href="#livechat.webhooks.v34.AgentSuspended">AgentSuspended</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.AgentSuspended.id" href="#webhooks.v34.AgentSuspended.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentSuspended.id" href="#livechat.webhooks.v34.AgentSuspended.id">id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.AgentUnsuspended" href="#webhooks.v34.AgentUnsuspended">AgentUnsuspended</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AgentUnsuspended" href="#livechat.webhooks.v34.AgentUnsuspended">AgentUnsuspended</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.AgentUnsuspended.id" href="#webhooks.v34.AgentUnsuspended.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUnsuspended.id" href="#livechat.webhooks.v34.AgentUnsuspended.id">id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.AgentUpdated" href="#webhooks.v34.AgentUpdated">AgentUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AgentUpdated" href="#livechat.webhooks.v34.AgentUpdated">AgentUpdated</a></code></h4>
 <ul class="two-column">
-<li><code><a title="webhooks.v34.AgentUpdated.avatar" href="#webhooks.v34.AgentUpdated.avatar">avatar</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.email_subscriptions" href="#webhooks.v34.AgentUpdated.email_subscriptions">email_subscriptions</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.groups" href="#webhooks.v34.AgentUpdated.groups">groups</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.id" href="#webhooks.v34.AgentUpdated.id">id</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.job_title" href="#webhooks.v34.AgentUpdated.job_title">job_title</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.max_chats_count" href="#webhooks.v34.AgentUpdated.max_chats_count">max_chats_count</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.mobile" href="#webhooks.v34.AgentUpdated.mobile">mobile</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.name" href="#webhooks.v34.AgentUpdated.name">name</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.notifications" href="#webhooks.v34.AgentUpdated.notifications">notifications</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.role" href="#webhooks.v34.AgentUpdated.role">role</a></code></li>
-<li><code><a title="webhooks.v34.AgentUpdated.work_scheduler" href="#webhooks.v34.AgentUpdated.work_scheduler">work_scheduler</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.avatar" href="#livechat.webhooks.v34.AgentUpdated.avatar">avatar</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.email_subscriptions" href="#livechat.webhooks.v34.AgentUpdated.email_subscriptions">email_subscriptions</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.groups" href="#livechat.webhooks.v34.AgentUpdated.groups">groups</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.id" href="#livechat.webhooks.v34.AgentUpdated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.job_title" href="#livechat.webhooks.v34.AgentUpdated.job_title">job_title</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.max_chats_count" href="#livechat.webhooks.v34.AgentUpdated.max_chats_count">max_chats_count</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.mobile" href="#livechat.webhooks.v34.AgentUpdated.mobile">mobile</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.name" href="#livechat.webhooks.v34.AgentUpdated.name">name</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.notifications" href="#livechat.webhooks.v34.AgentUpdated.notifications">notifications</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.role" href="#livechat.webhooks.v34.AgentUpdated.role">role</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AgentUpdated.work_scheduler" href="#livechat.webhooks.v34.AgentUpdated.work_scheduler">work_scheduler</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.AutoAccessAdded" href="#webhooks.v34.AutoAccessAdded">AutoAccessAdded</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AutoAccessAdded" href="#livechat.webhooks.v34.AutoAccessAdded">AutoAccessAdded</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.AutoAccessAdded.access" href="#webhooks.v34.AutoAccessAdded.access">access</a></code></li>
-<li><code><a title="webhooks.v34.AutoAccessAdded.conditions" href="#webhooks.v34.AutoAccessAdded.conditions">conditions</a></code></li>
-<li><code><a title="webhooks.v34.AutoAccessAdded.description" href="#webhooks.v34.AutoAccessAdded.description">description</a></code></li>
-<li><code><a title="webhooks.v34.AutoAccessAdded.id" href="#webhooks.v34.AutoAccessAdded.id">id</a></code></li>
-<li><code><a title="webhooks.v34.AutoAccessAdded.next_id" href="#webhooks.v34.AutoAccessAdded.next_id">next_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessAdded.access" href="#livechat.webhooks.v34.AutoAccessAdded.access">access</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessAdded.conditions" href="#livechat.webhooks.v34.AutoAccessAdded.conditions">conditions</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessAdded.description" href="#livechat.webhooks.v34.AutoAccessAdded.description">description</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessAdded.id" href="#livechat.webhooks.v34.AutoAccessAdded.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessAdded.next_id" href="#livechat.webhooks.v34.AutoAccessAdded.next_id">next_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.AutoAccessDeleted" href="#webhooks.v34.AutoAccessDeleted">AutoAccessDeleted</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AutoAccessDeleted" href="#livechat.webhooks.v34.AutoAccessDeleted">AutoAccessDeleted</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.AutoAccessDeleted.id" href="#webhooks.v34.AutoAccessDeleted.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessDeleted.id" href="#livechat.webhooks.v34.AutoAccessDeleted.id">id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.AutoAccessUpdated" href="#webhooks.v34.AutoAccessUpdated">AutoAccessUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.AutoAccessUpdated" href="#livechat.webhooks.v34.AutoAccessUpdated">AutoAccessUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.AutoAccessUpdated.access" href="#webhooks.v34.AutoAccessUpdated.access">access</a></code></li>
-<li><code><a title="webhooks.v34.AutoAccessUpdated.conditions" href="#webhooks.v34.AutoAccessUpdated.conditions">conditions</a></code></li>
-<li><code><a title="webhooks.v34.AutoAccessUpdated.description" href="#webhooks.v34.AutoAccessUpdated.description">description</a></code></li>
-<li><code><a title="webhooks.v34.AutoAccessUpdated.id" href="#webhooks.v34.AutoAccessUpdated.id">id</a></code></li>
-<li><code><a title="webhooks.v34.AutoAccessUpdated.next_id" href="#webhooks.v34.AutoAccessUpdated.next_id">next_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessUpdated.access" href="#livechat.webhooks.v34.AutoAccessUpdated.access">access</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessUpdated.conditions" href="#livechat.webhooks.v34.AutoAccessUpdated.conditions">conditions</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessUpdated.description" href="#livechat.webhooks.v34.AutoAccessUpdated.description">description</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessUpdated.id" href="#livechat.webhooks.v34.AutoAccessUpdated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.AutoAccessUpdated.next_id" href="#livechat.webhooks.v34.AutoAccessUpdated.next_id">next_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.BotCreated" href="#webhooks.v34.BotCreated">BotCreated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.BotCreated" href="#livechat.webhooks.v34.BotCreated">BotCreated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.BotCreated.avatar" href="#webhooks.v34.BotCreated.avatar">avatar</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.default_group_priority" href="#webhooks.v34.BotCreated.default_group_priority">default_group_priority</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.groups" href="#webhooks.v34.BotCreated.groups">groups</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.id" href="#webhooks.v34.BotCreated.id">id</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.job_title" href="#webhooks.v34.BotCreated.job_title">job_title</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.max_chats_count" href="#webhooks.v34.BotCreated.max_chats_count">max_chats_count</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.name" href="#webhooks.v34.BotCreated.name">name</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.owner_client_id" href="#webhooks.v34.BotCreated.owner_client_id">owner_client_id</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.timezone" href="#webhooks.v34.BotCreated.timezone">timezone</a></code></li>
-<li><code><a title="webhooks.v34.BotCreated.work_scheduler" href="#webhooks.v34.BotCreated.work_scheduler">work_scheduler</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.avatar" href="#livechat.webhooks.v34.BotCreated.avatar">avatar</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.default_group_priority" href="#livechat.webhooks.v34.BotCreated.default_group_priority">default_group_priority</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.groups" href="#livechat.webhooks.v34.BotCreated.groups">groups</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.id" href="#livechat.webhooks.v34.BotCreated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.job_title" href="#livechat.webhooks.v34.BotCreated.job_title">job_title</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.max_chats_count" href="#livechat.webhooks.v34.BotCreated.max_chats_count">max_chats_count</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.name" href="#livechat.webhooks.v34.BotCreated.name">name</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.owner_client_id" href="#livechat.webhooks.v34.BotCreated.owner_client_id">owner_client_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.timezone" href="#livechat.webhooks.v34.BotCreated.timezone">timezone</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotCreated.work_scheduler" href="#livechat.webhooks.v34.BotCreated.work_scheduler">work_scheduler</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.BotDeleted" href="#webhooks.v34.BotDeleted">BotDeleted</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.BotDeleted" href="#livechat.webhooks.v34.BotDeleted">BotDeleted</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.BotDeleted.id" href="#webhooks.v34.BotDeleted.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotDeleted.id" href="#livechat.webhooks.v34.BotDeleted.id">id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.BotUpdated" href="#webhooks.v34.BotUpdated">BotUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.BotUpdated" href="#livechat.webhooks.v34.BotUpdated">BotUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.BotUpdated.avatar" href="#webhooks.v34.BotUpdated.avatar">avatar</a></code></li>
-<li><code><a title="webhooks.v34.BotUpdated.default_group_priority" href="#webhooks.v34.BotUpdated.default_group_priority">default_group_priority</a></code></li>
-<li><code><a title="webhooks.v34.BotUpdated.groups" href="#webhooks.v34.BotUpdated.groups">groups</a></code></li>
-<li><code><a title="webhooks.v34.BotUpdated.id" href="#webhooks.v34.BotUpdated.id">id</a></code></li>
-<li><code><a title="webhooks.v34.BotUpdated.job_title" href="#webhooks.v34.BotUpdated.job_title">job_title</a></code></li>
-<li><code><a title="webhooks.v34.BotUpdated.max_chats_count" href="#webhooks.v34.BotUpdated.max_chats_count">max_chats_count</a></code></li>
-<li><code><a title="webhooks.v34.BotUpdated.name" href="#webhooks.v34.BotUpdated.name">name</a></code></li>
-<li><code><a title="webhooks.v34.BotUpdated.timezone" href="#webhooks.v34.BotUpdated.timezone">timezone</a></code></li>
-<li><code><a title="webhooks.v34.BotUpdated.work_scheduler" href="#webhooks.v34.BotUpdated.work_scheduler">work_scheduler</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.avatar" href="#livechat.webhooks.v34.BotUpdated.avatar">avatar</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.default_group_priority" href="#livechat.webhooks.v34.BotUpdated.default_group_priority">default_group_priority</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.groups" href="#livechat.webhooks.v34.BotUpdated.groups">groups</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.id" href="#livechat.webhooks.v34.BotUpdated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.job_title" href="#livechat.webhooks.v34.BotUpdated.job_title">job_title</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.max_chats_count" href="#livechat.webhooks.v34.BotUpdated.max_chats_count">max_chats_count</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.name" href="#livechat.webhooks.v34.BotUpdated.name">name</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.timezone" href="#livechat.webhooks.v34.BotUpdated.timezone">timezone</a></code></li>
+<li><code><a title="livechat.webhooks.v34.BotUpdated.work_scheduler" href="#livechat.webhooks.v34.BotUpdated.work_scheduler">work_scheduler</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ChatAccessUpdated" href="#webhooks.v34.ChatAccessUpdated">ChatAccessUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ChatAccessUpdated" href="#livechat.webhooks.v34.ChatAccessUpdated">ChatAccessUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.ChatAccessUpdated.access" href="#webhooks.v34.ChatAccessUpdated.access">access</a></code></li>
-<li><code><a title="webhooks.v34.ChatAccessUpdated.id" href="#webhooks.v34.ChatAccessUpdated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatAccessUpdated.access" href="#livechat.webhooks.v34.ChatAccessUpdated.access">access</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatAccessUpdated.id" href="#livechat.webhooks.v34.ChatAccessUpdated.id">id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ChatDeactivated" href="#webhooks.v34.ChatDeactivated">ChatDeactivated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ChatDeactivated" href="#livechat.webhooks.v34.ChatDeactivated">ChatDeactivated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.ChatDeactivated.chat_id" href="#webhooks.v34.ChatDeactivated.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.ChatDeactivated.thread_id" href="#webhooks.v34.ChatDeactivated.thread_id">thread_id</a></code></li>
-<li><code><a title="webhooks.v34.ChatDeactivated.user_id" href="#webhooks.v34.ChatDeactivated.user_id">user_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatDeactivated.chat_id" href="#livechat.webhooks.v34.ChatDeactivated.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatDeactivated.thread_id" href="#livechat.webhooks.v34.ChatDeactivated.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatDeactivated.user_id" href="#livechat.webhooks.v34.ChatDeactivated.user_id">user_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ChatPropertiesDeleted" href="#webhooks.v34.ChatPropertiesDeleted">ChatPropertiesDeleted</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ChatPropertiesDeleted" href="#livechat.webhooks.v34.ChatPropertiesDeleted">ChatPropertiesDeleted</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.ChatPropertiesDeleted.chat_id" href="#webhooks.v34.ChatPropertiesDeleted.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.ChatPropertiesDeleted.properties" href="#webhooks.v34.ChatPropertiesDeleted.properties">properties</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatPropertiesDeleted.chat_id" href="#livechat.webhooks.v34.ChatPropertiesDeleted.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatPropertiesDeleted.properties" href="#livechat.webhooks.v34.ChatPropertiesDeleted.properties">properties</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ChatPropertiesUpdated" href="#webhooks.v34.ChatPropertiesUpdated">ChatPropertiesUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ChatPropertiesUpdated" href="#livechat.webhooks.v34.ChatPropertiesUpdated">ChatPropertiesUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.ChatPropertiesUpdated.chat_id" href="#webhooks.v34.ChatPropertiesUpdated.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.ChatPropertiesUpdated.properties" href="#webhooks.v34.ChatPropertiesUpdated.properties">properties</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatPropertiesUpdated.chat_id" href="#livechat.webhooks.v34.ChatPropertiesUpdated.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatPropertiesUpdated.properties" href="#livechat.webhooks.v34.ChatPropertiesUpdated.properties">properties</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ChatTransferred" href="#webhooks.v34.ChatTransferred">ChatTransferred</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ChatTransferred" href="#livechat.webhooks.v34.ChatTransferred">ChatTransferred</a></code></h4>
 <ul class="two-column">
-<li><code><a title="webhooks.v34.ChatTransferred.chat_id" href="#webhooks.v34.ChatTransferred.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.ChatTransferred.queue" href="#webhooks.v34.ChatTransferred.queue">queue</a></code></li>
-<li><code><a title="webhooks.v34.ChatTransferred.reason" href="#webhooks.v34.ChatTransferred.reason">reason</a></code></li>
-<li><code><a title="webhooks.v34.ChatTransferred.requester_id" href="#webhooks.v34.ChatTransferred.requester_id">requester_id</a></code></li>
-<li><code><a title="webhooks.v34.ChatTransferred.thread_id" href="#webhooks.v34.ChatTransferred.thread_id">thread_id</a></code></li>
-<li><code><a title="webhooks.v34.ChatTransferred.transferred_to" href="#webhooks.v34.ChatTransferred.transferred_to">transferred_to</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatTransferred.chat_id" href="#livechat.webhooks.v34.ChatTransferred.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatTransferred.queue" href="#livechat.webhooks.v34.ChatTransferred.queue">queue</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatTransferred.reason" href="#livechat.webhooks.v34.ChatTransferred.reason">reason</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatTransferred.requester_id" href="#livechat.webhooks.v34.ChatTransferred.requester_id">requester_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatTransferred.thread_id" href="#livechat.webhooks.v34.ChatTransferred.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ChatTransferred.transferred_to" href="#livechat.webhooks.v34.ChatTransferred.transferred_to">transferred_to</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.CustomerSessionFieldsUpdated" href="#webhooks.v34.CustomerSessionFieldsUpdated">CustomerSessionFieldsUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.CustomerSessionFieldsUpdated" href="#livechat.webhooks.v34.CustomerSessionFieldsUpdated">CustomerSessionFieldsUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.CustomerSessionFieldsUpdated.active_chat" href="#webhooks.v34.CustomerSessionFieldsUpdated.active_chat">active_chat</a></code></li>
-<li><code><a title="webhooks.v34.CustomerSessionFieldsUpdated.id" href="#webhooks.v34.CustomerSessionFieldsUpdated.id">id</a></code></li>
-<li><code><a title="webhooks.v34.CustomerSessionFieldsUpdated.session_fields" href="#webhooks.v34.CustomerSessionFieldsUpdated.session_fields">session_fields</a></code></li>
+<li><code><a title="livechat.webhooks.v34.CustomerSessionFieldsUpdated.active_chat" href="#livechat.webhooks.v34.CustomerSessionFieldsUpdated.active_chat">active_chat</a></code></li>
+<li><code><a title="livechat.webhooks.v34.CustomerSessionFieldsUpdated.id" href="#livechat.webhooks.v34.CustomerSessionFieldsUpdated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.CustomerSessionFieldsUpdated.session_fields" href="#livechat.webhooks.v34.CustomerSessionFieldsUpdated.session_fields">session_fields</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.EventPropertiesDeleted" href="#webhooks.v34.EventPropertiesDeleted">EventPropertiesDeleted</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.EventPropertiesDeleted" href="#livechat.webhooks.v34.EventPropertiesDeleted">EventPropertiesDeleted</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.EventPropertiesDeleted.chat_id" href="#webhooks.v34.EventPropertiesDeleted.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.EventPropertiesDeleted.event_id" href="#webhooks.v34.EventPropertiesDeleted.event_id">event_id</a></code></li>
-<li><code><a title="webhooks.v34.EventPropertiesDeleted.properties" href="#webhooks.v34.EventPropertiesDeleted.properties">properties</a></code></li>
-<li><code><a title="webhooks.v34.EventPropertiesDeleted.thread_id" href="#webhooks.v34.EventPropertiesDeleted.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventPropertiesDeleted.chat_id" href="#livechat.webhooks.v34.EventPropertiesDeleted.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventPropertiesDeleted.event_id" href="#livechat.webhooks.v34.EventPropertiesDeleted.event_id">event_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventPropertiesDeleted.properties" href="#livechat.webhooks.v34.EventPropertiesDeleted.properties">properties</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventPropertiesDeleted.thread_id" href="#livechat.webhooks.v34.EventPropertiesDeleted.thread_id">thread_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.EventPropertiesUpdated" href="#webhooks.v34.EventPropertiesUpdated">EventPropertiesUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.EventPropertiesUpdated" href="#livechat.webhooks.v34.EventPropertiesUpdated">EventPropertiesUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.EventPropertiesUpdated.chat_id" href="#webhooks.v34.EventPropertiesUpdated.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.EventPropertiesUpdated.event_id" href="#webhooks.v34.EventPropertiesUpdated.event_id">event_id</a></code></li>
-<li><code><a title="webhooks.v34.EventPropertiesUpdated.properties" href="#webhooks.v34.EventPropertiesUpdated.properties">properties</a></code></li>
-<li><code><a title="webhooks.v34.EventPropertiesUpdated.thread_id" href="#webhooks.v34.EventPropertiesUpdated.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventPropertiesUpdated.chat_id" href="#livechat.webhooks.v34.EventPropertiesUpdated.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventPropertiesUpdated.event_id" href="#livechat.webhooks.v34.EventPropertiesUpdated.event_id">event_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventPropertiesUpdated.properties" href="#livechat.webhooks.v34.EventPropertiesUpdated.properties">properties</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventPropertiesUpdated.thread_id" href="#livechat.webhooks.v34.EventPropertiesUpdated.thread_id">thread_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.EventUpdated" href="#webhooks.v34.EventUpdated">EventUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.EventUpdated" href="#livechat.webhooks.v34.EventUpdated">EventUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.EventUpdated.chat_id" href="#webhooks.v34.EventUpdated.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.EventUpdated.event" href="#webhooks.v34.EventUpdated.event">event</a></code></li>
-<li><code><a title="webhooks.v34.EventUpdated.thread_id" href="#webhooks.v34.EventUpdated.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventUpdated.chat_id" href="#livechat.webhooks.v34.EventUpdated.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventUpdated.event" href="#livechat.webhooks.v34.EventUpdated.event">event</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventUpdated.thread_id" href="#livechat.webhooks.v34.EventUpdated.thread_id">thread_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.EventsMarkedAsSeen" href="#webhooks.v34.EventsMarkedAsSeen">EventsMarkedAsSeen</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.EventsMarkedAsSeen" href="#livechat.webhooks.v34.EventsMarkedAsSeen">EventsMarkedAsSeen</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.EventsMarkedAsSeen.chat_id" href="#webhooks.v34.EventsMarkedAsSeen.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.EventsMarkedAsSeen.seen_up_to" href="#webhooks.v34.EventsMarkedAsSeen.seen_up_to">seen_up_to</a></code></li>
-<li><code><a title="webhooks.v34.EventsMarkedAsSeen.user_id" href="#webhooks.v34.EventsMarkedAsSeen.user_id">user_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventsMarkedAsSeen.chat_id" href="#livechat.webhooks.v34.EventsMarkedAsSeen.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventsMarkedAsSeen.seen_up_to" href="#livechat.webhooks.v34.EventsMarkedAsSeen.seen_up_to">seen_up_to</a></code></li>
+<li><code><a title="livechat.webhooks.v34.EventsMarkedAsSeen.user_id" href="#livechat.webhooks.v34.EventsMarkedAsSeen.user_id">user_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.GroupCreated" href="#webhooks.v34.GroupCreated">GroupCreated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.GroupCreated" href="#livechat.webhooks.v34.GroupCreated">GroupCreated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.GroupCreated.agent_priorities" href="#webhooks.v34.GroupCreated.agent_priorities">agent_priorities</a></code></li>
-<li><code><a title="webhooks.v34.GroupCreated.id" href="#webhooks.v34.GroupCreated.id">id</a></code></li>
-<li><code><a title="webhooks.v34.GroupCreated.language_code" href="#webhooks.v34.GroupCreated.language_code">language_code</a></code></li>
-<li><code><a title="webhooks.v34.GroupCreated.name" href="#webhooks.v34.GroupCreated.name">name</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupCreated.agent_priorities" href="#livechat.webhooks.v34.GroupCreated.agent_priorities">agent_priorities</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupCreated.id" href="#livechat.webhooks.v34.GroupCreated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupCreated.language_code" href="#livechat.webhooks.v34.GroupCreated.language_code">language_code</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupCreated.name" href="#livechat.webhooks.v34.GroupCreated.name">name</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.GroupDeleted" href="#webhooks.v34.GroupDeleted">GroupDeleted</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.GroupDeleted" href="#livechat.webhooks.v34.GroupDeleted">GroupDeleted</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.GroupDeleted.id" href="#webhooks.v34.GroupDeleted.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupDeleted.id" href="#livechat.webhooks.v34.GroupDeleted.id">id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.GroupUpdated" href="#webhooks.v34.GroupUpdated">GroupUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.GroupUpdated" href="#livechat.webhooks.v34.GroupUpdated">GroupUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.GroupUpdated.agent_priorities" href="#webhooks.v34.GroupUpdated.agent_priorities">agent_priorities</a></code></li>
-<li><code><a title="webhooks.v34.GroupUpdated.id" href="#webhooks.v34.GroupUpdated.id">id</a></code></li>
-<li><code><a title="webhooks.v34.GroupUpdated.language_code" href="#webhooks.v34.GroupUpdated.language_code">language_code</a></code></li>
-<li><code><a title="webhooks.v34.GroupUpdated.name" href="#webhooks.v34.GroupUpdated.name">name</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupUpdated.agent_priorities" href="#livechat.webhooks.v34.GroupUpdated.agent_priorities">agent_priorities</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupUpdated.id" href="#livechat.webhooks.v34.GroupUpdated.id">id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupUpdated.language_code" href="#livechat.webhooks.v34.GroupUpdated.language_code">language_code</a></code></li>
+<li><code><a title="livechat.webhooks.v34.GroupUpdated.name" href="#livechat.webhooks.v34.GroupUpdated.name">name</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.IncomingChat" href="#webhooks.v34.IncomingChat">IncomingChat</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.IncomingChat" href="#livechat.webhooks.v34.IncomingChat">IncomingChat</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.IncomingChat.chat" href="#webhooks.v34.IncomingChat.chat">chat</a></code></li>
-<li><code><a title="webhooks.v34.IncomingChat.transferred_from" href="#webhooks.v34.IncomingChat.transferred_from">transferred_from</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingChat.chat" href="#livechat.webhooks.v34.IncomingChat.chat">chat</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingChat.transferred_from" href="#livechat.webhooks.v34.IncomingChat.transferred_from">transferred_from</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.IncomingCustomer" href="#webhooks.v34.IncomingCustomer">IncomingCustomer</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.IncomingCustomer" href="#livechat.webhooks.v34.IncomingCustomer">IncomingCustomer</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.IncomingCustomer.customer" href="#webhooks.v34.IncomingCustomer.customer">customer</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingCustomer.customer" href="#livechat.webhooks.v34.IncomingCustomer.customer">customer</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.IncomingEvent" href="#webhooks.v34.IncomingEvent">IncomingEvent</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.IncomingEvent" href="#livechat.webhooks.v34.IncomingEvent">IncomingEvent</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.IncomingEvent.chat_id" href="#webhooks.v34.IncomingEvent.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.IncomingEvent.event" href="#webhooks.v34.IncomingEvent.event">event</a></code></li>
-<li><code><a title="webhooks.v34.IncomingEvent.thread_id" href="#webhooks.v34.IncomingEvent.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingEvent.chat_id" href="#livechat.webhooks.v34.IncomingEvent.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingEvent.event" href="#livechat.webhooks.v34.IncomingEvent.event">event</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingEvent.thread_id" href="#livechat.webhooks.v34.IncomingEvent.thread_id">thread_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.IncomingRichMessagePostback" href="#webhooks.v34.IncomingRichMessagePostback">IncomingRichMessagePostback</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.IncomingRichMessagePostback" href="#livechat.webhooks.v34.IncomingRichMessagePostback">IncomingRichMessagePostback</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.IncomingRichMessagePostback.chat_id" href="#webhooks.v34.IncomingRichMessagePostback.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.IncomingRichMessagePostback.event_id" href="#webhooks.v34.IncomingRichMessagePostback.event_id">event_id</a></code></li>
-<li><code><a title="webhooks.v34.IncomingRichMessagePostback.postback" href="#webhooks.v34.IncomingRichMessagePostback.postback">postback</a></code></li>
-<li><code><a title="webhooks.v34.IncomingRichMessagePostback.thread_id" href="#webhooks.v34.IncomingRichMessagePostback.thread_id">thread_id</a></code></li>
-<li><code><a title="webhooks.v34.IncomingRichMessagePostback.user_id" href="#webhooks.v34.IncomingRichMessagePostback.user_id">user_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingRichMessagePostback.chat_id" href="#livechat.webhooks.v34.IncomingRichMessagePostback.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingRichMessagePostback.event_id" href="#livechat.webhooks.v34.IncomingRichMessagePostback.event_id">event_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingRichMessagePostback.postback" href="#livechat.webhooks.v34.IncomingRichMessagePostback.postback">postback</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingRichMessagePostback.thread_id" href="#livechat.webhooks.v34.IncomingRichMessagePostback.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.IncomingRichMessagePostback.user_id" href="#livechat.webhooks.v34.IncomingRichMessagePostback.user_id">user_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.RoutingStatusSet" href="#webhooks.v34.RoutingStatusSet">RoutingStatusSet</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.RoutingStatusSet" href="#livechat.webhooks.v34.RoutingStatusSet">RoutingStatusSet</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.RoutingStatusSet.agent_id" href="#webhooks.v34.RoutingStatusSet.agent_id">agent_id</a></code></li>
-<li><code><a title="webhooks.v34.RoutingStatusSet.status" href="#webhooks.v34.RoutingStatusSet.status">status</a></code></li>
+<li><code><a title="livechat.webhooks.v34.RoutingStatusSet.agent_id" href="#livechat.webhooks.v34.RoutingStatusSet.agent_id">agent_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.RoutingStatusSet.status" href="#livechat.webhooks.v34.RoutingStatusSet.status">status</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ThreadPropertiesDeleted" href="#webhooks.v34.ThreadPropertiesDeleted">ThreadPropertiesDeleted</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ThreadPropertiesDeleted" href="#livechat.webhooks.v34.ThreadPropertiesDeleted">ThreadPropertiesDeleted</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.ThreadPropertiesDeleted.chat_id" href="#webhooks.v34.ThreadPropertiesDeleted.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.ThreadPropertiesDeleted.properties" href="#webhooks.v34.ThreadPropertiesDeleted.properties">properties</a></code></li>
-<li><code><a title="webhooks.v34.ThreadPropertiesDeleted.thread_id" href="#webhooks.v34.ThreadPropertiesDeleted.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadPropertiesDeleted.chat_id" href="#livechat.webhooks.v34.ThreadPropertiesDeleted.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadPropertiesDeleted.properties" href="#livechat.webhooks.v34.ThreadPropertiesDeleted.properties">properties</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadPropertiesDeleted.thread_id" href="#livechat.webhooks.v34.ThreadPropertiesDeleted.thread_id">thread_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ThreadPropertiesUpdated" href="#webhooks.v34.ThreadPropertiesUpdated">ThreadPropertiesUpdated</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ThreadPropertiesUpdated" href="#livechat.webhooks.v34.ThreadPropertiesUpdated">ThreadPropertiesUpdated</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.ThreadPropertiesUpdated.chat_id" href="#webhooks.v34.ThreadPropertiesUpdated.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.ThreadPropertiesUpdated.properties" href="#webhooks.v34.ThreadPropertiesUpdated.properties">properties</a></code></li>
-<li><code><a title="webhooks.v34.ThreadPropertiesUpdated.thread_id" href="#webhooks.v34.ThreadPropertiesUpdated.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadPropertiesUpdated.chat_id" href="#livechat.webhooks.v34.ThreadPropertiesUpdated.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadPropertiesUpdated.properties" href="#livechat.webhooks.v34.ThreadPropertiesUpdated.properties">properties</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadPropertiesUpdated.thread_id" href="#livechat.webhooks.v34.ThreadPropertiesUpdated.thread_id">thread_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ThreadTagged" href="#webhooks.v34.ThreadTagged">ThreadTagged</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ThreadTagged" href="#livechat.webhooks.v34.ThreadTagged">ThreadTagged</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.ThreadTagged.chat_id" href="#webhooks.v34.ThreadTagged.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.ThreadTagged.tag" href="#webhooks.v34.ThreadTagged.tag">tag</a></code></li>
-<li><code><a title="webhooks.v34.ThreadTagged.thread_id" href="#webhooks.v34.ThreadTagged.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadTagged.chat_id" href="#livechat.webhooks.v34.ThreadTagged.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadTagged.tag" href="#livechat.webhooks.v34.ThreadTagged.tag">tag</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadTagged.thread_id" href="#livechat.webhooks.v34.ThreadTagged.thread_id">thread_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.ThreadUntagged" href="#webhooks.v34.ThreadUntagged">ThreadUntagged</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.ThreadUntagged" href="#livechat.webhooks.v34.ThreadUntagged">ThreadUntagged</a></code></h4>
 <ul class="">
-<li><code><a title="webhooks.v34.ThreadUntagged.chat_id" href="#webhooks.v34.ThreadUntagged.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.ThreadUntagged.tag" href="#webhooks.v34.ThreadUntagged.tag">tag</a></code></li>
-<li><code><a title="webhooks.v34.ThreadUntagged.thread_id" href="#webhooks.v34.ThreadUntagged.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadUntagged.chat_id" href="#livechat.webhooks.v34.ThreadUntagged.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadUntagged.tag" href="#livechat.webhooks.v34.ThreadUntagged.tag">tag</a></code></li>
+<li><code><a title="livechat.webhooks.v34.ThreadUntagged.thread_id" href="#livechat.webhooks.v34.ThreadUntagged.thread_id">thread_id</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.UserAddedToChat" href="#webhooks.v34.UserAddedToChat">UserAddedToChat</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.UserAddedToChat" href="#livechat.webhooks.v34.UserAddedToChat">UserAddedToChat</a></code></h4>
 <ul class="two-column">
-<li><code><a title="webhooks.v34.UserAddedToChat.chat_id" href="#webhooks.v34.UserAddedToChat.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.UserAddedToChat.reason" href="#webhooks.v34.UserAddedToChat.reason">reason</a></code></li>
-<li><code><a title="webhooks.v34.UserAddedToChat.requester_id" href="#webhooks.v34.UserAddedToChat.requester_id">requester_id</a></code></li>
-<li><code><a title="webhooks.v34.UserAddedToChat.thread_id" href="#webhooks.v34.UserAddedToChat.thread_id">thread_id</a></code></li>
-<li><code><a title="webhooks.v34.UserAddedToChat.user" href="#webhooks.v34.UserAddedToChat.user">user</a></code></li>
-<li><code><a title="webhooks.v34.UserAddedToChat.user_type" href="#webhooks.v34.UserAddedToChat.user_type">user_type</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserAddedToChat.chat_id" href="#livechat.webhooks.v34.UserAddedToChat.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserAddedToChat.reason" href="#livechat.webhooks.v34.UserAddedToChat.reason">reason</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserAddedToChat.requester_id" href="#livechat.webhooks.v34.UserAddedToChat.requester_id">requester_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserAddedToChat.thread_id" href="#livechat.webhooks.v34.UserAddedToChat.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserAddedToChat.user" href="#livechat.webhooks.v34.UserAddedToChat.user">user</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserAddedToChat.user_type" href="#livechat.webhooks.v34.UserAddedToChat.user_type">user_type</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.UserRemovedFromChat" href="#webhooks.v34.UserRemovedFromChat">UserRemovedFromChat</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.UserRemovedFromChat" href="#livechat.webhooks.v34.UserRemovedFromChat">UserRemovedFromChat</a></code></h4>
 <ul class="two-column">
-<li><code><a title="webhooks.v34.UserRemovedFromChat.chat_id" href="#webhooks.v34.UserRemovedFromChat.chat_id">chat_id</a></code></li>
-<li><code><a title="webhooks.v34.UserRemovedFromChat.reason" href="#webhooks.v34.UserRemovedFromChat.reason">reason</a></code></li>
-<li><code><a title="webhooks.v34.UserRemovedFromChat.requester_id" href="#webhooks.v34.UserRemovedFromChat.requester_id">requester_id</a></code></li>
-<li><code><a title="webhooks.v34.UserRemovedFromChat.thread_id" href="#webhooks.v34.UserRemovedFromChat.thread_id">thread_id</a></code></li>
-<li><code><a title="webhooks.v34.UserRemovedFromChat.user_id" href="#webhooks.v34.UserRemovedFromChat.user_id">user_id</a></code></li>
-<li><code><a title="webhooks.v34.UserRemovedFromChat.user_type" href="#webhooks.v34.UserRemovedFromChat.user_type">user_type</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserRemovedFromChat.chat_id" href="#livechat.webhooks.v34.UserRemovedFromChat.chat_id">chat_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserRemovedFromChat.reason" href="#livechat.webhooks.v34.UserRemovedFromChat.reason">reason</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserRemovedFromChat.requester_id" href="#livechat.webhooks.v34.UserRemovedFromChat.requester_id">requester_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserRemovedFromChat.thread_id" href="#livechat.webhooks.v34.UserRemovedFromChat.thread_id">thread_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserRemovedFromChat.user_id" href="#livechat.webhooks.v34.UserRemovedFromChat.user_id">user_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.UserRemovedFromChat.user_type" href="#livechat.webhooks.v34.UserRemovedFromChat.user_type">user_type</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="webhooks.v34.WebhookV34" href="#webhooks.v34.WebhookV34">WebhookV34</a></code></h4>
+<h4><code><a title="livechat.webhooks.v34.WebhookV34" href="#livechat.webhooks.v34.WebhookV34">WebhookV34</a></code></h4>
 <ul class="two-column">
-<li><code><a title="webhooks.v34.WebhookV34.action" href="#webhooks.v34.WebhookV34.action">action</a></code></li>
-<li><code><a title="webhooks.v34.WebhookV34.additional_data" href="#webhooks.v34.WebhookV34.additional_data">additional_data</a></code></li>
-<li><code><a title="webhooks.v34.WebhookV34.organization_id" href="#webhooks.v34.WebhookV34.organization_id">organization_id</a></code></li>
-<li><code><a title="webhooks.v34.WebhookV34.payload" href="#webhooks.v34.WebhookV34.payload">payload</a></code></li>
-<li><code><a title="webhooks.v34.WebhookV34.payload_data_class" href="#webhooks.v34.WebhookV34.payload_data_class">payload_data_class</a></code></li>
-<li><code><a title="webhooks.v34.WebhookV34.secret_key" href="#webhooks.v34.WebhookV34.secret_key">secret_key</a></code></li>
-<li><code><a title="webhooks.v34.WebhookV34.webhook_id" href="#webhooks.v34.WebhookV34.webhook_id">webhook_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.WebhookV34.action" href="#livechat.webhooks.v34.WebhookV34.action">action</a></code></li>
+<li><code><a title="livechat.webhooks.v34.WebhookV34.additional_data" href="#livechat.webhooks.v34.WebhookV34.additional_data">additional_data</a></code></li>
+<li><code><a title="livechat.webhooks.v34.WebhookV34.organization_id" href="#livechat.webhooks.v34.WebhookV34.organization_id">organization_id</a></code></li>
+<li><code><a title="livechat.webhooks.v34.WebhookV34.payload" href="#livechat.webhooks.v34.WebhookV34.payload">payload</a></code></li>
+<li><code><a title="livechat.webhooks.v34.WebhookV34.payload_data_class" href="#livechat.webhooks.v34.WebhookV34.payload_data_class">payload_data_class</a></code></li>
+<li><code><a title="livechat.webhooks.v34.WebhookV34.secret_key" href="#livechat.webhooks.v34.WebhookV34.secret_key">secret_key</a></code></li>
+<li><code><a title="livechat.webhooks.v34.WebhookV34.webhook_id" href="#livechat.webhooks.v34.WebhookV34.webhook_id">webhook_id</a></code></li>
 </ul>
 </li>
 </ul>
@@ -2081,7 +2081,7 @@ action_to_data_class_mapping_v_34 = {
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

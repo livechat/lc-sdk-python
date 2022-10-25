@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>livechat.utils.http_client API documentation</title>
+<meta name="description" content="Base module with HTTP client class for session, sending requests and headers
+manipulation." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>livechat.utils.http_client</code></h1>
+</header>
+<section id="section-intro">
+<p>Base module with HTTP client class for session, sending requests and headers
+manipulation.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39; Base module with HTTP client class for session, sending requests and headers
+    manipulation. &#39;&#39;&#39;
+
+import httpx
+
+from livechat.utils.httpx_logger import HttpxLogger
+
+
+class HttpClient:
+    &#39;&#39;&#39; HTTP client class for session, sending requests and headers manipulation. &#39;&#39;&#39;
+    def __init__(self,
+                 token: str,
+                 base_url: str,
+                 http2: bool,
+                 proxies=None,
+                 verify: bool = True):
+        logger = HttpxLogger()
+        self.base_url = base_url
+        self.session = httpx.Client(http2=http2,
+                                    headers={&#39;Authorization&#39;: token},
+                                    event_hooks={
+                                        &#39;request&#39;: [logger.log_request],
+                                        &#39;response&#39;: [logger.log_response]
+                                    },
+                                    proxies=proxies,
+                                    verify=verify)
+
+    def modify_header(self, header: dict) -&gt; None:
+        &#39;&#39;&#39; Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        &#39;&#39;&#39;
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str) -&gt; None:
+        &#39;&#39;&#39; Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        &#39;&#39;&#39;
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -&gt; dict:
+        &#39;&#39;&#39; Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        &#39;&#39;&#39;
+        return dict(self.session.headers)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="livechat.utils.http_client.HttpClient"><code class="flex name class">
+<span>class <span class="ident">HttpClient</span></span>
+<span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>HTTP client class for session, sending requests and headers manipulation.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class HttpClient:
+    &#39;&#39;&#39; HTTP client class for session, sending requests and headers manipulation. &#39;&#39;&#39;
+    def __init__(self,
+                 token: str,
+                 base_url: str,
+                 http2: bool,
+                 proxies=None,
+                 verify: bool = True):
+        logger = HttpxLogger()
+        self.base_url = base_url
+        self.session = httpx.Client(http2=http2,
+                                    headers={&#39;Authorization&#39;: token},
+                                    event_hooks={
+                                        &#39;request&#39;: [logger.log_request],
+                                        &#39;response&#39;: [logger.log_response]
+                                    },
+                                    proxies=proxies,
+                                    verify=verify)
+
+    def modify_header(self, header: dict) -&gt; None:
+        &#39;&#39;&#39; Modifies provided header in session object.
+
+            Args:
+                header (dict): Header which needs to be modified.
+        &#39;&#39;&#39;
+        self.session.headers.update(header)
+
+    def remove_header(self, key: str) -&gt; None:
+        &#39;&#39;&#39; Removes provided header from session object.
+
+            Args:
+                key (str): Key which needs to be removed from the header.
+        &#39;&#39;&#39;
+        if key in self.session.headers:
+            del self.session.headers[key]
+
+    def get_headers(self) -&gt; dict:
+        &#39;&#39;&#39; Returns current header values in session object.
+
+            Returns:
+                dict: Response which presents current header values in session object.
+        &#39;&#39;&#39;
+        return dict(self.session.headers)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="livechat.agent.web.api.v33.AgentWebV33" href="../agent/web/api/v33.html#livechat.agent.web.api.v33.AgentWebV33">AgentWebV33</a></li>
+<li><a title="livechat.agent.web.api.v34.AgentWebV34" href="../agent/web/api/v34.html#livechat.agent.web.api.v34.AgentWebV34">AgentWebV34</a></li>
+<li><a title="livechat.agent.web.api.v35.AgentWebV35" href="../agent/web/api/v35.html#livechat.agent.web.api.v35.AgentWebV35">AgentWebV35</a></li>
+<li><a title="livechat.configuration.api.v33.ConfigurationApiV33" href="../configuration/api/v33.html#livechat.configuration.api.v33.ConfigurationApiV33">ConfigurationApiV33</a></li>
+<li><a title="livechat.configuration.api.v34.ConfigurationApiV34" href="../configuration/api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a></li>
+<li><a title="livechat.configuration.api.v35.ConfigurationApiV35" href="../configuration/api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a></li>
+<li><a title="livechat.customer.web.api.v33.CustomerWebV33" href="../customer/web/api/v33.html#livechat.customer.web.api.v33.CustomerWebV33">CustomerWebV33</a></li>
+<li><a title="livechat.customer.web.api.v34.CustomerWebV34" href="../customer/web/api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a></li>
+<li><a title="livechat.customer.web.api.v35.CustomerWebV35" href="../customer/web/api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a></li>
+<li><a title="livechat.reports.api.v33.ReportsApiV33" href="../reports/api/v33.html#livechat.reports.api.v33.ReportsApiV33">ReportsApiV33</a></li>
+<li><a title="livechat.reports.api.v34.ReportsApiV34" href="../reports/api/v34.html#livechat.reports.api.v34.ReportsApiV34">ReportsApiV34</a></li>
+<li><a title="livechat.reports.api.v35.ReportsApiV35" href="../reports/api/v35.html#livechat.reports.api.v35.ReportsApiV35">ReportsApiV35</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="livechat.utils.http_client.HttpClient.get_headers"><code class="name flex">
+<span>def <span class="ident">get_headers</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns current header values in session object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Response which presents current header values in session object.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_headers(self) -&gt; dict:
+    &#39;&#39;&#39; Returns current header values in session object.
+
+        Returns:
+            dict: Response which presents current header values in session object.
+    &#39;&#39;&#39;
+    return dict(self.session.headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.utils.http_client.HttpClient.modify_header"><code class="name flex">
+<span>def <span class="ident">modify_header</span></span>(<span>self, header: dict) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modifies provided header in session object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>header</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Header which needs to be modified.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def modify_header(self, header: dict) -&gt; None:
+    &#39;&#39;&#39; Modifies provided header in session object.
+
+        Args:
+            header (dict): Header which needs to be modified.
+    &#39;&#39;&#39;
+    self.session.headers.update(header)</code></pre>
+</details>
+</dd>
+<dt id="livechat.utils.http_client.HttpClient.remove_header"><code class="name flex">
+<span>def <span class="ident">remove_header</span></span>(<span>self, key: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes provided header from session object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>Key which needs to be removed from the header.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_header(self, key: str) -&gt; None:
+    &#39;&#39;&#39; Removes provided header from session object.
+
+        Args:
+            key (str): Key which needs to be removed from the header.
+    &#39;&#39;&#39;
+    if key in self.session.headers:
+        del self.session.headers[key]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="livechat.utils" href="index.html">livechat.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="livechat.utils.http_client.HttpClient" href="#livechat.utils.http_client.HttpClient">HttpClient</a></code></h4>
+<ul class="">
+<li><code><a title="livechat.utils.http_client.HttpClient.get_headers" href="#livechat.utils.http_client.HttpClient.get_headers">get_headers</a></code></li>
+<li><code><a title="livechat.utils.http_client.HttpClient.modify_header" href="#livechat.utils.http_client.HttpClient.modify_header">modify_header</a></code></li>
+<li><code><a title="livechat.utils.http_client.HttpClient.remove_header" href="#livechat.utils.http_client.HttpClient.remove_header">remove_header</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
