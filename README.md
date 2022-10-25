@@ -2,25 +2,11 @@
 
 This Software Development Kit written in Python3 helps developers build external backend apps that extend LiveChat features. The SDK makes it easy to use Agent Chat API, Customer Chat API and Configuration API.
 
-## API protocol docs
+## Documentation
 
-For protocol documentation of LiveChat APIs, please go to [Livechat Platform Docs](https://developers.livechatinc.com/docs/).
+For protocol documentation of LiveChat APIs, please go to [LiveChat Platform Docs](https://developers.livechatinc.com/docs/).
 
-## Technical docs
-
-Agent Chat API:
-* [RTM API](https://livechat.github.io/lc-sdk-python/agent_rtm/index.html)
-* [WEB API](https://livechat.github.io/lc-sdk-python/agent_web/index.html)
-
-Customer Chat API:
-* [RTM API](https://livechat.github.io/lc-sdk-python/customer_rtm/index.html)
-* [WEB API](https://livechat.github.io/lc-sdk-python/customer_web/index.html)
-
-Management:
-* [Configuration API](https://livechat.github.io/lc-sdk-python/configuration/index.html)
-
-Reports:
-* [Reports API](https://livechat.github.io/lc-sdk-python/reports/index.html)
+For internal documentation of the SDK, please check: [Technical documentation](https://livechat.github.io/lc-sdk-python/docs/index.html).
 
 ## Installation
 
