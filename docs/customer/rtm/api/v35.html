@@ -1321,7 +1321,7 @@ class CustomerRtmV35:
 <h3>Methods</h3>
 <dl>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.accept_greeting"><code class="name flex">
-<span>def <span class="ident">accept_greeting</span></span>(<span>self, greeting_id: int = None, unique_id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">accept_greeting</span></span>(<span>self, greeting_id: int = None, unique_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Marks an incoming greeting as seen.</p>
@@ -1367,7 +1367,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.cancel_greeting"><code class="name flex">
-<span>def <span class="ident">cancel_greeting</span></span>(<span>self, unique_id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">cancel_greeting</span></span>(<span>self, unique_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Cancels a greeting.</p>
@@ -1423,7 +1423,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.deactivate_chat"><code class="name flex">
-<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deactivates a chat by closing the currently open thread.</p>
@@ -1465,7 +1465,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.delete_chat_properties"><code class="name flex">
-<span>def <span class="ident">delete_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">delete_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deletes chat properties.</p>
@@ -1514,7 +1514,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.delete_event_properties"><code class="name flex">
-<span>def <span class="ident">delete_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">delete_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deletes event properties.</p>
@@ -1571,7 +1571,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.delete_thread_properties"><code class="name flex">
-<span>def <span class="ident">delete_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">delete_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Deletes thread properties.</p>
@@ -1624,7 +1624,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.get_chat"><code class="name flex">
-<span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>It returns a thread that the current Customer has access to in a given chat.</p>
@@ -1670,7 +1670,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.get_customer"><code class="name flex">
-<span>def <span class="ident">get_customer</span></span>(<span>self, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">get_customer</span></span>(<span>self, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the info about the customer requesting it.</p>
@@ -1708,7 +1708,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.get_form"><code class="name flex">
-<span>def <span class="ident">get_form</span></span>(<span>self, group_id: int = None, type: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">get_form</span></span>(<span>self, group_id: int = None, type: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns an empty ticket form of a prechat or postchat survey.</p>
@@ -1754,7 +1754,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.get_predicted_agent"><code class="name flex">
-<span>def <span class="ident">get_predicted_agent</span></span>(<span>self, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">get_predicted_agent</span></span>(<span>self, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the predicted Agent - the one the Customer will chat with when the chat starts.</p>
@@ -1792,7 +1792,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.get_url_info"><code class="name flex">
-<span>def <span class="ident">get_url_info</span></span>(<span>self, url: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">get_url_info</span></span>(<span>self, url: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>It returns the info on a given URL.</p>
@@ -1834,7 +1834,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.list_chats"><code class="name flex">
-<span>def <span class="ident">list_chats</span></span>(<span>self, limit: int = None, sort_order: str = None, page_id: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">list_chats</span></span>(<span>self, limit: int = None, sort_order: str = None, page_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>It returns summaries of the chats a Customer participated in.</p>
@@ -1886,7 +1886,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.list_group_statuses"><code class="name flex">
-<span>def <span class="ident">list_group_statuses</span></span>(<span>self, all: bool = None, group_ids: list = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">list_group_statuses</span></span>(<span>self, all: bool = None, group_ids: list = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Lists statuses of groups.</p>
@@ -1935,7 +1935,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.list_threads"><code class="name flex">
-<span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, sort_order: str = None, limit: int = None, page_id: str = None, min_events_count: int = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, sort_order: str = None, limit: int = None, page_id: str = None, min_events_count: int = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>It returns threads that the current Customer has access to in a given chat.</p>
@@ -1996,7 +1996,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.login"><code class="name flex">
-<span>def <span class="ident">login</span></span>(<span>self, token: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">login</span></span>(<span>self, token: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Logs in customer.</p>
@@ -2035,7 +2035,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.mark_events_as_seen"><code class="name flex">
-<span>def <span class="ident">mark_events_as_seen</span></span>(<span>self, chat_id: str = None, seen_up_to: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">mark_events_as_seen</span></span>(<span>self, chat_id: str = None, seen_up_to: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Marks events as seen by agent.</p>
@@ -2109,7 +2109,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.resume_chat"><code class="name flex">
-<span>def <span class="ident">resume_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">resume_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Restarts an archived chat.</p>
@@ -2159,7 +2159,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.send_event"><code class="name flex">
-<span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends an Event object.</p>
@@ -2209,7 +2209,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.send_rich_message_postback"><code class="name flex">
-<span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, postback: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, postback: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends rich message postback.</p>
@@ -2266,7 +2266,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.send_sneak_peek"><code class="name flex">
-<span>def <span class="ident">send_sneak_peek</span></span>(<span>self, chat_id: str = None, sneak_peek_text: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">send_sneak_peek</span></span>(<span>self, chat_id: str = None, sneak_peek_text: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends a sneak peek to a chat.</p>
@@ -2312,7 +2312,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.set_customer_session_fields"><code class="name flex">
-<span>def <span class="ident">set_customer_session_fields</span></span>(<span>self, session_fields: list = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">set_customer_session_fields</span></span>(<span>self, session_fields: list = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sets customer's session fields.</p>
@@ -2357,7 +2357,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.start_chat"><code class="name flex">
-<span>def <span class="ident">start_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">start_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Starts a chat.</p>
@@ -2407,7 +2407,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.update_chat_properties"><code class="name flex">
-<span>def <span class="ident">update_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">update_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates chat properties.</p>
@@ -2456,7 +2456,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.update_customer"><code class="name flex">
-<span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates customer's properties.</p>
@@ -2512,7 +2512,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.update_customer_page"><code class="name flex">
-<span>def <span class="ident">update_customer_page</span></span>(<span>self, url: str = None, title: str = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">update_customer_page</span></span>(<span>self, url: str = None, title: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates customer's page.</p>
@@ -2561,7 +2561,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.update_event_properties"><code class="name flex">
-<span>def <span class="ident">update_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">update_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates event properties.</p>
@@ -2618,7 +2618,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v35.CustomerRtmV35.update_thread_properties"><code class="name flex">
-<span>def <span class="ident">update_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> <a title="livechat.utils.structures.RtmResponse" href="../../../utils/structures.html#livechat.utils.structures.RtmResponse">RtmResponse</a></span>
+<span>def <span class="ident">update_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates thread properties.</p>
