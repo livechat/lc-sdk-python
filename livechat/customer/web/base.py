@@ -43,7 +43,7 @@ class CustomerWeb:
                 verify (bool): SSL certificates (a.k.a CA bundle) used to
                                verify the identity of requested hosts. Either `True` (default CA bundle),
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
-                               (which will disable verification). Defaults to True.
+                               (which will disable verification). Defaults to `True`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
