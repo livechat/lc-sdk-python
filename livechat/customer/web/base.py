@@ -33,17 +33,17 @@ class CustomerWeb:
 
             Args:
                 license_id (int): License ID. Required to use for API version <= 3.3.
-                token (str): Full token with type (Bearer/Basic) that will be
+                access_token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to the stable version of API.
                 base_url (str): API's base url. Defaults to API's production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
-                proxies (dict): Optional. A dictionary mapping proxy keys to proxy URLs.
-                verify (bool): Oprional. SSL certificates (a.k.a CA bundle) used to
+                proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): SSL certificates (a.k.a CA bundle) used to
                                verify the identity of requested hosts. Either `True` (default CA bundle),
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
-                               (which will disable verification).
+                               (which will disable verification). Defaults to True.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:

@@ -35,12 +35,11 @@ class AgentWeb:
                 base_url (str): API's base url. Defaults to API's production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
-                proxies (dict): Optional. A dictionary mapping proxy keys to proxy URLs.
-                verify (bool): Oprional. SSL certificates (a.k.a CA bundle) used to
+                proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): SSL certificates (a.k.a CA bundle) used to
                                verify the identity of requested hosts. Either `True` (default CA bundle),
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
-                               (which will disable verification).
-
+                               (which will disable verification). Defaults to True.
             Returns:
                 API client object for specified version.
 

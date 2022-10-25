@@ -4,17 +4,17 @@ All notable changes to this project will be documented in this file.
 ## [0.3.4] - TBA
 
 ### Added
-- New method in configuration-api v3.5: `list_groups_properties`, `get_product_source`.
+- New methods in configuration-api v3.5: `list_groups_properties`, `get_product_source`.
 - Support for `default_group_priority` parameter in `create_bot` and `update_bot` methods in configuration-api v3.3/v3.4/v3.5 classes.
 - Support for `job_title` parameter in `create_bot` method in configuration-api v3.3/v3.4/v3.5 classes.
 - Support for `proxies` and `verify` parameters for web base clients.
 
 ### Changed
-- Rename method `tag_chat_usage` to `chat_usage` in reports-api v3.5
+- Renamed method `tag_chat_usage` to `chat_usage` in reports-api v3.5
 
 ### Bugfixes
 - Fix paths for `response_time` and `first_response_time` methods in reports-api v3.4/v3.5 classes.
-- Fix `upload_file` method in agent-api v3.4/v3.5 classes
+- Fix `upload_file` method in agent-api v3.4/v3.5 classes.
 
 ### Removed
 - Support for `list_group_properties`, `get_license_id` and `get_organization_id` method in configuration-api v3.5 class.
