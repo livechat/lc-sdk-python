@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 - Support for `proxies` and `verify` parameters for web base clients.
 
 ### Changed
-- Renamed method `tag_chat_usage` to `chat_usage` in reports-api v3.5
+- Renamed method `tag_chat_usage` to `chat_usage` in reports-api v3.5.
 
 ### Bugfixes
 - Fix paths for `response_time` and `first_response_time` methods in reports-api v3.4/v3.5 classes.
