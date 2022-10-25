@@ -426,9 +426,8 @@ class ConfigurationApiV34(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
-                   default_group_priority: str = None,
-                   job_title: str = None,
                    groups: list = None,
+                   webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    owner_client_id: str = None,
@@ -440,9 +439,8 @@ class ConfigurationApiV34(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
-                default_group_priority (str): The default routing priority for a group without defined priority.
-                job_title (str): Bot&#39;s job title.
                 groups (list): Groups the Bot belongs to.
+                webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
                 owner_client_id (str): Required only when authorizing via PATs.
@@ -492,7 +490,6 @@ class ConfigurationApiV34(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
-                   default_group_priority: str = None,
                    groups: list = None,
                    webhooks: dict = None,
                    work_scheduler: dict = None,
@@ -506,7 +503,6 @@ class ConfigurationApiV34(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
-                default_group_priority (str): The default routing priority for a group without defined priority.
                 groups (list): Groups the Bot belongs to.
                 webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
@@ -1637,9 +1633,8 @@ class ConfigurationApiV34(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
-                   default_group_priority: str = None,
-                   job_title: str = None,
                    groups: list = None,
+                   webhooks: dict = None,
                    work_scheduler: dict = None,
                    timezone: str = None,
                    owner_client_id: str = None,
@@ -1651,9 +1646,8 @@ class ConfigurationApiV34(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
-                default_group_priority (str): The default routing priority for a group without defined priority.
-                job_title (str): Bot&#39;s job title.
                 groups (list): Groups the Bot belongs to.
+                webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
                 timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
                 owner_client_id (str): Required only when authorizing via PATs.
@@ -1703,7 +1697,6 @@ class ConfigurationApiV34(HttpClient):
                    name: str = None,
                    avatar: str = None,
                    max_chats_count: int = None,
-                   default_group_priority: str = None,
                    groups: list = None,
                    webhooks: dict = None,
                    work_scheduler: dict = None,
@@ -1717,7 +1710,6 @@ class ConfigurationApiV34(HttpClient):
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
-                default_group_priority (str): The default routing priority for a group without defined priority.
                 groups (list): Groups the Bot belongs to.
                 webhooks (dict): Webhooks sent to the Bot.
                 work_scheduler (dict): Work scheduler options to set for the new Bot.
@@ -2664,7 +2656,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v34.ConfigurationApiV34.create_bot"><code class="name flex">
-<span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, default_group_priority: str = None, job_title: str = None, groups: list = None, work_scheduler: dict = None, timezone: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a new Bot.</p>
@@ -2676,12 +2668,10 @@ which contains a server’s response to an HTTP request.</dd>
 <dd>Avatar URL.</dd>
 <dt><strong><code>max_chats_count</code></strong> :&ensp;<code>int</code></dt>
 <dd>Max. number of incoming chats that can be routed to the Bot; default: 6.</dd>
-<dt><strong><code>default_group_priority</code></strong> :&ensp;<code>str</code></dt>
-<dd>The default routing priority for a group without defined priority.</dd>
-<dt><strong><code>job_title</code></strong> :&ensp;<code>str</code></dt>
-<dd>Bot's job title.</dd>
 <dt><strong><code>groups</code></strong> :&ensp;<code>list</code></dt>
 <dd>Groups the Bot belongs to.</dd>
+<dt><strong><code>webhooks</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Webhooks sent to the Bot.</dd>
 <dt><strong><code>work_scheduler</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Work scheduler options to set for the new Bot.</dd>
 <dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
@@ -2711,9 +2701,8 @@ which contains a server’s response to an HTTP request.</dd>
                name: str = None,
                avatar: str = None,
                max_chats_count: int = None,
-               default_group_priority: str = None,
-               job_title: str = None,
                groups: list = None,
+               webhooks: dict = None,
                work_scheduler: dict = None,
                timezone: str = None,
                owner_client_id: str = None,
@@ -2725,9 +2714,8 @@ which contains a server’s response to an HTTP request.</dd>
             name (str): Display name.
             avatar (str): Avatar URL.
             max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
-            default_group_priority (str): The default routing priority for a group without defined priority.
-            job_title (str): Bot&#39;s job title.
             groups (list): Groups the Bot belongs to.
+            webhooks (dict): Webhooks sent to the Bot.
             work_scheduler (dict): Work scheduler options to set for the new Bot.
             timezone (str): The time zone in which the Bot&#39;s work scheduler should operate.
             owner_client_id (str): Required only when authorizing via PATs.
@@ -4681,7 +4669,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="configuration.api.v34.ConfigurationApiV34.update_bot"><code class="name flex">
-<span>def <span class="ident">update_bot</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, default_group_priority: str = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">update_bot</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, webhooks: dict = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates an existing Bot.</p>
@@ -4695,8 +4683,6 @@ which contains a server’s response to an HTTP request.</dd>
 <dd>Avatar URL.</dd>
 <dt><strong><code>max_chats_count</code></strong> :&ensp;<code>int</code></dt>
 <dd>Max. number of incoming chats that can be routed to the Bot.</dd>
-<dt><strong><code>default_group_priority</code></strong> :&ensp;<code>str</code></dt>
-<dd>The default routing priority for a group without defined priority.</dd>
 <dt><strong><code>groups</code></strong> :&ensp;<code>list</code></dt>
 <dd>Groups the Bot belongs to.</dd>
 <dt><strong><code>webhooks</code></strong> :&ensp;<code>dict</code></dt>
@@ -4728,7 +4714,6 @@ which contains a server’s response to an HTTP request.</dd>
                name: str = None,
                avatar: str = None,
                max_chats_count: int = None,
-               default_group_priority: str = None,
                groups: list = None,
                webhooks: dict = None,
                work_scheduler: dict = None,
@@ -4742,7 +4727,6 @@ which contains a server’s response to an HTTP request.</dd>
             name (str): Display name.
             avatar (str): Avatar URL.
             max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
-            default_group_priority (str): The default routing priority for a group without defined priority.
             groups (list): Groups the Bot belongs to.
             webhooks (dict): Webhooks sent to the Bot.
             work_scheduler (dict): Work scheduler options to set for the new Bot.
