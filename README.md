@@ -6,7 +6,7 @@ This Software Development Kit written in Python3 helps developers build external
 
 For protocol documentation of LiveChat APIs, please go to [LiveChat Platform Docs](https://developers.livechatinc.com/docs/).
 
-For internal documentation of the SDK, please check: [Technical documentation](https://livechat.github.io/lc-sdk-python/docs/index.html).
+For internal documentation of the SDK, please check: [Technical documentation](https://livechat.github.io/lc-sdk-python/index.html).
 
 ## Installation
 
