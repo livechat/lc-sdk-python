@@ -447,7 +447,7 @@ class AgentWebV34(HttpClient):
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. '''
         return self.session.post(f'{self.api_url}/upload_file',
-                                 content=file.read(),
+                                 file=file,
                                  headers=headers)
 
     def send_rich_message_postback(self,

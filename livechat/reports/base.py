@@ -24,7 +24,9 @@ class ReportsApi:
         token: str,
         version: str = stable_version,
         base_url: str = api_url,
-        http2: bool = False
+        http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True
     ) -> Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
         ''' Returns client for specific Reports API version.
 
@@ -35,6 +37,11 @@ class ReportsApi:
                 base_url (str): API's base url. Defaults to API's production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
+                proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): SSL certificates (a.k.a CA bundle) used to
+                               verify the identity of requested hosts. Either `True` (default CA bundle),
+                               a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                               (which will disable verification). Defaults to `True`.
 
             Returns:
                 ReportsApi: API client object for specified version.
@@ -43,9 +50,9 @@ class ReportsApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': ReportsApiV33(token, base_url, http2),
-            '3.4': ReportsApiV34(token, base_url, http2),
-            '3.5': ReportsApiV35(token, base_url, http2),
+            '3.3': ReportsApiV33(token, base_url, http2, proxies, verify),
+            '3.4': ReportsApiV34(token, base_url, http2, proxies, verify),
+            '3.5': ReportsApiV35(token, base_url, http2, proxies, verify),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

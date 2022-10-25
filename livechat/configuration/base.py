@@ -23,7 +23,9 @@ class ConfigurationApi:
         token: str,
         version: str = stable_version,
         base_url: str = api_url,
-        http2: bool = False
+        http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True
     ) -> Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35]:
         ''' Returns client for specific Configuration API version.
 
@@ -34,6 +36,11 @@ class ConfigurationApi:
                 base_url (str): API's base url. Defaults to API's production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
+                proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): SSL certificates (a.k.a CA bundle) used to
+                               verify the identity of requested hosts. Either `True` (default CA bundle),
+                               a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                               (which will disable verification). Defaults to `True`.
 
             Returns:
                 ConfigurationApi: API client object for specified version.
@@ -42,9 +49,12 @@ class ConfigurationApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': ConfigurationApiV33(token, base_url, http2),
-            '3.4': ConfigurationApiV34(token, base_url, http2),
-            '3.5': ConfigurationApiV35(token, base_url, http2),
+            '3.3': ConfigurationApiV33(token, base_url, http2, proxies,
+                                       verify),
+            '3.4': ConfigurationApiV34(token, base_url, http2, proxies,
+                                       verify),
+            '3.5': ConfigurationApiV35(token, base_url, http2, proxies,
+                                       verify),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
