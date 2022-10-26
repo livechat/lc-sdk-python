@@ -54,7 +54,9 @@ class ConfigurationApi:
         token: str,
         version: str = stable_version,
         base_url: str = api_url,
-        http2: bool = False
+        http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True
     ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35]:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
@@ -65,6 +67,11 @@ class ConfigurationApi:
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
+                proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): SSL certificates (a.k.a CA bundle) used to
+                               verify the identity of requested hosts. Either `True` (default CA bundle),
+                               a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                               (which will disable verification). Defaults to `True`.
 
             Returns:
                 ConfigurationApi: API client object for specified version.
@@ -73,9 +80,12 @@ class ConfigurationApi:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: ConfigurationApiV33(token, base_url, http2),
-            &#39;3.4&#39;: ConfigurationApiV34(token, base_url, http2),
-            &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2),
+            &#39;3.3&#39;: ConfigurationApiV33(token, base_url, http2, proxies,
+                                       verify),
+            &#39;3.4&#39;: ConfigurationApiV34(token, base_url, http2, proxies,
+                                       verify),
+            &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2, proxies,
+                                       verify),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -109,7 +119,9 @@ API version.</p></div>
         token: str,
         version: str = stable_version,
         base_url: str = api_url,
-        http2: bool = False
+        http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True
     ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35]:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
@@ -120,6 +132,11 @@ API version.</p></div>
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
+                proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): SSL certificates (a.k.a CA bundle) used to
+                               verify the identity of requested hosts. Either `True` (default CA bundle),
+                               a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                               (which will disable verification). Defaults to `True`.
 
             Returns:
                 ConfigurationApi: API client object for specified version.
@@ -128,9 +145,12 @@ API version.</p></div>
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: ConfigurationApiV33(token, base_url, http2),
-            &#39;3.4&#39;: ConfigurationApiV34(token, base_url, http2),
-            &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2),
+            &#39;3.3&#39;: ConfigurationApiV33(token, base_url, http2, proxies,
+                                       verify),
+            &#39;3.4&#39;: ConfigurationApiV34(token, base_url, http2, proxies,
+                                       verify),
+            &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2, proxies,
+                                       verify),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -139,7 +159,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.configuration.base.ConfigurationApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False) ‑> Union[<a title="livechat.configuration.api.v33.ConfigurationApiV33" href="api/v33.html#livechat.configuration.api.v33.ConfigurationApiV33">ConfigurationApiV33</a>, <a title="livechat.configuration.api.v34.ConfigurationApiV34" href="api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a>, <a title="livechat.configuration.api.v35.ConfigurationApiV35" href="api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True) ‑> Union[<a title="livechat.configuration.api.v33.ConfigurationApiV33" href="api/v33.html#livechat.configuration.api.v33.ConfigurationApiV33">ConfigurationApiV33</a>, <a title="livechat.configuration.api.v34.ConfigurationApiV34" href="api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a>, <a title="livechat.configuration.api.v35.ConfigurationApiV35" href="api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -155,6 +175,13 @@ used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>http2</code></strong> :&ensp;<code>bool</code></dt>
 <dd>A boolean indicating if HTTP/2 support should be
 enabled. Defaults to <code>False</code>.</dd>
+<dt><strong><code>proxies</code></strong> :&ensp;<code>dict</code></dt>
+<dd>A dictionary mapping proxy keys to proxy URLs.</dd>
+<dt><strong><code>verify</code></strong> :&ensp;<code>bool</code></dt>
+<dd>SSL certificates (a.k.a CA bundle) used to
+verify the identity of requested hosts. Either <code>True</code> (default CA bundle),
+a path to an SSL certificate file, an <code>ssl.SSLContext</code>, or <code>False</code>
+(which will disable verification). Defaults to <code>True</code>.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -175,7 +202,9 @@ def get_client(
     token: str,
     version: str = stable_version,
     base_url: str = api_url,
-    http2: bool = False
+    http2: bool = False,
+    proxies: dict = None,
+    verify: bool = True
 ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35]:
     &#39;&#39;&#39; Returns client for specific Configuration API version.
 
@@ -186,6 +215,11 @@ def get_client(
             base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
             http2 (bool): A boolean indicating if HTTP/2 support should be
                           enabled. Defaults to `False`.
+            proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+            verify (bool): SSL certificates (a.k.a CA bundle) used to
+                           verify the identity of requested hosts. Either `True` (default CA bundle),
+                           a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                           (which will disable verification). Defaults to `True`.
 
         Returns:
             ConfigurationApi: API client object for specified version.
@@ -194,9 +228,12 @@ def get_client(
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-        &#39;3.3&#39;: ConfigurationApiV33(token, base_url, http2),
-        &#39;3.4&#39;: ConfigurationApiV34(token, base_url, http2),
-        &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2),
+        &#39;3.3&#39;: ConfigurationApiV33(token, base_url, http2, proxies,
+                                   verify),
+        &#39;3.4&#39;: ConfigurationApiV34(token, base_url, http2, proxies,
+                                   verify),
+        &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2, proxies,
+                                   verify),
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)

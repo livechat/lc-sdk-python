@@ -312,7 +312,7 @@ class ReportsApiV34(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+        return self.session.post(f&#39;{self.api_url}/chats/response_time&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -342,7 +342,7 @@ class ReportsApiV34(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
+        return self.session.post(f&#39;{self.api_url}/chats/first_response_time&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -705,7 +705,7 @@ class ReportsApiV34(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+        return self.session.post(f&#39;{self.api_url}/chats/response_time&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -735,7 +735,7 @@ class ReportsApiV34(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
+        return self.session.post(f&#39;{self.api_url}/chats/first_response_time&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -1058,7 +1058,7 @@ which contains a server’s response to an HTTP request.</dd>
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
+    return self.session.post(f&#39;{self.api_url}/chats/first_response_time&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -1378,7 +1378,7 @@ which contains a server’s response to an HTTP request.</dd>
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+    return self.session.post(f&#39;{self.api_url}/chats/response_time&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
