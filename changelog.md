@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.3.4] - TBA
+## [0.3.4] - 2022-10-26
 
 ### Added
 - New methods in configuration-api v3.5: `list_groups_properties`, `get_product_source`.
@@ -11,13 +11,11 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Renamed method `tag_chat_usage` to `chat_usage` in reports-api v3.5.
+- Internal documentation main page and structure.
 
 ### Bugfixes
 - Fix paths for `response_time` and `first_response_time` methods in reports-api v3.4/v3.5 classes.
 - Fix `upload_file` method in agent-api v3.4/v3.5 classes.
-
-### Changed
-- Internal documentation main page and structure.
 
 ### Removed
 - Support for `list_group_properties`, `get_license_id` and `get_organization_id` method in configuration-api v3.5 class.

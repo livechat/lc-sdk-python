@@ -54,18 +54,25 @@ class CustomerWeb:
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True,
         organization_id: str = None
     ) -&gt; Union[CustomerWebV33, CustomerWebV34, CustomerWebV35]:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
                 license_id (int): License ID. Required to use for API version &lt;= 3.3.
-                token (str): Full token with type (Bearer/Basic) that will be
+                access_token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
                 version (str): API&#39;s version. Defaults to the stable version of API.
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
+                proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): SSL certificates (a.k.a CA bundle) used to
+                               verify the identity of requested hosts. Either `True` (default CA bundle),
+                               a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                               (which will disable verification). Defaults to `True`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -85,19 +92,25 @@ class CustomerWeb:
                 &#39;license_id&#39;: license_id,
                 &#39;access_token&#39;: access_token,
                 &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify
             },
             &#39;3.4&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;access_token&#39;: access_token,
                 &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify
             },
             &#39;3.5&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;access_token&#39;: access_token,
                 &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify
             },
         }.get(version)
         if client:
@@ -134,18 +147,25 @@ API version.</p></div>
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True,
         organization_id: str = None
     ) -&gt; Union[CustomerWebV33, CustomerWebV34, CustomerWebV35]:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
                 license_id (int): License ID. Required to use for API version &lt;= 3.3.
-                token (str): Full token with type (Bearer/Basic) that will be
+                access_token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
                 version (str): API&#39;s version. Defaults to the stable version of API.
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
+                proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+                verify (bool): SSL certificates (a.k.a CA bundle) used to
+                               verify the identity of requested hosts. Either `True` (default CA bundle),
+                               a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                               (which will disable verification). Defaults to `True`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
 
             Returns:
@@ -165,19 +185,25 @@ API version.</p></div>
                 &#39;license_id&#39;: license_id,
                 &#39;access_token&#39;: access_token,
                 &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify
             },
             &#39;3.4&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;access_token&#39;: access_token,
                 &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify
             },
             &#39;3.5&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;access_token&#39;: access_token,
                 &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify
             },
         }.get(version)
         if client:
@@ -187,7 +213,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.web.base.CustomerWeb.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: str = None, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False, organization_id: str = None) ‑> Union[<a title="livechat.customer.web.api.v33.CustomerWebV33" href="api/v33.html#livechat.customer.web.api.v33.CustomerWebV33">CustomerWebV33</a>, <a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: str = None, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None) ‑> Union[<a title="livechat.customer.web.api.v33.CustomerWebV33" href="api/v33.html#livechat.customer.web.api.v33.CustomerWebV33">CustomerWebV33</a>, <a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific API version.</p>
@@ -195,7 +221,7 @@ API version.</p></div>
 <dl>
 <dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
 <dd>License ID. Required to use for API version &lt;= 3.3.</dd>
-<dt><strong><code>token</code></strong> :&ensp;<code>str</code></dt>
+<dt><strong><code>access_token</code></strong> :&ensp;<code>str</code></dt>
 <dd>Full token with type (Bearer/Basic) that will be
 used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>version</code></strong> :&ensp;<code>str</code></dt>
@@ -205,6 +231,13 @@ used as <code>Authorization</code> header in requests to API.</dd>
 <dt><strong><code>http2</code></strong> :&ensp;<code>bool</code></dt>
 <dd>A boolean indicating if HTTP/2 support should be
 enabled. Defaults to <code>False</code>.</dd>
+<dt><strong><code>proxies</code></strong> :&ensp;<code>dict</code></dt>
+<dd>A dictionary mapping proxy keys to proxy URLs.</dd>
+<dt><strong><code>verify</code></strong> :&ensp;<code>bool</code></dt>
+<dd>SSL certificates (a.k.a CA bundle) used to
+verify the identity of requested hosts. Either <code>True</code> (default CA bundle),
+a path to an SSL certificate file, an <code>ssl.SSLContext</code>, or <code>False</code>
+(which will disable verification). Defaults to <code>True</code>.</dd>
 <dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Organization ID, replaced license ID in v3.4.</dd>
 </dl>
@@ -227,18 +260,25 @@ def get_client(
     version: str = stable_version,
     base_url: str = api_url,
     http2: bool = False,
+    proxies: dict = None,
+    verify: bool = True,
     organization_id: str = None
 ) -&gt; Union[CustomerWebV33, CustomerWebV34, CustomerWebV35]:
     &#39;&#39;&#39; Returns client for specific API version.
 
         Args:
             license_id (int): License ID. Required to use for API version &lt;= 3.3.
-            token (str): Full token with type (Bearer/Basic) that will be
+            access_token (str): Full token with type (Bearer/Basic) that will be
                          used as `Authorization` header in requests to API.
             version (str): API&#39;s version. Defaults to the stable version of API.
             base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
             http2 (bool): A boolean indicating if HTTP/2 support should be
                           enabled. Defaults to `False`.
+            proxies (dict): A dictionary mapping proxy keys to proxy URLs.
+            verify (bool): SSL certificates (a.k.a CA bundle) used to
+                           verify the identity of requested hosts. Either `True` (default CA bundle),
+                           a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
+                           (which will disable verification). Defaults to `True`.
             organization_id (str): Organization ID, replaced license ID in v3.4.
 
         Returns:
@@ -258,19 +298,25 @@ def get_client(
             &#39;license_id&#39;: license_id,
             &#39;access_token&#39;: access_token,
             &#39;base_url&#39;: base_url,
-            &#39;http2&#39;: http2
+            &#39;http2&#39;: http2,
+            &#39;proxies&#39;: proxies,
+            &#39;verify&#39;: verify
         },
         &#39;3.4&#39;: {
             &#39;organization_id&#39;: organization_id,
             &#39;access_token&#39;: access_token,
             &#39;base_url&#39;: base_url,
-            &#39;http2&#39;: http2
+            &#39;http2&#39;: http2,
+            &#39;proxies&#39;: proxies,
+            &#39;verify&#39;: verify
         },
         &#39;3.5&#39;: {
             &#39;organization_id&#39;: organization_id,
             &#39;access_token&#39;: access_token,
             &#39;base_url&#39;: base_url,
-            &#39;http2&#39;: http2
+            &#39;http2&#39;: http2,
+            &#39;proxies&#39;: proxies,
+            &#39;verify&#39;: verify
         },
     }.get(version)
     if client:

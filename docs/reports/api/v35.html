@@ -312,7 +312,7 @@ class ReportsApiV35(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+        return self.session.post(f&#39;{self.api_url}/chats/response_time&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -342,7 +342,7 @@ class ReportsApiV35(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
+        return self.session.post(f&#39;{self.api_url}/chats/first_response_time&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -411,11 +411,11 @@ class ReportsApiV35(HttpClient):
 
 # Tags
 
-    def tags_chat_usage(self,
-                        timezone: str = None,
-                        filters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
+    def chat_usage(self,
+                   timezone: str = None,
+                   filters: dict = None,
+                   payload: dict = None,
+                   headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Shows the total number of chats marked with each tag.
 
         Args:
@@ -736,7 +736,7 @@ class ReportsApiV35(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+        return self.session.post(f&#39;{self.api_url}/chats/response_time&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -766,7 +766,7 @@ class ReportsApiV35(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
+        return self.session.post(f&#39;{self.api_url}/chats/first_response_time&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -835,11 +835,11 @@ class ReportsApiV35(HttpClient):
 
 # Tags
 
-    def tags_chat_usage(self,
-                        timezone: str = None,
-                        filters: dict = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
+    def chat_usage(self,
+                   timezone: str = None,
+                   filters: dict = None,
+                   payload: dict = None,
+                   headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Shows the total number of chats marked with each tag.
 
         Args:
@@ -929,6 +929,66 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/agents/availability&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.reports.api.v35.ReportsApiV35.chat_usage"><code class="name flex">
+<span>def <span class="ident">chat_usage</span></span>(<span>self, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the total number of chats marked with each tag.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
+<dd>IANA Time Zone (e.g. America/Phoenix).
+Defaults to the requester's timezone.
+When the requester's timezone isn't present, then <code>filters.from</code> is parsed to get the timezone.</dd>
+<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
+<dd>If none provided, your report will span the last seven days.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def chat_usage(self,
+               timezone: str = None,
+               filters: dict = None,
+               payload: dict = None,
+               headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Shows the total number of chats marked with each tag.
+
+    Args:
+        timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                        Defaults to the requester&#39;s timezone.
+                        When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+        filters (dict): If none provided, your report will span the last seven days.
+        payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+        headers (dict): Custom headers to be used with session headers.
+                        They will be merged with session-level values that are set,
+                        however, these method-level parameters will not be persisted across requests.
+
+    Returns:
+        httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/tags/chat_usage&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -1120,7 +1180,7 @@ which contains a server’s response to an HTTP request.</dd>
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/agents/first_response_time&#39;,
+    return self.session.post(f&#39;{self.api_url}/chats/first_response_time&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -1440,7 +1500,7 @@ which contains a server’s response to an HTTP request.</dd>
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/agents/response_time&#39;,
+    return self.session.post(f&#39;{self.api_url}/chats/response_time&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -1569,66 +1629,6 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.reports.api.v35.ReportsApiV35.tags_chat_usage"><code class="name flex">
-<span>def <span class="ident">tags_chat_usage</span></span>(<span>self, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Shows the total number of chats marked with each tag.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
-<dd>IANA Time Zone (e.g. America/Phoenix).
-Defaults to the requester's timezone.
-When the requester's timezone isn't present, then <code>filters.from</code> is parsed to get the timezone.</dd>
-<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
-<dd>If none provided, your report will span the last seven days.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def tags_chat_usage(self,
-                    timezone: str = None,
-                    filters: dict = None,
-                    payload: dict = None,
-                    headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Shows the total number of chats marked with each tag.
-
-    Args:
-        timezone (str): IANA Time Zone (e.g. America/Phoenix).
-                        Defaults to the requester&#39;s timezone.
-                        When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
-        filters (dict): If none provided, your report will span the last seven days.
-        payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-        headers (dict): Custom headers to be used with session headers.
-                        They will be merged with session-level values that are set,
-                        however, these method-level parameters will not be persisted across requests.
-
-    Returns:
-        httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/tags/chat_usage&#39;,
-                             json=payload,
-                             headers=headers)</code></pre>
-</details>
-</dd>
 <dt id="livechat.reports.api.v35.ReportsApiV35.total_chats"><code class="name flex">
 <span>def <span class="ident">total_chats</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -1715,6 +1715,7 @@ which contains a server’s response to an HTTP request.</dd>
 <h4><code><a title="livechat.reports.api.v35.ReportsApiV35" href="#livechat.reports.api.v35.ReportsApiV35">ReportsApiV35</a></code></h4>
 <ul class="">
 <li><code><a title="livechat.reports.api.v35.ReportsApiV35.availability" href="#livechat.reports.api.v35.ReportsApiV35.availability">availability</a></code></li>
+<li><code><a title="livechat.reports.api.v35.ReportsApiV35.chat_usage" href="#livechat.reports.api.v35.ReportsApiV35.chat_usage">chat_usage</a></code></li>
 <li><code><a title="livechat.reports.api.v35.ReportsApiV35.duration" href="#livechat.reports.api.v35.ReportsApiV35.duration">duration</a></code></li>
 <li><code><a title="livechat.reports.api.v35.ReportsApiV35.engagement" href="#livechat.reports.api.v35.ReportsApiV35.engagement">engagement</a></code></li>
 <li><code><a title="livechat.reports.api.v35.ReportsApiV35.first_response_time" href="#livechat.reports.api.v35.ReportsApiV35.first_response_time">first_response_time</a></code></li>
@@ -1725,7 +1726,6 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="livechat.reports.api.v35.ReportsApiV35.response_time" href="#livechat.reports.api.v35.ReportsApiV35.response_time">response_time</a></code></li>
 <li><code><a title="livechat.reports.api.v35.ReportsApiV35.surveys" href="#livechat.reports.api.v35.ReportsApiV35.surveys">surveys</a></code></li>
 <li><code><a title="livechat.reports.api.v35.ReportsApiV35.tags" href="#livechat.reports.api.v35.ReportsApiV35.tags">tags</a></code></li>
-<li><code><a title="livechat.reports.api.v35.ReportsApiV35.tags_chat_usage" href="#livechat.reports.api.v35.ReportsApiV35.tags_chat_usage">tags_chat_usage</a></code></li>
 <li><code><a title="livechat.reports.api.v35.ReportsApiV35.total_chats" href="#livechat.reports.api.v35.ReportsApiV35.total_chats">total_chats</a></code></li>
 </ul>
 </li>
