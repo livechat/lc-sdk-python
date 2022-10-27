@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.5] - TBA
+- Support for new batch methods in configuration-api v3.5: `batch_create_bots`, `batch_delete_bots`, `batch_update_bots`.
+
 ## [0.3.4] - 2022-10-26
 
 ### Added
@@ -24,7 +27,7 @@ All notable changes to this project will be documented in this file.
 ## [0.3.3] - 2022-07-20
 
 ### Added
-- Support fo new batch methods in configuration-api v3.5: `batch_create_agents`, `batch_delete_agents`, `batch_update_agents`, `batch_approve_agents`, `batch_suspend_agents`, `batch_unsuspend_agents`.
+- Support for new batch methods in configuration-api v3.5: `batch_create_agents`, `batch_delete_agents`, `batch_update_agents`, `batch_approve_agents`, `batch_suspend_agents`, `batch_unsuspend_agents`.
 
 ### Changed
 - Updated requirements.txt.
