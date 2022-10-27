@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [0.3.5] - TBA
+
+### Added
 - Support for new batch methods in configuration-api v3.5: `batch_create_bots`, `batch_delete_bots`, `batch_update_bots`.
 
 ## [0.3.4] - 2022-10-26
