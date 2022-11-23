@@ -1426,3 +1426,60 @@ class ConfigurationApiV35(HttpClient):
         return self.session.post(f'{self.api_url}/batch_unsuspend_agents',
                                  json=payload,
                                  headers=headers)
+
+    def batch_create_bots(self,
+                            requests: list = None,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Batch method for `create_bot`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_create_bots',
+                                 json=payload,
+                                 headers=headers)
+
+    def batch_delete_bots(self,
+                            requests: list = None,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Batch method for `delete_bot`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_delete_bots',
+                                 json=payload,
+                                 headers=headers)
+
+    def batch_update_bots(self,
+                            requests: list = None,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Batch method for `update_bot`.
+
+            Args:
+                requests (list): Array of Request objects of corresponding non-batch method.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/batch_update_bots',
+                                 json=payload,
+                                 headers=headers)
