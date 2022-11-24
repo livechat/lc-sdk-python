@@ -9,6 +9,7 @@ from livechat.config import CONFIG
 from livechat.customer.web.api.v33 import CustomerWebV33
 from livechat.customer.web.api.v34 import CustomerWebV34
 from livechat.customer.web.api.v35 import CustomerWebV35
+from livechat.customer.web.api.v36 import CustomerWebV36
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
@@ -57,6 +58,7 @@ class CustomerWeb:
             '3.3': CustomerWebV33,
             '3.4': CustomerWebV34,
             '3.5': CustomerWebV35,
+            '3.6': CustomerWebV36,
         }.get(version)
         client_kwargs = {
             '3.3': {
@@ -76,6 +78,14 @@ class CustomerWeb:
                 'verify': verify
             },
             '3.5': {
+                'organization_id': organization_id,
+                'access_token': access_token,
+                'base_url': base_url,
+                'http2': http2,
+                'proxies': proxies,
+                'verify': verify
+            },
+            '3.6': {
                 'organization_id': organization_id,
                 'access_token': access_token,
                 'base_url': base_url,

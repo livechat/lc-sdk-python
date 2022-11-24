@@ -11,6 +11,7 @@ from livechat.config import CONFIG
 from livechat.reports.api.v33 import ReportsApiV33
 from livechat.reports.api.v34 import ReportsApiV34
 from livechat.reports.api.v35 import ReportsApiV35
+from livechat.reports.api.v36 import ReportsApiV36
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
@@ -53,6 +54,7 @@ class ReportsApi:
             '3.3': ReportsApiV33(token, base_url, http2, proxies, verify),
             '3.4': ReportsApiV34(token, base_url, http2, proxies, verify),
             '3.5': ReportsApiV35(token, base_url, http2, proxies, verify),
+            '3.6': ReportsApiV36(token, base_url, http2, proxies, verify),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

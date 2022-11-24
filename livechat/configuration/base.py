@@ -10,6 +10,7 @@ from livechat.config import CONFIG
 from livechat.configuration.api.v33 import ConfigurationApiV33
 from livechat.configuration.api.v34 import ConfigurationApiV34
 from livechat.configuration.api.v35 import ConfigurationApiV35
+from livechat.configuration.api.v36 import ConfigurationApiV36
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
@@ -54,6 +55,8 @@ class ConfigurationApi:
             '3.4': ConfigurationApiV34(token, base_url, http2, proxies,
                                        verify),
             '3.5': ConfigurationApiV35(token, base_url, http2, proxies,
+                                       verify),
+            '3.6': ConfigurationApiV36(token, base_url, http2, proxies,
                                        verify),
         }.get(version)
         if not client:

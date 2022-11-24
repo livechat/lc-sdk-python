@@ -40,6 +40,7 @@ class CustomerRTM:
             '3.3': CustomerRtmV33,
             '3.4': CustomerRtmV34,
             '3.5': CustomerRtmV35,
+            '3.6': CustomerRtmV35,
         }.get(version)
         client_kwargs = {
             '3.3': {
@@ -51,6 +52,10 @@ class CustomerRTM:
                 'base_url': base_url
             },
             '3.5': {
+                'organization_id': organization_id,
+                'base_url': base_url
+            },
+            '3.6': {
                 'organization_id': organization_id,
                 'base_url': base_url
             },
