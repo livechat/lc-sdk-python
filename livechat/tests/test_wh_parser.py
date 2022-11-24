@@ -9,7 +9,7 @@ from livechat.webhooks.parser import parse_webhook
 from livechat.webhooks.v33 import WebhookV33, action_to_data_class_mapping_v_33
 from livechat.webhooks.v34 import WebhookV34, action_to_data_class_mapping_v_34
 from livechat.webhooks.v35 import WebhookV35, action_to_data_class_mapping_v_35
-from livechat.webhooks.v36 import WebhookV35, action_to_data_class_mapping_v_36
+from livechat.webhooks.v36 import WebhookV36, action_to_data_class_mapping_v_36
 
 # pylint: disable=redefined-outer-name
 
@@ -40,7 +40,7 @@ def webhook_data_class_and_mapping() -> tuple:
         '3.3': (WebhookV33, action_to_data_class_mapping_v_33),
         '3.4': (WebhookV34, action_to_data_class_mapping_v_34),
         '3.5': (WebhookV35, action_to_data_class_mapping_v_35),
-        '3.6': (WebhookV35, action_to_data_class_mapping_v_36),
+        '3.6': (WebhookV36, action_to_data_class_mapping_v_36),
     }.get(stable_version)
 
 
