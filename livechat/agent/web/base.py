@@ -8,6 +8,7 @@ from typing import Union
 from livechat.agent.web.api.v33 import AgentWebV33
 from livechat.agent.web.api.v34 import AgentWebV34
 from livechat.agent.web.api.v35 import AgentWebV35
+from livechat.agent.web.api.v36 import AgentWebV36
 from livechat.config import CONFIG
 
 stable_version = CONFIG.get('stable')
@@ -51,6 +52,7 @@ class AgentWeb:
             '3.3': AgentWebV33(access_token, base_url, http2, proxies, verify),
             '3.4': AgentWebV34(access_token, base_url, http2, proxies, verify),
             '3.5': AgentWebV35(access_token, base_url, http2, proxies, verify),
+            '3.6': AgentWebV36(access_token, base_url, http2, proxies, verify),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

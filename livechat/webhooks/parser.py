@@ -6,6 +6,7 @@ from livechat.config import CONFIG
 from livechat.webhooks.v33 import WebhookV33
 from livechat.webhooks.v34 import WebhookV34
 from livechat.webhooks.v35 import WebhookV35
+from livechat.webhooks.v36 import WebhookV36
 
 stable_version = CONFIG.get('stable')
 
@@ -13,7 +14,7 @@ stable_version = CONFIG.get('stable')
 def parse_webhook(
     wh_body: dict,
     version: str = stable_version,
-) -> Union[WebhookV33, WebhookV34, WebhookV35]:
+) -> Union[WebhookV33, WebhookV34, WebhookV35, WebhookV36]:
     ''' Parses provided `wh_body` to a `Webhook` data class.
 
         Args:
@@ -31,6 +32,7 @@ def parse_webhook(
         '3.3': WebhookV33,
         '3.4': WebhookV34,
         '3.5': WebhookV35,
+        '3.6': WebhookV36,
     }.get(version)
     try:
         parsed_wh = webhook_data_class(**wh_body)
