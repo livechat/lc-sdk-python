@@ -41,6 +41,7 @@ from livechat.config import CONFIG
 from livechat.configuration.api.v33 import ConfigurationApiV33
 from livechat.configuration.api.v34 import ConfigurationApiV34
 from livechat.configuration.api.v35 import ConfigurationApiV35
+from livechat.configuration.api.v36 import ConfigurationApiV36
 
 stable_version = CONFIG.get(&#39;stable&#39;)
 api_url = CONFIG.get(&#39;url&#39;)
@@ -85,6 +86,8 @@ class ConfigurationApi:
             &#39;3.4&#39;: ConfigurationApiV34(token, base_url, http2, proxies,
                                        verify),
             &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2, proxies,
+                                       verify),
+            &#39;3.6&#39;: ConfigurationApiV36(token, base_url, http2, proxies,
                                        verify),
         }.get(version)
         if not client:
@@ -151,6 +154,8 @@ API version.</p></div>
                                        verify),
             &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2, proxies,
                                        verify),
+            &#39;3.6&#39;: ConfigurationApiV36(token, base_url, http2, proxies,
+                                       verify),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -159,7 +164,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.configuration.base.ConfigurationApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True) ‑> Union[<a title="livechat.configuration.api.v33.ConfigurationApiV33" href="api/v33.html#livechat.configuration.api.v33.ConfigurationApiV33">ConfigurationApiV33</a>, <a title="livechat.configuration.api.v34.ConfigurationApiV34" href="api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a>, <a title="livechat.configuration.api.v35.ConfigurationApiV35" href="api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.5', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True) ‑> Union[<a title="livechat.configuration.api.v33.ConfigurationApiV33" href="api/v33.html#livechat.configuration.api.v33.ConfigurationApiV33">ConfigurationApiV33</a>, <a title="livechat.configuration.api.v34.ConfigurationApiV34" href="api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a>, <a title="livechat.configuration.api.v35.ConfigurationApiV35" href="api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -233,6 +238,8 @@ def get_client(
         &#39;3.4&#39;: ConfigurationApiV34(token, base_url, http2, proxies,
                                    verify),
         &#39;3.5&#39;: ConfigurationApiV35(token, base_url, http2, proxies,
+                                   verify),
+        &#39;3.6&#39;: ConfigurationApiV36(token, base_url, http2, proxies,
                                    verify),
     }.get(version)
     if not client:
