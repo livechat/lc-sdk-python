@@ -37,6 +37,7 @@ from typing import Union
 from livechat.agent.rtm.api.v33 import AgentRtmV33
 from livechat.agent.rtm.api.v34 import AgentRtmV34
 from livechat.agent.rtm.api.v35 import AgentRtmV35
+from livechat.agent.rtm.api.v36 import AgentRtmV36
 from livechat.config import CONFIG
 
 stable_version = CONFIG.get(&#39;stable&#39;)
@@ -66,6 +67,7 @@ class AgentRTM:
             &#39;3.3&#39;: AgentRtmV33,
             &#39;3.4&#39;: AgentRtmV34,
             &#39;3.5&#39;: AgentRtmV35,
+            &#39;3.6&#39;: AgentRtmV36,
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -113,6 +115,7 @@ class AgentRTM:
             &#39;3.3&#39;: AgentRtmV33,
             &#39;3.4&#39;: AgentRtmV34,
             &#39;3.5&#39;: AgentRtmV35,
+            &#39;3.6&#39;: AgentRtmV36,
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -121,7 +124,7 @@ class AgentRTM:
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.agent.rtm.base.AgentRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.4', base_url: str = 'api.livechatinc.com') ‑> Union[<a title="livechat.agent.rtm.api.v33.AgentRtmV33" href="api/v33.html#livechat.agent.rtm.api.v33.AgentRtmV33">AgentRtmV33</a>, <a title="livechat.agent.rtm.api.v34.AgentRtmV34" href="api/v34.html#livechat.agent.rtm.api.v34.AgentRtmV34">AgentRtmV34</a>, <a title="livechat.agent.rtm.api.v35.AgentRtmV35" href="api/v35.html#livechat.agent.rtm.api.v35.AgentRtmV35">AgentRtmV35</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.5', base_url: str = 'api.livechatinc.com') ‑> Union[<a title="livechat.agent.rtm.api.v33.AgentRtmV33" href="api/v33.html#livechat.agent.rtm.api.v33.AgentRtmV33">AgentRtmV33</a>, <a title="livechat.agent.rtm.api.v34.AgentRtmV34" href="api/v34.html#livechat.agent.rtm.api.v34.AgentRtmV34">AgentRtmV34</a>, <a title="livechat.agent.rtm.api.v35.AgentRtmV35" href="api/v35.html#livechat.agent.rtm.api.v35.AgentRtmV35">AgentRtmV35</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Agent RTM version.</p>
@@ -164,6 +167,7 @@ def get_client(
         &#39;3.3&#39;: AgentRtmV33,
         &#39;3.4&#39;: AgentRtmV34,
         &#39;3.5&#39;: AgentRtmV35,
+        &#39;3.6&#39;: AgentRtmV36,
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)

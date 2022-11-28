@@ -38,6 +38,7 @@ from livechat.config import CONFIG
 from livechat.customer.web.api.v33 import CustomerWebV33
 from livechat.customer.web.api.v34 import CustomerWebV34
 from livechat.customer.web.api.v35 import CustomerWebV35
+from livechat.customer.web.api.v36 import CustomerWebV36
 
 stable_version = CONFIG.get(&#39;stable&#39;)
 api_url = CONFIG.get(&#39;url&#39;)
@@ -86,6 +87,7 @@ class CustomerWeb:
             &#39;3.3&#39;: CustomerWebV33,
             &#39;3.4&#39;: CustomerWebV34,
             &#39;3.5&#39;: CustomerWebV35,
+            &#39;3.6&#39;: CustomerWebV36,
         }.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
@@ -105,6 +107,14 @@ class CustomerWeb:
                 &#39;verify&#39;: verify
             },
             &#39;3.5&#39;: {
+                &#39;organization_id&#39;: organization_id,
+                &#39;access_token&#39;: access_token,
+                &#39;base_url&#39;: base_url,
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify
+            },
+            &#39;3.6&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;access_token&#39;: access_token,
                 &#39;base_url&#39;: base_url,
@@ -179,6 +189,7 @@ API version.</p></div>
             &#39;3.3&#39;: CustomerWebV33,
             &#39;3.4&#39;: CustomerWebV34,
             &#39;3.5&#39;: CustomerWebV35,
+            &#39;3.6&#39;: CustomerWebV36,
         }.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
@@ -205,6 +216,14 @@ API version.</p></div>
                 &#39;proxies&#39;: proxies,
                 &#39;verify&#39;: verify
             },
+            &#39;3.6&#39;: {
+                &#39;organization_id&#39;: organization_id,
+                &#39;access_token&#39;: access_token,
+                &#39;base_url&#39;: base_url,
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify
+            },
         }.get(version)
         if client:
             return client(**client_kwargs)
@@ -213,7 +232,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.web.base.CustomerWeb.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: str = None, version: str = '3.4', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None) ‑> Union[<a title="livechat.customer.web.api.v33.CustomerWebV33" href="api/v33.html#livechat.customer.web.api.v33.CustomerWebV33">CustomerWebV33</a>, <a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: str = None, version: str = '3.5', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None) ‑> Union[<a title="livechat.customer.web.api.v33.CustomerWebV33" href="api/v33.html#livechat.customer.web.api.v33.CustomerWebV33">CustomerWebV33</a>, <a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific API version.</p>
@@ -292,6 +311,7 @@ def get_client(
         &#39;3.3&#39;: CustomerWebV33,
         &#39;3.4&#39;: CustomerWebV34,
         &#39;3.5&#39;: CustomerWebV35,
+        &#39;3.6&#39;: CustomerWebV36,
     }.get(version)
     client_kwargs = {
         &#39;3.3&#39;: {
@@ -311,6 +331,14 @@ def get_client(
             &#39;verify&#39;: verify
         },
         &#39;3.5&#39;: {
+            &#39;organization_id&#39;: organization_id,
+            &#39;access_token&#39;: access_token,
+            &#39;base_url&#39;: base_url,
+            &#39;http2&#39;: http2,
+            &#39;proxies&#39;: proxies,
+            &#39;verify&#39;: verify
+        },
+        &#39;3.6&#39;: {
             &#39;organization_id&#39;: organization_id,
             &#39;access_token&#39;: access_token,
             &#39;base_url&#39;: base_url,

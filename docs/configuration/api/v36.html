@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>livechat.configuration.api.v35 API documentation</title>
-<meta name="description" content="Configuration API module with client class in version 3.5." />
+<title>livechat.configuration.api.v36 API documentation</title>
+<meta name="description" content="Configuration API module with client class in version 3.6." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,15 +19,15 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>livechat.configuration.api.v35</code></h1>
+<h1 class="title">Module <code>livechat.configuration.api.v36</code></h1>
 </header>
 <section id="section-intro">
-<p>Configuration API module with client class in version 3.5.</p>
+<p>Configuration API module with client class in version 3.6.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#39;&#39;&#39; Configuration API module with client class in version 3.5. &#39;&#39;&#39;
+<pre><code class="python">&#39;&#39;&#39; Configuration API module with client class in version 3.6. &#39;&#39;&#39;
 
 from typing import List
 
@@ -37,8 +37,8 @@ from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
 
 
-class ConfigurationApiV35(HttpClient):
-    &#39;&#39;&#39; Configuration API client class in version 3.5. &#39;&#39;&#39;
+class ConfigurationApiV36(HttpClient):
+    &#39;&#39;&#39; Configuration API client class in version 3.6. &#39;&#39;&#39;
     def __init__(self,
                  token: str,
                  base_url: str,
@@ -46,7 +46,7 @@ class ConfigurationApiV35(HttpClient):
                  proxies=None,
                  verify: bool = True):
         super().__init__(token, base_url, http2, proxies, verify)
-        self.api_url = f&#39;https://{base_url}/v3.5/configuration/action&#39;
+        self.api_url = f&#39;https://{base_url}/v3.6/configuration/action&#39;
 
 # Agents
 
@@ -1457,9 +1457,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_create_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `create_bot`.
 
             Args:
@@ -1476,9 +1476,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_delete_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `delete_bot`.
 
             Args:
@@ -1495,9 +1495,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_update_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `update_bot`.
 
             Args:
@@ -1523,18 +1523,18 @@ class ConfigurationApiV35(HttpClient):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35"><code class="flex name class">
-<span>class <span class="ident">ConfigurationApiV35</span></span>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36"><code class="flex name class">
+<span>class <span class="ident">ConfigurationApiV36</span></span>
 <span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Configuration API client class in version 3.5.</p></div>
+<div class="desc"><p>Configuration API client class in version 3.6.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ConfigurationApiV35(HttpClient):
-    &#39;&#39;&#39; Configuration API client class in version 3.5. &#39;&#39;&#39;
+<pre><code class="python">class ConfigurationApiV36(HttpClient):
+    &#39;&#39;&#39; Configuration API client class in version 3.6. &#39;&#39;&#39;
     def __init__(self,
                  token: str,
                  base_url: str,
@@ -1542,7 +1542,7 @@ class ConfigurationApiV35(HttpClient):
                  proxies=None,
                  verify: bool = True):
         super().__init__(token, base_url, http2, proxies, verify)
-        self.api_url = f&#39;https://{base_url}/v3.5/configuration/action&#39;
+        self.api_url = f&#39;https://{base_url}/v3.6/configuration/action&#39;
 
 # Agents
 
@@ -2953,9 +2953,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_create_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `create_bot`.
 
             Args:
@@ -2972,9 +2972,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_delete_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `delete_bot`.
 
             Args:
@@ -2991,9 +2991,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_update_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -&gt; httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Batch method for `update_bot`.
 
             Args:
@@ -3015,7 +3015,7 @@ class ConfigurationApiV35(HttpClient):
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.add_auto_access"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.add_auto_access"><code class="name flex">
 <span>def <span class="ident">add_auto_access</span></span>(<span>self, access: dict = None, conditions: dict = None, description: str = None, next_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3081,7 +3081,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.approve_agent"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.approve_agent"><code class="name flex">
 <span>def <span class="ident">approve_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3133,7 +3133,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_approve_agents"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_approve_agents"><code class="name flex">
 <span>def <span class="ident">batch_approve_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3173,7 +3173,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_create_agents"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_create_agents"><code class="name flex">
 <span>def <span class="ident">batch_create_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3213,7 +3213,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_create_bots"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_create_bots"><code class="name flex">
 <span>def <span class="ident">batch_create_bots</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3234,9 +3234,9 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_create_bots(self,
-                        requests: list = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
+                      requests: list = None,
+                      payload: dict = None,
+                      headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `create_bot`.
 
         Args:
@@ -3253,7 +3253,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_delete_agents"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_delete_agents"><code class="name flex">
 <span>def <span class="ident">batch_delete_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3293,7 +3293,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_delete_bots"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_delete_bots"><code class="name flex">
 <span>def <span class="ident">batch_delete_bots</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3314,9 +3314,9 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_delete_bots(self,
-                        requests: list = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
+                      requests: list = None,
+                      payload: dict = None,
+                      headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `delete_bot`.
 
         Args:
@@ -3333,7 +3333,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_suspend_agents"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_suspend_agents"><code class="name flex">
 <span>def <span class="ident">batch_suspend_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3373,7 +3373,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_unsuspend_agents"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_unsuspend_agents"><code class="name flex">
 <span>def <span class="ident">batch_unsuspend_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3413,7 +3413,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_update_agents"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_update_agents"><code class="name flex">
 <span>def <span class="ident">batch_update_agents</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3453,7 +3453,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.batch_update_bots"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.batch_update_bots"><code class="name flex">
 <span>def <span class="ident">batch_update_bots</span></span>(<span>self, requests: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3474,9 +3474,9 @@ which contains a server's response to an HTTP request.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def batch_update_bots(self,
-                        requests: list = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
+                      requests: list = None,
+                      payload: dict = None,
+                      headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Batch method for `update_bot`.
 
         Args:
@@ -3493,7 +3493,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.check_product_limits_for_plan"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.check_product_limits_for_plan"><code class="name flex">
 <span>def <span class="ident">check_product_limits_for_plan</span></span>(<span>self, plan: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3544,7 +3544,7 @@ which contains a server's response to an HTTP request.</dd>
         headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.create_agent"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.create_agent"><code class="name flex">
 <span>def <span class="ident">create_agent</span></span>(<span>self, id: str = None, name: str = None, role: str = None, avatar_path: str = None, job_title: str = None, mobile: str = None, max_chats_count: int = None, awaiting_approval: bool = None, groups: list = None, notifications: list = None, email_subscriptions: list = None, work_scheduler: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3646,7 +3646,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.create_bot"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.create_bot"><code class="name flex">
 <span>def <span class="ident">create_bot</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, default_group_priority: str = None, job_title: str = None, groups: list = None, work_scheduler: dict = None, timezone: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3728,7 +3728,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.create_group"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.create_group"><code class="name flex">
 <span>def <span class="ident">create_group</span></span>(<span>self, name: str = None, language_code: str = None, agent_priorities: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3788,7 +3788,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.create_tag"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.create_tag"><code class="name flex">
 <span>def <span class="ident">create_tag</span></span>(<span>self, name: str = None, group_ids: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3844,7 +3844,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.delete_agent"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.delete_agent"><code class="name flex">
 <span>def <span class="ident">delete_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3896,7 +3896,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.delete_auto_access"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.delete_auto_access"><code class="name flex">
 <span>def <span class="ident">delete_auto_access</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -3948,7 +3948,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.delete_bot"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.delete_bot"><code class="name flex">
 <span>def <span class="ident">delete_bot</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4000,7 +4000,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.delete_group"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.delete_group"><code class="name flex">
 <span>def <span class="ident">delete_group</span></span>(<span>self, id: int = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4052,7 +4052,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.delete_group_properties"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.delete_group_properties"><code class="name flex">
 <span>def <span class="ident">delete_group_properties</span></span>(<span>self, id: int = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4108,7 +4108,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.delete_license_properties"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.delete_license_properties"><code class="name flex">
 <span>def <span class="ident">delete_license_properties</span></span>(<span>self, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4160,7 +4160,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.delete_tag"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.delete_tag"><code class="name flex">
 <span>def <span class="ident">delete_tag</span></span>(<span>self, name: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4212,7 +4212,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.disable_license_webhooks"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.disable_license_webhooks"><code class="name flex">
 <span>def <span class="ident">disable_license_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4264,7 +4264,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.enable_license_webhooks"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.enable_license_webhooks"><code class="name flex">
 <span>def <span class="ident">enable_license_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4318,7 +4318,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.get_agent"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.get_agent"><code class="name flex">
 <span>def <span class="ident">get_agent</span></span>(<span>self, id: str = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4374,7 +4374,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.get_bot"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.get_bot"><code class="name flex">
 <span>def <span class="ident">get_bot</span></span>(<span>self, id: str = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4430,7 +4430,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.get_group"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.get_group"><code class="name flex">
 <span>def <span class="ident">get_group</span></span>(<span>self, id: int = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4486,7 +4486,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.get_license_webhooks_state"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.get_license_webhooks_state"><code class="name flex">
 <span>def <span class="ident">get_license_webhooks_state</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4540,7 +4540,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.get_product_source"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.get_product_source"><code class="name flex">
 <span>def <span class="ident">get_product_source</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4586,7 +4586,7 @@ which contains a server's response to an HTTP request.</dd>
                             headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_agents"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_agents"><code class="name flex">
 <span>def <span class="ident">list_agents</span></span>(<span>self, filters: dict = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4642,7 +4642,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_auto_accesses"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_auto_accesses"><code class="name flex">
 <span>def <span class="ident">list_auto_accesses</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4687,7 +4687,7 @@ which contains a server's response to an HTTP request.</p></div>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_bots"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_bots"><code class="name flex">
 <span>def <span class="ident">list_bots</span></span>(<span>self, all: bool = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4743,7 +4743,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_channels"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_channels"><code class="name flex">
 <span>def <span class="ident">list_channels</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4786,7 +4786,7 @@ which contains a server's response to an HTTP request.</p></div>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_groups"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_groups"><code class="name flex">
 <span>def <span class="ident">list_groups</span></span>(<span>self, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4838,7 +4838,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_groups_properties"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_groups_properties"><code class="name flex">
 <span>def <span class="ident">list_groups_properties</span></span>(<span>self, namespace: str = None, name_prefix: str = None, group_ids: List[int] = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4898,7 +4898,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_license_properties"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_license_properties"><code class="name flex">
 <span>def <span class="ident">list_license_properties</span></span>(<span>self, namespace: str = None, name_prefix: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -4954,7 +4954,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_properties"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_properties"><code class="name flex">
 <span>def <span class="ident">list_properties</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5006,7 +5006,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_tags"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_tags"><code class="name flex">
 <span>def <span class="ident">list_tags</span></span>(<span>self, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5058,7 +5058,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_webhook_names"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_webhook_names"><code class="name flex">
 <span>def <span class="ident">list_webhook_names</span></span>(<span>self, version: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5110,7 +5110,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.list_webhooks"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_webhooks"><code class="name flex">
 <span>def <span class="ident">list_webhooks</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5162,7 +5162,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.publish_property"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.publish_property"><code class="name flex">
 <span>def <span class="ident">publish_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, access_type: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5222,7 +5222,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.register_property"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.register_property"><code class="name flex">
 <span>def <span class="ident">register_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, type: str = None, access: dict = None, description: str = None, domain: list = None, range: dict = None, default_value: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5302,7 +5302,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.register_webhook"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.register_webhook"><code class="name flex">
 <span>def <span class="ident">register_webhook</span></span>(<span>self, action: str = None, secret_key: str = None, url: str = None, additional_data: list = None, description: str = None, filters: dict = None, owner_client_id: str = None, type: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5384,7 +5384,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.request_agent_unsuspension"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.request_agent_unsuspension"><code class="name flex">
 <span>def <span class="ident">request_agent_unsuspension</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5434,7 +5434,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.suspend_agent"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.suspend_agent"><code class="name flex">
 <span>def <span class="ident">suspend_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5486,7 +5486,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.unregister_property"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.unregister_property"><code class="name flex">
 <span>def <span class="ident">unregister_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5542,7 +5542,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.unregister_webhook"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.unregister_webhook"><code class="name flex">
 <span>def <span class="ident">unregister_webhook</span></span>(<span>self, id: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5598,7 +5598,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.unsuspend_agent"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.unsuspend_agent"><code class="name flex">
 <span>def <span class="ident">unsuspend_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5650,7 +5650,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.update_agent"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_agent"><code class="name flex">
 <span>def <span class="ident">update_agent</span></span>(<span>self, id: str = None, name: str = None, role: str = None, avatar_path: str = None, job_title: str = None, mobile: str = None, max_chats_count: int = None, groups: list = None, notifications: list = None, email_subscriptions: list = None, work_scheduler: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5746,7 +5746,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.update_auto_access"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_auto_access"><code class="name flex">
 <span>def <span class="ident">update_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5804,7 +5804,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.update_bot"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_bot"><code class="name flex">
 <span>def <span class="ident">update_bot</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, groups: list = None, default_group_priority: str = None, work_scheduler: dict = None, timezone: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5884,7 +5884,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.update_group"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_group"><code class="name flex">
 <span>def <span class="ident">update_group</span></span>(<span>self, id: int = None, name: str = None, language_code: str = None, agent_priorities: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -5948,7 +5948,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.update_group_properties"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_group_properties"><code class="name flex">
 <span>def <span class="ident">update_group_properties</span></span>(<span>self, group_id: int = None, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -6006,7 +6006,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.update_license_properties"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_license_properties"><code class="name flex">
 <span>def <span class="ident">update_license_properties</span></span>(<span>self, properties: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -6060,7 +6060,7 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.configuration.api.v35.ConfigurationApiV35.update_tag"><code class="name flex">
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_tag"><code class="name flex">
 <span>def <span class="ident">update_tag</span></span>(<span>self, name: str = None, group_ids: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
@@ -6135,64 +6135,64 @@ which contains a server's response to an HTTP request.</dd>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="livechat.configuration.api.v35.ConfigurationApiV35" href="#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a></code></h4>
+<h4><code><a title="livechat.configuration.api.v36.ConfigurationApiV36" href="#livechat.configuration.api.v36.ConfigurationApiV36">ConfigurationApiV36</a></code></h4>
 <ul class="">
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.add_auto_access" href="#livechat.configuration.api.v35.ConfigurationApiV35.add_auto_access">add_auto_access</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.approve_agent" href="#livechat.configuration.api.v35.ConfigurationApiV35.approve_agent">approve_agent</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_approve_agents" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_approve_agents">batch_approve_agents</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_create_agents" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_create_agents">batch_create_agents</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_create_bots" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_create_bots">batch_create_bots</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_delete_agents" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_delete_agents">batch_delete_agents</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_delete_bots" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_delete_bots">batch_delete_bots</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_suspend_agents" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_suspend_agents">batch_suspend_agents</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_unsuspend_agents" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_unsuspend_agents">batch_unsuspend_agents</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_update_agents" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_update_agents">batch_update_agents</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.batch_update_bots" href="#livechat.configuration.api.v35.ConfigurationApiV35.batch_update_bots">batch_update_bots</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.check_product_limits_for_plan" href="#livechat.configuration.api.v35.ConfigurationApiV35.check_product_limits_for_plan">check_product_limits_for_plan</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.create_agent" href="#livechat.configuration.api.v35.ConfigurationApiV35.create_agent">create_agent</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.create_bot" href="#livechat.configuration.api.v35.ConfigurationApiV35.create_bot">create_bot</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.create_group" href="#livechat.configuration.api.v35.ConfigurationApiV35.create_group">create_group</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.create_tag" href="#livechat.configuration.api.v35.ConfigurationApiV35.create_tag">create_tag</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.delete_agent" href="#livechat.configuration.api.v35.ConfigurationApiV35.delete_agent">delete_agent</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.delete_auto_access" href="#livechat.configuration.api.v35.ConfigurationApiV35.delete_auto_access">delete_auto_access</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.delete_bot" href="#livechat.configuration.api.v35.ConfigurationApiV35.delete_bot">delete_bot</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.delete_group" href="#livechat.configuration.api.v35.ConfigurationApiV35.delete_group">delete_group</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.delete_group_properties" href="#livechat.configuration.api.v35.ConfigurationApiV35.delete_group_properties">delete_group_properties</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.delete_license_properties" href="#livechat.configuration.api.v35.ConfigurationApiV35.delete_license_properties">delete_license_properties</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.delete_tag" href="#livechat.configuration.api.v35.ConfigurationApiV35.delete_tag">delete_tag</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.disable_license_webhooks" href="#livechat.configuration.api.v35.ConfigurationApiV35.disable_license_webhooks">disable_license_webhooks</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.enable_license_webhooks" href="#livechat.configuration.api.v35.ConfigurationApiV35.enable_license_webhooks">enable_license_webhooks</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.get_agent" href="#livechat.configuration.api.v35.ConfigurationApiV35.get_agent">get_agent</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.get_bot" href="#livechat.configuration.api.v35.ConfigurationApiV35.get_bot">get_bot</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.get_group" href="#livechat.configuration.api.v35.ConfigurationApiV35.get_group">get_group</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.get_license_webhooks_state" href="#livechat.configuration.api.v35.ConfigurationApiV35.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.get_product_source" href="#livechat.configuration.api.v35.ConfigurationApiV35.get_product_source">get_product_source</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_agents" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_agents">list_agents</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_auto_accesses" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_auto_accesses">list_auto_accesses</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_bots" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_bots">list_bots</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_channels" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_channels">list_channels</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_groups" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_groups">list_groups</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_groups_properties" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_groups_properties">list_groups_properties</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_license_properties" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_license_properties">list_license_properties</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_properties" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_properties">list_properties</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_tags" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_tags">list_tags</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_webhook_names" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_webhook_names">list_webhook_names</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.list_webhooks" href="#livechat.configuration.api.v35.ConfigurationApiV35.list_webhooks">list_webhooks</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.publish_property" href="#livechat.configuration.api.v35.ConfigurationApiV35.publish_property">publish_property</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.register_property" href="#livechat.configuration.api.v35.ConfigurationApiV35.register_property">register_property</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.register_webhook" href="#livechat.configuration.api.v35.ConfigurationApiV35.register_webhook">register_webhook</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.request_agent_unsuspension" href="#livechat.configuration.api.v35.ConfigurationApiV35.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.suspend_agent" href="#livechat.configuration.api.v35.ConfigurationApiV35.suspend_agent">suspend_agent</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.unregister_property" href="#livechat.configuration.api.v35.ConfigurationApiV35.unregister_property">unregister_property</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.unregister_webhook" href="#livechat.configuration.api.v35.ConfigurationApiV35.unregister_webhook">unregister_webhook</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.unsuspend_agent" href="#livechat.configuration.api.v35.ConfigurationApiV35.unsuspend_agent">unsuspend_agent</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.update_agent" href="#livechat.configuration.api.v35.ConfigurationApiV35.update_agent">update_agent</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.update_auto_access" href="#livechat.configuration.api.v35.ConfigurationApiV35.update_auto_access">update_auto_access</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.update_bot" href="#livechat.configuration.api.v35.ConfigurationApiV35.update_bot">update_bot</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.update_group" href="#livechat.configuration.api.v35.ConfigurationApiV35.update_group">update_group</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.update_group_properties" href="#livechat.configuration.api.v35.ConfigurationApiV35.update_group_properties">update_group_properties</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.update_license_properties" href="#livechat.configuration.api.v35.ConfigurationApiV35.update_license_properties">update_license_properties</a></code></li>
-<li><code><a title="livechat.configuration.api.v35.ConfigurationApiV35.update_tag" href="#livechat.configuration.api.v35.ConfigurationApiV35.update_tag">update_tag</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.add_auto_access" href="#livechat.configuration.api.v36.ConfigurationApiV36.add_auto_access">add_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.approve_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.approve_agent">approve_agent</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_approve_agents" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_approve_agents">batch_approve_agents</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_create_agents" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_create_agents">batch_create_agents</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_create_bots" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_create_bots">batch_create_bots</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_delete_agents" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_delete_agents">batch_delete_agents</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_delete_bots" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_delete_bots">batch_delete_bots</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_suspend_agents" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_suspend_agents">batch_suspend_agents</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_unsuspend_agents" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_unsuspend_agents">batch_unsuspend_agents</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_update_agents" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_update_agents">batch_update_agents</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.batch_update_bots" href="#livechat.configuration.api.v36.ConfigurationApiV36.batch_update_bots">batch_update_bots</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.check_product_limits_for_plan" href="#livechat.configuration.api.v36.ConfigurationApiV36.check_product_limits_for_plan">check_product_limits_for_plan</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_agent">create_agent</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_bot">create_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_group">create_group</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_tag" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_tag">create_tag</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_agent">delete_agent</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_auto_access" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_auto_access">delete_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_bot">delete_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_group">delete_group</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_group_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_group_properties">delete_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_license_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_license_properties">delete_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_tag" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_tag">delete_tag</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.disable_license_webhooks" href="#livechat.configuration.api.v36.ConfigurationApiV36.disable_license_webhooks">disable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.enable_license_webhooks" href="#livechat.configuration.api.v36.ConfigurationApiV36.enable_license_webhooks">enable_license_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_agent">get_agent</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_bot">get_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_group">get_group</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_license_webhooks_state" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_product_source" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_product_source">get_product_source</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_agents" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_agents">list_agents</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_auto_accesses" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_bots" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_bots">list_bots</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_channels" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_channels">list_channels</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_groups" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_groups">list_groups</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_groups_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_groups_properties">list_groups_properties</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_license_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_license_properties">list_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_properties">list_properties</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_tags" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_tags">list_tags</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_webhook_names" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_webhook_names">list_webhook_names</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_webhooks" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_webhooks">list_webhooks</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.publish_property" href="#livechat.configuration.api.v36.ConfigurationApiV36.publish_property">publish_property</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.register_property" href="#livechat.configuration.api.v36.ConfigurationApiV36.register_property">register_property</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.register_webhook" href="#livechat.configuration.api.v36.ConfigurationApiV36.register_webhook">register_webhook</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.request_agent_unsuspension" href="#livechat.configuration.api.v36.ConfigurationApiV36.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.suspend_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unregister_property" href="#livechat.configuration.api.v36.ConfigurationApiV36.unregister_property">unregister_property</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unregister_webhook" href="#livechat.configuration.api.v36.ConfigurationApiV36.unregister_webhook">unregister_webhook</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unsuspend_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.unsuspend_agent">unsuspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_agent">update_agent</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_auto_access" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_auto_access">update_auto_access</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_bot">update_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_group">update_group</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_group_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_group_properties">update_group_properties</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_license_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_license_properties">update_license_properties</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_tag" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_tag">update_tag</a></code></li>
 </ul>
 </li>
 </ul>
