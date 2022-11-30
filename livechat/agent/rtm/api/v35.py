@@ -735,7 +735,7 @@ class AgentRtmV35:
               push_notifications: dict = None,
               application: dict = None,
               away: bool = None,
-              customer_push_level: str = None,
+              customer_monitoring_level: str = None,
               pushes: dict = None,
               payload: dict = None) -> RtmResponse:
         ''' Logs in agent.
@@ -750,9 +750,9 @@ class AgentRtmV35:
                         the application's name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_push_level (str): Possible values: my, engaged, online.
+                customer_monitoring_level (str): Possible values: my, chatting, invited, online.
                         Defaults to my if login creates the first session;
-                        otherwise it preserves the current customer_push_level.
+                        otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
                 By default, it's set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request's data.

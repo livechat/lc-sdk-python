@@ -50,7 +50,7 @@ def test_client_logs_in_with_payload():
     client = AgentRTM.get_client()
     client.open_connection()
     response = client.login(payload={
-        'customer_push_level': 'online',
+        'customer_monitoring_level': 'online',
         'token': 'Bearer 10386012'
     })
     client.close_connection()
