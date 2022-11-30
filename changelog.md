@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 ### Bugfixes
 - Fix `customer_monitoring_level` parameter in `login` method in agent-api v3.3/v3.4/v3.5 classes.
 
+### Removed
+
+- Support for `list_customers` method in agent-api v3.6 classes.
+
 ## [0.3.5] - 2022-11-25
 
 ### Added
