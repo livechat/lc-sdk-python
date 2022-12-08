@@ -586,34 +586,6 @@ class AgentRtmV36:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'get_customer', 'payload': payload})
 
-    def list_customers(self,
-                       page_id: str = None,
-                       limit: int = None,
-                       sort_order: str = None,
-                       sort_by: str = None,
-                       filters: dict = None,
-                       payload: dict = None) -> RtmResponse:
-        ''' Returns the list of Customers.
-
-            Args:
-                page_id (str): Page ID.
-                limit (int): Customers limit. Default: 10, maximum: 100.
-                sort_order (str): Possible values: asc, desc (default). Customers are sorted
-                        by the creation date.
-                sort_by (str): Possible values: created_at (default), threads_count, visits_count,
-                        agent_last_event or customer_last_event.
-                filters (dict): Filters object.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'list_customers', 'payload': payload})
-
     def create_customer(self,
                         name: str = None,
                         email: str = None,

@@ -728,41 +728,6 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def list_customers(self,
-                       page_id: str = None,
-                       limit: str = None,
-                       sort_order: str = None,
-                       sort_by: str = None,
-                       filters: dict = None,
-                       payload: dict = None,
-                       headers: dict = None) -> httpx.Response:
-        ''' Returns the list of Customers.
-
-            Args:
-                page_id (str): ID of the page with paginated results.
-                limit (str): Limit of results per page. Default: 10, maximum: 100.
-                sort_order (str): Possible values: asc, desc (default).
-                sort_by (str): When sorting by fields other than created_at, the entries
-                               with identical values will be additionally sorted by their
-                               creation time. Possible values: created_at (default),
-                               threads_count, visits_count, agent_last_event, customer_last_event.
-                filters (dict): Possible request filters.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/list_customers',
-                                 json=payload,
-                                 headers=headers)
-
     def create_customer(self,
                         name: str = None,
                         email: str = None,
