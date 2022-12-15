@@ -25,7 +25,7 @@ class BillingApiV1(HttpClient):
                              quantity: int = None,
                              return_url: str = None,
                              per_account: bool = None,
-                             test: str = None,
+                             test: bool = None,
                              payload: dict = None,
                              headers: dict = None) -> httpx.Response:
         ''' Creates a new direct charge for the user (one time fee).
@@ -77,12 +77,14 @@ class BillingApiV1(HttpClient):
     def list_direct_charges(self,
                             page: int = None,
                             status: str = None,
+                            order_client_id: str = None,
                             params: dict = None,
                             headers: dict = None) -> httpx.Response:
         ''' Lists all direct charges.
             Args:
-                page (int):
-                status (str):
+                page (int): Navigate to page number.
+                status (str): Filter charges by status. One of pending, accepted, active, declined, processed, failed or success.
+                order_client_id (str): Filter by specific `order_client_id`.
                 params (dict): Custom params to be used in request's query string.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -173,7 +175,7 @@ class BillingApiV1(HttpClient):
                                 per_account: bool = None,
                                 trial_days: int = None,
                                 months: int = None,
-                                test: str = True,
+                                test: bool = True,
                                 payload: dict = None,
                                 headers: dict = None) -> httpx.Response:
         ''' Creates a new reccurent charge for the user (periodic payment).
@@ -206,7 +208,7 @@ class BillingApiV1(HttpClient):
                              headers: dict = None) -> httpx.Response:
         ''' Gets specific reccurent charge.
             Args:
-                charge_id (str): ID of the direct charge.
+                charge_id (str): ID of the recurrent charge.
                 params (dict): Custom params to be used in request's query string.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -223,13 +225,39 @@ class BillingApiV1(HttpClient):
                                 params=params,
                                 headers=headers)
 
+    def list_recurrent_charges(self,
+                               page: int = None,
+                               status: str = None,
+                               order_client_id: str = None,
+                               params: dict = None,
+                               headers: dict = None) -> httpx.Response:
+        ''' Lists all recurrent charges.
+            Args:
+                page (int): Navigate to specific page number.
+                status (str): Filter charges by status. One of pending, accepted, active, declined, processed, failed or success.
+                order_client_id (str): Filter by specific `order_client_id`.
+                params (dict): Custom params to be used in request's query string.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if params is None:
+            params = prepare_payload(locals())
+        return self.session.get(f'{self.api_url}/recurrent_charge',
+                                params=params,
+                                headers=headers)
+
     def accept_recurrent_charge(self,
                                 charge_id: str,
                                 payload: dict = None,
                                 headers: dict = None) -> httpx.Response:
         ''' Accpets specific reccurent charge.
             Args:
-                charge_id (str): ID of the direct charge.
+                charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -253,7 +281,7 @@ class BillingApiV1(HttpClient):
                                  headers: dict = None) -> httpx.Response:
         ''' Declines specific reccurent charge.
             Args:
-                charge_id (str): ID of the direct charge.
+                charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -277,7 +305,7 @@ class BillingApiV1(HttpClient):
                                   headers: dict = None) -> httpx.Response:
         ''' Activates specific reccurent charge.
             Args:
-                charge_id (str): ID of the direct charge.
+                charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -301,7 +329,7 @@ class BillingApiV1(HttpClient):
                                 headers: dict = None) -> httpx.Response:
         ''' Cancels specific reccurent charge.
             Args:
-                charge_id (str): ID of the direct charge.
+                charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.

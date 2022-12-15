@@ -40,7 +40,7 @@ def test_get_client_with_non_existing_version():
 
 def test_get_client_with_valid_args(billing_api_client):
     ''' Test if production API URL is used and token is added to headers for valid args. '''
-    assert billing_api_client.api_url == f'https://billing.livechatinc.com/v1'
+    assert billing_api_client.api_url == 'https://billing.livechatinc.com/v1'
     assert billing_api_client.session.headers.get('Authorization') == 'test'
 
 
@@ -85,7 +85,8 @@ def test_client_supports_http_1():
     assert client.create_direct_charge().http_version == 'HTTP/1.1'
 
 
-def test_client_supports_http_2():
-    ''' Test if client supports HTTP/2 protocol. '''
-    client = BillingApi.get_client(token='test', http2=True)
-    assert client.create_direct_charge().http_version == 'HTTP/2'
+# At this point billing-api v1 support http2 but will always negotiate to use 'HTTP/1.1'
+# def test_client_supports_http_2():
+#     ''' Test if client supports HTTP/2 protocol. '''
+#     client = BillingApi.get_client(token='test', http2=True)
+#     assert client.create_direct_charge().http_version == 'HTTP/2'
