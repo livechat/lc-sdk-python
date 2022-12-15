@@ -9,7 +9,7 @@ from livechat.billing.base import BillingApi
 
 @pytest.fixture
 def billing_api_client():
-    ''' Fixture returning Reports API client. '''
+    ''' Fixture returning Billing API client. '''
     return BillingApi.get_client(token='test')
 
 
@@ -56,14 +56,14 @@ def test_send_request(billing_api_client):
 
 
 def test_modify_header(billing_api_client):
-    ''' Test if Reports-api object header can be updated with custom value. '''
+    ''' Test if Billing API object header can be updated with custom value. '''
     assert 'test' not in billing_api_client.get_headers()
     billing_api_client.modify_header({'test': '1234'})
     assert 'test' in billing_api_client.get_headers()
 
 
 def test_remove_header(billing_api_client):
-    ''' Test if header can be removed from Billing-api object. '''
+    ''' Test if header can be removed from Billing API object. '''
     billing_api_client.modify_header({'test2': '1234'})
     assert 'test2' in billing_api_client.get_headers()
     billing_api_client.remove_header('test2')
