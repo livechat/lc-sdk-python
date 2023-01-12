@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [0.3.6] - TBA
 
+### Added
+
+- Added support for billing-api.
+
 ### Bugfixes
 - Fix `customer_monitoring_level` parameter in `login` method in agent-api v3.3/v3.4/v3.5 classes.
 

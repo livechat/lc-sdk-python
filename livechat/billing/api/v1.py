@@ -34,8 +34,8 @@ class BillingApiV1(HttpClient):
                 price (int): Price of the charge defined in cents.
                 quantity (int): Number of the accounts within the organization.
                 return_url (str): Redirection url for the client.
-                per_account (bool): Whether or not the app is sold in ppa account model.
-                test (str): Whether or not the direct charge is for test.
+                per_account (bool): Whether or not the app is sold in ppa account model. Default: False.
+                test (str): Whether or not the direct charge is for test. Default: False.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -82,7 +82,7 @@ class BillingApiV1(HttpClient):
                             headers: dict = None) -> httpx.Response:
         ''' Lists all direct charges.
             Args:
-                page (int): Navigate to page number.
+                page (int): Navigate to page number. Default: 1.
                 status (str): Filter charges by status. One of pending, accepted, active, declined, processed, failed or success.
                 order_client_id (str): Filter by specific `order_client_id`.
                 params (dict): Custom params to be used in request's query string.
@@ -119,17 +119,20 @@ class BillingApiV1(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
             del payload['charge_id']
-        return self.session.put(f'{self.api_url}/direct_charge/{charge_id}',
-                                json=payload,
-                                headers=headers)
+        return self.session.put(
+            f'{self.api_url}/direct_charge/{charge_id}/activate',
+            json=payload,
+            headers=headers)
 
 # ledger
 
     def get_ledger(self,
+                   page: int = None,
                    params: dict = None,
                    headers: dict = None) -> httpx.Response:
         ''' Returns current ledger.
             Args:
+                page (int): Navigate to page number. Default: 1.
                 params (dict): Custom params to be used in request's query string.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -148,7 +151,7 @@ class BillingApiV1(HttpClient):
     def get_ledger_balance(self,
                            params: dict = None,
                            headers: dict = None) -> httpx.Response:
-        ''' Returns current ledger balance.
+        ''' Returns current ledger balance in cents.
             Args:
                 params (dict): Custom params to be used in request's query string.
                                 It overrides all other parameters provided for the method.
@@ -178,15 +181,15 @@ class BillingApiV1(HttpClient):
                                 test: bool = True,
                                 payload: dict = None,
                                 headers: dict = None) -> httpx.Response:
-        ''' Creates a new reccurent charge for the user (periodic payment).
+        ''' Creates a new recurrent charge for the user (periodic payment).
             Args:
-                name (str): Name of the reccurent charge.
+                name (str): Name of the recurrent charge.
                 price (int): Price of the charge defined in cents.
                 return_url (str): Redirection url for the client.
-                per_account (bool): Whether or not the app is sold in ppa account model.
-                trial_days (int): Number of granted trial days.
-                months (int): Charge frequency expressed in months.
-                test (str): Whether or not the direct charge is for test.
+                per_account (bool): Whether or not the app is sold in ppa account model. Default: False.
+                trial_days (int): Number of granted trial days. Default: 0.
+                months (int): Charge frequency expressed in months. Default: 1.
+                test (str): Whether or not the direct charge is for test. Default: False.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -206,7 +209,7 @@ class BillingApiV1(HttpClient):
                              charge_id: str,
                              params: dict = None,
                              headers: dict = None) -> httpx.Response:
-        ''' Gets specific reccurent charge.
+        ''' Gets specific recurrent charge.
             Args:
                 charge_id (str): ID of the recurrent charge.
                 params (dict): Custom params to be used in request's query string.
@@ -233,7 +236,7 @@ class BillingApiV1(HttpClient):
                                headers: dict = None) -> httpx.Response:
         ''' Lists all recurrent charges.
             Args:
-                page (int): Navigate to specific page number.
+                page (int): Navigate to specific page number. Default: 1.
                 status (str): Filter charges by status. One of pending, accepted, active, declined, processed, failed or success.
                 order_client_id (str): Filter by specific `order_client_id`.
                 params (dict): Custom params to be used in request's query string.
@@ -255,7 +258,7 @@ class BillingApiV1(HttpClient):
                                 charge_id: str,
                                 payload: dict = None,
                                 headers: dict = None) -> httpx.Response:
-        ''' Accpets specific reccurent charge.
+        ''' Accepets specific recurrent charge.
             Args:
                 charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.
@@ -279,7 +282,7 @@ class BillingApiV1(HttpClient):
                                  charge_id: str,
                                  payload: dict = None,
                                  headers: dict = None) -> httpx.Response:
-        ''' Declines specific reccurent charge.
+        ''' Declines specific recurrent charge.
             Args:
                 charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.
@@ -303,7 +306,7 @@ class BillingApiV1(HttpClient):
                                   charge_id: str,
                                   payload: dict = None,
                                   headers: dict = None) -> httpx.Response:
-        ''' Activates specific reccurent charge.
+        ''' Activates specific recurrent charge.
             Args:
                 charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.
@@ -327,7 +330,7 @@ class BillingApiV1(HttpClient):
                                 charge_id: str,
                                 payload: dict = None,
                                 headers: dict = None) -> httpx.Response:
-        ''' Cancels specific reccurent charge.
+        ''' Cancels specific recurrent charge.
             Args:
                 charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.

@@ -5,7 +5,12 @@
 
 from __future__ import annotations
 
+from livechat.config import CONFIG
+
 from .api import BillingApiV1
+
+billing_url = CONFIG.get('billing_url')
+billing_version = CONFIG.get('billing_version')
 
 
 class BillingApi:
@@ -13,8 +18,8 @@ class BillingApi:
         Billing API version. '''
     @staticmethod
     def get_client(token: str,
-                   version: str = 'v1',
-                   base_url: str = 'billing.livechatinc.com',
+                   version: str = billing_version,
+                   base_url: str = billing_url,
                    http2: bool = False,
                    proxies: dict = None,
                    verify: bool = True) -> BillingApiV1:
@@ -23,7 +28,7 @@ class BillingApi:
             Args:
                 token (str): Full token with type Bearer that will be
                     used as `Authorization` header in requests to API.
-                version (str): API's version. Defaults to the v2 version of API.
+                version (str): Billing API's version. Defaults to the v1 version of Billing.
                 base_url (str): API's base url. Defaults to API's production URL.
                 http2 (bool): A boolean indicating if HTTP/2 support should be
                               enabled. Defaults to `False`.
@@ -40,7 +45,7 @@ class BillingApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            'v1': BillingApiV1(token, base_url, http2, proxies, verify),
+            '1': BillingApiV1(token, base_url, http2, proxies, verify),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
