@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [0.3.6] - TBA
 
+### Added
+- New `highest_available` option for `customer_monitoring_level` in agent-api `login` method.
+
 ### Bugfixes
 - Fix `customer_monitoring_level` parameter in `login` method in agent-api v3.3/v3.4/v3.5 classes.
 
