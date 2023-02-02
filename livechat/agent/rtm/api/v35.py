@@ -750,7 +750,7 @@ class AgentRtmV35:
                         the application's name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_monitoring_level (str): Possible values: my, chatting, invited, online.
+                customer_monitoring_level (str): Possible values are: `my`, `chatting`, `invited`, `online` and `highest_available`.
                         Defaults to my if login creates the first session;
                         otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
