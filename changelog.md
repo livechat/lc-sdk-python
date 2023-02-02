@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [0.3.6] - TBA
 
 ### Added
+
+- Added support for billing-api.
 - New `highest_available` option for `customer_monitoring_level` in agent-api `login` method.
 
 ### Bugfixes
