@@ -258,7 +258,7 @@ class BillingApiV1(HttpClient):
                                 charge_id: str,
                                 payload: dict = None,
                                 headers: dict = None) -> httpx.Response:
-        ''' Accepets specific recurrent charge.
+        ''' Accepts specific recurrent charge.
             Args:
                 charge_id (str): ID of the recurrent charge.
                 payload (dict): Custom payload to be used as request's data.
