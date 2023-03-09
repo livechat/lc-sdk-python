@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bugfixes
 - Fix `customer_monitoring_level` parameter in `login` method in agent-api v3.3/v3.4/v3.5 classes.
+- Fix `httpx` version in setup.cfg
 
 ### Removed
 
