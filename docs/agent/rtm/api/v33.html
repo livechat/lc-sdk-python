@@ -798,7 +798,7 @@ class AgentRtmV33:
               push_notifications: dict = None,
               application: dict = None,
               away: bool = None,
-              customer_push_level: str = None,
+              customer_monitoring_level: str = None,
               pushes: dict = None,
               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in agent.
@@ -813,9 +813,9 @@ class AgentRtmV33:
                         the application&#39;s name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_push_level (str): Possible values: my, engaged, online.
+                customer_monitoring_level (str): Possible values: my, chatting, invited, online.
                         Defaults to my if login creates the first session;
-                        otherwise it preserves the current customer_push_level.
+                        otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
                 By default, it&#39;s set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request&#39;s data.
@@ -1807,7 +1807,7 @@ class AgentRtmV33:
               push_notifications: dict = None,
               application: dict = None,
               away: bool = None,
-              customer_push_level: str = None,
+              customer_monitoring_level: str = None,
               pushes: dict = None,
               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in agent.
@@ -1822,9 +1822,9 @@ class AgentRtmV33:
                         the application&#39;s name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_push_level (str): Possible values: my, engaged, online.
+                customer_monitoring_level (str): Possible values: my, chatting, invited, online.
                         Defaults to my if login creates the first session;
-                        otherwise it preserves the current customer_push_level.
+                        otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
                 By default, it&#39;s set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request&#39;s data.
@@ -3026,7 +3026,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v33.AgentRtmV33.login"><code class="name flex">
-<span>def <span class="ident">login</span></span>(<span>self, token: str = None, timezone: str = None, reconnect: bool = None, push_notifications: dict = None, application: dict = None, away: bool = None, customer_push_level: str = None, pushes: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+<span>def <span class="ident">login</span></span>(<span>self, token: str = None, timezone: str = None, reconnect: bool = None, push_notifications: dict = None, application: dict = None, away: bool = None, customer_monitoring_level: str = None, pushes: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Logs in agent.</p>
@@ -3047,10 +3047,10 @@ the application's name and version.</dd>
 <dt><strong><code>away</code></strong> :&ensp;<code>bool</code></dt>
 <dd>When True, the connection is set to the away state.
 Defaults to False.</dd>
-<dt><strong><code>customer_push_level</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: my, engaged, online.
+<dt><strong><code>customer_monitoring_level</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values: my, chatting, invited, online.
 Defaults to my if login creates the first session;
-otherwise it preserves the current customer_push_level.</dd>
+otherwise it preserves the current customer_monitoring_level.</dd>
 <dt><strong><code>pushes</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Use case: when you want to receive only specific pushes.</dd>
 <dt>By default, it's set to all for the version of your currently established RTM connection.</dt>
@@ -3075,7 +3075,7 @@ It overrides all other parameters provided for the method.</dd>
           push_notifications: dict = None,
           application: dict = None,
           away: bool = None,
-          customer_push_level: str = None,
+          customer_monitoring_level: str = None,
           pushes: dict = None,
           payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Logs in agent.
@@ -3090,9 +3090,9 @@ It overrides all other parameters provided for the method.</dd>
                     the application&#39;s name and version.
             away (bool): When True, the connection is set to the away state.
                     Defaults to False.
-            customer_push_level (str): Possible values: my, engaged, online.
+            customer_monitoring_level (str): Possible values: my, chatting, invited, online.
                     Defaults to my if login creates the first session;
-                    otherwise it preserves the current customer_push_level.
+                    otherwise it preserves the current customer_monitoring_level.
             pushes (dict): Use case: when you want to receive only specific pushes.
             By default, it&#39;s set to all for the version of your currently established RTM connection.
             payload (dict): Custom payload to be used as request&#39;s data.

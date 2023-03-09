@@ -615,34 +615,6 @@ class AgentRtmV36:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_customer&#39;, &#39;payload&#39;: payload})
 
-    def list_customers(self,
-                       page_id: str = None,
-                       limit: int = None,
-                       sort_order: str = None,
-                       sort_by: str = None,
-                       filters: dict = None,
-                       payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Returns the list of Customers.
-
-            Args:
-                page_id (str): Page ID.
-                limit (int): Customers limit. Default: 10, maximum: 100.
-                sort_order (str): Possible values: asc, desc (default). Customers are sorted
-                        by the creation date.
-                sort_by (str): Possible values: created_at (default), threads_count, visits_count,
-                        agent_last_event or customer_last_event.
-                filters (dict): Filters object.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;list_customers&#39;, &#39;payload&#39;: payload})
-
     def create_customer(self,
                         name: str = None,
                         email: str = None,
@@ -764,7 +736,7 @@ class AgentRtmV36:
               push_notifications: dict = None,
               application: dict = None,
               away: bool = None,
-              customer_push_level: str = None,
+              customer_monitoring_level: str = None,
               pushes: dict = None,
               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in agent.
@@ -779,9 +751,9 @@ class AgentRtmV36:
                         the application&#39;s name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_push_level (str): Possible values: my, engaged, online.
+                customer_monitoring_level (str): Possible values are: `my`, `chatting`, `invited`, `online` and `highest_available`.
                         Defaults to my if login creates the first session;
-                        otherwise it preserves the current customer_push_level.
+                        otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
                 By default, it&#39;s set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request&#39;s data.
@@ -1590,34 +1562,6 @@ class AgentRtmV36:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_customer&#39;, &#39;payload&#39;: payload})
 
-    def list_customers(self,
-                       page_id: str = None,
-                       limit: int = None,
-                       sort_order: str = None,
-                       sort_by: str = None,
-                       filters: dict = None,
-                       payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Returns the list of Customers.
-
-            Args:
-                page_id (str): Page ID.
-                limit (int): Customers limit. Default: 10, maximum: 100.
-                sort_order (str): Possible values: asc, desc (default). Customers are sorted
-                        by the creation date.
-                sort_by (str): Possible values: created_at (default), threads_count, visits_count,
-                        agent_last_event or customer_last_event.
-                filters (dict): Filters object.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;list_customers&#39;, &#39;payload&#39;: payload})
-
     def create_customer(self,
                         name: str = None,
                         email: str = None,
@@ -1739,7 +1683,7 @@ class AgentRtmV36:
               push_notifications: dict = None,
               application: dict = None,
               away: bool = None,
-              customer_push_level: str = None,
+              customer_monitoring_level: str = None,
               pushes: dict = None,
               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in agent.
@@ -1754,9 +1698,9 @@ class AgentRtmV36:
                         the application&#39;s name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_push_level (str): Possible values: my, engaged, online.
+                customer_monitoring_level (str): Possible values are: `my`, `chatting`, `invited`, `online` and `highest_available`.
                         Defaults to my if login creates the first session;
-                        otherwise it preserves the current customer_push_level.
+                        otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
                 By default, it&#39;s set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request&#39;s data.
@@ -2749,68 +2693,6 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;list_chats&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.list_customers"><code class="name flex">
-<span>def <span class="ident">list_customers</span></span>(<span>self, page_id: str = None, limit: int = None, sort_order: str = None, sort_by: str = None, filters: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the list of Customers.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>Page ID.</dd>
-<dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
-<dd>Customers limit. Default: 10, maximum: 100.</dd>
-<dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: asc, desc (default). Customers are sorted
-by the creation date.</dd>
-<dt><strong><code>sort_by</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: created_at (default), threads_count, visits_count,
-agent_last_event or customer_last_event.</dd>
-<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Filters object.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>RtmResponse</code></dt>
-<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
-<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_customers(self,
-                   page_id: str = None,
-                   limit: int = None,
-                   sort_order: str = None,
-                   sort_by: str = None,
-                   filters: dict = None,
-                   payload: dict = None) -&gt; RtmResponse:
-    &#39;&#39;&#39; Returns the list of Customers.
-
-        Args:
-            page_id (str): Page ID.
-            limit (int): Customers limit. Default: 10, maximum: 100.
-            sort_order (str): Possible values: asc, desc (default). Customers are sorted
-                    by the creation date.
-            sort_by (str): Possible values: created_at (default), threads_count, visits_count,
-                    agent_last_event or customer_last_event.
-            filters (dict): Filters object.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            RtmResponse: RTM response structure (`request_id`, `action`,
-                         `type`, `success` and `payload` properties)
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({&#39;action&#39;: &#39;list_customers&#39;, &#39;payload&#39;: payload})</code></pre>
-</details>
-</dd>
 <dt id="livechat.agent.rtm.api.v36.AgentRtmV36.list_routing_statuses"><code class="name flex">
 <span>def <span class="ident">list_routing_statuses</span></span>(<span>self, filters: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
@@ -2923,7 +2805,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v36.AgentRtmV36.login"><code class="name flex">
-<span>def <span class="ident">login</span></span>(<span>self, token: str = None, timezone: str = None, reconnect: bool = None, push_notifications: dict = None, application: dict = None, away: bool = None, customer_push_level: str = None, pushes: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+<span>def <span class="ident">login</span></span>(<span>self, token: str = None, timezone: str = None, reconnect: bool = None, push_notifications: dict = None, application: dict = None, away: bool = None, customer_monitoring_level: str = None, pushes: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Logs in agent.</p>
@@ -2944,10 +2826,10 @@ the application's name and version.</dd>
 <dt><strong><code>away</code></strong> :&ensp;<code>bool</code></dt>
 <dd>When True, the connection is set to the away state.
 Defaults to False.</dd>
-<dt><strong><code>customer_push_level</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: my, engaged, online.
+<dt><strong><code>customer_monitoring_level</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values are: <code>my</code>, <code>chatting</code>, <code>invited</code>, <code>online</code> and <code>highest_available</code>.
 Defaults to my if login creates the first session;
-otherwise it preserves the current customer_push_level.</dd>
+otherwise it preserves the current customer_monitoring_level.</dd>
 <dt><strong><code>pushes</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Use case: when you want to receive only specific pushes.</dd>
 <dt>By default, it's set to all for the version of your currently established RTM connection.</dt>
@@ -2972,7 +2854,7 @@ It overrides all other parameters provided for the method.</dd>
           push_notifications: dict = None,
           application: dict = None,
           away: bool = None,
-          customer_push_level: str = None,
+          customer_monitoring_level: str = None,
           pushes: dict = None,
           payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Logs in agent.
@@ -2987,9 +2869,9 @@ It overrides all other parameters provided for the method.</dd>
                     the application&#39;s name and version.
             away (bool): When True, the connection is set to the away state.
                     Defaults to False.
-            customer_push_level (str): Possible values: my, engaged, online.
+            customer_monitoring_level (str): Possible values are: `my`, `chatting`, `invited`, `online` and `highest_available`.
                     Defaults to my if login creates the first session;
-                    otherwise it preserves the current customer_push_level.
+                    otherwise it preserves the current customer_monitoring_level.
             pushes (dict): Use case: when you want to receive only specific pushes.
             By default, it&#39;s set to all for the version of your currently established RTM connection.
             payload (dict): Custom payload to be used as request&#39;s data.
@@ -4072,7 +3954,6 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_agents_for_transfer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_archives" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_archives">list_archives</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_chats" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_chats">list_chats</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_customers" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_customers">list_customers</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_routing_statuses" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_routing_statuses">list_routing_statuses</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_threads" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_threads">list_threads</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.login" href="#livechat.agent.rtm.api.v36.AgentRtmV36.login">login</a></code></li>
