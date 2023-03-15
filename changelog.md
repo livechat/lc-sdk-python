@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.7] - TBA
+
+### Added
+
+- `reactivate_email` action in configuration-api v3.6 class.
+
 ## [0.3.6] - 2023-03-09
 
 ### Added
