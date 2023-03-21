@@ -1314,9 +1314,9 @@ class ConfigurationApiV36(HttpClient):
                          agent_id: str = None,
                          payload: dict = None,
                          headers: dict = None) -> httpx.Response:
-        ''' Activates a bounced email in the Postmark.
+        ''' Reactivates email if it has been bounced.
             Args:
-                agent_id (str): Agent's ID in a form of an email.
+                agent_id (str): Agent ID.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
