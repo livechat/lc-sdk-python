@@ -17,12 +17,15 @@ class BillingApi:
     ''' Base class that allows retrieval of client for specific
         Billing API version. '''
     @staticmethod
-    def get_client(token: str,
-                   version: str = billing_version,
-                   base_url: str = billing_url,
-                   http2: bool = False,
-                   proxies: dict = None,
-                   verify: bool = True) -> BillingApiV1:
+    def get_client(
+        token: str,
+        version: str = billing_version,
+        base_url: str = billing_url,
+        http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True,
+        disable_logging: bool = False,
+    ) -> BillingApiV1:
         ''' Returns client for specific Billing API version.
 
             Args:
@@ -37,6 +40,7 @@ class BillingApi:
                                verify the identity of requested hosts. Either `True` (default CA bundle),
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
+                disable_logging (bool): A boolean indicating if logging should be disabled.
 
             Returns:
                 BillingApi: API client object for specified version.
@@ -45,7 +49,9 @@ class BillingApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '1': BillingApiV1(token, base_url, http2, proxies, verify),
+            '1':
+            BillingApiV1(token, base_url, http2, proxies, verify,
+                         disable_logging),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

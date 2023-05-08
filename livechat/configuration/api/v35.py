@@ -15,8 +15,10 @@ class ConfigurationApiV35(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f'https://{base_url}/v3.5/configuration/action'
 
 # Agents
@@ -1428,9 +1430,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_create_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `create_bot`.
 
             Args:
@@ -1447,9 +1449,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_delete_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `delete_bot`.
 
             Args:
@@ -1466,9 +1468,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_update_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `update_bot`.
 
             Args:

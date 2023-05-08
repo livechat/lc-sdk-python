@@ -27,7 +27,8 @@ class ReportsApi:
         base_url: str = api_url,
         http2: bool = False,
         proxies: dict = None,
-        verify: bool = True
+        verify: bool = True,
+        disable_logging: bool = False,
     ) -> Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
         ''' Returns client for specific Reports API version.
 
@@ -43,6 +44,7 @@ class ReportsApi:
                                verify the identity of requested hosts. Either `True` (default CA bundle),
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
+                disable_logging (bool): A boolean indicating if logging should be disabled.
 
             Returns:
                 ReportsApi: API client object for specified version.
@@ -51,10 +53,18 @@ class ReportsApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': ReportsApiV33(token, base_url, http2, proxies, verify),
-            '3.4': ReportsApiV34(token, base_url, http2, proxies, verify),
-            '3.5': ReportsApiV35(token, base_url, http2, proxies, verify),
-            '3.6': ReportsApiV36(token, base_url, http2, proxies, verify),
+            '3.3':
+            ReportsApiV33(token, base_url, http2, proxies, verify,
+                          disable_logging),
+            '3.4':
+            ReportsApiV34(token, base_url, http2, proxies, verify,
+                          disable_logging),
+            '3.5':
+            ReportsApiV35(token, base_url, http2, proxies, verify,
+                          disable_logging),
+            '3.6':
+            ReportsApiV36(token, base_url, http2, proxies, verify,
+                          disable_logging),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

@@ -17,9 +17,11 @@ class CustomerWebV34(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
+                 verify: bool = True,
+                 disable_logging: bool = False):
         if all([access_token, isinstance(access_token, str)]):
-            super().__init__(access_token, base_url, http2, proxies, verify)
+            super().__init__(access_token, base_url, http2, proxies, verify,
+                             disable_logging)
         else:
             raise ValueError(
                 'Incorrect or missing `access_token` argument (should be of type str.)'
@@ -610,8 +612,8 @@ class CustomerWebV34(HttpClient):
             params['name'] = name
         params['organization_id'] = self.organization_id
         return self.session.get(f'{self.api_url}/list_license_properties',
-                                 params=params,
-                                 headers=headers)
+                                params=params,
+                                headers=headers)
 
     def list_group_properties(self,
                               group_id: int = None,
@@ -639,8 +641,8 @@ class CustomerWebV34(HttpClient):
             params['id'] = str(group_id)
         params['organization_id'] = self.organization_id
         return self.session.get(f'{self.api_url}/list_group_properties',
-                                 params=params,
-                                 headers=headers)
+                                params=params,
+                                headers=headers)
 
 # Customers
 
