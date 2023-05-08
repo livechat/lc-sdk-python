@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 
 - `reactivate_email` action in configuration-api v3.6 class.
 
+### Changed
+- Loguru is now used for logging.
+
 ## [0.3.6] - 2023-03-09
 
 ### Added
