@@ -1308,9 +1308,9 @@ class ConfigurationApiV35(HttpClient):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(f'{self.api_url}/get_product_source',
-                                json=payload,
-                                headers=headers)
+        return self.session.post(f'{self.api_url}/get_product_source',
+                                 json=payload,
+                                 headers=headers)
 
 
 # Batch requests

@@ -11,6 +11,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Loguru is now used for logging.
 
+### Bugfixes
+- Fix HTTP method for `get_product_source` method in Configuration API v3.5 and v3.6.
+
 ## [0.3.6] - 2023-03-09
 
 ### Added
