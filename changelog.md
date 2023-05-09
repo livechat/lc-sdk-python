@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 
 - `reactivate_email` action in configuration-api v3.6 class.
 
+### Bugfixes
+- Fix HTTP method for `get_product_source` method in Configuration API v3.5 and v3.6.
+
 ## [0.3.6] - 2023-03-09
 
 ### Added
