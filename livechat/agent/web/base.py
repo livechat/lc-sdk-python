@@ -20,12 +20,13 @@ class AgentWeb:
         API version. '''
     @staticmethod
     def get_client(
-            access_token: str,
-            version: str = stable_version,
-            base_url: str = api_url,
-            http2: bool = False,
-            proxies: dict = None,
-            verify: bool = True
+        access_token: str,
+        version: str = stable_version,
+        base_url: str = api_url,
+        http2: bool = False,
+        proxies: dict = None,
+        verify: bool = True,
+        disable_logging: bool = False,
     ) -> Union[AgentWebV33, AgentWebV34, AgentWebV35]:
         ''' Returns client for specific API version.
 
@@ -41,6 +42,7 @@ class AgentWeb:
                                verify the identity of requested hosts. Either `True` (default CA bundle),
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
+                disable_logging (bool): indicates if logging should be disabled.
 
             Returns:
                 API client object for specified version.
@@ -49,10 +51,18 @@ class AgentWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': AgentWebV33(access_token, base_url, http2, proxies, verify),
-            '3.4': AgentWebV34(access_token, base_url, http2, proxies, verify),
-            '3.5': AgentWebV35(access_token, base_url, http2, proxies, verify),
-            '3.6': AgentWebV36(access_token, base_url, http2, proxies, verify),
+            '3.3':
+            AgentWebV33(access_token, base_url, http2, proxies, verify,
+                        disable_logging),
+            '3.4':
+            AgentWebV34(access_token, base_url, http2, proxies, verify,
+                        disable_logging),
+            '3.5':
+            AgentWebV35(access_token, base_url, http2, proxies, verify,
+                        disable_logging),
+            '3.6':
+            AgentWebV36(access_token, base_url, http2, proxies, verify,
+                        disable_logging),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

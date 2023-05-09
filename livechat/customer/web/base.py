@@ -28,7 +28,8 @@ class CustomerWeb:
         http2: bool = False,
         proxies: dict = None,
         verify: bool = True,
-        organization_id: str = None
+        organization_id: str = None,
+        disable_logging: bool = False,
     ) -> Union[CustomerWebV33, CustomerWebV34, CustomerWebV35]:
         ''' Returns client for specific API version.
 
@@ -46,6 +47,7 @@ class CustomerWeb:
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
+                disable_logging (bool): indicates if logging should be disabled.
 
             Returns:
                 API client object for specified version based on
@@ -67,7 +69,8 @@ class CustomerWeb:
                 'base_url': base_url,
                 'http2': http2,
                 'proxies': proxies,
-                'verify': verify
+                'verify': verify,
+                'disable_logging': disable_logging
             },
             '3.4': {
                 'organization_id': organization_id,
@@ -75,7 +78,8 @@ class CustomerWeb:
                 'base_url': base_url,
                 'http2': http2,
                 'proxies': proxies,
-                'verify': verify
+                'verify': verify,
+                'disable_logging': disable_logging
             },
             '3.5': {
                 'organization_id': organization_id,
@@ -83,7 +87,8 @@ class CustomerWeb:
                 'base_url': base_url,
                 'http2': http2,
                 'proxies': proxies,
-                'verify': verify
+                'verify': verify,
+                'disable_logging': disable_logging
             },
             '3.6': {
                 'organization_id': organization_id,
@@ -91,7 +96,8 @@ class CustomerWeb:
                 'base_url': base_url,
                 'http2': http2,
                 'proxies': proxies,
-                'verify': verify
+                'verify': verify,
+                'disable_logging': disable_logging
             },
         }.get(version)
         if client:

@@ -13,8 +13,9 @@ class HttpClient:
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        logger = HttpxLogger()
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        logger = HttpxLogger(disable_logging=disable_logging)
         self.base_url = base_url
         self.session = httpx.Client(http2=http2,
                                     headers={'Authorization': token},
