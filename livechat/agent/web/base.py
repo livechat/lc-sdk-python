@@ -42,7 +42,7 @@ class AgentWeb:
                                verify the identity of requested hosts. Either `True` (default CA bundle),
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
-                disable_logging (bool): A boolean indicating if logging should be disabled.
+                disable_logging (bool): indicates if logging should be disabled.
 
             Returns:
                 API client object for specified version.

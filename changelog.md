@@ -6,13 +6,13 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - `reactivate_email` action in configuration-api v3.6 class.
-- `disable_logging` flag for web base clients.
+- `disable_logging` flag for web based clients.
 
 ### Changed
-- Loguru is now used for logging.
+- [Loguru](https://pypi.org/project/loguru/) used for logging.
 
 ### Bugfixes
-- Fix HTTP method for `get_product_source` method in Configuration API v3.5 and v3.6.
+- Fix HTTP request type for `get_product_source` method in Configuration API v3.5 and v3.6.
 
 ## [0.3.6] - 2023-03-09
 

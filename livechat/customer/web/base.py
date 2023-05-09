@@ -47,7 +47,7 @@ class CustomerWeb:
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
-                disable_logging (bool): A boolean indicating if logging should be disabled.
+                disable_logging (bool): indicates if logging should be disabled.
 
             Returns:
                 API client object for specified version based on
