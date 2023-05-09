@@ -1306,9 +1306,9 @@ class ConfigurationApiV35(HttpClient):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(f'{self.api_url}/get_product_source',
-                                json=payload,
-                                headers=headers)
+        return self.session.post(f'{self.api_url}/get_product_source',
+                                 json=payload,
+                                 headers=headers)
 
 
 # Batch requests
@@ -1428,9 +1428,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_create_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `create_bot`.
 
             Args:
@@ -1447,9 +1447,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_delete_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `delete_bot`.
 
             Args:
@@ -1466,9 +1466,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_update_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `update_bot`.
 
             Args:
