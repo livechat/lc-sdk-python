@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- `reactivate_email` action in configuration-api v3.6 class.
+- `reactivate_email` and `update_company_details` actions in configuration-api v3.6 class.
 - `disable_logging` flag for web based clients.
 
 ### Changed
