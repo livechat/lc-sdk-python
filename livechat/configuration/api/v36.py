@@ -1337,10 +1337,43 @@ class ConfigurationApiV36(HttpClient):
                                  headers=headers)
 
     def update_company_details(self,
+                               enrich: bool = None,
+                               audience: str = None,
+                               chat_purpose: str = None,
+                               city: str = None,
+                               company: str = None,
+                               company_size: str = None,
+                               country: str = None,
+                               invoice_email: str = None,
+                               invoice_name: str = None,
+                               nip: str = None,
+                               postal_code: str = None,
+                               state: str = None,
+                               street: str = None,
+                               phone: str = None,
+                               province: str = None,
+                               url: str = None,
                                payload: dict = None,
                                headers: dict = None) -> httpx.Response:
-        ''' Updates company details.
+        ''' Updates company details of the license.
             Args:
+                enrich (bool): Whether the system should attempt to automatically
+                               fill empty fields by searching for company's domain.
+                audience (str): Audience
+                chat_purpose (str): Chat purpose
+                city (str): City
+                company (str): Company
+                company_size (str): Company size
+                country (str): Country
+                invoice_email (str): Invoice email
+                invoice_name (str): Invoice name
+                nip (str): Employer Identification Number
+                postal_code (str): Postal code
+                state (str): State
+                street (str): Street
+                phone (str): Phone
+                province (str): Province
+                url (str): URL
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
