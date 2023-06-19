@@ -7,6 +7,8 @@ import httpx
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
 
+# pylint: disable=unused-argument,too-many-arguments,redefined-builtin,invalid-name
+
 
 class ConfigurationApiV36(HttpClient):
     ''' Configuration API client class in version 3.6. '''
@@ -1331,6 +1333,59 @@ class ConfigurationApiV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/reactivate_email',
+                                 json=payload,
+                                 headers=headers)
+
+    def update_company_details(self,
+                               enrich: bool = None,
+                               audience: str = None,
+                               chat_purpose: str = None,
+                               city: str = None,
+                               company: str = None,
+                               company_size: str = None,
+                               country: str = None,
+                               invoice_email: str = None,
+                               invoice_name: str = None,
+                               nip: str = None,
+                               postal_code: str = None,
+                               state: str = None,
+                               street: str = None,
+                               phone: str = None,
+                               province: str = None,
+                               url: str = None,
+                               payload: dict = None,
+                               headers: dict = None) -> httpx.Response:
+        ''' Updates company details of the license.
+            Args:
+                enrich (bool): Whether the system should attempt to automatically
+                               fill empty fields by searching for company's domain.
+                audience (str): Audience
+                chat_purpose (str): Chat purpose
+                city (str): City
+                company (str): Company
+                company_size (str): Company size
+                country (str): Country
+                invoice_email (str): Invoice email
+                invoice_name (str): Invoice name
+                nip (str): Employer Identification Number
+                postal_code (str): Postal code
+                state (str): State
+                street (str): Street
+                phone (str): Phone
+                province (str): Province
+                url (str): URL
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/update_company_details',
                                  json=payload,
                                  headers=headers)
 
