@@ -7,7 +7,7 @@
 
 -i https://pypi.org/simple
 anyio==3.6.2; python_full_version >= '3.6.2'
-certifi==2023.5.7; python_version >= '3.6'
+certifi==2023.7.22; python_version >= '3.6'
 h11==0.14.0; python_version >= '3.7'
 h2==4.1.0
 hpack==4.0.0; python_full_version >= '3.6.1'
