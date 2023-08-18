@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bugfixes
 - Fix HTTP request type for `get_product_source` method in Configuration API v3.5 and v3.6.
-- Fix response fetching in RTM
+- Fix an issue related to fetching responses in RTM.
 
 ## [0.3.6] - 2023-03-09
 
