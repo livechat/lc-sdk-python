@@ -81,9 +81,11 @@ class WebsocketClient(WebSocketApp):
         if not self.sock or self.sock.send(request_json, opcode) == 0:
             raise WebSocketConnectionClosedException(
                 'Connection is already closed.')
-        while not (response := next((item for item in self.messages
-                                     if item.get('request_id') == request_id),
-                                    None)) and response_timeout > 0:
+        while not (response := next(
+            (item
+             for item in self.messages if item.get('request_id') == request_id
+             and item.get('type') == 'response'),
+                None)) and response_timeout > 0:
             sleep(0.2)
             response_timeout -= 0.2
         self.logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
