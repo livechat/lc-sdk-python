@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - [Loguru](https://pypi.org/project/loguru/) used for logging.
+- Required packages to currently newest versions.
 
 ### Bugfixes
 - Fix HTTP request type for `get_product_source` method in Configuration API v3.5 and v3.6.
