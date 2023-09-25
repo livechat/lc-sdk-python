@@ -3,13 +3,13 @@ Client for WebSocket connections.
 '''
 
 import json
-import logging
 import random
 import ssl
 import threading
 from time import sleep
 from typing import List, NoReturn
 
+from loguru import logger
 from websocket import WebSocketApp, WebSocketConnectionClosedException
 from websocket._abnf import ABNF
 
@@ -27,9 +27,6 @@ class WebsocketClient(WebSocketApp):
     messages: List[dict] = []
 
     def __init__(self, *args, **kwargs):
-        logging.basicConfig()
-        self.logger = logging.getLogger()
-        self.logger.setLevel(logging.INFO)
         super().__init__(*args, **kwargs)
         self.on_message = on_message
 
@@ -77,7 +74,7 @@ class WebsocketClient(WebSocketApp):
         request_id = str(random.randint(1, 9999999999))
         request.update({'request_id': request_id})
         request_json = json.dumps(request, indent=4)
-        self.logger.info(f'\nREQUEST:\n{request_json}')
+        logger.info(f'\nREQUEST:\n{request_json}')
         if not self.sock or self.sock.send(request_json, opcode) == 0:
             raise WebSocketConnectionClosedException(
                 'Connection is already closed.')
@@ -88,7 +85,7 @@ class WebsocketClient(WebSocketApp):
                 None)) and response_timeout > 0:
             sleep(0.2)
             response_timeout -= 0.2
-        self.logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
+        logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
         return RtmResponse(response)
 
     def _wait_till_sock_connected(self, timeout: float = 3) -> NoReturn:
