@@ -36,6 +36,8 @@ import httpx
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
 
+# pylint: disable=unused-argument,too-many-arguments,redefined-builtin,invalid-name
+
 
 class ConfigurationApiV36(HttpClient):
     &#39;&#39;&#39; Configuration API client class in version 3.6. &#39;&#39;&#39;
@@ -44,8 +46,10 @@ class ConfigurationApiV36(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f&#39;https://{base_url}/v3.6/configuration/action&#39;
 
 # Agents
@@ -1335,9 +1339,84 @@ class ConfigurationApiV36(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(f&#39;{self.api_url}/get_product_source&#39;,
-                                json=payload,
-                                headers=headers)
+        return self.session.post(f&#39;{self.api_url}/get_product_source&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def reactivate_email(self,
+                         agent_id: str = None,
+                         payload: dict = None,
+                         headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Reactivates email if it has been bounced.
+            Args:
+                agent_id (str): Agent ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/reactivate_email&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def update_company_details(self,
+                               enrich: bool = None,
+                               audience: str = None,
+                               chat_purpose: str = None,
+                               city: str = None,
+                               company: str = None,
+                               company_size: str = None,
+                               country: str = None,
+                               invoice_email: str = None,
+                               invoice_name: str = None,
+                               nip: str = None,
+                               postal_code: str = None,
+                               state: str = None,
+                               street: str = None,
+                               phone: str = None,
+                               province: str = None,
+                               url: str = None,
+                               payload: dict = None,
+                               headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Updates company details of the license.
+            Args:
+                enrich (bool): Whether the system should attempt to automatically
+                               fill empty fields by searching for company&#39;s domain.
+                audience (str): Audience
+                chat_purpose (str): Chat purpose
+                city (str): City
+                company (str): Company
+                company_size (str): Company size
+                country (str): Country
+                invoice_email (str): Invoice email
+                invoice_name (str): Invoice name
+                nip (str): Employer Identification Number
+                postal_code (str): Postal code
+                state (str): State
+                street (str): Street
+                phone (str): Phone
+                province (str): Province
+                url (str): URL
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_company_details&#39;,
+                                 json=payload,
+                                 headers=headers)
 
 
 # Batch requests
@@ -1525,7 +1604,7 @@ class ConfigurationApiV36(HttpClient):
 <dl>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36"><code class="flex name class">
 <span>class <span class="ident">ConfigurationApiV36</span></span>
-<span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
+<span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True, disable_logging: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Configuration API client class in version 3.6.</p></div>
@@ -1540,8 +1619,10 @@ class ConfigurationApiV36(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f&#39;https://{base_url}/v3.6/configuration/action&#39;
 
 # Agents
@@ -2831,9 +2912,84 @@ class ConfigurationApiV36(HttpClient):
         &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(f&#39;{self.api_url}/get_product_source&#39;,
-                                json=payload,
-                                headers=headers)
+        return self.session.post(f&#39;{self.api_url}/get_product_source&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def reactivate_email(self,
+                         agent_id: str = None,
+                         payload: dict = None,
+                         headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Reactivates email if it has been bounced.
+            Args:
+                agent_id (str): Agent ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/reactivate_email&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def update_company_details(self,
+                               enrich: bool = None,
+                               audience: str = None,
+                               chat_purpose: str = None,
+                               city: str = None,
+                               company: str = None,
+                               company_size: str = None,
+                               country: str = None,
+                               invoice_email: str = None,
+                               invoice_name: str = None,
+                               nip: str = None,
+                               postal_code: str = None,
+                               state: str = None,
+                               street: str = None,
+                               phone: str = None,
+                               province: str = None,
+                               url: str = None,
+                               payload: dict = None,
+                               headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Updates company details of the license.
+            Args:
+                enrich (bool): Whether the system should attempt to automatically
+                               fill empty fields by searching for company&#39;s domain.
+                audience (str): Audience
+                chat_purpose (str): Chat purpose
+                city (str): City
+                company (str): Company
+                company_size (str): Company size
+                country (str): Country
+                invoice_email (str): Invoice email
+                invoice_name (str): Invoice name
+                nip (str): Employer Identification Number
+                postal_code (str): Postal code
+                state (str): State
+                street (str): Street
+                phone (str): Phone
+                province (str): Province
+                url (str): URL
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_company_details&#39;,
+                                 json=payload,
+                                 headers=headers)
 
 
 # Batch requests
@@ -4581,9 +4737,9 @@ which contains a server's response to an HTTP request.</dd>
     &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.session.get(f&#39;{self.api_url}/get_product_source&#39;,
-                            json=payload,
-                            headers=headers)</code></pre>
+    return self.session.post(f&#39;{self.api_url}/get_product_source&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
 </details>
 </dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_agents"><code class="name flex">
@@ -5218,6 +5374,56 @@ which contains a server's response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/publish_property&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.reactivate_email"><code class="name flex">
+<span>def <span class="ident">reactivate_email</span></span>(<span>self, agent_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reactivates email if it has been bounced.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>agent_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Agent ID.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reactivate_email(self,
+                     agent_id: str = None,
+                     payload: dict = None,
+                     headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Reactivates email if it has been bounced.
+        Args:
+            agent_id (str): Agent ID.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/reactivate_email&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -5884,6 +6090,118 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_company_details"><code class="name flex">
+<span>def <span class="ident">update_company_details</span></span>(<span>self, enrich: bool = None, audience: str = None, chat_purpose: str = None, city: str = None, company: str = None, company_size: str = None, country: str = None, invoice_email: str = None, invoice_name: str = None, nip: str = None, postal_code: str = None, state: str = None, street: str = None, phone: str = None, province: str = None, url: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates company details of the license.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>enrich</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether the system should attempt to automatically
+fill empty fields by searching for company's domain.</dd>
+<dt><strong><code>audience</code></strong> :&ensp;<code>str</code></dt>
+<dd>Audience</dd>
+<dt><strong><code>chat_purpose</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chat purpose</dd>
+<dt><strong><code>city</code></strong> :&ensp;<code>str</code></dt>
+<dd>City</dd>
+<dt><strong><code>company</code></strong> :&ensp;<code>str</code></dt>
+<dd>Company</dd>
+<dt><strong><code>company_size</code></strong> :&ensp;<code>str</code></dt>
+<dd>Company size</dd>
+<dt><strong><code>country</code></strong> :&ensp;<code>str</code></dt>
+<dd>Country</dd>
+<dt><strong><code>invoice_email</code></strong> :&ensp;<code>str</code></dt>
+<dd>Invoice email</dd>
+<dt><strong><code>invoice_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Invoice name</dd>
+<dt><strong><code>nip</code></strong> :&ensp;<code>str</code></dt>
+<dd>Employer Identification Number</dd>
+<dt><strong><code>postal_code</code></strong> :&ensp;<code>str</code></dt>
+<dd>Postal code</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code></dt>
+<dd>State</dd>
+<dt><strong><code>street</code></strong> :&ensp;<code>str</code></dt>
+<dd>Street</dd>
+<dt><strong><code>phone</code></strong> :&ensp;<code>str</code></dt>
+<dd>Phone</dd>
+<dt><strong><code>province</code></strong> :&ensp;<code>str</code></dt>
+<dd>Province</dd>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_company_details(self,
+                           enrich: bool = None,
+                           audience: str = None,
+                           chat_purpose: str = None,
+                           city: str = None,
+                           company: str = None,
+                           company_size: str = None,
+                           country: str = None,
+                           invoice_email: str = None,
+                           invoice_name: str = None,
+                           nip: str = None,
+                           postal_code: str = None,
+                           state: str = None,
+                           street: str = None,
+                           phone: str = None,
+                           province: str = None,
+                           url: str = None,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Updates company details of the license.
+        Args:
+            enrich (bool): Whether the system should attempt to automatically
+                           fill empty fields by searching for company&#39;s domain.
+            audience (str): Audience
+            chat_purpose (str): Chat purpose
+            city (str): City
+            company (str): Company
+            company_size (str): Company size
+            country (str): Country
+            invoice_email (str): Invoice email
+            invoice_name (str): Invoice name
+            nip (str): Employer Identification Number
+            postal_code (str): Postal code
+            state (str): State
+            street (str): Street
+            phone (str): Phone
+            province (str): Province
+            url (str): URL
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/update_company_details&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_group"><code class="name flex">
 <span>def <span class="ident">update_group</span></span>(<span>self, id: int = None, name: str = None, language_code: str = None, agent_priorities: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -6179,6 +6497,7 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_webhook_names" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_webhook_names">list_webhook_names</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_webhooks" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_webhooks">list_webhooks</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.publish_property" href="#livechat.configuration.api.v36.ConfigurationApiV36.publish_property">publish_property</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.reactivate_email" href="#livechat.configuration.api.v36.ConfigurationApiV36.reactivate_email">reactivate_email</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.register_property" href="#livechat.configuration.api.v36.ConfigurationApiV36.register_property">register_property</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.register_webhook" href="#livechat.configuration.api.v36.ConfigurationApiV36.register_webhook">register_webhook</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.request_agent_unsuspension" href="#livechat.configuration.api.v36.ConfigurationApiV36.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
@@ -6189,6 +6508,7 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_agent">update_agent</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_auto_access" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_auto_access">update_auto_access</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_bot">update_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_company_details" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_company_details">update_company_details</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_group">update_group</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_group_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_group_properties">update_group_properties</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_license_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_license_properties">update_license_properties</a></code></li>

@@ -42,8 +42,10 @@ class BillingApiV1(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f&#39;https://{base_url}/v1&#39;
 
     # direct_charge
@@ -391,7 +393,7 @@ class BillingApiV1(HttpClient):
 <dl>
 <dt id="livechat.billing.api.v1.BillingApiV1"><code class="flex name class">
 <span>class <span class="ident">BillingApiV1</span></span>
-<span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
+<span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True, disable_logging: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Billing API client class in version 1.</p></div>
@@ -406,8 +408,10 @@ class BillingApiV1(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f&#39;https://{base_url}/v1&#39;
 
     # direct_charge
