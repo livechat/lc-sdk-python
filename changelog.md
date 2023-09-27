@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.7.1] - 2023-09-27
+
+- Re-release of `0.3.7` version.
+
 ## [0.3.7] - 2023-09-26
 
 ### Added
