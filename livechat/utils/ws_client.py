@@ -88,10 +88,10 @@ class WebsocketClient(WebSocketApp):
         logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
         return RtmResponse(response)
 
-    def _wait_till_sock_connected(self, timeout: float = 3) -> NoReturn:
+    def _wait_till_sock_connected(self, timeout: float = 10) -> NoReturn:
         ''' Polls until `self.sock` is connected.
             Args:
-                timeout (float): timeout value in seconds, default 3. '''
+                timeout (float): timeout value in seconds, default 10. '''
         if timeout < 0:
             raise TimeoutError('Timed out waiting for WebSocket to open.')
         try:
