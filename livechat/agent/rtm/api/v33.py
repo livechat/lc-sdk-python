@@ -1,6 +1,6 @@
 ''' Module containing Agent RTM API client implementation for v3.3. '''
 
-from typing import Any
+from typing import Any, Optional
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import RtmResponse
@@ -356,6 +356,7 @@ class AgentRtmV33:
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
+                   author_id: Optional[str] = None,
                    payload: dict = None) -> RtmResponse:
         ''' Sends an Event object.
 
@@ -364,6 +365,7 @@ class AgentRtmV33:
                 event (dict): Event object.
                 attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
                         The flag is ignored for active chats.
+                author_id (optional str): Provide if the event should be sent on behalf of a bot.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 
@@ -371,9 +373,12 @@ class AgentRtmV33:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
+        opts = {}
+        if author_id:
+            opts['author_id'] = author_id
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({'action': 'send_event', 'payload': payload})
+        return self.ws.send({'action': 'send_event', 'payload': payload, **opts})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,

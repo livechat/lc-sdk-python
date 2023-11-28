@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.8] - TBA
+
+### Bugfixes
+- Allow sending rtm events as a bot by adding `author_id` param.
+
 ## [0.3.7] - 2023-09-26
 
 ### Added
