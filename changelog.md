@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [0.3.8] - TBA
 
+### Changed
+- Implemented truncation of request params in logging for large data.
+
 ### Bugfixes
 - Allow sending rtm events as a bot by adding `author_id` param.
 
