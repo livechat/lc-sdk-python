@@ -10,6 +10,8 @@ from loguru import logger
 
 class HttpxLogger:
     ''' Logger for httpx requests. '''
+    MAX_CONTENT_LENGTH_TO_LOG = 1000
+
     def __init__(self, disable_logging: bool = False):
         self.disable_logging = disable_logging
 
@@ -30,6 +32,9 @@ class HttpxLogger:
                 dict(request.headers.items()),
                 indent=4,
             )
+            if len(request_params) > self.MAX_CONTENT_LENGTH_TO_LOG:
+                request_params = f'{request_params[:self.MAX_CONTENT_LENGTH_TO_LOG]}... (Truncated)'
+
             request_debug = f'Request params:\n{request_params}\n' \
                             f'Request headers:\n{request_headers}'
 
