@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [0.3.8] - TBA
 
 ### Added
-- Support for `logout` method in agent-api v3.6 class.
+- Support for `logout` method in agent-api v3.6 web class.
+- Support for `agent_id` parameter in agent-api v3.6 `logout` method.
 
 ### Changed
 - Implemented truncation of request params in logging for large data.
