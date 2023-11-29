@@ -29,7 +29,7 @@
 </summary>
 <pre><code class="python">&#39;&#39;&#39; Module containing Agent RTM API client implementation for v3.4. &#39;&#39;&#39;
 
-from typing import Any
+from typing import Any, Optional
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import RtmResponse
@@ -351,6 +351,7 @@ class AgentRtmV34:
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
+                   author_id: Optional[str] = None,
                    payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends an Event object.
 
@@ -359,6 +360,7 @@ class AgentRtmV34:
                 event (dict): Event object.
                 attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
                         The flag is ignored for active chats.
+                author_id (optional str): Provide if the event should be sent on behalf of a bot.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -366,9 +368,12 @@ class AgentRtmV34:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
+        opts = {}
+        if author_id:
+            opts[&#39;author_id&#39;] = author_id
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})
+        return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload, **opts})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -1326,6 +1331,7 @@ class AgentRtmV34:
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
+                   author_id: Optional[str] = None,
                    payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends an Event object.
 
@@ -1334,6 +1340,7 @@ class AgentRtmV34:
                 event (dict): Event object.
                 attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
                         The flag is ignored for active chats.
+                author_id (optional str): Provide if the event should be sent on behalf of a bot.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -1341,9 +1348,12 @@ class AgentRtmV34:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
+        opts = {}
+        if author_id:
+            opts[&#39;author_id&#39;] = author_id
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})
+        return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload, **opts})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -3265,7 +3275,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v34.AgentRtmV34.send_event"><code class="name flex">
-<span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+<span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, author_id: Optional[str] = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends an Event object.</p>
@@ -3278,6 +3288,8 @@ It overrides all other parameters provided for the method.</dd>
 <dt><strong><code>attach_to_last_thread</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Flag which states if event object should be added to last thread.
 The flag is ignored for active chats.</dd>
+<dt><strong><code>author_id</code></strong> :&ensp;<code>optional str</code></dt>
+<dd>Provide if the event should be sent on behalf of a bot.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -3296,6 +3308,7 @@ It overrides all other parameters provided for the method.</dd>
                chat_id: str = None,
                event: dict = None,
                attach_to_last_thread: bool = None,
+               author_id: Optional[str] = None,
                payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Sends an Event object.
 
@@ -3304,6 +3317,7 @@ It overrides all other parameters provided for the method.</dd>
             event (dict): Event object.
             attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
                     The flag is ignored for active chats.
+            author_id (optional str): Provide if the event should be sent on behalf of a bot.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
 
@@ -3311,9 +3325,12 @@ It overrides all other parameters provided for the method.</dd>
             RtmResponse: RTM response structure (`request_id`, `action`,
                          `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
+    opts = {}
+    if author_id:
+        opts[&#39;author_id&#39;] = author_id
     if payload is None:
         payload = prepare_payload(locals())
-    return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})</code></pre>
+    return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload, **opts})</code></pre>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v34.AgentRtmV34.send_rich_message_postback"><code class="name flex">
