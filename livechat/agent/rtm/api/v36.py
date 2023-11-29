@@ -344,7 +344,11 @@ class AgentRtmV36:
             opts['author_id'] = author_id
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({'action': 'send_event', 'payload': payload, **opts})
+        return self.ws.send({
+            'action': 'send_event',
+            'payload': payload,
+            **opts
+        })
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -810,10 +814,13 @@ class AgentRtmV36:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'set_away_status', 'payload': payload})
 
-    def logout(self, payload: dict = None) -> RtmResponse:
-        ''' Logs out agent.
+    def logout(self,
+               agent_id: str = None,
+               payload: dict = None) -> RtmResponse:
+        ''' Logs the Agent out.
 
             Args:
+                agent_id (str): Login of the agent to logout.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 
@@ -821,10 +828,9 @@ class AgentRtmV36:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
-        return self.ws.send({
-            'action': 'logout',
-            'payload': {} if payload is None else payload
-        })
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'logout', 'payload': payload})
 
     def list_routing_statuses(self,
                               filters: dict = None,
