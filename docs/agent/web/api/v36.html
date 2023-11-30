@@ -1062,6 +1062,29 @@ class AgentWebV36(HttpClient):
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/list_agents_for_transfer&#39;,
                                  json=payload,
+                                 headers=headers)
+
+    def logout(self,
+               agent_id: str = None,
+               payload: dict = None,
+               headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Logs the Agent out.
+
+            Args:
+                agent_id (str): Login of the agent to logout.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/logout&#39;,
+                                 json=payload,
                                  headers=headers)</code></pre>
 </details>
 </section>
@@ -2104,6 +2127,29 @@ class AgentWebV36(HttpClient):
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/list_agents_for_transfer&#39;,
                                  json=payload,
+                                 headers=headers)
+
+    def logout(self,
+               agent_id: str = None,
+               payload: dict = None,
+               headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Logs the Agent out.
+
+            Args:
+                agent_id (str): Login of the agent to logout.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/logout&#39;,
+                                 json=payload,
                                  headers=headers)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -3099,6 +3145,57 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/list_threads&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.agent.web.api.v36.AgentWebV36.logout"><code class="name flex">
+<span>def <span class="ident">logout</span></span>(<span>self, agent_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Logs the Agent out.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>agent_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Login of the agent to logout.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def logout(self,
+           agent_id: str = None,
+           payload: dict = None,
+           headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Logs the Agent out.
+
+        Args:
+            agent_id (str): Login of the agent to logout.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/logout&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -4285,6 +4382,7 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_chats" href="#livechat.agent.web.api.v36.AgentWebV36.list_chats">list_chats</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_routing_statuses" href="#livechat.agent.web.api.v36.AgentWebV36.list_routing_statuses">list_routing_statuses</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_threads" href="#livechat.agent.web.api.v36.AgentWebV36.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.agent.web.api.v36.AgentWebV36.logout" href="#livechat.agent.web.api.v36.AgentWebV36.logout">logout</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.mark_events_as_seen" href="#livechat.agent.web.api.v36.AgentWebV36.mark_events_as_seen">mark_events_as_seen</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.multicast" href="#livechat.agent.web.api.v36.AgentWebV36.multicast">multicast</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.remove_user_from_chat" href="#livechat.agent.web.api.v36.AgentWebV36.remove_user_from_chat">remove_user_from_chat</a></code></li>

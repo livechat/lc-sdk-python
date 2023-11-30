@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.3.8] - TBA
+## [0.3.8] - 2023-11-30
 
 ### Added
 - Support for `logout` method in agent-api v3.6 web class.
