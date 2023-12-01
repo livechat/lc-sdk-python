@@ -27,7 +27,7 @@ class AgentWeb:
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
-    ) -> Union[AgentWebV33, AgentWebV34, AgentWebV35]:
+    ) -> Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36]:
         ''' Returns client for specific API version.
 
             Args:

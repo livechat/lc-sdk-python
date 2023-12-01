@@ -30,7 +30,7 @@ class CustomerWeb:
         verify: bool = True,
         organization_id: str = None,
         disable_logging: bool = False,
-    ) -> Union[CustomerWebV33, CustomerWebV34, CustomerWebV35]:
+    ) -> Union[CustomerWebV33, CustomerWebV34, CustomerWebV35, CustomerWebV36]:
         ''' Returns client for specific API version.
 
             Args:

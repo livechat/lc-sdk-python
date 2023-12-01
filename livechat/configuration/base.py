@@ -28,7 +28,8 @@ class ConfigurationApi:
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
-    ) -> Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35]:
+    ) -> Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
+               ConfigurationApiV36]:
         ''' Returns client for specific Configuration API version.
 
             Args:

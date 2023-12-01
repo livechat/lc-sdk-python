@@ -8,6 +8,7 @@ from livechat.config import CONFIG
 from livechat.customer.rtm.api.v33 import CustomerRtmV33
 from livechat.customer.rtm.api.v34 import CustomerRtmV34
 from livechat.customer.rtm.api.v35 import CustomerRtmV35
+from livechat.customer.rtm.api.v36 import CustomerRtmV36
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
@@ -21,7 +22,7 @@ class CustomerRTM:
         base_url: str = api_url,
         license_id: int = None,
         organization_id: str = None
-    ) -> Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35]:
+    ) -> Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36]:
         ''' Returns client for specific Customer RTM version.
 
             Args:
@@ -40,7 +41,7 @@ class CustomerRTM:
             '3.3': CustomerRtmV33,
             '3.4': CustomerRtmV34,
             '3.5': CustomerRtmV35,
-            '3.6': CustomerRtmV35,
+            '3.6': CustomerRtmV36,
         }.get(version)
         client_kwargs = {
             '3.3': {

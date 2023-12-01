@@ -29,7 +29,7 @@ class ReportsApi:
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
-    ) -> Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
+    ) -> Union[ReportsApiV33, ReportsApiV34, ReportsApiV35, ReportsApiV36]:
         ''' Returns client for specific Reports API version.
 
             Args:
