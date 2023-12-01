@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.3.9] - XXX
+
+### Bugfixes
+- Enabled instantiation for CustomerRtmV36 within the 3.6 version of the Customer RTM API.
+
 ## [0.3.8] - 2023-11-30
 
 ### Added
