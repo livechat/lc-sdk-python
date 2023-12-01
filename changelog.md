@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [0.3.9] - XXX
 
 ### Bugfixes
-- Enabled instantiation for CustomerRtmV36 within the 3.6 version of the Customer RTM API.
+- Enabled instantiation for `CustomerRtmV36` within the 3.6 version of the Customer RTM API.
+- Adjusted the return types in `get_client` method across RTM and WEB clients.
 
 ## [0.3.8] - 2023-11-30
 
