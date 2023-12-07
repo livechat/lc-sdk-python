@@ -622,7 +622,7 @@ class ConfigurationApiV36(HttpClient):
     def list_bot_templates(self,
                            payload: dict = None,
                            headers: dict = None) -> httpx.Response:
-        ''' Returns the list of Bots templates
+        ''' Returns the list of bots templates
 
             Args:
                 payload (dict): Custom payload to be used as request's data.
@@ -726,6 +726,7 @@ class ConfigurationApiV36(HttpClient):
     def reset_bot_template_secret(self,
                                   id: str = None,
                                   owner_client_id: str = None,
+                                  affect_existing_installations: bool = None,
                                   payload: dict = None,
                                   headers: dict = None) -> httpx.Response:
         ''' Resets a bot template's secret.
