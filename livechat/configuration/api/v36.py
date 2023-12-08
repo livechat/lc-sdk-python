@@ -455,7 +455,7 @@ class ConfigurationApiV36(HttpClient):
                 default_group_priority (str): The default routing priority for a group without defined priority.
                 job_title (str): Bot's job title.
                 owner_client_id (str): ID of the client bot will be assigned to.
-                affect_existing_installations (bool): Indicates whether the template should be appliet to existing installations.
+                affect_existing_installations (bool): Indicates whether the template should be applied to existing installations.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -500,11 +500,11 @@ class ConfigurationApiV36(HttpClient):
                             affect_existing_installations: bool = None,
                             payload: dict = None,
                             headers: dict = None) -> httpx.Response:
-        ''' Deletes a Bot template.
+        ''' Deletes a bot template.
 
             Args:
                 id (str): Bot's ID.
-                affect_existing_installations (bool): Indicates whether the template should be appliet to existing installations.
+                affect_existing_installations (bool): Indicates whether the template should be applied to existing installations.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -576,7 +576,7 @@ class ConfigurationApiV36(HttpClient):
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
                 default_group_priority (str): The default routing priority for a group without defined priority.
-                affect_existing_installations (bool): Indicates whether the template should be appliet to existing installations.
+                affect_existing_installations (bool): Indicates whether the template should be applied to existing installations.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -734,7 +734,7 @@ class ConfigurationApiV36(HttpClient):
             Args:
                 id (str): Bot's ID.
                 owner_client_id (str): Owner's client ID.
-                affect_existing_installations (bool): Indicates whether the template should be appliet to existing installations.
+                affect_existing_installations (bool): Indicates whether the template should be applied to existing installations.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
