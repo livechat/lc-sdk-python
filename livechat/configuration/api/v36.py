@@ -759,7 +759,7 @@ class ConfigurationApiV36(HttpClient):
         ''' Resets secret for given bot template.
 
             Args:
-                id (str): Bot's ID.
+                id (str): Bot Template ID.
                 owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
                                        authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
                                        will be ignored, and provided `owner_client_id` will be used instead.
