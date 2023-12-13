@@ -447,15 +447,23 @@ class ConfigurationApiV36(HttpClient):
                             affect_existing_installations: bool = None,
                             payload: dict = None,
                             headers: dict = None) -> httpx.Response:
-        ''' Creates a new bot template.
+        ''' Creates a new bot template for the Client ID (application) provided in the request.
+            One Client ID can register up to five bot templates.
+            Bots based on the template will be automatically created on the license when the application is installed.
+            The bots will have the same ID as the bot template. If the application is already installed on the license,
+            the bots will be created only if `affect_existing_installations` is set to `true`.
             Args:
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
                 default_group_priority (str): The default routing priority for a group without defined priority.
                 job_title (str): Bot's job title.
-                owner_client_id (str): ID of the client bot will be assigned to.
-                affect_existing_installations (bool): Indicates whether the template should be applied to existing installations.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -497,14 +505,21 @@ class ConfigurationApiV36(HttpClient):
 
     def delete_bot_template(self,
                             id: str = None,
+                            owner_client_id: str = None,
                             affect_existing_installations: bool = None,
                             payload: dict = None,
                             headers: dict = None) -> httpx.Response:
-        ''' Deletes a bot template.
+        ''' Deletes a bot template specified by `id`. The bots associated with the template will
+            be deleted only if `affect_existing_installations` is set to `true`.
 
             Args:
-                id (str): Bot's ID.
-                affect_existing_installations (bool): Indicates whether the template should be applied to existing installations.
+                id (str): Bot Template ID.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -565,18 +580,24 @@ class ConfigurationApiV36(HttpClient):
                             avatar: str = None,
                             max_chats_count: int = None,
                             default_group_priority: str = None,
+                            owner_client_id: str = None,
                             affect_existing_installations: bool = None,
                             payload: dict = None,
                             headers: dict = None) -> httpx.Response:
-        ''' Updates bot template.
+        ''' Updates an existing Bot Template.
 
             Args:
-                id (str): Bot's ID.
+                id (str): Bot Template ID.
                 name (str): Display name.
                 avatar (str): Avatar URL.
                 max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
                 default_group_priority (str): The default routing priority for a group without defined priority.
-                affect_existing_installations (bool): Indicates whether the template should be applied to existing installations.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -620,11 +641,15 @@ class ConfigurationApiV36(HttpClient):
                                  headers=headers)
 
     def list_bot_templates(self,
+                           owner_client_id: str = None,
                            payload: dict = None,
                            headers: dict = None) -> httpx.Response:
-        ''' Returns the list of bots templates
+        ''' Returns the list of Bot Templates created for the Client ID (application).
 
             Args:
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -674,7 +699,7 @@ class ConfigurationApiV36(HttpClient):
                         client_id: str = None,
                         payload: dict = None,
                         headers: dict = None) -> httpx.Response:
-        ''' Issues a token for a bot.
+        ''' Issues a new token for the Bot. The token is valid for 24 hours. The token cannot be revoked.
 
             Args:
                 bot_id (str): Bot's ID.
@@ -702,11 +727,13 @@ class ConfigurationApiV36(HttpClient):
                          owner_client_id: str = None,
                          payload: dict = None,
                          headers: dict = None) -> httpx.Response:
-        ''' Resets a bot's secret.
+        ''' Resets secret for given bot.
 
             Args:
                 id (str): Bot's ID.
-                owner_client_id (str): Owner's client ID.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -729,12 +756,16 @@ class ConfigurationApiV36(HttpClient):
                                   affect_existing_installations: bool = None,
                                   payload: dict = None,
                                   headers: dict = None) -> httpx.Response:
-        ''' Resets a bot template's secret.
+        ''' Resets secret for given bot template.
 
             Args:
                 id (str): Bot's ID.
-                owner_client_id (str): Owner's client ID.
-                affect_existing_installations (bool): Indicates whether the template should be applied to existing installations.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
