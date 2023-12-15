@@ -51,6 +51,10 @@ class HttpxLogger:
                 response_content = response.text  # to avoid error when response contains binary data
             response_debug = f'Response duration: {response.elapsed.total_seconds()} second(s)\n' \
                             f'Response content:\n{response_content}'
-
-            logger.info(f'Response status code: {response.status_code}')
+            status_code = response.status_code
+            logger.info(f'Response status code: {status_code}')
+            if status_code > 499:  # log response headers only if status code is 5XX to reduce log bloat
+                response_headers = json.dumps(dict(response.headers.items()),
+                                              indent=4)
+                response_debug = f'{response_debug}\nResponse headers:\n{response_headers}'
             logger.debug(response_debug)
