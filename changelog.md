@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Updated outdated packages.
+- Improved logging by appending response headers to the existing log message when the status code is greater than 499.
 
 ### Bugfixes
 - Enabled instantiation for `CustomerRtmV36` within the 3.6 version of the Customer RTM API.
