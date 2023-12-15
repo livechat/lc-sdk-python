@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Updated outdated packages.
-- Improved logging by appending response headers to the existing log message when the status code is greater than 499.
+- Enhanced error logging for improved troubleshooting: Automatically includes response headers in the log for server errors, providing detailed information (such as x-debug-id) for more effective issue diagnosis.
 
 ### Bugfixes
 - Enabled instantiation for `CustomerRtmV36` within the 3.6 version of the Customer RTM API.
