@@ -6,6 +6,8 @@ from __future__ import annotations
 
 from typing import Union
 
+import httpx
+
 from livechat.config import CONFIG
 from livechat.configuration.api.v33 import ConfigurationApiV33
 from livechat.configuration.api.v34 import ConfigurationApiV34
@@ -28,6 +30,7 @@ class ConfigurationApi:
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
+        timeout: float = httpx.Timeout(15)
     ) -> Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
                ConfigurationApiV36]:
         ''' Returns client for specific Configuration API version.
@@ -45,6 +48,8 @@ class ConfigurationApi:
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 ConfigurationApi: API client object for specified version.
@@ -55,16 +60,16 @@ class ConfigurationApi:
         client = {
             '3.3':
             ConfigurationApiV33(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             '3.4':
             ConfigurationApiV34(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             '3.5':
             ConfigurationApiV35(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             '3.6':
             ConfigurationApiV36(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

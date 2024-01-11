@@ -14,9 +14,26 @@ class AgentRtmV33:
     def __init__(self, url: str):
         self.ws = WebsocketClient(url=f'wss://{url}/v3.3/agent/rtm/ws')
 
-    def open_connection(self) -> None:
-        ''' Opens WebSocket connection. '''
-        self.ws.open()
+    def open_connection(self,
+                        origin: dict = None,
+                        ping_timeout: float = 3,
+                        ping_interval: float = 5,
+                        ws_conn_timeout: float = 10,
+                        keep_alive: bool = True) -> None:
+        ''' Opens WebSocket connection.
+
+            Args:
+                origin (dict): Specifies origin while creating websocket connection.
+                ping_timeout (int or float): timeout (in seconds) if the pong message is not received,
+                    by default sets to 3 seconds.
+                ping_interval (int or float): automatically sends "ping" command every specified period (in seconds).
+                    If set to 0, no ping is sent periodically, by default sets to 5 seconds.
+                ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
+                    by default sets to 10 seconds.
+                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+        '''
+        self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
+                     keep_alive)
 
     def close_connection(self) -> None:
         ''' Closes WebSocket connection. '''
@@ -378,7 +395,11 @@ class AgentRtmV33:
             opts['author_id'] = author_id
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({'action': 'send_event', 'payload': payload, **opts})
+        return self.ws.send({
+            'action': 'send_event',
+            'payload': payload,
+            **opts
+        })
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,

@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from typing import Union
 
+import httpx
+
 from livechat.agent.web.api.v33 import AgentWebV33
 from livechat.agent.web.api.v34 import AgentWebV34
 from livechat.agent.web.api.v35 import AgentWebV35
@@ -27,6 +29,7 @@ class AgentWeb:
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
+        timeout: float = httpx.Timeout(15)
     ) -> Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36]:
         ''' Returns client for specific API version.
 
@@ -43,6 +46,8 @@ class AgentWeb:
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 API client object for specified version.
@@ -53,16 +58,16 @@ class AgentWeb:
         client = {
             '3.3':
             AgentWebV33(access_token, base_url, http2, proxies, verify,
-                        disable_logging),
+                        disable_logging, timeout),
             '3.4':
             AgentWebV34(access_token, base_url, http2, proxies, verify,
-                        disable_logging),
+                        disable_logging, timeout),
             '3.5':
             AgentWebV35(access_token, base_url, http2, proxies, verify,
-                        disable_logging),
+                        disable_logging, timeout),
             '3.6':
             AgentWebV36(access_token, base_url, http2, proxies, verify,
-                        disable_logging),
+                        disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from typing import Union
 
+import httpx
+
 from livechat.config import CONFIG
 from livechat.customer.web.api.v33 import CustomerWebV33
 from livechat.customer.web.api.v34 import CustomerWebV34
@@ -30,6 +32,7 @@ class CustomerWeb:
         verify: bool = True,
         organization_id: str = None,
         disable_logging: bool = False,
+        timeout: float = httpx.Timeout(15)
     ) -> Union[CustomerWebV33, CustomerWebV34, CustomerWebV35, CustomerWebV36]:
         ''' Returns client for specific API version.
 
@@ -48,6 +51,8 @@ class CustomerWeb:
                                (which will disable verification). Defaults to `True`.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 API client object for specified version based on
@@ -70,7 +75,8 @@ class CustomerWeb:
                 'http2': http2,
                 'proxies': proxies,
                 'verify': verify,
-                'disable_logging': disable_logging
+                'disable_logging': disable_logging,
+                'timeout': timeout
             },
             '3.4': {
                 'organization_id': organization_id,
@@ -79,7 +85,8 @@ class CustomerWeb:
                 'http2': http2,
                 'proxies': proxies,
                 'verify': verify,
-                'disable_logging': disable_logging
+                'disable_logging': disable_logging,
+                'timeout': timeout
             },
             '3.5': {
                 'organization_id': organization_id,
@@ -88,7 +95,8 @@ class CustomerWeb:
                 'http2': http2,
                 'proxies': proxies,
                 'verify': verify,
-                'disable_logging': disable_logging
+                'disable_logging': disable_logging,
+                'timeout': timeout
             },
             '3.6': {
                 'organization_id': organization_id,
@@ -97,7 +105,8 @@ class CustomerWeb:
                 'http2': http2,
                 'proxies': proxies,
                 'verify': verify,
-                'disable_logging': disable_logging
+                'disable_logging': disable_logging,
+                'timeout': timeout
             },
         }.get(version)
         if client:

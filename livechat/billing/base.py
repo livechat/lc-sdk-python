@@ -5,6 +5,8 @@
 
 from __future__ import annotations
 
+import httpx
+
 from livechat.config import CONFIG
 
 from .api import BillingApiV1
@@ -25,6 +27,7 @@ class BillingApi:
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
+        timeout: float = httpx.Timeout(15)
     ) -> BillingApiV1:
         ''' Returns client for specific Billing API version.
 
@@ -41,6 +44,8 @@ class BillingApi:
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 BillingApi: API client object for specified version.
@@ -51,7 +56,7 @@ class BillingApi:
         client = {
             '1':
             BillingApiV1(token, base_url, http2, proxies, verify,
-                         disable_logging),
+                         disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
