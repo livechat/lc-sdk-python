@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Updated outdated packages.
 - Enhanced error logging for improved troubleshooting: Automatically includes response headers in the log for server errors, providing detailed information (such as x-debug-id) for more effective issue diagnosis.
+- Enhanced timeouts for the RTM and WEB clients.
 
 ### Bugfixes
 - Enabled instantiation for `CustomerRtmV36` within the 3.6 version of the Customer RTM API.

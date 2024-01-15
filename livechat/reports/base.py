@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from typing import Union
 
+import httpx
+
 from livechat.config import CONFIG
 from livechat.reports.api.v33 import ReportsApiV33
 from livechat.reports.api.v34 import ReportsApiV34
@@ -29,6 +31,7 @@ class ReportsApi:
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
+        timeout: float = httpx.Timeout(15)
     ) -> Union[ReportsApiV33, ReportsApiV34, ReportsApiV35, ReportsApiV36]:
         ''' Returns client for specific Reports API version.
 
@@ -45,6 +48,8 @@ class ReportsApi:
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 ReportsApi: API client object for specified version.
@@ -55,16 +60,16 @@ class ReportsApi:
         client = {
             '3.3':
             ReportsApiV33(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             '3.4':
             ReportsApiV34(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             '3.5':
             ReportsApiV35(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             '3.6':
             ReportsApiV36(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
