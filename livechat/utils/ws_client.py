@@ -23,11 +23,9 @@ def on_message(ws_client: WebSocketApp, message: str):
 
 class WebsocketClient(WebSocketApp):
     ''' Custom extension of the WebSocketApp class for livechat python SDK. '''
-
-    messages: List[dict] = []
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.messages: List[dict] = []
         self.on_message = on_message
 
     def open(self,
