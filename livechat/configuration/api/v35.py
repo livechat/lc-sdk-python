@@ -1,17 +1,18 @@
 ''' Configuration API module with client class in version 3.5. '''
 
-from typing import List
+from typing import List, Union
 
 import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
+from livechat.utils.structures import AccessToken
 
 
 class ConfigurationApiV35(HttpClient):
     ''' Configuration API client class in version 3.5. '''
     def __init__(self,
-                 token: str,
+                 token: Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,
@@ -1428,9 +1429,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_create_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `create_bot`.
 
             Args:
@@ -1447,9 +1448,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_delete_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `delete_bot`.
 
             Args:
@@ -1466,9 +1467,9 @@ class ConfigurationApiV35(HttpClient):
                                  headers=headers)
 
     def batch_update_bots(self,
-                            requests: list = None,
-                            payload: dict = None,
-                            headers: dict = None) -> httpx.Response:
+                          requests: list = None,
+                          payload: dict = None,
+                          headers: dict = None) -> httpx.Response:
         ''' Batch method for `update_bot`.
 
             Args:

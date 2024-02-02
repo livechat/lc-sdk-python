@@ -10,6 +10,7 @@ from livechat.agent.web.api.v34 import AgentWebV34
 from livechat.agent.web.api.v35 import AgentWebV35
 from livechat.agent.web.api.v36 import AgentWebV36
 from livechat.config import CONFIG
+from livechat.utils.structures import AccessToken
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
@@ -20,7 +21,7 @@ class AgentWeb:
         API version. '''
     @staticmethod
     def get_client(
-            access_token: str,
+            access_token: Union[AccessToken, str],
             version: str = stable_version,
             base_url: str = api_url,
             http2: bool = False,

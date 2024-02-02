@@ -1,15 +1,18 @@
 ''' Reports API module with client class in version 3.4. '''
 
+from typing import Union
+
 import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
+from livechat.utils.structures import AccessToken
 
 
 class ReportsApiV34(HttpClient):
     ''' Reports API client class in version 3.4. '''
     def __init__(self,
-                 token: str,
+                 token: Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,

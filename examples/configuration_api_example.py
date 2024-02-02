@@ -1,9 +1,11 @@
 ''' Configuration API client example usage. '''
 
 from livechat.configuration.base import ConfigurationApi
+from livechat.utils.structures import AccessToken, Scheme
 
 # Get list of existing groups.
-configuration_api = ConfigurationApi.get_client(token='<your access token>')
+configuration_api = ConfigurationApi.get_client(token=AccessToken(
+    scheme=Scheme.BEARER, token='dal:A420qcNvdVS4cRMJP269GfgT1LA'))
 groups = configuration_api.list_groups()
 print(groups.json())
 

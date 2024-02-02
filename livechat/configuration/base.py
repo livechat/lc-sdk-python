@@ -11,6 +11,7 @@ from livechat.configuration.api.v33 import ConfigurationApiV33
 from livechat.configuration.api.v34 import ConfigurationApiV34
 from livechat.configuration.api.v35 import ConfigurationApiV35
 from livechat.configuration.api.v36 import ConfigurationApiV36
+from livechat.utils.structures import AccessToken
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
@@ -21,7 +22,7 @@ class ConfigurationApi:
         API version. '''
     @staticmethod
     def get_client(
-        token: str,
+        token: Union[AccessToken, str],
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,

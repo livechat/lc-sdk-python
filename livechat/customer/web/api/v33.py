@@ -7,13 +7,14 @@ import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
+from livechat.utils.structures import AccessToken
 
 
 class CustomerWebV33(HttpClient):
     ''' Customer Web API Class containing methods in version 3.3. '''
     def __init__(self,
                  license_id: int,
-                 access_token: str,
+                 access_token: typing.Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,
@@ -610,8 +611,8 @@ class CustomerWebV33(HttpClient):
             params['name'] = name
         params['license_id'] = self.license_id
         return self.session.get(f'{self.api_url}/list_license_properties',
-                                 params=params,
-                                 headers=headers)
+                                params=params,
+                                headers=headers)
 
     def list_group_properties(self,
                               group_id: int = None,
@@ -639,8 +640,8 @@ class CustomerWebV33(HttpClient):
             params['id'] = str(group_id)
         params['license_id'] = self.license_id
         return self.session.get(f'{self.api_url}/list_group_properties',
-                                 params=params,
-                                 headers=headers)
+                                params=params,
+                                headers=headers)
 
 # Customers
 

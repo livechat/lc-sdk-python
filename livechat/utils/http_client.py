@@ -1,15 +1,18 @@
 ''' Base module with HTTP client class for session, sending requests and headers
     manipulation. '''
 
+from typing import Union
+
 import httpx
 
 from livechat.utils.httpx_logger import HttpxLogger
+from livechat.utils.structures import AccessToken
 
 
 class HttpClient:
     ''' HTTP client class for session, sending requests and headers manipulation. '''
     def __init__(self,
-                 token: str,
+                 token: Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,
@@ -17,7 +20,7 @@ class HttpClient:
         logger = HttpxLogger()
         self.base_url = base_url
         self.session = httpx.Client(http2=http2,
-                                    headers={'Authorization': token},
+                                    headers={'Authorization': str(token)},
                                     event_hooks={
                                         'request': [logger.log_request],
                                         'response': [logger.log_response]
