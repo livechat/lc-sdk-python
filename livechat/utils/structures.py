@@ -35,8 +35,8 @@ class RtmResponse:
         return self.rtm_response.get('payload')
 
 
-class Scheme(Enum):
-    ''' Scheme enum class. '''
+class TokenType(Enum):
+    ''' Token type enum class. '''
     BEARER = 'Bearer'
     BASIC = 'Basic'
 
@@ -45,7 +45,7 @@ class Scheme(Enum):
 class AccessToken:
     ''' Access token structure class. '''
     token: str
-    scheme: Scheme
+    scheme: TokenType
 
     def __str__(self) -> str:
         return f'{self.scheme.value} {self.token}'
