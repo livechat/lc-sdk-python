@@ -16,7 +16,7 @@ def prepare_payload(parameters: dict) -> dict:
     '''
     return {
         key: value
-        for key, value in parameters.items() if key not in
-        ['self', 'payload', 'token', 'headers', 'date_to', 'date_from']
+        for key, value in parameters.items()
+        if key not in ['self', 'payload', 'headers', 'date_to', 'date_from']
         and value is not None
     }

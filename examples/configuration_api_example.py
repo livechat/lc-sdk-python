@@ -5,7 +5,7 @@ from livechat.utils.structures import AccessToken, TokenType
 
 # Get list of existing groups.
 configuration_api = ConfigurationApi.get_client(token=AccessToken(
-    type=TokenType.BEARER, token='dal:A420qcNvdVS4cRMJP269GfgT1LA'))
+    scheme=TokenType.BEARER, token='dal:A420qcNvdVS4cRMJP269GfgT1LA'))
 groups = configuration_api.list_groups()
 print(groups.json())
 

@@ -5,7 +5,7 @@ from livechat.utils.structures import AccessToken, TokenType
 
 # token can be also passed as a raw string like `Bearer dal:A420qcNvdVS4cRMJP269GfgT1LA`
 agent_web = AgentWeb.get_client(access_token=AccessToken(
-    type=TokenType.BEARER, token='dal:A420qcNvdVS4cRMJP269GfgT1LA'))
+    scheme=TokenType.BEARER, token='dal:A420qcNvdVS4cRMJP269GfgT1LA'))
 results = agent_web.start_chat(continuous=True)
 chat_id = results.json().get('chat_id')
 thread_id = results.json().get('thread_id')

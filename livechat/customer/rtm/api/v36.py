@@ -508,10 +508,10 @@ class CustomerRtmV36:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
+        if token:
+            token = str(token)
         if payload is None:
             payload = prepare_payload(locals())
-        if token:
-            payload['token'] = str(token)
         return self.ws.send({'action': 'login', 'payload': payload})
 
     def list_group_statuses(self,
