@@ -1,10 +1,58 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.3.6] - TBA
+## [0.3.9] - XXX
+
+### Added
+- New methods in configuration-api v3.6 for bot management: `create_bot_template`, `delete_bot_template`, `update_bot_template`, `list_bot_templates`, `issue_bot_token`, `reset_bot_secret`, `reset_bot_template_secret`.
+
+### Changed
+- Updated outdated packages.
+- Enhanced error logging for improved troubleshooting: Automatically includes response headers in the log for server errors, providing detailed information (such as x-debug-id) for more effective issue diagnosis.
+- Enhanced timeouts for the RTM and WEB clients.
+
+### Bugfixes
+- Enabled instantiation for `CustomerRtmV36` within the 3.6 version of the Customer RTM API.
+- Adjusted the return types in `get_client` method across RTM and WEB clients.
+- Fixed an issue where messages in the WebSocket client were incorrectly shared across all instances.
+
+## [0.3.8] - 2023-11-30
+
+### Added
+- Support for `logout` method in agent-api v3.6 web class.
+- Support for `agent_id` parameter in agent-api v3.6 `logout` method.
+
+### Changed
+- Implemented truncation of request params in logging for large data.
+
+### Bugfixes
+- Allow sending rtm events as a bot by adding `author_id` param.
+
+## [0.3.7] - 2023-09-26
+
+### Added
+
+- `reactivate_email` and `update_company_details` actions in configuration-api v3.6 class.
+- `disable_logging` flag for web based clients.
+
+### Changed
+- [Loguru](https://pypi.org/project/loguru/) used for logging.
+- Required packages to currently newest versions.
+
+### Bugfixes
+- Fix HTTP request type for `get_product_source` method in Configuration API v3.5 and v3.6.
+- Fix an issue related to fetching responses in RTM.
+
+## [0.3.6] - 2023-03-09
+
+### Added
+
+- Added support for billing-api.
+- New `highest_available` option for `customer_monitoring_level` in agent-api `login` method.
 
 ### Bugfixes
 - Fix `customer_monitoring_level` parameter in `login` method in agent-api v3.3/v3.4/v3.5 classes.
+- Fix `httpx` version in setup.cfg
 
 ### Removed
 

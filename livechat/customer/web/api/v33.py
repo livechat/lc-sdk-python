@@ -18,9 +18,12 @@ class CustomerWebV33(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
+                 verify: bool = True,
+                 disable_logging: bool = False,
+                 timeout: float = httpx.Timeout(15)):
         if all([access_token, isinstance(access_token, str)]):
-            super().__init__(access_token, base_url, http2, proxies, verify)
+            super().__init__(access_token, base_url, http2, proxies, verify,
+                             disable_logging, timeout)
         else:
             raise ValueError(
                 'Incorrect or missing `access_token` argument (should be of type str.)'

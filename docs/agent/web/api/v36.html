@@ -49,8 +49,10 @@ class AgentWebV36(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(access_token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(access_token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f&#39;https://{base_url}/v3.6/agent/action&#39;
 
     # Chats
@@ -757,41 +759,6 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def list_customers(self,
-                       page_id: str = None,
-                       limit: str = None,
-                       sort_order: str = None,
-                       sort_by: str = None,
-                       filters: dict = None,
-                       payload: dict = None,
-                       headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns the list of Customers.
-
-            Args:
-                page_id (str): ID of the page with paginated results.
-                limit (str): Limit of results per page. Default: 10, maximum: 100.
-                sort_order (str): Possible values: asc, desc (default).
-                sort_by (str): When sorting by fields other than created_at, the entries
-                               with identical values will be additionally sorted by their
-                               creation time. Possible values: created_at (default),
-                               threads_count, visits_count, agent_last_event, customer_last_event.
-                filters (dict): Possible request filters.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/list_customers&#39;,
-                                 json=payload,
-                                 headers=headers)
-
     def create_customer(self,
                         name: str = None,
                         email: str = None,
@@ -1094,6 +1061,29 @@ class AgentWebV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/list_agents_for_transfer&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def logout(self,
+               agent_id: str = None,
+               payload: dict = None,
+               headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Logs the Agent out.
+
+            Args:
+                agent_id (str): Login of the agent to logout.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/logout&#39;,
                                  json=payload,
                                  headers=headers)</code></pre>
 </details>
@@ -1109,7 +1099,7 @@ class AgentWebV36(HttpClient):
 <dl>
 <dt id="livechat.agent.web.api.v36.AgentWebV36"><code class="flex name class">
 <span>class <span class="ident">AgentWebV36</span></span>
-<span>(</span><span>access_token: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
+<span>(</span><span>access_token: str, base_url: str, http2: bool, proxies=None, verify: bool = True, disable_logging: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Agent Web API Class containing methods in version 3.6.</p></div>
@@ -1124,8 +1114,10 @@ class AgentWebV36(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(access_token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(access_token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f&#39;https://{base_url}/v3.6/agent/action&#39;
 
     # Chats
@@ -1832,41 +1824,6 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def list_customers(self,
-                       page_id: str = None,
-                       limit: str = None,
-                       sort_order: str = None,
-                       sort_by: str = None,
-                       filters: dict = None,
-                       payload: dict = None,
-                       headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns the list of Customers.
-
-            Args:
-                page_id (str): ID of the page with paginated results.
-                limit (str): Limit of results per page. Default: 10, maximum: 100.
-                sort_order (str): Possible values: asc, desc (default).
-                sort_by (str): When sorting by fields other than created_at, the entries
-                               with identical values will be additionally sorted by their
-                               creation time. Possible values: created_at (default),
-                               threads_count, visits_count, agent_last_event, customer_last_event.
-                filters (dict): Possible request filters.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/list_customers&#39;,
-                                 json=payload,
-                                 headers=headers)
-
     def create_customer(self,
                         name: str = None,
                         email: str = None,
@@ -2169,6 +2126,29 @@ class AgentWebV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/list_agents_for_transfer&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def logout(self,
+               agent_id: str = None,
+               payload: dict = None,
+               headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Logs the Agent out.
+
+            Args:
+                agent_id (str): Login of the agent to logout.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/logout&#39;,
                                  json=payload,
                                  headers=headers)</code></pre>
 </details>
@@ -3041,80 +3021,6 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.web.api.v36.AgentWebV36.list_customers"><code class="name flex">
-<span>def <span class="ident">list_customers</span></span>(<span>self, page_id: str = None, limit: str = None, sort_order: str = None, sort_by: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the list of Customers.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the page with paginated results.</dd>
-<dt><strong><code>limit</code></strong> :&ensp;<code>str</code></dt>
-<dd>Limit of results per page. Default: 10, maximum: 100.</dd>
-<dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: asc, desc (default).</dd>
-<dt><strong><code>sort_by</code></strong> :&ensp;<code>str</code></dt>
-<dd>When sorting by fields other than created_at, the entries
-with identical values will be additionally sorted by their
-creation time. Possible values: created_at (default),
-threads_count, visits_count, agent_last_event, customer_last_event.</dd>
-<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Possible request filters.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def list_customers(self,
-                   page_id: str = None,
-                   limit: str = None,
-                   sort_order: str = None,
-                   sort_by: str = None,
-                   filters: dict = None,
-                   payload: dict = None,
-                   headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns the list of Customers.
-
-        Args:
-            page_id (str): ID of the page with paginated results.
-            limit (str): Limit of results per page. Default: 10, maximum: 100.
-            sort_order (str): Possible values: asc, desc (default).
-            sort_by (str): When sorting by fields other than created_at, the entries
-                           with identical values will be additionally sorted by their
-                           creation time. Possible values: created_at (default),
-                           threads_count, visits_count, agent_last_event, customer_last_event.
-            filters (dict): Possible request filters.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/list_customers&#39;,
-                             json=payload,
-                             headers=headers)</code></pre>
-</details>
-</dd>
 <dt id="livechat.agent.web.api.v36.AgentWebV36.list_routing_statuses"><code class="name flex">
 <span>def <span class="ident">list_routing_statuses</span></span>(<span>self, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -3239,6 +3145,57 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/list_threads&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.agent.web.api.v36.AgentWebV36.logout"><code class="name flex">
+<span>def <span class="ident">logout</span></span>(<span>self, agent_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Logs the Agent out.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>agent_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Login of the agent to logout.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def logout(self,
+           agent_id: str = None,
+           payload: dict = None,
+           headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Logs the Agent out.
+
+        Args:
+            agent_id (str): Login of the agent to logout.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/logout&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -4423,9 +4380,9 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_agents_for_transfer" href="#livechat.agent.web.api.v36.AgentWebV36.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_archives" href="#livechat.agent.web.api.v36.AgentWebV36.list_archives">list_archives</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_chats" href="#livechat.agent.web.api.v36.AgentWebV36.list_chats">list_chats</a></code></li>
-<li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_customers" href="#livechat.agent.web.api.v36.AgentWebV36.list_customers">list_customers</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_routing_statuses" href="#livechat.agent.web.api.v36.AgentWebV36.list_routing_statuses">list_routing_statuses</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_threads" href="#livechat.agent.web.api.v36.AgentWebV36.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.agent.web.api.v36.AgentWebV36.logout" href="#livechat.agent.web.api.v36.AgentWebV36.logout">logout</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.mark_events_as_seen" href="#livechat.agent.web.api.v36.AgentWebV36.mark_events_as_seen">mark_events_as_seen</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.multicast" href="#livechat.agent.web.api.v36.AgentWebV36.multicast">multicast</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.remove_user_from_chat" href="#livechat.agent.web.api.v36.AgentWebV36.remove_user_from_chat">remove_user_from_chat</a></code></li>

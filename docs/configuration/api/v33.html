@@ -42,8 +42,10 @@ class ConfigurationApiV33(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f&#39;https://{base_url}/v3.3/configuration/action&#39;
 
 # Agents
@@ -1237,7 +1239,7 @@ class ConfigurationApiV33(HttpClient):
 <dl>
 <dt id="livechat.configuration.api.v33.ConfigurationApiV33"><code class="flex name class">
 <span>class <span class="ident">ConfigurationApiV33</span></span>
-<span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True)</span>
+<span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True, disable_logging: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Configuration API client class in version 3.3.</p></div>
@@ -1252,8 +1254,10 @@ class ConfigurationApiV33(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False):
+        super().__init__(token, base_url, http2, proxies, verify,
+                         disable_logging)
         self.api_url = f&#39;https://{base_url}/v3.3/configuration/action&#39;
 
 # Agents

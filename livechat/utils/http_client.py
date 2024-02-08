@@ -16,8 +16,10 @@ class HttpClient:
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        logger = HttpxLogger()
+                 verify: bool = True,
+                 disable_logging: bool = False,
+                 timeout: float = httpx.Timeout(15)):
+        logger = HttpxLogger(disable_logging=disable_logging)
         self.base_url = base_url
         self.session = httpx.Client(http2=http2,
                                     headers={'Authorization': str(token)},
@@ -26,7 +28,8 @@ class HttpClient:
                                         'response': [logger.log_response]
                                     },
                                     proxies=proxies,
-                                    verify=verify)
+                                    verify=verify,
+                                    timeout=timeout)
 
     def modify_header(self, header: dict) -> None:
         ''' Modifies provided header in session object.

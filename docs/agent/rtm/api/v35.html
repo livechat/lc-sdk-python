@@ -29,7 +29,7 @@
 </summary>
 <pre><code class="python">&#39;&#39;&#39; Module containing Agent RTM API client implementation for v3.5. &#39;&#39;&#39;
 
-from typing import Any
+from typing import Any, Optional
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import RtmResponse
@@ -351,6 +351,7 @@ class AgentRtmV35:
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
+                   author_id: Optional[str] = None,
                    payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends an Event object.
 
@@ -359,6 +360,7 @@ class AgentRtmV35:
                 event (dict): Event object.
                 attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
                         The flag is ignored for active chats.
+                author_id (optional str): Provide if the event should be sent on behalf of a bot.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -366,9 +368,12 @@ class AgentRtmV35:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
+        opts = {}
+        if author_id:
+            opts[&#39;author_id&#39;] = author_id
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})
+        return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload, **opts})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -764,7 +769,7 @@ class AgentRtmV35:
               push_notifications: dict = None,
               application: dict = None,
               away: bool = None,
-              customer_push_level: str = None,
+              customer_monitoring_level: str = None,
               pushes: dict = None,
               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in agent.
@@ -779,9 +784,9 @@ class AgentRtmV35:
                         the application&#39;s name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_push_level (str): Possible values: my, engaged, online.
+                customer_monitoring_level (str): Possible values are: `my`, `chatting`, `invited`, `online` and `highest_available`.
                         Defaults to my if login creates the first session;
-                        otherwise it preserves the current customer_push_level.
+                        otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
                 By default, it&#39;s set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request&#39;s data.
@@ -1326,6 +1331,7 @@ class AgentRtmV35:
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
+                   author_id: Optional[str] = None,
                    payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Sends an Event object.
 
@@ -1334,6 +1340,7 @@ class AgentRtmV35:
                 event (dict): Event object.
                 attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
                         The flag is ignored for active chats.
+                author_id (optional str): Provide if the event should be sent on behalf of a bot.
                 payload (dict): Custom payload to be used as request&#39;s data.
                         It overrides all other parameters provided for the method.
 
@@ -1341,9 +1348,12 @@ class AgentRtmV35:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
+        opts = {}
+        if author_id:
+            opts[&#39;author_id&#39;] = author_id
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})
+        return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload, **opts})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -1739,7 +1749,7 @@ class AgentRtmV35:
               push_notifications: dict = None,
               application: dict = None,
               away: bool = None,
-              customer_push_level: str = None,
+              customer_monitoring_level: str = None,
               pushes: dict = None,
               payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in agent.
@@ -1754,9 +1764,9 @@ class AgentRtmV35:
                         the application&#39;s name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_push_level (str): Possible values: my, engaged, online.
+                customer_monitoring_level (str): Possible values are: `my`, `chatting`, `invited`, `online` and `highest_available`.
                         Defaults to my if login creates the first session;
-                        otherwise it preserves the current customer_push_level.
+                        otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
                 By default, it&#39;s set to all for the version of your currently established RTM connection.
                 payload (dict): Custom payload to be used as request&#39;s data.
@@ -2923,7 +2933,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v35.AgentRtmV35.login"><code class="name flex">
-<span>def <span class="ident">login</span></span>(<span>self, token: str = None, timezone: str = None, reconnect: bool = None, push_notifications: dict = None, application: dict = None, away: bool = None, customer_push_level: str = None, pushes: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+<span>def <span class="ident">login</span></span>(<span>self, token: str = None, timezone: str = None, reconnect: bool = None, push_notifications: dict = None, application: dict = None, away: bool = None, customer_monitoring_level: str = None, pushes: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Logs in agent.</p>
@@ -2944,10 +2954,10 @@ the application's name and version.</dd>
 <dt><strong><code>away</code></strong> :&ensp;<code>bool</code></dt>
 <dd>When True, the connection is set to the away state.
 Defaults to False.</dd>
-<dt><strong><code>customer_push_level</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: my, engaged, online.
+<dt><strong><code>customer_monitoring_level</code></strong> :&ensp;<code>str</code></dt>
+<dd>Possible values are: <code>my</code>, <code>chatting</code>, <code>invited</code>, <code>online</code> and <code>highest_available</code>.
 Defaults to my if login creates the first session;
-otherwise it preserves the current customer_push_level.</dd>
+otherwise it preserves the current customer_monitoring_level.</dd>
 <dt><strong><code>pushes</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Use case: when you want to receive only specific pushes.</dd>
 <dt>By default, it's set to all for the version of your currently established RTM connection.</dt>
@@ -2972,7 +2982,7 @@ It overrides all other parameters provided for the method.</dd>
           push_notifications: dict = None,
           application: dict = None,
           away: bool = None,
-          customer_push_level: str = None,
+          customer_monitoring_level: str = None,
           pushes: dict = None,
           payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Logs in agent.
@@ -2987,9 +2997,9 @@ It overrides all other parameters provided for the method.</dd>
                     the application&#39;s name and version.
             away (bool): When True, the connection is set to the away state.
                     Defaults to False.
-            customer_push_level (str): Possible values: my, engaged, online.
+            customer_monitoring_level (str): Possible values are: `my`, `chatting`, `invited`, `online` and `highest_available`.
                     Defaults to my if login creates the first session;
-                    otherwise it preserves the current customer_push_level.
+                    otherwise it preserves the current customer_monitoring_level.
             pushes (dict): Use case: when you want to receive only specific pushes.
             By default, it&#39;s set to all for the version of your currently established RTM connection.
             payload (dict): Custom payload to be used as request&#39;s data.
@@ -3265,7 +3275,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v35.AgentRtmV35.send_event"><code class="name flex">
-<span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+<span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, author_id: Optional[str] = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sends an Event object.</p>
@@ -3278,6 +3288,8 @@ It overrides all other parameters provided for the method.</dd>
 <dt><strong><code>attach_to_last_thread</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Flag which states if event object should be added to last thread.
 The flag is ignored for active chats.</dd>
+<dt><strong><code>author_id</code></strong> :&ensp;<code>optional str</code></dt>
+<dd>Provide if the event should be sent on behalf of a bot.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -3296,6 +3308,7 @@ It overrides all other parameters provided for the method.</dd>
                chat_id: str = None,
                event: dict = None,
                attach_to_last_thread: bool = None,
+               author_id: Optional[str] = None,
                payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Sends an Event object.
 
@@ -3304,6 +3317,7 @@ It overrides all other parameters provided for the method.</dd>
             event (dict): Event object.
             attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
                     The flag is ignored for active chats.
+            author_id (optional str): Provide if the event should be sent on behalf of a bot.
             payload (dict): Custom payload to be used as request&#39;s data.
                     It overrides all other parameters provided for the method.
 
@@ -3311,9 +3325,12 @@ It overrides all other parameters provided for the method.</dd>
             RtmResponse: RTM response structure (`request_id`, `action`,
                          `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
+    opts = {}
+    if author_id:
+        opts[&#39;author_id&#39;] = author_id
     if payload is None:
         payload = prepare_payload(locals())
-    return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})</code></pre>
+    return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload, **opts})</code></pre>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v35.AgentRtmV35.send_rich_message_postback"><code class="name flex">

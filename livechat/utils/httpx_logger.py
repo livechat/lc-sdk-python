@@ -3,32 +3,58 @@ Logger for httpx requests.
 '''
 
 import json
-import logging
-from datetime import datetime
 
 import httpx
+from loguru import logger
 
 
 class HttpxLogger:
     ''' Logger for httpx requests. '''
-    def __init__(self):
-        logging.basicConfig()
-        self.logger = logging.getLogger()
+    MAX_CONTENT_LENGTH_TO_LOG = 1000
 
-    def log_request(self, request: httpx.Request):
-        ''' Log request details. '''
-        request_send_time = datetime.now().strftime('%Y-%m-%d, %H:%M:%S.%f')
-        self.logger.info(
-            f'\nREQUEST:\n {request.method} {request.url}\n PARAMS:\n {request.stream.read().decode("utf-8")}'
-        )
-        self.logger.debug(
-            f'\n SEND TIME: {request_send_time}\n HEADERS:\n {json.dumps(dict(request.headers.items()), indent=4)}'
-        )
+    def __init__(self, disable_logging: bool = False):
+        self.disable_logging = disable_logging
 
-    def log_response(self, response: httpx.Response):
-        ''' Log repsonse details. '''
-        response.read()
-        self.logger.info(
-            f'\nRESPONSE:\n STATUS {response.status_code}\n{json.dumps(response.json(), indent=4)}'
-        )
-        self.logger.debug(f'\n DURATION: {response.elapsed.total_seconds()} s')
+    def log_request(self, request: httpx.Request) -> None:
+        ''' Logs request details. '''
+        if not self.disable_logging:
+            request.read()
+            try:
+                request_params = json.dumps(
+                    json.loads(request.content),
+                    indent=4,
+                )
+            except json.decoder.JSONDecodeError:
+                request_params = request.content.decode('utf-8')
+            except ValueError:
+                request_params = request.content  # to avoid error when request contains binary data
+            request_headers = json.dumps(
+                dict(request.headers.items()),
+                indent=4,
+            )
+            if len(request_params) > self.MAX_CONTENT_LENGTH_TO_LOG:
+                request_params = f'{request_params[:self.MAX_CONTENT_LENGTH_TO_LOG]}... (Truncated)'
+
+            request_debug = f'Request params:\n{request_params}\n' \
+                            f'Request headers:\n{request_headers}'
+
+            logger.info(f'{request.method} request to: {request.url}')
+            logger.debug(request_debug)
+
+    def log_response(self, response: httpx.Response) -> None:
+        ''' Logs response details. '''
+        if not self.disable_logging:
+            response.read()
+            try:
+                response_content = json.dumps(response.json(), indent=4)
+            except ValueError:
+                response_content = response.text  # to avoid error when response contains binary data
+            response_debug = f'Response duration: {response.elapsed.total_seconds()} second(s)\n' \
+                            f'Response content:\n{response_content}'
+            status_code = response.status_code
+            logger.info(f'Response status code: {status_code}')
+            if status_code > 499:  # log response headers only if status code is 5XX to reduce log bloat
+                response_headers = json.dumps(dict(response.headers.items()),
+                                              indent=4)
+                response_debug = f'{response_debug}\nResponse headers:\n{response_headers}'
+            logger.debug(response_debug)

@@ -16,8 +16,11 @@ class ReportsApiV34(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False,
+                 timeout: float = httpx.Timeout(15)):
+        super().__init__(token, base_url, http2, proxies, verify,
+                         disable_logging, timeout)
         self.api_url = f'https://{base_url}/v3.4/reports'
 
     # Chats

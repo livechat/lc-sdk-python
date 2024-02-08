@@ -21,7 +21,7 @@ class AgentRTM:
     def get_client(
         version: str = stable_version,
         base_url: str = api_url
-    ) -> Union[AgentRtmV33, AgentRtmV34, AgentRtmV35]:
+    ) -> Union[AgentRtmV33, AgentRtmV34, AgentRtmV35, AgentRtmV36]:
         ''' Returns client for specific Agent RTM version.
 
             Args:

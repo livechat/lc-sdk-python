@@ -1,6 +1,6 @@
 ''' Module containing Agent RTM API client implementation for v3.6. '''
 
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import AccessToken, RtmResponse
@@ -14,9 +14,26 @@ class AgentRtmV36:
     def __init__(self, url: str):
         self.ws = WebsocketClient(url=f'wss://{url}/v3.6/agent/rtm/ws')
 
-    def open_connection(self) -> None:
-        ''' Opens WebSocket connection. '''
-        self.ws.open()
+    def open_connection(self,
+                        origin: dict = None,
+                        ping_timeout: float = 3,
+                        ping_interval: float = 5,
+                        ws_conn_timeout: float = 10,
+                        keep_alive: bool = True) -> None:
+        ''' Opens WebSocket connection.
+
+            Args:
+                origin (dict): Specifies origin while creating websocket connection.
+                ping_timeout (int or float): timeout (in seconds) if the pong message is not received,
+                    by default sets to 3 seconds.
+                ping_interval (int or float): automatically sends "ping" command every specified period (in seconds).
+                    If set to 0, no ping is sent periodically, by default sets to 5 seconds.
+                ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
+                    by default sets to 10 seconds.
+                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+        '''
+        self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
+                     keep_alive)
 
     def close_connection(self) -> None:
         ''' Closes WebSocket connection. '''
@@ -322,6 +339,7 @@ class AgentRtmV36:
                    chat_id: str = None,
                    event: dict = None,
                    attach_to_last_thread: bool = None,
+                   author_id: Optional[str] = None,
                    payload: dict = None) -> RtmResponse:
         ''' Sends an Event object.
 
@@ -330,6 +348,7 @@ class AgentRtmV36:
                 event (dict): Event object.
                 attach_to_last_thread (bool): Flag which states if event object should be added to last thread.
                         The flag is ignored for active chats.
+                author_id (optional str): Provide if the event should be sent on behalf of a bot.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 
@@ -337,9 +356,16 @@ class AgentRtmV36:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
+        opts = {}
+        if author_id:
+            opts['author_id'] = author_id
         if payload is None:
             payload = prepare_payload(locals())
-        return self.ws.send({'action': 'send_event', 'payload': payload})
+        return self.ws.send({
+            'action': 'send_event',
+            'payload': payload,
+            **opts
+        })
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -722,7 +748,7 @@ class AgentRtmV36:
                         the application's name and version.
                 away (bool): When True, the connection is set to the away state.
                         Defaults to False.
-                customer_monitoring_level (str): Possible values: my, chatting, invited, online.
+                customer_monitoring_level (str): Possible values are: `my`, `chatting`, `invited`, `online` and `highest_available`.
                         Defaults to my if login creates the first session;
                         otherwise it preserves the current customer_monitoring_level.
                 pushes (dict): Use case: when you want to receive only specific pushes.
@@ -807,10 +833,13 @@ class AgentRtmV36:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'set_away_status', 'payload': payload})
 
-    def logout(self, payload: dict = None) -> RtmResponse:
-        ''' Logs out agent.
+    def logout(self,
+               agent_id: str = None,
+               payload: dict = None) -> RtmResponse:
+        ''' Logs the Agent out.
 
             Args:
+                agent_id (str): Login of the agent to logout.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 
@@ -818,10 +847,9 @@ class AgentRtmV36:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
-        return self.ws.send({
-            'action': 'logout',
-            'payload': {} if payload is None else payload
-        })
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'logout', 'payload': payload})
 
     def list_routing_statuses(self,
                               filters: dict = None,

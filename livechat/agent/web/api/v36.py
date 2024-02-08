@@ -21,8 +21,11 @@ class AgentWebV36(HttpClient):
                  base_url: str,
                  http2: bool,
                  proxies=None,
-                 verify: bool = True):
-        super().__init__(access_token, base_url, http2, proxies, verify)
+                 verify: bool = True,
+                 disable_logging: bool = False,
+                 timeout: float = httpx.Timeout(15)):
+        super().__init__(access_token, base_url, http2, proxies, verify,
+                         disable_logging, timeout)
         self.api_url = f'https://{base_url}/v3.6/agent/action'
 
     # Chats
@@ -1031,5 +1034,28 @@ class AgentWebV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/list_agents_for_transfer',
+                                 json=payload,
+                                 headers=headers)
+
+    def logout(self,
+               agent_id: str = None,
+               payload: dict = None,
+               headers: dict = None) -> httpx.Response:
+        ''' Logs the Agent out.
+
+            Args:
+                agent_id (str): Login of the agent to logout.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/logout',
                                  json=payload,
                                  headers=headers)
