@@ -1,5 +1,8 @@
 ''' Module containing structures. '''
 
+from dataclasses import dataclass
+from enum import Enum
+
 
 class RtmResponse:
     ''' RTM response structure class. '''
@@ -30,3 +33,19 @@ class RtmResponse:
     def payload(self) -> dict:
         ''' `payload` from the RTM response. '''
         return self.rtm_response.get('payload')
+
+
+class TokenType(Enum):
+    ''' Token type enum class. '''
+    BEARER = 'Bearer'
+    BASIC = 'Basic'
+
+
+@dataclass
+class AccessToken:
+    ''' Access token structure class. '''
+    token: str
+    scheme: TokenType
+
+    def __str__(self) -> str:
+        return f'{self.scheme.value} {self.token}'

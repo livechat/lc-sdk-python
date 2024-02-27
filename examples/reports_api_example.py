@@ -1,9 +1,11 @@
 ''' Reports API client example usage. '''
 
 from livechat.reports.base import ReportsApi
+from livechat.utils.structures import AccessToken, TokenType
 
 # Get number of chats occured during specified period.
-reports_api = ReportsApi.get_client(token='<your access token>')
+reports_api = ReportsApi.get_client(token=AccessToken(
+    scheme=TokenType.BEARER, token='dal:A420qcNvdVS4cRMJP269GfgT1LA'))
 chats_occured = reports_api.total_chats(filters={
     'to': '2020-09-14T23:59:59+02:00',
     'from': '2020-09-01T00:00:00+02:00'

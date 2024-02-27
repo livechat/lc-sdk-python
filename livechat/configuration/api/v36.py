@@ -1,11 +1,12 @@
 ''' Configuration API module with client class in version 3.6. '''
 
-from typing import List
+from typing import List, Union
 
 import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
+from livechat.utils.structures import AccessToken
 
 # pylint: disable=unused-argument,too-many-arguments,redefined-builtin,invalid-name
 
@@ -13,7 +14,7 @@ from livechat.utils.http_client import HttpClient
 class ConfigurationApiV36(HttpClient):
     ''' Configuration API client class in version 3.6. '''
     def __init__(self,
-                 token: str,
+                 token: Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,

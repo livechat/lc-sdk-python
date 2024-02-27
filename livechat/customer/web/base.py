@@ -3,7 +3,7 @@
 # pylint: disable=W0613,R0913,W0622,C0103
 from __future__ import annotations
 
-from typing import Union
+from typing import Optional, Union
 
 import httpx
 
@@ -12,6 +12,7 @@ from livechat.customer.web.api.v33 import CustomerWebV33
 from livechat.customer.web.api.v34 import CustomerWebV34
 from livechat.customer.web.api.v35 import CustomerWebV35
 from livechat.customer.web.api.v36 import CustomerWebV36
+from livechat.utils.structures import AccessToken
 
 stable_version = CONFIG.get('stable')
 api_url = CONFIG.get('url')
@@ -24,7 +25,7 @@ class CustomerWeb:
     @staticmethod
     def get_client(
         license_id: int = None,
-        access_token: str = None,
+        access_token: Optional[Union[AccessToken, str]] = None,
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,

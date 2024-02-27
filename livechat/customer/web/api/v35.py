@@ -7,13 +7,14 @@ import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
+from livechat.utils.structures import AccessToken
 
 
 class CustomerWebV35(HttpClient):
     ''' Customer Web API Class containing methods in version 3.5. '''
     def __init__(self,
                  organization_id: str,
-                 access_token: str,
+                 access_token: typing.Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,

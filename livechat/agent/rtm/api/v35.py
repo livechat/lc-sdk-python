@@ -1,9 +1,9 @@
 ''' Module containing Agent RTM API client implementation for v3.5. '''
 
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 from livechat.utils.helpers import prepare_payload
-from livechat.utils.structures import RtmResponse
+from livechat.utils.structures import AccessToken, RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
 # pylint: disable=unused-argument, too-many-arguments, invalid-name, redefined-builtin
@@ -755,7 +755,7 @@ class AgentRtmV35:
 # Status
 
     def login(self,
-              token: str = None,
+              token: Union[AccessToken, str] = None,
               timezone: str = None,
               reconnect: bool = None,
               push_notifications: dict = None,
@@ -788,6 +788,8 @@ class AgentRtmV35:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
+        if token:
+            token = str(token)
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'login', 'payload': payload})

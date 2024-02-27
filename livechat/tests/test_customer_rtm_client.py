@@ -6,6 +6,7 @@ import pytest
 
 from livechat.config import CONFIG
 from livechat.customer.rtm.base import CustomerRTM
+from livechat.utils.structures import AccessToken, TokenType
 
 stable_version = CONFIG.get('stable')
 dev_version = CONFIG.get('dev')
@@ -92,7 +93,8 @@ def test_rtm_response_structure():
     ''' Test if returned `RtmResponse` structure contains expected properties. '''
     client = CustomerRTM.get_client(organization_id=ORGANIZATION_ID)
     client.open_connection()
-    response = client.login(token='Bearer 10386012')
+    response = client.login(
+        token=AccessToken(scheme=TokenType.BEARER, token='10386012'))
     client.close_connection()
     assert isinstance(response.request_id,
                       str) and len(response.request_id) >= 1

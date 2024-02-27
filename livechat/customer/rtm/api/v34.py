@@ -2,8 +2,10 @@
 
 # pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
 
+from typing import Optional, Union
+
 from livechat.utils.helpers import prepare_payload
-from livechat.utils.structures import RtmResponse
+from livechat.utils.structures import AccessToken, RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
 
@@ -492,7 +494,9 @@ class CustomerRtmV34:
 
 # Status
 
-    def login(self, token: str = None, payload: dict = None) -> RtmResponse:
+    def login(self,
+              token: Optional[Union[AccessToken, str]] = None,
+              payload: dict = None) -> RtmResponse:
         ''' Logs in customer.
 
             Args:
@@ -504,6 +508,8 @@ class CustomerRtmV34:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
+        if token:
+            token = str(token)
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'login', 'payload': payload})
