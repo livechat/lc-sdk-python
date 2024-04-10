@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - New methods in configuration-api v3.5, v3.6 for bot management: `create_bot_template`, `delete_bot_template`, `update_bot_template`, `list_bot_templates`, `issue_bot_token`, `reset_bot_secret`, `reset_bot_template_secret`.
-- New `get_company_details` method in configuration-api v3.5 and v3.6.
+- New `get_company_details` method in configuration-api v3.6.
 
 ### Changed
 - Updated outdated packages.
