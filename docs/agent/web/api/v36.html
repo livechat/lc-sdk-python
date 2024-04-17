@@ -478,7 +478,7 @@ class AgentWebV36(HttpClient):
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. &#39;&#39;&#39;
         return self.session.post(f&#39;{self.api_url}/upload_file&#39;,
-                                 file=file,
+                                 files=file,
                                  headers=headers)
 
     def send_rich_message_postback(self,
@@ -1543,7 +1543,7 @@ class AgentWebV36(HttpClient):
                 httpx.Response: The Response object from `httpx` library,
                                 which contains a server’s response to an HTTP request. &#39;&#39;&#39;
         return self.session.post(f&#39;{self.api_url}/upload_file&#39;,
-                                 file=file,
+                                 files=file,
                                  headers=headers)
 
     def send_rich_message_postback(self,
@@ -4341,7 +4341,7 @@ which contains a server’s response to an HTTP request.</dd>
             httpx.Response: The Response object from `httpx` library,
                             which contains a server’s response to an HTTP request. &#39;&#39;&#39;
     return self.session.post(f&#39;{self.api_url}/upload_file&#39;,
-                             file=file,
+                             files=file,
                              headers=headers)</code></pre>
 </details>
 </dd>
