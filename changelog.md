@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.3.9] - XXX
+## [0.3.9] - 2024-04-22
 
 ### Added
 - New methods in configuration-api v3.5, v3.6 for bot management: `create_bot_template`, `delete_bot_template`, `update_bot_template`, `list_bot_templates`, `issue_bot_token`, `reset_bot_secret`, `reset_bot_template_secret`.
