@@ -6,8 +6,9 @@ name = "pypi"
 [packages]
 websocket-client= "1.7.0"
 urllib3 = "2.1.0"
-httpx = {extras = ["http2"], version = "0.25.2"}
+httpx = {extras = ["http2"], version = "==0.25.2"}
 loguru = "==0.7.2"
+idna = ">=3.7"
 
 [dev-packages]
 pre-commit = "3.5.0"

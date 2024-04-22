@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Enabled instantiation for `CustomerRtmV36` within the 3.6 version of the Customer RTM API.
 - Adjusted the return types in `get_client` method across RTM and WEB clients.
 - Fixed an issue where messages in the WebSocket client were incorrectly shared across all instances.
+- Fixed `upload_file` method in agent-api v3.4/v3.5/v3.6 classes.
 
 ## [0.3.8] - 2023-11-30
 
