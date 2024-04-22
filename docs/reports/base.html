@@ -38,11 +38,14 @@ from __future__ import annotations
 
 from typing import Union
 
+import httpx
+
 from livechat.config import CONFIG
 from livechat.reports.api.v33 import ReportsApiV33
 from livechat.reports.api.v34 import ReportsApiV34
 from livechat.reports.api.v35 import ReportsApiV35
 from livechat.reports.api.v36 import ReportsApiV36
+from livechat.utils.structures import AccessToken
 
 stable_version = CONFIG.get(&#39;stable&#39;)
 api_url = CONFIG.get(&#39;url&#39;)
@@ -53,14 +56,15 @@ class ReportsApi:
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(
-        token: str,
+        token: Union[AccessToken, str],
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
-    ) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
+        timeout: float = httpx.Timeout(15)
+    ) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35, ReportsApiV36]:
         &#39;&#39;&#39; Returns client for specific Reports API version.
 
             Args:
@@ -76,6 +80,8 @@ class ReportsApi:
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 ReportsApi: API client object for specified version.
@@ -86,16 +92,16 @@ class ReportsApi:
         client = {
             &#39;3.3&#39;:
             ReportsApiV33(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             &#39;3.4&#39;:
             ReportsApiV34(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             &#39;3.5&#39;:
             ReportsApiV35(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             &#39;3.6&#39;:
             ReportsApiV36(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -126,14 +132,15 @@ API version.</p></div>
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(
-        token: str,
+        token: Union[AccessToken, str],
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
-    ) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
+        timeout: float = httpx.Timeout(15)
+    ) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35, ReportsApiV36]:
         &#39;&#39;&#39; Returns client for specific Reports API version.
 
             Args:
@@ -149,6 +156,8 @@ API version.</p></div>
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 ReportsApi: API client object for specified version.
@@ -159,16 +168,16 @@ API version.</p></div>
         client = {
             &#39;3.3&#39;:
             ReportsApiV33(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             &#39;3.4&#39;:
             ReportsApiV34(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             &#39;3.5&#39;:
             ReportsApiV35(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
             &#39;3.6&#39;:
             ReportsApiV36(token, base_url, http2, proxies, verify,
-                          disable_logging),
+                          disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -177,7 +186,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.reports.base.ReportsApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.5', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, disable_logging: bool = False) ‑> Union[<a title="livechat.reports.api.v33.ReportsApiV33" href="api/v33.html#livechat.reports.api.v33.ReportsApiV33">ReportsApiV33</a>, <a title="livechat.reports.api.v34.ReportsApiV34" href="api/v34.html#livechat.reports.api.v34.ReportsApiV34">ReportsApiV34</a>, <a title="livechat.reports.api.v35.ReportsApiV35" href="api/v35.html#livechat.reports.api.v35.ReportsApiV35">ReportsApiV35</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>token: Union[AccessToken, str], version: str = '3.5', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.reports.api.v33.ReportsApiV33" href="api/v33.html#livechat.reports.api.v33.ReportsApiV33">ReportsApiV33</a>, <a title="livechat.reports.api.v34.ReportsApiV34" href="api/v34.html#livechat.reports.api.v34.ReportsApiV34">ReportsApiV34</a>, <a title="livechat.reports.api.v35.ReportsApiV35" href="api/v35.html#livechat.reports.api.v35.ReportsApiV35">ReportsApiV35</a>, <a title="livechat.reports.api.v36.ReportsApiV36" href="api/v36.html#livechat.reports.api.v36.ReportsApiV36">ReportsApiV36</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Reports API version.</p>
@@ -202,6 +211,9 @@ a path to an SSL certificate file, an <code>ssl.SSLContext</code>, or <code>Fals
 (which will disable verification). Defaults to <code>True</code>.</dd>
 <dt><strong><code>disable_logging</code></strong> :&ensp;<code>bool</code></dt>
 <dd>indicates if logging should be disabled.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>float</code></dt>
+<dd>The timeout configuration to use when sending requests.
+Defaults to 15 seconds.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -219,14 +231,15 @@ a path to an SSL certificate file, an <code>ssl.SSLContext</code>, or <code>Fals
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(
-    token: str,
+    token: Union[AccessToken, str],
     version: str = stable_version,
     base_url: str = api_url,
     http2: bool = False,
     proxies: dict = None,
     verify: bool = True,
     disable_logging: bool = False,
-) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35]:
+    timeout: float = httpx.Timeout(15)
+) -&gt; Union[ReportsApiV33, ReportsApiV34, ReportsApiV35, ReportsApiV36]:
     &#39;&#39;&#39; Returns client for specific Reports API version.
 
         Args:
@@ -242,6 +255,8 @@ def get_client(
                            a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                            (which will disable verification). Defaults to `True`.
             disable_logging (bool): indicates if logging should be disabled.
+            timeout (float): The timeout configuration to use when sending requests.
+                             Defaults to 15 seconds.
 
         Returns:
             ReportsApi: API client object for specified version.
@@ -252,16 +267,16 @@ def get_client(
     client = {
         &#39;3.3&#39;:
         ReportsApiV33(token, base_url, http2, proxies, verify,
-                      disable_logging),
+                      disable_logging, timeout),
         &#39;3.4&#39;:
         ReportsApiV34(token, base_url, http2, proxies, verify,
-                      disable_logging),
+                      disable_logging, timeout),
         &#39;3.5&#39;:
         ReportsApiV35(token, base_url, http2, proxies, verify,
-                      disable_logging),
+                      disable_logging, timeout),
         &#39;3.6&#39;:
         ReportsApiV36(token, base_url, http2, proxies, verify,
-                      disable_logging),
+                      disable_logging, timeout),
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)

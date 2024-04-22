@@ -29,12 +29,13 @@
 </summary>
 <pre><code class="python">&#39;&#39;&#39; Configuration API module with client class in version 3.6. &#39;&#39;&#39;
 
-from typing import List
+from typing import List, Union
 
 import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
+from livechat.utils.structures import AccessToken
 
 # pylint: disable=unused-argument,too-many-arguments,redefined-builtin,invalid-name
 
@@ -42,14 +43,15 @@ from livechat.utils.http_client import HttpClient
 class ConfigurationApiV36(HttpClient):
     &#39;&#39;&#39; Configuration API client class in version 3.6. &#39;&#39;&#39;
     def __init__(self,
-                 token: str,
+                 token: Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,
                  verify: bool = True,
-                 disable_logging: bool = False):
+                 disable_logging: bool = False,
+                 timeout: float = httpx.Timeout(15)):
         super().__init__(token, base_url, http2, proxies, verify,
-                         disable_logging)
+                         disable_logging, timeout)
         self.api_url = f&#39;https://{base_url}/v3.6/configuration/action&#39;
 
 # Agents
@@ -466,6 +468,48 @@ class ConfigurationApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def create_bot_template(self,
+                            name: str = None,
+                            avatar: str = None,
+                            max_chats_count: int = None,
+                            default_group_priority: str = None,
+                            job_title: str = None,
+                            owner_client_id: str = None,
+                            affect_existing_installations: bool = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Creates a new bot template for the Client ID (application) provided in the request.
+            One Client ID can register up to five bot templates.
+            Bots based on the template will be automatically created on the license when the application is installed.
+            The bots will have the same ID as the bot template. If the application is already installed on the license,
+            the bots will be created only if `affect_existing_installations` is set to `true`.
+            Args:
+                name (str): Display name.
+                avatar (str): Avatar URL.
+                max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                default_group_priority (str): The default routing priority for a group without defined priority.
+                job_title (str): Bot&#39;s job title.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/create_bot_template&#39;,
+                                 json=payload,
+                                 headers=headers)
+
     def delete_bot(self,
                    id: str = None,
                    payload: dict = None,
@@ -487,6 +531,39 @@ class ConfigurationApiV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/delete_bot&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def delete_bot_template(self,
+                            id: str = None,
+                            owner_client_id: str = None,
+                            affect_existing_installations: bool = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Deletes a bot template specified by `id`. The bots associated with the template will
+            be deleted only if `affect_existing_installations` is set to `true`.
+
+            Args:
+                id (str): Bot Template ID.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/delete_bot_template&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -528,6 +605,46 @@ class ConfigurationApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def update_bot_template(self,
+                            id: str = None,
+                            name: str = None,
+                            avatar: str = None,
+                            max_chats_count: int = None,
+                            default_group_priority: str = None,
+                            owner_client_id: str = None,
+                            affect_existing_installations: bool = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Updates an existing Bot Template.
+
+            Args:
+                id (str): Bot Template ID.
+                name (str): Display name.
+                avatar (str): Avatar URL.
+                max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
+                default_group_priority (str): The default routing priority for a group without defined priority.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_bot_template&#39;,
+                                 json=payload,
+                                 headers=headers)
+
     def list_bots(self,
                   all: bool = None,
                   fields: list = None,
@@ -554,6 +671,32 @@ class ConfigurationApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def list_bot_templates(self,
+                           owner_client_id: str = None,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns the list of Bot Templates created for the Client ID (application).
+
+            Args:
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_bot_templates&#39;,
+                                 json=payload,
+                                 headers=headers)
+
     def get_bot(self,
                 id: str = None,
                 fields: list = None,
@@ -577,6 +720,96 @@ class ConfigurationApiV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/get_bot&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def issue_bot_token(self,
+                        bot_id: str = None,
+                        bot_secret: str = None,
+                        organization_id: str = None,
+                        client_id: str = None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Issues a new token for the Bot. The token is valid for 24 hours. The token cannot be revoked.
+
+            Args:
+                bot_id (str): Bot&#39;s ID.
+                bot_secret (str): Bot&#39;s secret.
+                organization_id (str): Organization&#39;s ID.
+                client_id (str): Client&#39;s ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/issue_bot_token&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def reset_bot_secret(self,
+                         id: str = None,
+                         owner_client_id: str = None,
+                         payload: dict = None,
+                         headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Resets secret for given bot.
+
+            Args:
+                id (str): Bot&#39;s ID.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/reset_bot_secret&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def reset_bot_template_secret(self,
+                                  id: str = None,
+                                  owner_client_id: str = None,
+                                  affect_existing_installations: bool = None,
+                                  payload: dict = None,
+                                  headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Resets secret for given bot template.
+
+            Args:
+                id (str): Bot Template ID.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/reset_bot_template_secret&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -1604,7 +1837,7 @@ class ConfigurationApiV36(HttpClient):
 <dl>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36"><code class="flex name class">
 <span>class <span class="ident">ConfigurationApiV36</span></span>
-<span>(</span><span>token: str, base_url: str, http2: bool, proxies=None, verify: bool = True, disable_logging: bool = False)</span>
+<span>(</span><span>token: Union[livechat.utils.structures.AccessToken, str], base_url: str, http2: bool, proxies=None, verify: bool = True, disable_logging: bool = False, timeout: float = Timeout(timeout=15))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Configuration API client class in version 3.6.</p></div>
@@ -1615,14 +1848,15 @@ class ConfigurationApiV36(HttpClient):
 <pre><code class="python">class ConfigurationApiV36(HttpClient):
     &#39;&#39;&#39; Configuration API client class in version 3.6. &#39;&#39;&#39;
     def __init__(self,
-                 token: str,
+                 token: Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,
                  verify: bool = True,
-                 disable_logging: bool = False):
+                 disable_logging: bool = False,
+                 timeout: float = httpx.Timeout(15)):
         super().__init__(token, base_url, http2, proxies, verify,
-                         disable_logging)
+                         disable_logging, timeout)
         self.api_url = f&#39;https://{base_url}/v3.6/configuration/action&#39;
 
 # Agents
@@ -2039,6 +2273,48 @@ class ConfigurationApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def create_bot_template(self,
+                            name: str = None,
+                            avatar: str = None,
+                            max_chats_count: int = None,
+                            default_group_priority: str = None,
+                            job_title: str = None,
+                            owner_client_id: str = None,
+                            affect_existing_installations: bool = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Creates a new bot template for the Client ID (application) provided in the request.
+            One Client ID can register up to five bot templates.
+            Bots based on the template will be automatically created on the license when the application is installed.
+            The bots will have the same ID as the bot template. If the application is already installed on the license,
+            the bots will be created only if `affect_existing_installations` is set to `true`.
+            Args:
+                name (str): Display name.
+                avatar (str): Avatar URL.
+                max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+                default_group_priority (str): The default routing priority for a group without defined priority.
+                job_title (str): Bot&#39;s job title.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/create_bot_template&#39;,
+                                 json=payload,
+                                 headers=headers)
+
     def delete_bot(self,
                    id: str = None,
                    payload: dict = None,
@@ -2060,6 +2336,39 @@ class ConfigurationApiV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/delete_bot&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def delete_bot_template(self,
+                            id: str = None,
+                            owner_client_id: str = None,
+                            affect_existing_installations: bool = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Deletes a bot template specified by `id`. The bots associated with the template will
+            be deleted only if `affect_existing_installations` is set to `true`.
+
+            Args:
+                id (str): Bot Template ID.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/delete_bot_template&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -2101,6 +2410,46 @@ class ConfigurationApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def update_bot_template(self,
+                            id: str = None,
+                            name: str = None,
+                            avatar: str = None,
+                            max_chats_count: int = None,
+                            default_group_priority: str = None,
+                            owner_client_id: str = None,
+                            affect_existing_installations: bool = None,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Updates an existing Bot Template.
+
+            Args:
+                id (str): Bot Template ID.
+                name (str): Display name.
+                avatar (str): Avatar URL.
+                max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
+                default_group_priority (str): The default routing priority for a group without defined priority.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/update_bot_template&#39;,
+                                 json=payload,
+                                 headers=headers)
+
     def list_bots(self,
                   all: bool = None,
                   fields: list = None,
@@ -2127,6 +2476,32 @@ class ConfigurationApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def list_bot_templates(self,
+                           owner_client_id: str = None,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns the list of Bot Templates created for the Client ID (application).
+
+            Args:
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_bot_templates&#39;,
+                                 json=payload,
+                                 headers=headers)
+
     def get_bot(self,
                 id: str = None,
                 fields: list = None,
@@ -2150,6 +2525,96 @@ class ConfigurationApiV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/get_bot&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def issue_bot_token(self,
+                        bot_id: str = None,
+                        bot_secret: str = None,
+                        organization_id: str = None,
+                        client_id: str = None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Issues a new token for the Bot. The token is valid for 24 hours. The token cannot be revoked.
+
+            Args:
+                bot_id (str): Bot&#39;s ID.
+                bot_secret (str): Bot&#39;s secret.
+                organization_id (str): Organization&#39;s ID.
+                client_id (str): Client&#39;s ID.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/issue_bot_token&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def reset_bot_secret(self,
+                         id: str = None,
+                         owner_client_id: str = None,
+                         payload: dict = None,
+                         headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Resets secret for given bot.
+
+            Args:
+                id (str): Bot&#39;s ID.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/reset_bot_secret&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def reset_bot_template_secret(self,
+                                  id: str = None,
+                                  owner_client_id: str = None,
+                                  affect_existing_installations: bool = None,
+                                  payload: dict = None,
+                                  headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Resets secret for given bot template.
+
+            Args:
+                id (str): Bot Template ID.
+                owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                       authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                       will be ignored, and provided `owner_client_id` will be used instead.
+                affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                      application installed. Otherwise only new installations will trigger bot
+                                                      creation.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/reset_bot_template_secret&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -3884,6 +4349,96 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.create_bot_template"><code class="name flex">
+<span>def <span class="ident">create_bot_template</span></span>(<span>self, name: str = None, avatar: str = None, max_chats_count: int = None, default_group_priority: str = None, job_title: str = None, owner_client_id: str = None, affect_existing_installations: bool = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a new bot template for the Client ID (application) provided in the request.
+One Client ID can register up to five bot templates.
+Bots based on the template will be automatically created on the license when the application is installed.
+The bots will have the same ID as the bot template. If the application is already installed on the license,
+the bots will be created only if <code>affect_existing_installations</code> is set to <code>true</code>.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Display name.</dd>
+<dt><strong><code>avatar</code></strong> :&ensp;<code>str</code></dt>
+<dd>Avatar URL.</dd>
+<dt><strong><code>max_chats_count</code></strong> :&ensp;<code>int</code></dt>
+<dd>Max. number of incoming chats that can be routed to the Bot; default: 6.</dd>
+<dt><strong><code>default_group_priority</code></strong> :&ensp;<code>str</code></dt>
+<dd>The default routing priority for a group without defined priority.</dd>
+<dt><strong><code>job_title</code></strong> :&ensp;<code>str</code></dt>
+<dd>Bot's job title.</dd>
+<dt><strong><code>owner_client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Required only when authorizing via PAT. When you provide this param while
+authorizing with a Bearer Token, the <code>client_id</code> associated with the Bearer Token
+will be ignored, and provided <code>owner_client_id</code> will be used instead.</dd>
+<dt><strong><code>affect_existing_installations</code></strong> :&ensp;<code>bool</code></dt>
+<dd>based on this template will be created on all licenses that have given
+application installed. Otherwise only new installations will trigger bot
+creation.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_bot_template(self,
+                        name: str = None,
+                        avatar: str = None,
+                        max_chats_count: int = None,
+                        default_group_priority: str = None,
+                        job_title: str = None,
+                        owner_client_id: str = None,
+                        affect_existing_installations: bool = None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Creates a new bot template for the Client ID (application) provided in the request.
+        One Client ID can register up to five bot templates.
+        Bots based on the template will be automatically created on the license when the application is installed.
+        The bots will have the same ID as the bot template. If the application is already installed on the license,
+        the bots will be created only if `affect_existing_installations` is set to `true`.
+        Args:
+            name (str): Display name.
+            avatar (str): Avatar URL.
+            max_chats_count (int): Max. number of incoming chats that can be routed to the Bot; default: 6.
+            default_group_priority (str): The default routing priority for a group without defined priority.
+            job_title (str): Bot&#39;s job title.
+            owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                   authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                   will be ignored, and provided `owner_client_id` will be used instead.
+            affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                  application installed. Otherwise only new installations will trigger bot
+                                                  creation.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/create_bot_template&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.create_group"><code class="name flex">
 <span>def <span class="ident">create_group</span></span>(<span>self, name: str = None, language_code: str = None, agent_priorities: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -4152,6 +4707,76 @@ which contains a server's response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/delete_bot&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.delete_bot_template"><code class="name flex">
+<span>def <span class="ident">delete_bot_template</span></span>(<span>self, id: str = None, owner_client_id: str = None, affect_existing_installations: bool = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deletes a bot template specified by <code>id</code>. The bots associated with the template will
+be deleted only if <code>affect_existing_installations</code> is set to <code>true</code>.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Bot Template ID.</dd>
+<dt><strong><code>owner_client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Required only when authorizing via PAT. When you provide this param while
+authorizing with a Bearer Token, the <code>client_id</code> associated with the Bearer Token
+will be ignored, and provided <code>owner_client_id</code> will be used instead.</dd>
+<dt><strong><code>affect_existing_installations</code></strong> :&ensp;<code>bool</code></dt>
+<dd>based on this template will be created on all licenses that have given
+application installed. Otherwise only new installations will trigger bot
+creation.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_bot_template(self,
+                        id: str = None,
+                        owner_client_id: str = None,
+                        affect_existing_installations: bool = None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Deletes a bot template specified by `id`. The bots associated with the template will
+        be deleted only if `affect_existing_installations` is set to `true`.
+
+        Args:
+            id (str): Bot Template ID.
+            owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                   authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                   will be ignored, and provided `owner_client_id` will be used instead.
+            affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                  application installed. Otherwise only new installations will trigger bot
+                                                  creation.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/delete_bot_template&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -4742,6 +5367,70 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.issue_bot_token"><code class="name flex">
+<span>def <span class="ident">issue_bot_token</span></span>(<span>self, bot_id: str = None, bot_secret: str = None, organization_id: str = None, client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Issues a new token for the Bot. The token is valid for 24 hours. The token cannot be revoked.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>bot_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Bot's ID.</dd>
+<dt><strong><code>bot_secret</code></strong> :&ensp;<code>str</code></dt>
+<dd>Bot's secret.</dd>
+<dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Organization's ID.</dd>
+<dt><strong><code>client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Client's ID.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def issue_bot_token(self,
+                    bot_id: str = None,
+                    bot_secret: str = None,
+                    organization_id: str = None,
+                    client_id: str = None,
+                    payload: dict = None,
+                    headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Issues a new token for the Bot. The token is valid for 24 hours. The token cannot be revoked.
+
+        Args:
+            bot_id (str): Bot&#39;s ID.
+            bot_secret (str): Bot&#39;s secret.
+            organization_id (str): Organization&#39;s ID.
+            client_id (str): Client&#39;s ID.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/issue_bot_token&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_agents"><code class="name flex">
 <span>def <span class="ident">list_agents</span></span>(<span>self, filters: dict = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -4839,6 +5528,62 @@ which contains a server's response to an HTTP request.</p></div>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/list_auto_accesses&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_bot_templates"><code class="name flex">
+<span>def <span class="ident">list_bot_templates</span></span>(<span>self, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the list of Bot Templates created for the Client ID (application).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>owner_client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Required only when authorizing via PAT. When you provide this param while
+authorizing with a Bearer Token, the <code>client_id</code> associated with the Bearer Token
+will be ignored, and provided <code>owner_client_id</code> will be used instead.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_bot_templates(self,
+                       owner_client_id: str = None,
+                       payload: dict = None,
+                       headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns the list of Bot Templates created for the Client ID (application).
+
+        Args:
+            owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                   authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                   will be ignored, and provided `owner_client_id` will be used instead.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/list_bot_templates&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -5640,6 +6385,134 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_secret"><code class="name flex">
+<span>def <span class="ident">reset_bot_secret</span></span>(<span>self, id: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Resets secret for given bot.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Bot's ID.</dd>
+<dt><strong><code>owner_client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Required only when authorizing via PAT. When you provide this param while
+authorizing with a Bearer Token, the <code>client_id</code> associated with the Bearer Token
+will be ignored, and provided <code>owner_client_id</code> will be used instead.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset_bot_secret(self,
+                     id: str = None,
+                     owner_client_id: str = None,
+                     payload: dict = None,
+                     headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Resets secret for given bot.
+
+        Args:
+            id (str): Bot&#39;s ID.
+            owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                   authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                   will be ignored, and provided `owner_client_id` will be used instead.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/reset_bot_secret&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_template_secret"><code class="name flex">
+<span>def <span class="ident">reset_bot_template_secret</span></span>(<span>self, id: str = None, owner_client_id: str = None, affect_existing_installations: bool = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Resets secret for given bot template.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Bot Template ID.</dd>
+<dt><strong><code>owner_client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Required only when authorizing via PAT. When you provide this param while
+authorizing with a Bearer Token, the <code>client_id</code> associated with the Bearer Token
+will be ignored, and provided <code>owner_client_id</code> will be used instead.</dd>
+<dt><strong><code>affect_existing_installations</code></strong> :&ensp;<code>bool</code></dt>
+<dd>based on this template will be created on all licenses that have given
+application installed. Otherwise only new installations will trigger bot
+creation.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset_bot_template_secret(self,
+                              id: str = None,
+                              owner_client_id: str = None,
+                              affect_existing_installations: bool = None,
+                              payload: dict = None,
+                              headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Resets secret for given bot template.
+
+        Args:
+            id (str): Bot Template ID.
+            owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                   authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                   will be ignored, and provided `owner_client_id` will be used instead.
+            affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                  application installed. Otherwise only new installations will trigger bot
+                                                  creation.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/reset_bot_template_secret&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.suspend_agent"><code class="name flex">
 <span>def <span class="ident">suspend_agent</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -6090,6 +6963,90 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_bot_template"><code class="name flex">
+<span>def <span class="ident">update_bot_template</span></span>(<span>self, id: str = None, name: str = None, avatar: str = None, max_chats_count: int = None, default_group_priority: str = None, owner_client_id: str = None, affect_existing_installations: bool = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates an existing Bot Template.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Bot Template ID.</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Display name.</dd>
+<dt><strong><code>avatar</code></strong> :&ensp;<code>str</code></dt>
+<dd>Avatar URL.</dd>
+<dt><strong><code>max_chats_count</code></strong> :&ensp;<code>int</code></dt>
+<dd>Max. number of incoming chats that can be routed to the Bot.</dd>
+<dt><strong><code>default_group_priority</code></strong> :&ensp;<code>str</code></dt>
+<dd>The default routing priority for a group without defined priority.</dd>
+<dt><strong><code>owner_client_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>Required only when authorizing via PAT. When you provide this param while
+authorizing with a Bearer Token, the <code>client_id</code> associated with the Bearer Token
+will be ignored, and provided <code>owner_client_id</code> will be used instead.</dd>
+<dt><strong><code>affect_existing_installations</code></strong> :&ensp;<code>bool</code></dt>
+<dd>based on this template will be created on all licenses that have given
+application installed. Otherwise only new installations will trigger bot
+creation.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_bot_template(self,
+                        id: str = None,
+                        name: str = None,
+                        avatar: str = None,
+                        max_chats_count: int = None,
+                        default_group_priority: str = None,
+                        owner_client_id: str = None,
+                        affect_existing_installations: bool = None,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Updates an existing Bot Template.
+
+        Args:
+            id (str): Bot Template ID.
+            name (str): Display name.
+            avatar (str): Avatar URL.
+            max_chats_count (int): Max. number of incoming chats that can be routed to the Bot.
+            default_group_priority (str): The default routing priority for a group without defined priority.
+            owner_client_id (str): Required only when authorizing via PAT. When you provide this param while
+                                   authorizing with a Bearer Token, the `client_id` associated with the Bearer Token
+                                   will be ignored, and provided `owner_client_id` will be used instead.
+            affect_existing_installations (bool): based on this template will be created on all licenses that have given
+                                                  application installed. Otherwise only new installations will trigger bot
+                                                  creation.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/update_bot_template&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_company_details"><code class="name flex">
 <span>def <span class="ident">update_company_details</span></span>(<span>self, enrich: bool = None, audience: str = None, chat_purpose: str = None, city: str = None, company: str = None, company_size: str = None, country: str = None, invoice_email: str = None, invoice_name: str = None, nip: str = None, postal_code: str = None, state: str = None, street: str = None, phone: str = None, province: str = None, url: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -6469,11 +7426,13 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.check_product_limits_for_plan" href="#livechat.configuration.api.v36.ConfigurationApiV36.check_product_limits_for_plan">check_product_limits_for_plan</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_agent">create_agent</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_bot">create_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_bot_template" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_bot_template">create_bot_template</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_group">create_group</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.create_tag" href="#livechat.configuration.api.v36.ConfigurationApiV36.create_tag">create_tag</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_agent">delete_agent</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_auto_access" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_auto_access">delete_auto_access</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_bot">delete_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_bot_template" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_bot_template">delete_bot_template</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_group">delete_group</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_group_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_group_properties">delete_group_properties</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.delete_license_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.delete_license_properties">delete_license_properties</a></code></li>
@@ -6485,8 +7444,10 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_group">get_group</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_license_webhooks_state" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_product_source" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_product_source">get_product_source</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.issue_bot_token" href="#livechat.configuration.api.v36.ConfigurationApiV36.issue_bot_token">issue_bot_token</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_agents" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_agents">list_agents</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_auto_accesses" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_auto_accesses">list_auto_accesses</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_bot_templates" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_bot_templates">list_bot_templates</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_bots" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_bots">list_bots</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_channels" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_channels">list_channels</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_groups" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_groups">list_groups</a></code></li>
@@ -6501,6 +7462,8 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.register_property" href="#livechat.configuration.api.v36.ConfigurationApiV36.register_property">register_property</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.register_webhook" href="#livechat.configuration.api.v36.ConfigurationApiV36.register_webhook">register_webhook</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.request_agent_unsuspension" href="#livechat.configuration.api.v36.ConfigurationApiV36.request_agent_unsuspension">request_agent_unsuspension</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_secret" href="#livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_secret">reset_bot_secret</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_template_secret" href="#livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_template_secret">reset_bot_template_secret</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.suspend_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.suspend_agent">suspend_agent</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unregister_property" href="#livechat.configuration.api.v36.ConfigurationApiV36.unregister_property">unregister_property</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unregister_webhook" href="#livechat.configuration.api.v36.ConfigurationApiV36.unregister_webhook">unregister_webhook</a></code></li>
@@ -6508,6 +7471,7 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_agent">update_agent</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_auto_access" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_auto_access">update_auto_access</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_bot">update_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_bot_template" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_bot_template">update_bot_template</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_company_details" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_company_details">update_company_details</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_group">update_group</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.update_group_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.update_group_properties">update_group_properties</a></code></li>

@@ -37,11 +37,14 @@ from __future__ import annotations
 
 from typing import Union
 
+import httpx
+
 from livechat.config import CONFIG
 from livechat.configuration.api.v33 import ConfigurationApiV33
 from livechat.configuration.api.v34 import ConfigurationApiV34
 from livechat.configuration.api.v35 import ConfigurationApiV35
 from livechat.configuration.api.v36 import ConfigurationApiV36
+from livechat.utils.structures import AccessToken
 
 stable_version = CONFIG.get(&#39;stable&#39;)
 api_url = CONFIG.get(&#39;url&#39;)
@@ -52,14 +55,16 @@ class ConfigurationApi:
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(
-        token: str,
+        token: Union[AccessToken, str],
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
-    ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35]:
+        timeout: float = httpx.Timeout(15)
+    ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
+               ConfigurationApiV36]:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
@@ -75,6 +80,8 @@ class ConfigurationApi:
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 ConfigurationApi: API client object for specified version.
@@ -85,16 +92,16 @@ class ConfigurationApi:
         client = {
             &#39;3.3&#39;:
             ConfigurationApiV33(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             &#39;3.4&#39;:
             ConfigurationApiV34(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             &#39;3.5&#39;:
             ConfigurationApiV35(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             &#39;3.6&#39;:
             ConfigurationApiV36(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -125,14 +132,16 @@ API version.</p></div>
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(
-        token: str,
+        token: Union[AccessToken, str],
         version: str = stable_version,
         base_url: str = api_url,
         http2: bool = False,
         proxies: dict = None,
         verify: bool = True,
         disable_logging: bool = False,
-    ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35]:
+        timeout: float = httpx.Timeout(15)
+    ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
+               ConfigurationApiV36]:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
@@ -148,6 +157,8 @@ API version.</p></div>
                                a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                                (which will disable verification). Defaults to `True`.
                 disable_logging (bool): indicates if logging should be disabled.
+                timeout (float): The timeout configuration to use when sending requests.
+                                 Defaults to 15 seconds.
 
             Returns:
                 ConfigurationApi: API client object for specified version.
@@ -158,16 +169,16 @@ API version.</p></div>
         client = {
             &#39;3.3&#39;:
             ConfigurationApiV33(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             &#39;3.4&#39;:
             ConfigurationApiV34(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             &#39;3.5&#39;:
             ConfigurationApiV35(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
             &#39;3.6&#39;:
             ConfigurationApiV36(token, base_url, http2, proxies, verify,
-                                disable_logging),
+                                disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -176,7 +187,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.configuration.base.ConfigurationApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: str, version: str = '3.5', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, disable_logging: bool = False) ‑> Union[<a title="livechat.configuration.api.v33.ConfigurationApiV33" href="api/v33.html#livechat.configuration.api.v33.ConfigurationApiV33">ConfigurationApiV33</a>, <a title="livechat.configuration.api.v34.ConfigurationApiV34" href="api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a>, <a title="livechat.configuration.api.v35.ConfigurationApiV35" href="api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>token: Union[AccessToken, str], version: str = '3.5', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.configuration.api.v33.ConfigurationApiV33" href="api/v33.html#livechat.configuration.api.v33.ConfigurationApiV33">ConfigurationApiV33</a>, <a title="livechat.configuration.api.v34.ConfigurationApiV34" href="api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a>, <a title="livechat.configuration.api.v35.ConfigurationApiV35" href="api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a>, <a title="livechat.configuration.api.v36.ConfigurationApiV36" href="api/v36.html#livechat.configuration.api.v36.ConfigurationApiV36">ConfigurationApiV36</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -201,6 +212,9 @@ a path to an SSL certificate file, an <code>ssl.SSLContext</code>, or <code>Fals
 (which will disable verification). Defaults to <code>True</code>.</dd>
 <dt><strong><code>disable_logging</code></strong> :&ensp;<code>bool</code></dt>
 <dd>indicates if logging should be disabled.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>float</code></dt>
+<dd>The timeout configuration to use when sending requests.
+Defaults to 15 seconds.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -218,14 +232,16 @@ a path to an SSL certificate file, an <code>ssl.SSLContext</code>, or <code>Fals
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(
-    token: str,
+    token: Union[AccessToken, str],
     version: str = stable_version,
     base_url: str = api_url,
     http2: bool = False,
     proxies: dict = None,
     verify: bool = True,
     disable_logging: bool = False,
-) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35]:
+    timeout: float = httpx.Timeout(15)
+) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
+           ConfigurationApiV36]:
     &#39;&#39;&#39; Returns client for specific Configuration API version.
 
         Args:
@@ -241,6 +257,8 @@ def get_client(
                            a path to an SSL certificate file, an `ssl.SSLContext`, or `False`
                            (which will disable verification). Defaults to `True`.
             disable_logging (bool): indicates if logging should be disabled.
+            timeout (float): The timeout configuration to use when sending requests.
+                             Defaults to 15 seconds.
 
         Returns:
             ConfigurationApi: API client object for specified version.
@@ -251,16 +269,16 @@ def get_client(
     client = {
         &#39;3.3&#39;:
         ConfigurationApiV33(token, base_url, http2, proxies, verify,
-                            disable_logging),
+                            disable_logging, timeout),
         &#39;3.4&#39;:
         ConfigurationApiV34(token, base_url, http2, proxies, verify,
-                            disable_logging),
+                            disable_logging, timeout),
         &#39;3.5&#39;:
         ConfigurationApiV35(token, base_url, http2, proxies, verify,
-                            disable_logging),
+                            disable_logging, timeout),
         &#39;3.6&#39;:
         ConfigurationApiV36(token, base_url, http2, proxies, verify,
-                            disable_logging),
+                            disable_logging, timeout),
     }.get(version)
     if not client:
         raise ValueError(&#39;Provided version does not exist.&#39;)
