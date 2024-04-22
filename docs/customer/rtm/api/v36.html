@@ -31,8 +31,10 @@
 
 # pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
 
+from typing import Optional, Union
+
 from livechat.utils.helpers import prepare_payload
-from livechat.utils.structures import RtmResponse
+from livechat.utils.structures import AccessToken, RtmResponse
 from livechat.utils.ws_client import WebsocketClient
 
 
@@ -49,15 +51,26 @@ class CustomerRtmV36:
                 f&#39;Provided `organization_id` (`{organization_id}`) seems invalid. Websocket connection may not open.&#39;
             )
 
-    def open_connection(self, origin: dict = None) -&gt; None:
+    def open_connection(self,
+                        origin: dict = None,
+                        ping_timeout: float = 3,
+                        ping_interval: float = 5,
+                        ws_conn_timeout: float = 10,
+                        keep_alive: bool = True) -&gt; None:
         &#39;&#39;&#39; Opens WebSocket connection.
+
             Args:
                 origin (dict): Specifies origin while creating websocket connection.
+                ping_timeout (int or float): timeout (in seconds) if the pong message is not received,
+                    by default sets to 3 seconds.
+                ping_interval (int or float): automatically sends &#34;ping&#34; command every specified period (in seconds).
+                    If set to 0, no ping is sent periodically, by default sets to 5 seconds.
+                ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
+                    by default sets to 10 seconds.
+                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
         &#39;&#39;&#39;
-        if origin:
-            self.ws.open(origin=origin)
-        else:
-            self.ws.open()
+        self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
+                     keep_alive)
 
     def close_connection(self) -&gt; None:
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
@@ -510,7 +523,9 @@ class CustomerRtmV36:
 
 # Status
 
-    def login(self, token: str = None, payload: dict = None) -&gt; RtmResponse:
+    def login(self,
+              token: Optional[Union[AccessToken, str]] = None,
+              payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in customer.
 
             Args:
@@ -522,6 +537,8 @@ class CustomerRtmV36:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
+        if token:
+            token = str(token)
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})
@@ -700,15 +717,26 @@ class CustomerRtmV36:
                 f&#39;Provided `organization_id` (`{organization_id}`) seems invalid. Websocket connection may not open.&#39;
             )
 
-    def open_connection(self, origin: dict = None) -&gt; None:
+    def open_connection(self,
+                        origin: dict = None,
+                        ping_timeout: float = 3,
+                        ping_interval: float = 5,
+                        ws_conn_timeout: float = 10,
+                        keep_alive: bool = True) -&gt; None:
         &#39;&#39;&#39; Opens WebSocket connection.
+
             Args:
                 origin (dict): Specifies origin while creating websocket connection.
+                ping_timeout (int or float): timeout (in seconds) if the pong message is not received,
+                    by default sets to 3 seconds.
+                ping_interval (int or float): automatically sends &#34;ping&#34; command every specified period (in seconds).
+                    If set to 0, no ping is sent periodically, by default sets to 5 seconds.
+                ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
+                    by default sets to 10 seconds.
+                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
         &#39;&#39;&#39;
-        if origin:
-            self.ws.open(origin=origin)
-        else:
-            self.ws.open()
+        self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
+                     keep_alive)
 
     def close_connection(self) -&gt; None:
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
@@ -1161,7 +1189,9 @@ class CustomerRtmV36:
 
 # Status
 
-    def login(self, token: str = None, payload: dict = None) -&gt; RtmResponse:
+    def login(self,
+              token: Optional[Union[AccessToken, str]] = None,
+              payload: dict = None) -&gt; RtmResponse:
         &#39;&#39;&#39; Logs in customer.
 
             Args:
@@ -1173,6 +1203,8 @@ class CustomerRtmV36:
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         &#39;&#39;&#39;
+        if token:
+            token = str(token)
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})
@@ -1996,7 +2028,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v36.CustomerRtmV36.login"><code class="name flex">
-<span>def <span class="ident">login</span></span>(<span>self, token: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+<span>def <span class="ident">login</span></span>(<span>self, token: Union[livechat.utils.structures.AccessToken, str, None] = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Logs in customer.</p>
@@ -2017,7 +2049,9 @@ It overrides all other parameters provided for the method.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def login(self, token: str = None, payload: dict = None) -&gt; RtmResponse:
+<pre><code class="python">def login(self,
+          token: Optional[Union[AccessToken, str]] = None,
+          payload: dict = None) -&gt; RtmResponse:
     &#39;&#39;&#39; Logs in customer.
 
         Args:
@@ -2029,6 +2063,8 @@ It overrides all other parameters provided for the method.</dd>
             RtmResponse: RTM response structure (`request_id`, `action`,
                          `type`, `success` and `payload` properties)
     &#39;&#39;&#39;
+    if token:
+        token = str(token)
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})</code></pre>
@@ -2084,7 +2120,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v36.CustomerRtmV36.open_connection"><code class="name flex">
-<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None) ‑> None</span>
+<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None, ping_timeout: float = 3, ping_interval: float = 5, ws_conn_timeout: float = 10, keep_alive: bool = True) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Opens WebSocket connection.</p>
@@ -2092,20 +2128,41 @@ It overrides all other parameters provided for the method.</dd>
 <dl>
 <dt><strong><code>origin</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Specifies origin while creating websocket connection.</dd>
-</dl></div>
+<dt><strong><code>ping_timeout</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>timeout (in seconds) if the pong message is not received,
+by default sets to 3 seconds.</dd>
+<dt><strong><code>ping_interval</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>automatically sends "ping" command every specified period (in seconds).
+If set to 0, no ping is sent periodically, by default sets to 5 seconds.</dd>
+<dt><strong><code>ws_conn_timeout</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>timeout (in seconds) to wait for WebSocket connection,
+by default sets to 10 seconds.</dd>
+</dl>
+<p>keep_alive(bool): Bool which states if connection should be kept, by default sets to <code>True</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def open_connection(self, origin: dict = None) -&gt; None:
+<pre><code class="python">def open_connection(self,
+                    origin: dict = None,
+                    ping_timeout: float = 3,
+                    ping_interval: float = 5,
+                    ws_conn_timeout: float = 10,
+                    keep_alive: bool = True) -&gt; None:
     &#39;&#39;&#39; Opens WebSocket connection.
+
         Args:
             origin (dict): Specifies origin while creating websocket connection.
+            ping_timeout (int or float): timeout (in seconds) if the pong message is not received,
+                by default sets to 3 seconds.
+            ping_interval (int or float): automatically sends &#34;ping&#34; command every specified period (in seconds).
+                If set to 0, no ping is sent periodically, by default sets to 5 seconds.
+            ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
+                by default sets to 10 seconds.
+            keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
     &#39;&#39;&#39;
-    if origin:
-        self.ws.open(origin=origin)
-    else:
-        self.ws.open()</code></pre>
+    self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
+                 keep_alive)</code></pre>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v36.CustomerRtmV36.resume_chat"><code class="name flex">

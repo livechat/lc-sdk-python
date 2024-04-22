@@ -38,6 +38,7 @@ import httpx
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
+from livechat.utils.structures import AccessToken
 
 # pylint: disable=R0903
 
@@ -45,14 +46,15 @@ from livechat.utils.http_client import HttpClient
 class AgentWebV34(HttpClient):
     &#39;&#39;&#39; Agent Web API Class containing methods in version 3.4. &#39;&#39;&#39;
     def __init__(self,
-                 access_token: str,
+                 access_token: typing.Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,
                  verify: bool = True,
-                 disable_logging: bool = False):
+                 disable_logging: bool = False,
+                 timeout: float = httpx.Timeout(15)):
         super().__init__(access_token, base_url, http2, proxies, verify,
-                         disable_logging)
+                         disable_logging, timeout)
         self.api_url = f&#39;https://{base_url}/v3.4/agent/action&#39;
 
     # Chats
@@ -1111,7 +1113,7 @@ class AgentWebV34(HttpClient):
 <dl>
 <dt id="livechat.agent.web.api.v34.AgentWebV34"><code class="flex name class">
 <span>class <span class="ident">AgentWebV34</span></span>
-<span>(</span><span>access_token: str, base_url: str, http2: bool, proxies=None, verify: bool = True, disable_logging: bool = False)</span>
+<span>(</span><span>access_token: typing.Union[AccessToken, str], base_url: str, http2: bool, proxies=None, verify: bool = True, disable_logging: bool = False, timeout: float = Timeout(timeout=15))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Agent Web API Class containing methods in version 3.4.</p></div>
@@ -1122,14 +1124,15 @@ class AgentWebV34(HttpClient):
 <pre><code class="python">class AgentWebV34(HttpClient):
     &#39;&#39;&#39; Agent Web API Class containing methods in version 3.4. &#39;&#39;&#39;
     def __init__(self,
-                 access_token: str,
+                 access_token: typing.Union[AccessToken, str],
                  base_url: str,
                  http2: bool,
                  proxies=None,
                  verify: bool = True,
-                 disable_logging: bool = False):
+                 disable_logging: bool = False,
+                 timeout: float = httpx.Timeout(15)):
         super().__init__(access_token, base_url, http2, proxies, verify,
-                         disable_logging)
+                         disable_logging, timeout)
         self.api_url = f&#39;https://{base_url}/v3.4/agent/action&#39;
 
     # Chats
