@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - TBA
+
+### Added
+- New `get_company_details` method in configuration-api v3.6.
+
 ## [0.3.9] - 2024-04-22
 
 ### Added
