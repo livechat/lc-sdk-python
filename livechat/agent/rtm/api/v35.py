@@ -994,3 +994,19 @@ class AgentRtmV35:
             'action': 'list_agents_for_transfer',
             'payload': payload
         })
+
+    def get_license_info(self, payload: dict = None) -> RtmResponse:
+        ''' Returns basic license information.
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        return self.ws.send({
+            'action': 'get_license_info',
+            'payload': {} if payload is None else payload
+        })
