@@ -1071,3 +1071,24 @@ class AgentWebV35(HttpClient):
         return self.session.post(f'{self.api_url}/list_agents_for_transfer',
                                  json=payload,
                                  headers=headers)
+
+    def get_license_info(self,
+                         payload: dict = None,
+                         headers: dict = None) -> httpx.Response:
+        ''' Returns basic license information.
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/get_license_info',
+                                 json=payload,
+                                 headers=headers)
