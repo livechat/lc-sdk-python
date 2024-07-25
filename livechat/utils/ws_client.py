@@ -27,23 +27,28 @@ class WebsocketClient(WebSocketApp):
         super().__init__(*args, **kwargs)
         self.messages: List[dict] = []
         self.on_message = on_message
+        self.response_timeout = None
 
     def open(self,
              origin: dict = None,
-             ping_timeout: float = 3,
+             ping_timeout: float = 30,
              ping_interval: float = 5,
              ws_conn_timeout: float = 10,
-             keep_alive: bool = True) -> NoReturn:
+             keep_alive: bool = True,
+             response_timeout: float = 3) -> NoReturn:
         ''' Opens websocket connection and keep running forever.
             Args:
                 origin (dict): Specifies origin while creating websocket connection.
                 ping_timeout (int or float): timeout (in seconds) if the pong message is not received,
-                    by default sets to 3 seconds.
+                    by default sets to 30 seconds.
                 ping_interval (int or float): automatically sends "ping" command every specified period (in seconds).
                     If set to 0, no ping is sent periodically, by default sets to 5 seconds.
                 ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
                     by default sets to 10 seconds.
-                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`. '''
+                keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+                response_timeout (int or float): timeout (in seconds) to wait for the response,
+                    by default sets to 3 seconds. '''
+        self.response_timeout = response_timeout
         run_forever_kwargs = {
             'sslopt': {
                 'cert_reqs': ssl.CERT_NONE
@@ -60,17 +65,13 @@ class WebsocketClient(WebSocketApp):
             return
         self.run_forever(**run_forever_kwargs)
 
-    def send(self,
-             request: dict,
-             opcode=ABNF.OPCODE_TEXT,
-             response_timeout=2) -> dict:
+    def send(self, request: dict, opcode=ABNF.OPCODE_TEXT) -> dict:
         '''
         Sends message, assigining a random request ID, fetching and returning response(s).
             Args:
                 request (dict): message to send. If you set opcode to OPCODE_TEXT,
                     data must be utf-8 string or unicode.
                 opcode (int): operation code of data. default is OPCODE_TEXT.
-                response_timeout (int): time in seconds to wait for the response.
 
             Returns:
                 RtmResponse: RTM response structure (`request_id`, `action`,
@@ -87,9 +88,9 @@ class WebsocketClient(WebSocketApp):
             (item
              for item in self.messages if item.get('request_id') == request_id
              and item.get('type') == 'response'),
-                None)) and response_timeout > 0:
+                None)) and self.response_timeout > 0:
             sleep(0.2)
-            response_timeout -= 0.2
+            self.response_timeout -= 0.2
         logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
         return RtmResponse(response)
 
