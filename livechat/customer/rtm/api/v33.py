@@ -24,10 +24,11 @@ class CustomerRtmV33:
 
     def open_connection(self,
                         origin: dict = None,
-                        ping_timeout: float = 3,
-                        ping_interval: float = 5,
-                        ws_conn_timeout: float = 10,
-                        keep_alive: bool = True) -> None:
+                        ping_timeout: Union[float, int] = 3,
+                        ping_interval: Union[float, int] = 5,
+                        ws_conn_timeout: Union[float, int] = 10,
+                        keep_alive: bool = True,
+                        response_timeout: Union[float, int] = 3) -> None:
         ''' Opens WebSocket connection.
 
             Args:
@@ -39,9 +40,11 @@ class CustomerRtmV33:
                 ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
                     by default sets to 10 seconds.
                 keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+                response_timeout (int or float): timeout (in seconds) to wait for the response,
+                    by default sets to 3 seconds.
         '''
         self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
-                     keep_alive)
+                     keep_alive, response_timeout)
 
     def close_connection(self) -> None:
         ''' Closes WebSocket connection. '''
