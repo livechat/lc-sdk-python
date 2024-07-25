@@ -7,7 +7,7 @@ import random
 import ssl
 import threading
 from time import sleep
-from typing import List, NoReturn
+from typing import List, NoReturn, Union
 
 from loguru import logger
 from websocket import WebSocketApp, WebSocketConnectionClosedException
@@ -31,16 +31,16 @@ class WebsocketClient(WebSocketApp):
 
     def open(self,
              origin: dict = None,
-             ping_timeout: float = 30,
-             ping_interval: float = 5,
-             ws_conn_timeout: float = 10,
+             ping_timeout: Union[float, int] = 3,
+             ping_interval: Union[float, int] = 5,
+             ws_conn_timeout: Union[float, int] = 10,
              keep_alive: bool = True,
-             response_timeout: float = 3) -> NoReturn:
+             response_timeout: Union[float, int] = 3) -> NoReturn:
         ''' Opens websocket connection and keep running forever.
             Args:
                 origin (dict): Specifies origin while creating websocket connection.
                 ping_timeout (int or float): timeout (in seconds) if the pong message is not received,
-                    by default sets to 30 seconds.
+                    by default sets to 3 seconds.
                 ping_interval (int or float): automatically sends "ping" command every specified period (in seconds).
                     If set to 0, no ping is sent periodically, by default sets to 5 seconds.
                 ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,

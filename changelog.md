@@ -5,11 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - New `get_company_details` method in configuration-api v3.6.
+- Added `response_timeout` parameter in `open_connection` methods.
 
 ### Changed
 - Updated outdated packages.
-- Exposed `response_timeout` parameter in `open_connection` methods.
-- Changed default value of `ping_timeout` to 30 seconds.
 
 ## [0.3.9] - 2024-04-22
 
