@@ -67,7 +67,7 @@ class WebsocketClient(WebSocketApp):
 
     def send(self, request: dict, opcode=ABNF.OPCODE_TEXT) -> dict:
         '''
-        Sends message, assigining a random request ID, fetching and returning response(s).
+        Sends message, assigning a random request ID, fetching and returning response(s).
             Args:
                 request (dict): message to send. If you set opcode to OPCODE_TEXT,
                     data must be utf-8 string or unicode.
@@ -77,6 +77,7 @@ class WebsocketClient(WebSocketApp):
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
+        response_timeout = self.response_timeout
         request_id = str(random.randint(1, 9999999999))
         request.update({'request_id': request_id})
         request_json = json.dumps(request, indent=4)
@@ -88,9 +89,9 @@ class WebsocketClient(WebSocketApp):
             (item
              for item in self.messages if item.get('request_id') == request_id
              and item.get('type') == 'response'),
-                None)) and self.response_timeout > 0:
+                None)) and response_timeout > 0:
             sleep(0.2)
-            self.response_timeout -= 0.2
+            response_timeout -= 0.2
         logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
         return RtmResponse(response)
 
