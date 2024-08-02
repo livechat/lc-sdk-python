@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - New `get_company_details` method in configuration-api v3.6.
 - Added `response_timeout` parameter in `open_connection` methods.
+- New `get_license_info` method in agent-api v3.5.
 
 ### Changed
 - Updated outdated packages.
