@@ -1642,6 +1642,50 @@ class ConfigurationApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def list_customer_bans(self,
+                           payload: dict = None,
+                           headers: dict = None) -> httpx.Response:
+        ''' Lists banned customers.
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/list_customer_bans',
+                                 json=payload,
+                                 headers=headers)
+
+    def unban_customer(self,
+                       ip: str = None,
+                       customer_id: str = None,
+                       payload: dict = None,
+                       headers: dict = None) -> httpx.Response:
+        ''' Unbans customer with provided IP or ID.
+            Args:
+                ip (str): IP address of the customer to be unbanned.
+                customer_id (str): ID of the customer to be unbanned.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/unban_customer',
+                                 json=payload,
+                                 headers=headers)
+
 
 # Batch requests
 
