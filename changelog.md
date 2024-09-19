@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - New `get_company_details`, `list_customer_bans` and `unban_customer` methods in configuration-api v3.6.
 - Added `response_timeout` parameter in `open_connection` methods.
 - New `get_license_info` method in agent-api v3.5.
+- New `update_session` method in agent-api v3.6 (rtm).
 
 ### Changed
 - Updated outdated packages.
