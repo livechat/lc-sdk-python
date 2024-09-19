@@ -875,6 +875,25 @@ class AgentRtmV36:
             'payload': payload
         })
 
+    def update_session(self,
+                       token: str = None,
+                       payload: dict = None) -> RtmResponse:
+        ''' Replaces token used in login request with a new one. This allows websocket connection
+            to remain open after former token expires as its lifetime is now tied to new token.
+
+            Args:
+                token (str): OAuth token from the Agent's account.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'update_session', 'payload': payload})
+
 
 # Other
 
