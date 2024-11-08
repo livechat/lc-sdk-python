@@ -373,6 +373,9 @@ class ConfigurationApiV35(HttpClient):
     def update_auto_access(self,
                            id: str = None,
                            next_id: str = None,
+                           access: dict = None,
+                           conditions: dict = None,
+                           description: str = None,
                            payload: dict = None,
                            headers: dict = None) -> httpx.Response:
         ''' Moves an existing auto access data structure, specified by id,
@@ -381,6 +384,9 @@ class ConfigurationApiV35(HttpClient):
             Args:
                 id (str): ID of the auto access to move.
                 next_id (str): ID of the auto access that should follow the moved auto access.
+                access (dict): Destination access.
+                conditions (dict): Conditions to check.
+                description (str): Description of the auto access.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
