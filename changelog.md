@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - New `update_session` method in agent-api v3.6 (rtm).
 
 ### Changed
+- Added missing top-level arguments to `update_auto_access`` method in configuration-api.
 - Updated outdated packages.
 
 ## [0.3.9] - 2024-04-22
