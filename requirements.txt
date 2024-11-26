@@ -1,6 +1,6 @@
 -i https://pypi.org/simple
 anyio==4.4.0; python_version >= '3.8'
-certifi==2024.6.2; python_version >= '3.6'
+certifi==2024.7.4; python_version >= '3.6'
 exceptiongroup==1.2.1; python_version < '3.11'
 h11==0.14.0; python_version >= '3.7'
 h2==4.1.0
