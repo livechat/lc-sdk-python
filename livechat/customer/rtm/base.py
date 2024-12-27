@@ -2,7 +2,7 @@
 
 # pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
 
-from typing import Union
+from typing import Callable, Union
 
 from livechat.config import CONFIG
 from livechat.customer.rtm.api.v33 import CustomerRtmV33
@@ -21,7 +21,8 @@ class CustomerRTM:
         version: str = stable_version,
         base_url: str = api_url,
         license_id: int = None,
-        organization_id: str = None
+        organization_id: str = None,
+        header: Union[list, dict, Callable, None] = None,
     ) -> Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36]:
         ''' Returns client for specific Customer RTM version.
 
@@ -30,6 +31,8 @@ class CustomerRTM:
                 base_url (str): API's base url. Defaults to API's production URL.
                 license_id (int): License ID. Required to use for API version <= 3.3.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
+                header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
+                        If the parameter is a callable object, it is called just before the connection attempt.
 
             Returns:
                 API client object for specified version.
@@ -62,5 +65,5 @@ class CustomerRTM:
             },
         }.get(version)
         if client:
-            return client(**client_kwargs)
+            return client(**client_kwargs, header=header)
         raise ValueError('Provided version does not exist.')

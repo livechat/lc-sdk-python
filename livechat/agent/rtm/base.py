@@ -3,7 +3,7 @@
 # pylint: disable=W0613,W0622,C0103,R0913,R0903,W0107,W0221
 from __future__ import annotations
 
-from typing import Union
+from typing import Callable, Union
 
 from livechat.agent.rtm.api.v33 import AgentRtmV33
 from livechat.agent.rtm.api.v34 import AgentRtmV34
@@ -20,13 +20,16 @@ class AgentRTM:
     @staticmethod
     def get_client(
         version: str = stable_version,
-        base_url: str = api_url
+        base_url: str = api_url,
+        header: Union[list, dict, Callable, None] = None,
     ) -> Union[AgentRtmV33, AgentRtmV34, AgentRtmV35, AgentRtmV36]:
         ''' Returns client for specific Agent RTM version.
 
             Args:
                 version (str): API's version. Defaults to the stable version of API.
                 base_url (str): API's base url. Defaults to API's production URL.
+                header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
+                        If the parameter is a callable object, it is called just before the connection attempt.
 
             Returns:
                 API client object for specified version.
@@ -42,4 +45,4 @@ class AgentRTM:
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')
-        return client(base_url)
+        return client(base_url, header)

@@ -1,6 +1,6 @@
 ''' Module containing Agent RTM API client implementation for v3.4. '''
 
-from typing import Any, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import AccessToken, RtmResponse
@@ -11,8 +11,13 @@ from livechat.utils.ws_client import WebsocketClient
 
 class AgentRtmV34:
     ''' Agent RTM API Class containing methods in version 3.4. '''
-    def __init__(self, url: str):
-        self.ws = WebsocketClient(url=f'wss://{url}/v3.4/agent/rtm/ws')
+    def __init__(
+        self,
+        url: str,
+        header: Union[list, dict, Callable, None],
+    ):
+        self.ws = WebsocketClient(url=f'wss://{url}/v3.4/agent/rtm/ws',
+                                  header=header)
 
     def open_connection(self,
                         origin: dict = None,
