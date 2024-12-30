@@ -2,7 +2,7 @@
 
 # pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
 
-from typing import Optional, Union
+from typing import Callable, Optional, Union
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import AccessToken, RtmResponse
@@ -11,12 +11,17 @@ from livechat.utils.ws_client import WebsocketClient
 
 class CustomerRtmV33:
     ''' Customer RTM API client class in version 3.3. '''
-    def __init__(self, license_id: str, base_url: str):
+    def __init__(
+        self,
+        license_id: str,
+        base_url: str,
+        header: Union[list, dict, Callable, None],
+    ):
         if isinstance(license_id, (int, str)):
             self.ws = WebsocketClient(
                 url=
-                f'wss://{base_url}/v3.3/customer/rtm/ws?license_id={license_id}'
-            )
+                f'wss://{base_url}/v3.3/customer/rtm/ws?license_id={license_id}',
+                header=header)
         else:
             raise ValueError(
                 f'Provided `license_id` (`{license_id}`) seems invalid. Websocket connection may not open.'

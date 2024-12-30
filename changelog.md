@@ -8,10 +8,12 @@ All notable changes to this project will be documented in this file.
 - Added `response_timeout` parameter in `open_connection` methods.
 - New `get_license_info` method in agent-api v3.5.
 - New `update_session` method in agent-api v3.6 (rtm).
+- Allow passing custom header for websocket handshake.
 
 ### Changed
 - Added missing top-level arguments to `update_auto_access` method in configuration-api.
 - Updated outdated packages.
+- Changed pre-commit flake8 URL
 
 ## [0.3.9] - 2024-04-22
 
