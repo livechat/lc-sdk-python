@@ -27,7 +27,7 @@ class HttpClient:
                                         'request': [logger.log_request],
                                         'response': [logger.log_response]
                                     },
-                                    proxies=proxies,
+                                    proxy=proxies,
                                     verify=verify,
                                     timeout=timeout)
 
