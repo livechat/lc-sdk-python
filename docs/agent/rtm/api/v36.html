@@ -29,7 +29,7 @@
 </summary>
 <pre><code class="python">&#39;&#39;&#39; Module containing Agent RTM API client implementation for v3.6. &#39;&#39;&#39;
 
-from typing import Any, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import AccessToken, RtmResponse
@@ -40,15 +40,23 @@ from livechat.utils.ws_client import WebsocketClient
 
 class AgentRtmV36:
     &#39;&#39;&#39; Agent RTM API Class containing methods in version 3.6. &#39;&#39;&#39;
-    def __init__(self, url: str):
-        self.ws = WebsocketClient(url=f&#39;wss://{url}/v3.6/agent/rtm/ws&#39;)
+    def __init__(
+        self,
+        url: str,
+        header: Union[list, dict, Callable, None],
+    ):
+        self.ws = WebsocketClient(
+            url=f&#39;wss://{url}/v3.6/agent/rtm/ws&#39;,
+            header=header,
+        )
 
     def open_connection(self,
                         origin: dict = None,
-                        ping_timeout: float = 3,
-                        ping_interval: float = 5,
-                        ws_conn_timeout: float = 10,
-                        keep_alive: bool = True) -&gt; None:
+                        ping_timeout: Union[float, int] = 3,
+                        ping_interval: Union[float, int] = 5,
+                        ws_conn_timeout: Union[float, int] = 10,
+                        keep_alive: bool = True,
+                        response_timeout: Union[float, int] = 3) -&gt; None:
         &#39;&#39;&#39; Opens WebSocket connection.
 
             Args:
@@ -60,9 +68,11 @@ class AgentRtmV36:
                 ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
                     by default sets to 10 seconds.
                 keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+                response_timeout (int or float): timeout (in seconds) to wait for the response,
+                    by default sets to 3 seconds.
         &#39;&#39;&#39;
         self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
-                     keep_alive)
+                     keep_alive, response_timeout)
 
     def close_connection(self) -&gt; None:
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
@@ -900,6 +910,25 @@ class AgentRtmV36:
             &#39;action&#39;: &#39;list_routing_statuses&#39;,
             &#39;payload&#39;: payload
         })
+
+    def update_session(self,
+                       token: str = None,
+                       payload: dict = None) -&gt; RtmResponse:
+        &#39;&#39;&#39; Replaces token used in login request with a new one. This allows websocket connection
+            to remain open after former token expires as its lifetime is now tied to new token.
+
+            Args:
+                token (str): OAuth token from the Agent&#39;s account.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;update_session&#39;, &#39;payload&#39;: payload})
 
 
 # Other
@@ -1007,7 +1036,7 @@ class AgentRtmV36:
 <dl>
 <dt id="livechat.agent.rtm.api.v36.AgentRtmV36"><code class="flex name class">
 <span>class <span class="ident">AgentRtmV36</span></span>
-<span>(</span><span>url: str)</span>
+<span>(</span><span>url: str, header: Union[list, dict, Callable, None])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Agent RTM API Class containing methods in version 3.6.</p></div>
@@ -1017,15 +1046,23 @@ class AgentRtmV36:
 </summary>
 <pre><code class="python">class AgentRtmV36:
     &#39;&#39;&#39; Agent RTM API Class containing methods in version 3.6. &#39;&#39;&#39;
-    def __init__(self, url: str):
-        self.ws = WebsocketClient(url=f&#39;wss://{url}/v3.6/agent/rtm/ws&#39;)
+    def __init__(
+        self,
+        url: str,
+        header: Union[list, dict, Callable, None],
+    ):
+        self.ws = WebsocketClient(
+            url=f&#39;wss://{url}/v3.6/agent/rtm/ws&#39;,
+            header=header,
+        )
 
     def open_connection(self,
                         origin: dict = None,
-                        ping_timeout: float = 3,
-                        ping_interval: float = 5,
-                        ws_conn_timeout: float = 10,
-                        keep_alive: bool = True) -&gt; None:
+                        ping_timeout: Union[float, int] = 3,
+                        ping_interval: Union[float, int] = 5,
+                        ws_conn_timeout: Union[float, int] = 10,
+                        keep_alive: bool = True,
+                        response_timeout: Union[float, int] = 3) -&gt; None:
         &#39;&#39;&#39; Opens WebSocket connection.
 
             Args:
@@ -1037,9 +1074,11 @@ class AgentRtmV36:
                 ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
                     by default sets to 10 seconds.
                 keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+                response_timeout (int or float): timeout (in seconds) to wait for the response,
+                    by default sets to 3 seconds.
         &#39;&#39;&#39;
         self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
-                     keep_alive)
+                     keep_alive, response_timeout)
 
     def close_connection(self) -&gt; None:
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
@@ -1877,6 +1916,25 @@ class AgentRtmV36:
             &#39;action&#39;: &#39;list_routing_statuses&#39;,
             &#39;payload&#39;: payload
         })
+
+    def update_session(self,
+                       token: str = None,
+                       payload: dict = None) -&gt; RtmResponse:
+        &#39;&#39;&#39; Replaces token used in login request with a new one. This allows websocket connection
+            to remain open after former token expires as its lifetime is now tied to new token.
+
+            Args:
+                token (str): OAuth token from the Agent&#39;s account.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;update_session&#39;, &#39;payload&#39;: payload})
 
 
 # Other
@@ -3090,7 +3148,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v36.AgentRtmV36.open_connection"><code class="name flex">
-<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None, ping_timeout: float = 3, ping_interval: float = 5, ws_conn_timeout: float = 10, keep_alive: bool = True) ‑> None</span>
+<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None, ping_timeout: Union[float, int] = 3, ping_interval: Union[float, int] = 5, ws_conn_timeout: Union[float, int] = 10, keep_alive: bool = True, response_timeout: Union[float, int] = 3) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Opens WebSocket connection.</p>
@@ -3107,18 +3165,22 @@ If set to 0, no ping is sent periodically, by default sets to 5 seconds.</dd>
 <dt><strong><code>ws_conn_timeout</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
 <dd>timeout (in seconds) to wait for WebSocket connection,
 by default sets to 10 seconds.</dd>
-</dl>
-<p>keep_alive(bool): Bool which states if connection should be kept, by default sets to <code>True</code>.</p></div>
+<dt>keep_alive(bool): Bool which states if connection should be kept, by default sets to <code>True</code>.</dt>
+<dt><strong><code>response_timeout</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>timeout (in seconds) to wait for the response,
+by default sets to 3 seconds.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def open_connection(self,
                     origin: dict = None,
-                    ping_timeout: float = 3,
-                    ping_interval: float = 5,
-                    ws_conn_timeout: float = 10,
-                    keep_alive: bool = True) -&gt; None:
+                    ping_timeout: Union[float, int] = 3,
+                    ping_interval: Union[float, int] = 5,
+                    ws_conn_timeout: Union[float, int] = 10,
+                    keep_alive: bool = True,
+                    response_timeout: Union[float, int] = 3) -&gt; None:
     &#39;&#39;&#39; Opens WebSocket connection.
 
         Args:
@@ -3130,9 +3192,11 @@ by default sets to 10 seconds.</dd>
             ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
                 by default sets to 10 seconds.
             keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+            response_timeout (int or float): timeout (in seconds) to wait for the response,
+                by default sets to 3 seconds.
     &#39;&#39;&#39;
     self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
-                 keep_alive)</code></pre>
+                 keep_alive, response_timeout)</code></pre>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v36.AgentRtmV36.remove_user_from_chat"><code class="name flex">
@@ -3973,6 +4037,50 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
+<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.update_session"><code class="name flex">
+<span>def <span class="ident">update_session</span></span>(<span>self, token: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Replaces token used in login request with a new one. This allows websocket connection
+to remain open after former token expires as its lifetime is now tied to new token.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>token</code></strong> :&ensp;<code>str</code></dt>
+<dd>OAuth token from the Agent's account.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_session(self,
+                   token: str = None,
+                   payload: dict = None) -&gt; RtmResponse:
+    &#39;&#39;&#39; Replaces token used in login request with a new one. This allows websocket connection
+        to remain open after former token expires as its lifetime is now tied to new token.
+
+        Args:
+            token (str): OAuth token from the Agent&#39;s account.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({&#39;action&#39;: &#39;update_session&#39;, &#39;payload&#39;: payload})</code></pre>
+</details>
+</dd>
 <dt id="livechat.agent.rtm.api.v36.AgentRtmV36.update_thread_properties"><code class="name flex">
 <span>def <span class="ident">update_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
@@ -4086,6 +4194,7 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_chat_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_chat_properties">update_chat_properties</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_customer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_customer">update_customer</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_event_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_session" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_session">update_session</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_thread_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_thread_properties">update_thread_properties</a></code></li>
 </ul>
 </li>

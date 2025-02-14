@@ -31,7 +31,7 @@
 
 # pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
 
-from typing import Optional, Union
+from typing import Callable, Optional, Union
 
 from livechat.utils.helpers import prepare_payload
 from livechat.utils.structures import AccessToken, RtmResponse
@@ -40,12 +40,17 @@ from livechat.utils.ws_client import WebsocketClient
 
 class CustomerRtmV34:
     &#39;&#39;&#39; Customer RTM API client class in version 3.4. &#39;&#39;&#39;
-    def __init__(self, organization_id: str, base_url: str):
+    def __init__(
+        self,
+        organization_id: str,
+        base_url: str,
+        header: Union[list, dict, Callable, None],
+    ):
         if isinstance(organization_id, str):
             self.ws = WebsocketClient(
                 url=
-                f&#39;wss://{base_url}/v3.4/customer/rtm/ws?organization_id={organization_id}&#39;
-            )
+                f&#39;wss://{base_url}/v3.5/customer/rtm/ws?organization_id={organization_id}&#39;,
+                header=header)
         else:
             raise ValueError(
                 f&#39;Provided `organization_id` (`{organization_id}`) seems invalid. Websocket connection may not open.&#39;
@@ -53,10 +58,11 @@ class CustomerRtmV34:
 
     def open_connection(self,
                         origin: dict = None,
-                        ping_timeout: float = 3,
-                        ping_interval: float = 5,
-                        ws_conn_timeout: float = 10,
-                        keep_alive: bool = True) -&gt; None:
+                        ping_timeout: Union[float, int] = 3,
+                        ping_interval: Union[float, int] = 5,
+                        ws_conn_timeout: Union[float, int] = 10,
+                        keep_alive: bool = True,
+                        response_timeout: Union[float, int] = 3) -&gt; None:
         &#39;&#39;&#39; Opens WebSocket connection.
 
             Args:
@@ -68,9 +74,11 @@ class CustomerRtmV34:
                 ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
                     by default sets to 10 seconds.
                 keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+                response_timeout (int or float): timeout (in seconds) to wait for the response,
+                    by default sets to 3 seconds.
         &#39;&#39;&#39;
         self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
-                     keep_alive)
+                     keep_alive, response_timeout)
 
     def close_connection(self) -&gt; None:
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
@@ -696,7 +704,7 @@ class CustomerRtmV34:
 <dl>
 <dt id="livechat.customer.rtm.api.v34.CustomerRtmV34"><code class="flex name class">
 <span>class <span class="ident">CustomerRtmV34</span></span>
-<span>(</span><span>organization_id: str, base_url: str)</span>
+<span>(</span><span>organization_id: str, base_url: str, header: Union[list, dict, Callable, None])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Customer RTM API client class in version 3.4.</p></div>
@@ -706,12 +714,17 @@ class CustomerRtmV34:
 </summary>
 <pre><code class="python">class CustomerRtmV34:
     &#39;&#39;&#39; Customer RTM API client class in version 3.4. &#39;&#39;&#39;
-    def __init__(self, organization_id: str, base_url: str):
+    def __init__(
+        self,
+        organization_id: str,
+        base_url: str,
+        header: Union[list, dict, Callable, None],
+    ):
         if isinstance(organization_id, str):
             self.ws = WebsocketClient(
                 url=
-                f&#39;wss://{base_url}/v3.4/customer/rtm/ws?organization_id={organization_id}&#39;
-            )
+                f&#39;wss://{base_url}/v3.5/customer/rtm/ws?organization_id={organization_id}&#39;,
+                header=header)
         else:
             raise ValueError(
                 f&#39;Provided `organization_id` (`{organization_id}`) seems invalid. Websocket connection may not open.&#39;
@@ -719,10 +732,11 @@ class CustomerRtmV34:
 
     def open_connection(self,
                         origin: dict = None,
-                        ping_timeout: float = 3,
-                        ping_interval: float = 5,
-                        ws_conn_timeout: float = 10,
-                        keep_alive: bool = True) -&gt; None:
+                        ping_timeout: Union[float, int] = 3,
+                        ping_interval: Union[float, int] = 5,
+                        ws_conn_timeout: Union[float, int] = 10,
+                        keep_alive: bool = True,
+                        response_timeout: Union[float, int] = 3) -&gt; None:
         &#39;&#39;&#39; Opens WebSocket connection.
 
             Args:
@@ -734,9 +748,11 @@ class CustomerRtmV34:
                 ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
                     by default sets to 10 seconds.
                 keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+                response_timeout (int or float): timeout (in seconds) to wait for the response,
+                    by default sets to 3 seconds.
         &#39;&#39;&#39;
         self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
-                     keep_alive)
+                     keep_alive, response_timeout)
 
     def close_connection(self) -&gt; None:
         &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
@@ -2120,7 +2136,7 @@ It overrides all other parameters provided for the method.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v34.CustomerRtmV34.open_connection"><code class="name flex">
-<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None, ping_timeout: float = 3, ping_interval: float = 5, ws_conn_timeout: float = 10, keep_alive: bool = True) ‑> None</span>
+<span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None, ping_timeout: Union[float, int] = 3, ping_interval: Union[float, int] = 5, ws_conn_timeout: Union[float, int] = 10, keep_alive: bool = True, response_timeout: Union[float, int] = 3) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Opens WebSocket connection.</p>
@@ -2137,18 +2153,22 @@ If set to 0, no ping is sent periodically, by default sets to 5 seconds.</dd>
 <dt><strong><code>ws_conn_timeout</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
 <dd>timeout (in seconds) to wait for WebSocket connection,
 by default sets to 10 seconds.</dd>
-</dl>
-<p>keep_alive(bool): Bool which states if connection should be kept, by default sets to <code>True</code>.</p></div>
+<dt>keep_alive(bool): Bool which states if connection should be kept, by default sets to <code>True</code>.</dt>
+<dt><strong><code>response_timeout</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>timeout (in seconds) to wait for the response,
+by default sets to 3 seconds.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def open_connection(self,
                     origin: dict = None,
-                    ping_timeout: float = 3,
-                    ping_interval: float = 5,
-                    ws_conn_timeout: float = 10,
-                    keep_alive: bool = True) -&gt; None:
+                    ping_timeout: Union[float, int] = 3,
+                    ping_interval: Union[float, int] = 5,
+                    ws_conn_timeout: Union[float, int] = 10,
+                    keep_alive: bool = True,
+                    response_timeout: Union[float, int] = 3) -&gt; None:
     &#39;&#39;&#39; Opens WebSocket connection.
 
         Args:
@@ -2160,9 +2180,11 @@ by default sets to 10 seconds.</dd>
             ws_conn_timeout (int or float): timeout (in seconds) to wait for WebSocket connection,
                 by default sets to 10 seconds.
             keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
+            response_timeout (int or float): timeout (in seconds) to wait for the response,
+                by default sets to 3 seconds.
     &#39;&#39;&#39;
     self.ws.open(origin, ping_timeout, ping_interval, ws_conn_timeout,
-                 keep_alive)</code></pre>
+                 keep_alive, response_timeout)</code></pre>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v34.CustomerRtmV34.resume_chat"><code class="name flex">

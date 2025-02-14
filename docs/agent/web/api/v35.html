@@ -1099,6 +1099,27 @@ class AgentWebV35(HttpClient):
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/list_agents_for_transfer&#39;,
                                  json=payload,
+                                 headers=headers)
+
+    def get_license_info(self,
+                         payload: dict = None,
+                         headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns basic license information.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_license_info&#39;,
+                                 json=payload,
                                  headers=headers)</code></pre>
 </details>
 </section>
@@ -2177,6 +2198,27 @@ class AgentWebV35(HttpClient):
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/list_agents_for_transfer&#39;,
                                  json=payload,
+                                 headers=headers)
+
+    def get_license_info(self,
+                         payload: dict = None,
+                         headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns basic license information.
+
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_license_info&#39;,
+                                 json=payload,
                                  headers=headers)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -2841,6 +2883,53 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/get_customer&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.agent.web.api.v35.AgentWebV35.get_license_info"><code class="name flex">
+<span>def <span class="ident">get_license_info</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns basic license information.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_license_info(self,
+                     payload: dict = None,
+                     headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns basic license information.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_license_info&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -4427,6 +4516,7 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="livechat.agent.web.api.v35.AgentWebV35.follow_customer" href="#livechat.agent.web.api.v35.AgentWebV35.follow_customer">follow_customer</a></code></li>
 <li><code><a title="livechat.agent.web.api.v35.AgentWebV35.get_chat" href="#livechat.agent.web.api.v35.AgentWebV35.get_chat">get_chat</a></code></li>
 <li><code><a title="livechat.agent.web.api.v35.AgentWebV35.get_customer" href="#livechat.agent.web.api.v35.AgentWebV35.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.agent.web.api.v35.AgentWebV35.get_license_info" href="#livechat.agent.web.api.v35.AgentWebV35.get_license_info">get_license_info</a></code></li>
 <li><code><a title="livechat.agent.web.api.v35.AgentWebV35.list_agents_for_transfer" href="#livechat.agent.web.api.v35.AgentWebV35.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="livechat.agent.web.api.v35.AgentWebV35.list_archives" href="#livechat.agent.web.api.v35.AgentWebV35.list_archives">list_archives</a></code></li>
 <li><code><a title="livechat.agent.web.api.v35.AgentWebV35.list_chats" href="#livechat.agent.web.api.v35.AgentWebV35.list_chats">list_chats</a></code></li>
