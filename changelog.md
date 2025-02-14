@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.4.0] - TBA
+## [0.4.0] - 2025-02-14
 
 ### Added
 - New `get_company_details`, `list_customer_bans` and `unban_customer` methods in configuration-api v3.6.

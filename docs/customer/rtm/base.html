@@ -31,7 +31,7 @@
 
 # pylint: disable=C0103,R0903,R0913,W0107,W0231,W0613,W0622
 
-from typing import Union
+from typing import Callable, Union
 
 from livechat.config import CONFIG
 from livechat.customer.rtm.api.v33 import CustomerRtmV33
@@ -50,7 +50,8 @@ class CustomerRTM:
         version: str = stable_version,
         base_url: str = api_url,
         license_id: int = None,
-        organization_id: str = None
+        organization_id: str = None,
+        header: Union[list, dict, Callable, None] = None,
     ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36]:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
@@ -59,6 +60,8 @@ class CustomerRTM:
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 license_id (int): License ID. Required to use for API version &lt;= 3.3.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
+                header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
+                        If the parameter is a callable object, it is called just before the connection attempt.
 
             Returns:
                 API client object for specified version.
@@ -91,7 +94,7 @@ class CustomerRTM:
             },
         }.get(version)
         if client:
-            return client(**client_kwargs)
+            return client(**client_kwargs, header=header)
         raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>
 </section>
@@ -120,7 +123,8 @@ class CustomerRTM:
         version: str = stable_version,
         base_url: str = api_url,
         license_id: int = None,
-        organization_id: str = None
+        organization_id: str = None,
+        header: Union[list, dict, Callable, None] = None,
     ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36]:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
@@ -129,6 +133,8 @@ class CustomerRTM:
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
                 license_id (int): License ID. Required to use for API version &lt;= 3.3.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
+                header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
+                        If the parameter is a callable object, it is called just before the connection attempt.
 
             Returns:
                 API client object for specified version.
@@ -161,13 +167,13 @@ class CustomerRTM:
             },
         }.get(version)
         if client:
-            return client(**client_kwargs)
+            return client(**client_kwargs, header=header)
         raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.rtm.base.CustomerRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.5', base_url: str = 'api.livechatinc.com', license_id: int = None, organization_id: str = None) ‑> Union[<a title="livechat.customer.rtm.api.v33.CustomerRtmV33" href="api/v33.html#livechat.customer.rtm.api.v33.CustomerRtmV33">CustomerRtmV33</a>, <a title="livechat.customer.rtm.api.v34.CustomerRtmV34" href="api/v34.html#livechat.customer.rtm.api.v34.CustomerRtmV34">CustomerRtmV34</a>, <a title="livechat.customer.rtm.api.v35.CustomerRtmV35" href="api/v35.html#livechat.customer.rtm.api.v35.CustomerRtmV35">CustomerRtmV35</a>, <a title="livechat.customer.rtm.api.v36.CustomerRtmV36" href="api/v36.html#livechat.customer.rtm.api.v36.CustomerRtmV36">CustomerRtmV36</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.5', base_url: str = 'api.livechatinc.com', license_id: int = None, organization_id: str = None, header: Union[list, dict, Callable, None] = None) ‑> Union[<a title="livechat.customer.rtm.api.v33.CustomerRtmV33" href="api/v33.html#livechat.customer.rtm.api.v33.CustomerRtmV33">CustomerRtmV33</a>, <a title="livechat.customer.rtm.api.v34.CustomerRtmV34" href="api/v34.html#livechat.customer.rtm.api.v34.CustomerRtmV34">CustomerRtmV34</a>, <a title="livechat.customer.rtm.api.v35.CustomerRtmV35" href="api/v35.html#livechat.customer.rtm.api.v35.CustomerRtmV35">CustomerRtmV35</a>, <a title="livechat.customer.rtm.api.v36.CustomerRtmV36" href="api/v36.html#livechat.customer.rtm.api.v36.CustomerRtmV36">CustomerRtmV36</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Customer RTM version.</p>
@@ -181,6 +187,9 @@ class CustomerRTM:
 <dd>License ID. Required to use for API version &lt;= 3.3.</dd>
 <dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Organization ID, replaced license ID in v3.4.</dd>
+<dt><strong><code>header</code></strong> :&ensp;<code>Union[list, dict, Callable, None]</code></dt>
+<dd>Custom header for websocket handshake.
+If the parameter is a callable object, it is called just before the connection attempt.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>API client object for specified version.</p>
@@ -198,7 +207,8 @@ def get_client(
     version: str = stable_version,
     base_url: str = api_url,
     license_id: int = None,
-    organization_id: str = None
+    organization_id: str = None,
+    header: Union[list, dict, Callable, None] = None,
 ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36]:
     &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
@@ -207,6 +217,8 @@ def get_client(
             base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
             license_id (int): License ID. Required to use for API version &lt;= 3.3.
             organization_id (str): Organization ID, replaced license ID in v3.4.
+            header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
+                    If the parameter is a callable object, it is called just before the connection attempt.
 
         Returns:
             API client object for specified version.
@@ -239,7 +251,7 @@ def get_client(
         },
     }.get(version)
     if client:
-        return client(**client_kwargs)
+        return client(**client_kwargs, header=header)
     raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>
 </dd>

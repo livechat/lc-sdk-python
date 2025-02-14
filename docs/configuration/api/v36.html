@@ -404,6 +404,9 @@ class ConfigurationApiV36(HttpClient):
     def update_auto_access(self,
                            id: str = None,
                            next_id: str = None,
+                           access: dict = None,
+                           conditions: dict = None,
+                           description: str = None,
                            payload: dict = None,
                            headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
@@ -412,6 +415,9 @@ class ConfigurationApiV36(HttpClient):
             Args:
                 id (str): ID of the auto access to move.
                 next_id (str): ID of the auto access that should follow the moved auto access.
+                access (dict): Destination access.
+                conditions (dict): Conditions to check.
+                description (str): Description of the auto access.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -1648,6 +1654,70 @@ class ConfigurationApiV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/update_company_details&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def get_company_details(self,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Gets company details of the license.
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_company_details&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def list_customer_bans(self,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Lists banned customers.
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_customer_bans&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def unban_customer(self,
+                       ip: str = None,
+                       customer_id: str = None,
+                       payload: dict = None,
+                       headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Unbans customer with provided IP or ID.
+            Args:
+                ip (str): IP address of the customer to be unbanned.
+                customer_id (str): ID of the customer to be unbanned.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/unban_customer&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -2209,6 +2279,9 @@ class ConfigurationApiV36(HttpClient):
     def update_auto_access(self,
                            id: str = None,
                            next_id: str = None,
+                           access: dict = None,
+                           conditions: dict = None,
+                           description: str = None,
                            payload: dict = None,
                            headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
@@ -2217,6 +2290,9 @@ class ConfigurationApiV36(HttpClient):
             Args:
                 id (str): ID of the auto access to move.
                 next_id (str): ID of the auto access that should follow the moved auto access.
+                access (dict): Destination access.
+                conditions (dict): Conditions to check.
+                description (str): Description of the auto access.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -3453,6 +3529,70 @@ class ConfigurationApiV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/update_company_details&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def get_company_details(self,
+                            payload: dict = None,
+                            headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Gets company details of the license.
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_company_details&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def list_customer_bans(self,
+                           payload: dict = None,
+                           headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Lists banned customers.
+            Args:
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/list_customer_bans&#39;,
+                                 json=payload,
+                                 headers=headers)
+
+    def unban_customer(self,
+                       ip: str = None,
+                       customer_id: str = None,
+                       payload: dict = None,
+                       headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Unbans customer with provided IP or ID.
+            Args:
+                ip (str): IP address of the customer to be unbanned.
+                customer_id (str): ID of the customer to be unbanned.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/unban_customer&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -5211,6 +5351,52 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.get_company_details"><code class="name flex">
+<span>def <span class="ident">get_company_details</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets company details of the license.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_company_details(self,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Gets company details of the license.
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_company_details&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.get_group"><code class="name flex">
 <span>def <span class="ident">get_group</span></span>(<span>self, id: int = None, fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -5683,6 +5869,52 @@ which contains a server's response to an HTTP request.</p></div>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/list_channels&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.list_customer_bans"><code class="name flex">
+<span>def <span class="ident">list_customer_bans</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lists banned customers.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_customer_bans(self,
+                       payload: dict = None,
+                       headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Lists banned customers.
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/list_customer_bans&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -6565,6 +6797,60 @@ which contains a server's response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="livechat.configuration.api.v36.ConfigurationApiV36.unban_customer"><code class="name flex">
+<span>def <span class="ident">unban_customer</span></span>(<span>self, ip: str = None, customer_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Unbans customer with provided IP or ID.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ip</code></strong> :&ensp;<code>str</code></dt>
+<dd>IP address of the customer to be unbanned.</dd>
+<dt><strong><code>customer_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the customer to be unbanned.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unban_customer(self,
+                   ip: str = None,
+                   customer_id: str = None,
+                   payload: dict = None,
+                   headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Unbans customer with provided IP or ID.
+        Args:
+            ip (str): IP address of the customer to be unbanned.
+            customer_id (str): ID of the customer to be unbanned.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/unban_customer&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.unregister_property"><code class="name flex">
 <span>def <span class="ident">unregister_property</span></span>(<span>self, name: str = None, owner_client_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -6826,7 +7112,7 @@ which contains a server's response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="livechat.configuration.api.v36.ConfigurationApiV36.update_auto_access"><code class="name flex">
-<span>def <span class="ident">update_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">update_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, access: dict = None, conditions: dict = None, description: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Moves an existing auto access data structure, specified by id,
@@ -6837,6 +7123,12 @@ before another one, specified by next_id.</p>
 <dd>ID of the auto access to move.</dd>
 <dt><strong><code>next_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the auto access that should follow the moved auto access.</dd>
+<dt><strong><code>access</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Destination access.</dd>
+<dt><strong><code>conditions</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Conditions to check.</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>str</code></dt>
+<dd>Description of the auto access.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -6858,6 +7150,9 @@ which contains a server's response to an HTTP request.</dd>
 <pre><code class="python">def update_auto_access(self,
                        id: str = None,
                        next_id: str = None,
+                       access: dict = None,
+                       conditions: dict = None,
+                       description: str = None,
                        payload: dict = None,
                        headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
@@ -6866,6 +7161,9 @@ which contains a server's response to an HTTP request.</dd>
         Args:
             id (str): ID of the auto access to move.
             next_id (str): ID of the auto access that should follow the moved auto access.
+            access (dict): Destination access.
+            conditions (dict): Conditions to check.
+            description (str): Description of the auto access.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
@@ -7441,6 +7739,7 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.enable_license_webhooks" href="#livechat.configuration.api.v36.ConfigurationApiV36.enable_license_webhooks">enable_license_webhooks</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_agent">get_agent</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_bot" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_bot">get_bot</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_company_details" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_company_details">get_company_details</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_group" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_group">get_group</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_license_webhooks_state" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_license_webhooks_state">get_license_webhooks_state</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.get_product_source" href="#livechat.configuration.api.v36.ConfigurationApiV36.get_product_source">get_product_source</a></code></li>
@@ -7450,6 +7749,7 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_bot_templates" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_bot_templates">list_bot_templates</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_bots" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_bots">list_bots</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_channels" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_channels">list_channels</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_customer_bans" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_customer_bans">list_customer_bans</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_groups" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_groups">list_groups</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_groups_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_groups_properties">list_groups_properties</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.list_license_properties" href="#livechat.configuration.api.v36.ConfigurationApiV36.list_license_properties">list_license_properties</a></code></li>
@@ -7465,6 +7765,7 @@ which contains a server's response to an HTTP request.</dd>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_secret" href="#livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_secret">reset_bot_secret</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_template_secret" href="#livechat.configuration.api.v36.ConfigurationApiV36.reset_bot_template_secret">reset_bot_template_secret</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.suspend_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.suspend_agent">suspend_agent</a></code></li>
+<li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unban_customer" href="#livechat.configuration.api.v36.ConfigurationApiV36.unban_customer">unban_customer</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unregister_property" href="#livechat.configuration.api.v36.ConfigurationApiV36.unregister_property">unregister_property</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unregister_webhook" href="#livechat.configuration.api.v36.ConfigurationApiV36.unregister_webhook">unregister_webhook</a></code></li>
 <li><code><a title="livechat.configuration.api.v36.ConfigurationApiV36.unsuspend_agent" href="#livechat.configuration.api.v36.ConfigurationApiV36.unsuspend_agent">unsuspend_agent</a></code></li>

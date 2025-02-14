@@ -402,6 +402,9 @@ class ConfigurationApiV34(HttpClient):
     def update_auto_access(self,
                            id: str = None,
                            next_id: str = None,
+                           access: dict = None,
+                           conditions: dict = None,
+                           description: str = None,
                            payload: dict = None,
                            headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
@@ -410,6 +413,9 @@ class ConfigurationApiV34(HttpClient):
             Args:
                 id (str): ID of the auto access to move.
                 next_id (str): ID of the auto access that should follow the moved auto access.
+                access (dict): Destination access.
+                conditions (dict): Conditions to check.
+                description (str): Description of the auto access.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -1616,6 +1622,9 @@ class ConfigurationApiV34(HttpClient):
     def update_auto_access(self,
                            id: str = None,
                            next_id: str = None,
+                           access: dict = None,
+                           conditions: dict = None,
+                           description: str = None,
                            payload: dict = None,
                            headers: dict = None) -&gt; httpx.Response:
         &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
@@ -1624,6 +1633,9 @@ class ConfigurationApiV34(HttpClient):
             Args:
                 id (str): ID of the auto access to move.
                 next_id (str): ID of the auto access that should follow the moved auto access.
+                access (dict): Destination access.
+                conditions (dict): Conditions to check.
+                description (str): Description of the auto access.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
@@ -4632,7 +4644,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="livechat.configuration.api.v34.ConfigurationApiV34.update_auto_access"><code class="name flex">
-<span>def <span class="ident">update_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">update_auto_access</span></span>(<span>self, id: str = None, next_id: str = None, access: dict = None, conditions: dict = None, description: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Moves an existing auto access data structure, specified by id,
@@ -4643,6 +4655,12 @@ before another one, specified by next_id.</p>
 <dd>ID of the auto access to move.</dd>
 <dt><strong><code>next_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the auto access that should follow the moved auto access.</dd>
+<dt><strong><code>access</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Destination access.</dd>
+<dt><strong><code>conditions</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Conditions to check.</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>str</code></dt>
+<dd>Description of the auto access.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Custom payload to be used as request's data.
 It overrides all other parameters provided for the method.</dd>
@@ -4664,6 +4682,9 @@ which contains a server’s response to an HTTP request.</dd>
 <pre><code class="python">def update_auto_access(self,
                        id: str = None,
                        next_id: str = None,
+                       access: dict = None,
+                       conditions: dict = None,
+                       description: str = None,
                        payload: dict = None,
                        headers: dict = None) -&gt; httpx.Response:
     &#39;&#39;&#39; Moves an existing auto access data structure, specified by id,
@@ -4672,6 +4693,9 @@ which contains a server’s response to an HTTP request.</dd>
         Args:
             id (str): ID of the auto access to move.
             next_id (str): ID of the auto access that should follow the moved auto access.
+            access (dict): Destination access.
+            conditions (dict): Conditions to check.
+            description (str): Description of the auto access.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
             headers (dict): Custom headers to be used with session headers.
