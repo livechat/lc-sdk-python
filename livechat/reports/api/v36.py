@@ -8,6 +8,8 @@ from livechat.utils.helpers import prepare_payload
 from livechat.utils.http_client import HttpClient
 from livechat.utils.structures import AccessToken
 
+# pylint: disable=unused-argument,too-many-arguments
+
 
 class ReportsApiV36(HttpClient):
     ''' Reports API client class in version 3.6. '''
@@ -47,7 +49,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
+                            which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -77,7 +79,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -107,7 +109,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -137,7 +139,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -167,7 +169,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -197,7 +199,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -227,7 +229,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
+                            which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -255,7 +257,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
+                            which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -285,7 +287,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
+                            which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -315,11 +317,101 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
+                            which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/chats/first_response_time',
+                                 json=payload,
+                                 headers=headers)
+
+    def groups(self,
+               distribution: str = None,
+               timezone: str = None,
+               filters: dict = None,
+               payload: dict = None,
+               headers: dict = None) -> httpx.Response:
+        ''' Shows the total number of chats handled by each group during the specified period.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/chats/groups',
+                                 json=payload,
+                                 headers=headers)
+
+    def queued_visitors(self,
+                        distribution: str = None,
+                        timezone: str = None,
+                        filters: dict = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
+        ''' Shows how many customers were waiting in the queue during the specified period.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/chats/queued_visitors',
+                                 json=payload,
+                                 headers=headers)
+
+    def queued_visitors_left(self,
+                             distribution: str = None,
+                             timezone: str = None,
+                             filters: dict = None,
+                             payload: dict = None,
+                             headers: dict = None) -> httpx.Response:
+        ''' Shows customers that left the queue during the specified period.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/chats/queued_visitors_left',
                                  json=payload,
                                  headers=headers)
 
@@ -347,7 +439,7 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
@@ -377,14 +469,13 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/agents/performance',
                                  json=payload,
                                  headers=headers)
-
 
 # Tags
 
@@ -408,10 +499,43 @@ class ReportsApiV36(HttpClient):
 
         Returns:
             httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
+                                which contains a server's response to an HTTP request.
         '''
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/tags/chat_usage',
+                                 json=payload,
+                                 headers=headers)
+
+
+# Stats
+
+    def unique_visitors(self,
+                        distribution: str = None,
+                        timezone: str = None,
+                        filters: dict = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
+        ''' Shows the total number of page views and unique visitors for the specified period.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester's timezone.
+                            When the requester's timezone isn't present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request's data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/stats/unique_visitors',
                                  json=payload,
                                  headers=headers)
