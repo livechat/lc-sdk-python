@@ -237,12 +237,13 @@ class ReportsApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def surveys(self,
-                timezone: str = None,
-                filters: dict = None,
-                payload: dict = None,
-                headers: dict = None) -> httpx.Response:
-        ''' Returns the number of submitted chat surveys along with the count of specific answers.
+    def forms(self,
+              timezone: str = None,
+              filters: dict = None,
+              payload: dict = None,
+              headers: dict = None) -> httpx.Response:
+        ''' Returns the number of submitted chat forms along with the count of specific answers.
+
 
         Args:
             timezone (str): IANA Time Zone (e.g. America/Phoenix).
@@ -261,7 +262,7 @@ class ReportsApiV36(HttpClient):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/chats/surveys',
+        return self.session.post(f'{self.api_url}/chats/forms',
                                  json=payload,
                                  headers=headers)
 
