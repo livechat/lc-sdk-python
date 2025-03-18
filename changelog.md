@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - New `groups`, `queued_visitors`, `queued_visitors_left`, `unique_visitors` methods in reports-api v3.6.
 
+### Changed
+- Corrected the `surveys` report to `forms` in reports-api v3.5 & v3.6.
+
 ## [0.4.0] - 2025-02-14
 
 ### Added
