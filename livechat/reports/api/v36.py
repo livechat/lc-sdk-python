@@ -509,7 +509,7 @@ class ReportsApiV36(HttpClient):
                                  headers=headers)
 
 
-# Stats
+# Customers
 
     def unique_visitors(self,
                         distribution: str = None,
@@ -537,6 +537,6 @@ class ReportsApiV36(HttpClient):
         '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/stats/unique_visitors',
+        return self.session.post(f'{self.api_url}/customers/unique_visitors',
                                  json=payload,
                                  headers=headers)
