@@ -36,6 +36,7 @@ class WebsocketClient(WebSocketApp):
         super().__init__(*args, **kwargs)
         self.messages: List[dict] = []
         self.on_message = on_message
+        self.on_close = on_close
         self.response_timeout = None
 
     def open(self,
@@ -95,11 +96,13 @@ class WebsocketClient(WebSocketApp):
             raise WebSocketConnectionClosedException(
                 'Connection is already closed.')
         
+        stop = False
         def await_message() -> dict:
-            for item in self.messages:
-                if item.get('request_id') == request_id and item.get('type') == 'response':
-                    return item
-            sleep(0.2)
+            while not stop:
+                for item in self.messages:
+                    if item.get('request_id') == request_id and item.get('type') == 'response':
+                        return item
+                sleep(0.2)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future = executor.submit(await_message)
@@ -107,9 +110,11 @@ class WebsocketClient(WebSocketApp):
                 response = future.result(timeout = self.response_timeout)
                 logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
             except concurrent.futures.TimeoutError:
+                stop = True
                 logger.error(f'timed out waiting for message with request_id {request_id}')
                 logger.debug('all websocket messages received before timeout:')
                 logger.debug(self.messages)
+                return None
         
         return RtmResponse(response)
 
