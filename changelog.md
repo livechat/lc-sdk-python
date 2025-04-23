@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.4.1] - TBA
+## [0.4.1] - 2025-04-23
 
 ### Added
 - New `groups`, `queued_visitors`, `queued_visitors_left`, `unique_visitors` methods in reports-api v3.6.
