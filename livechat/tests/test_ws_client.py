@@ -4,6 +4,8 @@
 
 import pytest
 import websocket
+from _pytest.logging import LogCaptureFixture
+from loguru import logger
 
 from livechat.config import CONFIG
 from livechat.utils.ws_client import WebsocketClient
@@ -61,3 +63,24 @@ def test_websocket_send_and_receive_message():
             'message': 'Invalid access token'
         }
     }, 'Request was not sent or received.'
+
+
+@pytest.fixture
+def caplog(caplog: LogCaptureFixture):
+    handler_id = logger.add(caplog.handler, format='{message}')
+    yield caplog
+    logger.remove(handler_id)
+
+
+def test_websocket_logs_on_error(caplog):
+    ''' Test that websocket logs an error log when an error occurs. '''
+    caplog.set_level('INFO')
+    ws = WebsocketClient(url='wss://api.not_existing.com/v35/agent/rtm/ws')
+    try:
+        ws.open()
+    except Exception:
+        pass
+
+    messages = [record.message for record in caplog.records]
+    assert any('websocket error occurred' in msg.lower() for msg in
+               messages), "Expected 'error' log not found in caplog output."
