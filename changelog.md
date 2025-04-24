@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.4.2] - TBA
+
+### Changed
+- Improved websocket response collection + extended logging in the websocket client.
+
 ## [0.4.1] - 2025-04-23
 
 ### Added
