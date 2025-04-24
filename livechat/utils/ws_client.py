@@ -2,6 +2,7 @@
 Client for WebSocket connections.
 '''
 
+import concurrent.futures
 import json
 import random
 import ssl
@@ -21,12 +22,26 @@ def on_message(ws_client: WebSocketApp, message: str):
     ws_client.messages.insert(0, json.loads(message))
 
 
+def on_close(ws_client: WebSocketApp, close_status_code: int, close_msg: str):
+    logger.info('websocket closed:')
+
+    if close_status_code or close_msg:
+        logger.info('close status code: ' + str(close_status_code))
+        logger.info('close message: ' + str(close_msg))
+
+
+def on_error(ws_client: WebSocketApp, error: Exception):
+    logger.error(f'websocket error occurred: {str(error)}')
+
+
 class WebsocketClient(WebSocketApp):
     ''' Custom extension of the WebSocketApp class for livechat python SDK. '''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.messages: List[dict] = []
         self.on_message = on_message
+        self.on_close = on_close
+        self.on_error = on_error
         self.response_timeout = None
 
     def open(self,
@@ -77,22 +92,38 @@ class WebsocketClient(WebSocketApp):
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
-        response_timeout = self.response_timeout
         request_id = str(random.randint(1, 9999999999))
         request.update({'request_id': request_id})
         request_json = json.dumps(request, indent=4)
         logger.info(f'\nREQUEST:\n{request_json}')
+
         if not self.sock or self.sock.send(request_json, opcode) == 0:
             raise WebSocketConnectionClosedException(
                 'Connection is already closed.')
-        while not (response := next(
-            (item
-             for item in self.messages if item.get('request_id') == request_id
-             and item.get('type') == 'response'),
-                None)) and response_timeout > 0:
-            sleep(0.2)
-            response_timeout -= 0.2
-        logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
+
+        def await_message(stop_event: threading.Event) -> dict:
+            while not stop_event.is_set():
+                for item in self.messages:
+                    if item.get('request_id') == request_id and item.get(
+                            'type') == 'response':
+                        return item
+                sleep(0.2)
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            stop_event = threading.Event()
+            future = executor.submit(await_message, stop_event)
+            try:
+                response = future.result(timeout=self.response_timeout)
+                logger.info(f'\nRESPONSE:\n{json.dumps(response, indent=4)}')
+            except concurrent.futures.TimeoutError:
+                stop_event.set()
+                logger.error(
+                    f'timed out waiting for message with request_id {request_id}'
+                )
+                logger.debug('all websocket messages received before timeout:')
+                logger.debug(self.messages)
+                return None
+
         return RtmResponse(response)
 
     def _wait_till_sock_connected(self,
