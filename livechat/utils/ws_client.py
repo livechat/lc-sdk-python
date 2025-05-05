@@ -63,6 +63,10 @@ class WebsocketClient(WebSocketApp):
                 keep_alive(bool): Bool which states if connection should be kept, by default sets to `True`.
                 response_timeout (int or float): timeout (in seconds) to wait for the response,
                     by default sets to 3 seconds. '''
+        if self.sock and self.sock.connected:
+            logger.warning(
+                'Cannot open new websocket connection, already connected.')
+            return
         self.response_timeout = response_timeout
         run_forever_kwargs = {
             'sslopt': {
