@@ -20,7 +20,7 @@ class CustomerRtmV36:
         if isinstance(organization_id, str):
             self.ws = WebsocketClient(
                 url=
-                f'wss://{base_url}/v3.5/customer/rtm/ws?organization_id={organization_id}',
+                f'wss://{base_url}/v3.6/customer/rtm/ws?organization_id={organization_id}',
                 header=header)
         else:
             raise ValueError(
@@ -213,6 +213,28 @@ class CustomerRtmV36:
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'send_event', 'payload': payload})
+
+    def delete_event(self,
+                     chat_id: str = None,
+                     thread_id: str = None,
+                     event_id: str = None,
+                     payload: dict = None) -> RtmResponse:
+        ''' Deletes an event.
+
+            Args:
+                chat_id (str): ID of the chat from which to delete the event.
+                thread_id (str): ID of the thread from which to delete the event.
+                event_id (str): ID of the event to be deleted.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({'action': 'delete_event', 'payload': payload})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,

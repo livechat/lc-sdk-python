@@ -312,6 +312,35 @@ class CustomerWebV36(HttpClient):
             json=payload,
             headers=headers)
 
+    def delete_event(self,
+                     chat_id: str = None,
+                     thread_id: str = None,
+                     event_id: str = None,
+                     payload: dict = None,
+                     headers: dict = None) -> httpx.Response:
+        ''' Deletes an event.
+
+            Args:
+                chat_id (str): ID of the chat from which to delete the event.
+                thread_id (str): ID of the thread from which to delete the event.
+                event_id (str): ID of the event to be deleted.
+
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(
+            f'{self.api_url}/delete_event{self.query_string}',
+            json=payload,
+            headers=headers)
+
     def upload_file(self,
                     file: typing.BinaryIO = None,
                     headers: dict = None) -> httpx.Response:
