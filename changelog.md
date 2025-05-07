@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [0.4.2] - TBA
 
+### Added
+- New method `delete_event` in customer-api v3.6.
+
 ### Changed
 - Improved websocket response collection + extended logging in the websocket client.
 

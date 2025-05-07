@@ -20,7 +20,7 @@ class CustomerRtmV34:
         if isinstance(organization_id, str):
             self.ws = WebsocketClient(
                 url=
-                f'wss://{base_url}/v3.5/customer/rtm/ws?organization_id={organization_id}',
+                f'wss://{base_url}/v3.4/customer/rtm/ws?organization_id={organization_id}',
                 header=header)
         else:
             raise ValueError(
