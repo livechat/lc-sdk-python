@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Improved websocket response collection + extended logging in the websocket client.
 
+### Bugfixes
+- Fixed version in websocket url for customer-api v3.4 and v3.6.
+
 ## [0.4.1] - 2025-04-23
 
 ### Added
