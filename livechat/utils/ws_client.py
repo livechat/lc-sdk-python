@@ -7,7 +7,6 @@ import json
 import random
 import ssl
 import threading
-import time
 from time import sleep
 from typing import List, NoReturn, Union
 
@@ -24,11 +23,11 @@ def on_message(ws_client: WebSocketApp, message: str):
 
 
 def on_close(ws_client: WebSocketApp, close_status_code: int, close_msg: str):
-    logger.info('websocket closed:')
+    logger.info('websocket closed')
 
     if close_status_code or close_msg:
-        logger.info('close status code: ' + str(close_status_code))
-        logger.info('close message: ' + str(close_msg))
+        logger.info(f'close status code: {close_status_code}')
+        logger.info(f'close message: {close_msg}')
 
 
 def on_error(ws_client: WebSocketApp, error: Exception):
@@ -36,7 +35,6 @@ def on_error(ws_client: WebSocketApp, error: Exception):
         'error_type': type(error).__name__,
         'error_message': str(error),
         'url': getattr(ws_client, 'url', 'unknown'),
-        'keep_running': getattr(ws_client, 'keep_running', 'unknown')
     }
     logger.error(f'websocket error occurred: {error_details}')
 
@@ -88,55 +86,57 @@ class WebsocketClient(WebSocketApp):
         if keep_alive:
             logger.debug(f'Starting WebSocket connection to {self.url}')
 
-            # Use threading.Event for better synchronization
             connection_event = threading.Event()
             connection_error = threading.Event()
 
-            # Store original callbacks
+            error_info = {'message': None}
+
             original_on_open = getattr(self, 'on_open', None)
             original_on_error = getattr(self, 'on_error', None)
 
-            # Create enhanced callbacks for connection tracking
             def on_open_with_event(ws):
-                logger.info('WebSocket connection opened')
                 connection_event.set()
                 if original_on_open:
                     original_on_open(ws)
 
             def on_error_with_event(ws, error):
-                logger.error(f'WebSocket connection error: {error}')
+                logger.error(f'WebSocket new message error occurred: {error}')
+                error_info['message'] = str(error)
                 connection_error.set()
                 if original_on_error:
                     original_on_error(ws, error)
 
-            # Set enhanced callbacks
             self.on_open = on_open_with_event
             self.on_error = on_error_with_event
 
             try:
                 ping_thread = threading.Thread(target=self.run_forever,
                                                kwargs=run_forever_kwargs)
-                ping_thread.daemon = True  # Make thread daemon to prevent hanging
+                ping_thread.daemon = True
                 ping_thread.start()
 
-                # Wait for either connection success or error
                 if connection_event.wait(timeout=ws_conn_timeout):
-                    logger.debug('WebSocket connection established via event')
-                elif connection_error.is_set():
-                    raise TimeoutError(
-                        'WebSocket connection failed due to error')
-                else:
-                    # Fallback to original polling method
                     logger.debug(
-                        'Event-based connection detection failed, falling back to polling'
+                        'WebSocket connection established successfully')
+                elif connection_error.is_set():
+                    error_msg = error_info[
+                        'message'] or 'Unknown connection error'
+                    logger.error(f'WebSocket connection failed: {error_msg}')
+                    raise TimeoutError(
+                        f'WebSocket connection failed due to error: {error_msg}'
                     )
-                    self._wait_till_sock_connected(ws_conn_timeout)
+                else:
+                    logger.error(
+                        'WebSocket connection timeout - no response within timeout period'
+                    )
+                    raise TimeoutError(
+                        f'WebSocket connection timeout after {ws_conn_timeout}s'
+                    )
 
             except Exception as e:
                 logger.error(f'Failed to establish WebSocket connection: {e}')
                 raise
             finally:
-                # Restore original callbacks
                 self.on_open = original_on_open
                 self.on_error = original_on_error
 
@@ -156,7 +156,6 @@ class WebsocketClient(WebSocketApp):
                 RtmResponse: RTM response structure (`request_id`, `action`,
                              `type`, `success` and `payload` properties)
         '''
-        # Validate connection before sending
         if not self.is_connected():
             raise WebSocketConnectionClosedException(
                 'Connection is already closed.')
@@ -209,68 +208,13 @@ class WebsocketClient(WebSocketApp):
         except Exception:
             return False
 
-    def _wait_till_sock_connected(self,
-                                  timeout: Union[float, int] = 10) -> NoReturn:
-        ''' Polls until `self.sock` is connected.
-            Args:
-                timeout (float): timeout value in seconds, default 10. '''
-        start_time = time.time()
-        poll_interval = 0.05
-
-        logger.debug(f'Waiting for WebSocket connection (timeout: {timeout}s)')
-
-        while time.time() - start_time < timeout:
-            try:
-                if self.sock and hasattr(self.sock,
-                                         'connected') and self.sock.connected:
-                    logger.debug(
-                        'WebSocket connection established successfully')
-                    return
-
-                # Check if socket exists but connection failed
-                if self.sock and hasattr(
-                        self.sock, 'connected') and not self.sock.connected:
-                    # Give it a bit more time for connection to establish
-                    pass
-
-            except AttributeError:
-                # Socket not yet created, continue waiting
-                pass
-            except Exception as e:
-                logger.warning(
-                    f'Unexpected error while checking WebSocket connection: {e}'
-                )
-
-            sleep(poll_interval)
-
-        connection_status = 'unknown'
-        if hasattr(self, 'sock') and self.sock:
-            if hasattr(self.sock, 'connected'):
-                connection_status = f'connected={self.sock.connected}'
-            else:
-                connection_status = 'sock exists but no connected attribute'
-        else:
-            connection_status = 'sock is None'
-
-        error_msg = f'Timed out waiting for WebSocket to open after {timeout}s. Connection status: {connection_status}'
-        logger.error(error_msg)
-        raise TimeoutError(error_msg)
-
     def close(self, code: int = 1000, reason: str = 'Normal closure') -> None:
         ''' Close WebSocket connection gracefully. '''
-        logger.debug(
+        logger.info(
             f'Closing WebSocket connection (code: {code}, reason: {reason})')
         try:
-            if self.sock and hasattr(self.sock, 'close'):
+            if self.sock:
                 self.sock.close(code, reason)
             self.keep_running = False
         except Exception as e:
             logger.warning(f'Error during WebSocket close: {e}')
-
-    def __del__(self):
-        ''' Cleanup when object is destroyed. '''
-        try:
-            if hasattr(self, 'sock') and self.sock:
-                self.close()
-        except Exception:
-            pass  # Ignore errors during cleanup
