@@ -36,7 +36,7 @@ def on_error(ws_client: WebSocketApp, error: Exception):
         'error_message': str(error),
         'url': getattr(ws_client, 'url', 'unknown'),
     }
-    logger.error(f'websocket error occurred: {error_details}')
+    logger.error(f'WebSocket error occurred: {error_details}')
 
 
 class WebsocketClient(WebSocketApp):
@@ -84,10 +84,18 @@ class WebsocketClient(WebSocketApp):
         }
 
         if keep_alive:
-            logger.debug(f'Starting WebSocket connection to {self.url}')
+            logger.debug(
+                f'Starting WebSocket connection to:\n{self.url}\nwith header:\n{self.header}'
+            )
 
             connection_event = threading.Event()
             connection_error = threading.Event()
+            handshake_info = {
+                'status': None,
+                'headers': None,
+                'error': None,
+                'url': self.url
+            }
 
             error_info = {'message': None}
 
@@ -95,13 +103,47 @@ class WebsocketClient(WebSocketApp):
             original_on_error = getattr(self, 'on_error', None)
 
             def on_open_with_event(ws):
+                try:
+                    if hasattr(ws.sock, 'handshake_response'):
+                        handshake_info[
+                            'status'] = ws.sock.handshake_response.status
+                        handshake_info[
+                            'headers'] = ws.sock.handshake_response.headers
+                        logger.debug(
+                            f'WebSocket handshake successful - Status: {handshake_info["status"]}'
+                        )
+                        logger.debug(
+                            f'WebSocket handshake headers: {handshake_info["headers"]}'
+                        )
+                    else:
+                        logger.debug(
+                            'WebSocket handshake completed but no response details available'
+                        )
+                except Exception as e:
+                    logger.warning(f'Could not capture handshake details: {e}')
+
                 connection_event.set()
                 if original_on_open:
                     original_on_open(ws)
 
             def on_error_with_event(ws, error):
-                logger.error(f'WebSocket new message error occurred: {error}')
-                error_info['message'] = str(error)
+                error_type = type(error).__name__
+                error_msg = str(error)
+
+                handshake_info['status'] = ws.sock.handshake_response.status
+                handshake_info['headers'] = ws.sock.handshake_response.headers
+
+                handshake_info['error'] = {
+                    'type': error_type,
+                    'message': error_msg,
+                    'during_handshake': True
+                }
+
+                logger.error(
+                    f'WebSocket error during connection: {error_type}: {error_msg}'
+                )
+
+                error_info['message'] = error_msg
                 connection_error.set()
                 if original_on_error:
                     original_on_error(ws, error)
@@ -117,11 +159,16 @@ class WebsocketClient(WebSocketApp):
 
                 if connection_event.wait(timeout=ws_conn_timeout):
                     logger.debug(
-                        'WebSocket connection established successfully')
+                        f'WebSocket connection established successfully.\nHandshake status: {handshake_info["status"]}'
+                    )
                 elif connection_error.is_set():
                     error_msg = error_info[
                         'message'] or 'Unknown connection error'
                     logger.error(f'WebSocket connection failed: {error_msg}')
+                    logger.error(
+                        f'Handshake info:\n {json.dumps(handshake_info, indent=4)}'
+                    )
+
                     raise TimeoutError(
                         f'WebSocket connection failed due to error: {error_msg}'
                     )
@@ -129,8 +176,21 @@ class WebsocketClient(WebSocketApp):
                     logger.error(
                         'WebSocket connection timeout - no response within timeout period'
                     )
+                    if self.sock and hasattr(self.sock, 'handshake_response'):
+                        handshake_info[
+                            'status'] = self.sock.handshake_response.status
+                        handshake_info[
+                            'headers'] = self.sock.handshake_response.headers
+
+                    logger.error(
+                        f'Timeout details: {ws_conn_timeout}s waiting for connection to {handshake_info["url"]}'
+                    )
+                    logger.error(
+                        f'Handshake info:\n {json.dumps(handshake_info, indent=4)}'
+                    )
+
                     raise TimeoutError(
-                        f'WebSocket connection timeout after {ws_conn_timeout}s'
+                        f'WebSocket handshake timeout after {ws_conn_timeout}s - server did not respond to HTTP upgrade request'
                     )
 
             except Exception as e:
