@@ -130,8 +130,15 @@ class WebsocketClient(WebSocketApp):
                 error_type = type(error).__name__
                 error_msg = str(error)
 
-                handshake_info['status'] = ws.sock.handshake_response.status
-                handshake_info['headers'] = ws.sock.handshake_response.headers
+                try:
+                    if hasattr(ws.sock, 'handshake_response'
+                               ) and ws.sock.handshake_response:
+                        handshake_info[
+                            'status'] = ws.sock.handshake_response.status
+                        handshake_info[
+                            'headers'] = ws.sock.handshake_response.headers
+                except Exception:
+                    pass
 
                 handshake_info['error'] = {
                     'type': error_type,
@@ -176,11 +183,18 @@ class WebsocketClient(WebSocketApp):
                     logger.error(
                         'WebSocket connection timeout - no response within timeout period'
                     )
-                    if self.sock and hasattr(self.sock, 'handshake_response'):
-                        handshake_info[
-                            'status'] = self.sock.handshake_response.status
-                        handshake_info[
-                            'headers'] = self.sock.handshake_response.headers
+                    if self.sock:
+                        if hasattr(self.sock, 'handshake_response'):
+                            handshake_info[
+                                'status'] = self.sock.handshake_response.status
+                            handshake_info[
+                                'headers'] = self.sock.handshake_response.headers
+                        else:
+                            handshake_info['status'] = 'unknown'
+                            handshake_info['headers'] = 'unknown'
+                    else:
+                        handshake_info['status'] = 'no socket'
+                        handshake_info['headers'] = 'no socket'
 
                     logger.error(
                         f'Timeout details: {ws_conn_timeout}s waiting for connection to {handshake_info["url"]}'
