@@ -13,6 +13,9 @@ All notable changes to this project will be documented in this file.
 ### Bugfixes
 - Fixed version in websocket url for customer-api v3.4 and v3.6.
 
+### Removed
+- Removed support for billing-api.
+
 ## [0.4.1] - 2025-04-23
 
 ### Added
