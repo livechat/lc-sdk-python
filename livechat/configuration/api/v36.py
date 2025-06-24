@@ -1692,7 +1692,6 @@ class ConfigurationApiV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-
 # Batch requests
 
     def batch_create_agents(self,
@@ -1863,5 +1862,170 @@ class ConfigurationApiV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/batch_update_bots',
+                                 json=payload,
+                                 headers=headers)
+
+
+# Greetings
+
+    def create_greeting(self,
+                        type: str = None,
+                        active: bool = None,
+                        active_from: str = None,
+                        active_until: str = None,
+                        name: str = None,
+                        group: int = None,
+                        rules: list = None,
+                        properties: dict = None,
+                        rich_message: dict = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
+        ''' Creates a new greeting.
+
+            Args:
+                type (str): Greeting type.
+                active (bool): Whether the greeting is active.
+                active_from (str): RFC 3339 date-time format; when the greeting becomes active.
+                active_until (str): RFC 3339 date-time format; when the greeting stops being active.
+                name (str): Greeting name.
+                group (int): Group ID the greeting belongs to; the group must exist.
+                rules (list): Array of action rules that define when the greeting should be triggered.
+                              At least one rule is required. Each rule should contain:
+                              - condition (str): Logical condition for the rule.
+                              - type (str): Type of rule condition.
+                              - operator (str): Comparison operator for the rule (required for most types).
+                              - value (str): Value to compare against (required for most rule types).
+                              - urls (list): Array of URLs (required only for url_funnel type).
+                              - session_field (dict): Key-value pairs (required for custom_variable and ads_traffic types).
+                properties (dict): Additional properties for the greeting as key-value pairs.
+                rich_message (dict): Rich message content of the greeting.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/create_greeting',
+                                 json=payload,
+                                 headers=headers)
+
+    def delete_greeting(self,
+                        id: int = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
+        ''' Deletes a greeting.
+
+            Args:
+                id (int): ID of the greeting to delete.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/delete_greeting',
+                                 json=payload,
+                                 headers=headers)
+
+    def get_greeting(self,
+                     id: int = None,
+                     payload: dict = None,
+                     headers: dict = None) -> httpx.Response:
+        ''' Gets a greeting details.
+
+            Args:
+                id (int): ID of the greeting to get.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/get_greeting',
+                                 json=payload,
+                                 headers=headers)
+
+    def list_greetings(self,
+                       groups: list = None,
+                       page_id: str = None,
+                       limit: int = None,
+                       payload: dict = None,
+                       headers: dict = None) -> httpx.Response:
+        ''' Returns a list of greetings, optionally filtered by groups.
+            The method supports pagination to handle large result sets.
+
+            Args:
+                groups (list): Array of group IDs to filter greetings. Must contain non-negative integers.
+                page_id (str): Page ID for pagination.
+                limit (int): Number of greetings per page. Must be between 1 and 100. Defaults to 100.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/list_greetings',
+                                 json=payload,
+                                 headers=headers)
+
+    def update_greeting(self,
+                        id: int = None,
+                        active: bool = None,
+                        active_from: str = None,
+                        active_until: str = None,
+                        name: str = None,
+                        rules: list = None,
+                        properties: dict = None,
+                        rich_message: dict = None,
+                        payload: dict = None,
+                        headers: dict = None) -> httpx.Response:
+        ''' Updates an existing greeting.
+
+            Args:
+                id (int): ID of the greeting to update.
+                active (bool): Whether the greeting is active.
+                active_from (str): RFC 3339 date-time format; when the greeting becomes active.
+                active_until (str): RFC 3339 date-time format; when the greeting stops being active.
+                name (str): Greeting name (cannot be empty if provided).
+                rules (list): Array of action rules.
+                properties (dict): Additional properties for the greeting as key-value pairs.
+                rich_message (dict): Rich message content of the greeting.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/update_greeting',
                                  json=payload,
                                  headers=headers)
