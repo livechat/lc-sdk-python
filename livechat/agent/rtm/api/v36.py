@@ -952,6 +952,33 @@ class AgentRtmV36:
             'payload': payload
         })
 
+    def send_thinking_indicator(self,
+                                chat_id: str = None,
+                                visibility: str = None,
+                                title: str = None,
+                                description: str = None,
+                                payload: dict = None) -> RtmResponse:
+        ''' Sends a thinking indicator.
+
+            Args:
+                chat_id (str): ID of the chat you want to send the thinking indicator to.
+                visibility (str): Possible values: `all`, `agents`.
+                title (str): Title of the thinking indicator.
+                description (str): Description of the thinking indicator.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'send_thinking_indicator',
+            'payload': payload
+        })
+
     def multicast(self,
                   recipients: dict = None,
                   content: Any = None,

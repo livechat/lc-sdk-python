@@ -987,6 +987,35 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def send_thinking_indicator(self,
+                                chat_id: str = None,
+                                title: str = None,
+                                description: str = None,
+                                visibility: str = None,
+                                payload: dict = None,
+                                headers: dict = None) -> httpx.Response:
+        ''' Sends thinking indicator.
+
+            Args:
+                chat_id (str): ID of the chat that to send the thinking indicator to.
+                title (str): Title of the thinking indicator.
+                description (str): Description of the thinking indicator.
+                visibility (str): Possible values: `all`, `agents`.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/send_thinking_indicator',
+                                 json=payload,
+                                 headers=headers)
+
     def multicast(self,
                   recipients: dict = None,
                   content: typing.Any = None,
