@@ -957,6 +957,7 @@ class AgentRtmV36:
                                 visibility: str = None,
                                 title: str = None,
                                 description: str = None,
+                                custom_id: str = None,
                                 payload: dict = None) -> RtmResponse:
         ''' Sends a thinking indicator.
 
@@ -965,6 +966,7 @@ class AgentRtmV36:
                 visibility (str): Possible values: `all`, `agents`.
                 title (str): Title of the thinking indicator.
                 description (str): Description of the thinking indicator.
+                custom_id (str): Custom ID for the thinking indicator.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 

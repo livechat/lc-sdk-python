@@ -992,6 +992,7 @@ class AgentWebV36(HttpClient):
                                 title: str = None,
                                 description: str = None,
                                 visibility: str = None,
+                                custom_id: str = None,
                                 payload: dict = None,
                                 headers: dict = None) -> httpx.Response:
         ''' Sends thinking indicator.
@@ -1001,6 +1002,7 @@ class AgentWebV36(HttpClient):
                 title (str): Title of the thinking indicator.
                 description (str): Description of the thinking indicator.
                 visibility (str): Possible values: `all`, `agents`.
+                custom_id (str): Custom ID for the thinking indicator.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
                 headers (dict): Custom headers to be used with session headers.
