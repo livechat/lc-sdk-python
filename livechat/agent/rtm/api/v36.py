@@ -981,6 +981,29 @@ class AgentRtmV36:
             'payload': payload
         })
 
+    def send_event_preview(self,
+                           chat_id: str = None,
+                           event: dict = None,
+                           payload: dict = None) -> RtmResponse:
+        ''' Sends an event preview.
+
+            Args:
+                chat_id (str): ID of the chat you want to send the event preview to.
+                event (dict): Event object.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'send_event_preview',
+            'payload': payload
+        })
+
     def multicast(self,
                   recipients: dict = None,
                   content: Any = None,

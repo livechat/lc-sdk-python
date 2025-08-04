@@ -1018,6 +1018,31 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def send_event_preview(self,
+                           chat_id: str = None,
+                           event: dict = None,
+                           payload: dict = None,
+                           headers: dict = None) -> httpx.Response:
+        ''' Sends event preview.
+
+            Args:
+                chat_id (str): ID of the chat to send event preview to.
+                event (dict): Event object containing the event data.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/send_event_preview',
+                                 json=payload,
+                                 headers=headers)
+
     def multicast(self,
                   recipients: dict = None,
                   content: typing.Any = None,
