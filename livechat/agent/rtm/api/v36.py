@@ -988,8 +988,8 @@ class AgentRtmV36:
         ''' Sends an event preview.
 
             Args:
-                chat_id (str): ID of the chat you want to send the event preview to.
-                event (dict): Event object.
+                chat_id (str): ID of the chat to send event preview to.
+                event (dict): Event object containing the event data.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 

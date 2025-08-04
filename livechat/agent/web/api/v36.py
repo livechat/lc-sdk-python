@@ -1023,7 +1023,7 @@ class AgentWebV36(HttpClient):
                            event: dict = None,
                            payload: dict = None,
                            headers: dict = None) -> httpx.Response:
-        ''' Sends event preview.
+        ''' Sends an event preview.
 
             Args:
                 chat_id (str): ID of the chat to send event preview to.
