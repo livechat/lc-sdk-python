@@ -4,11 +4,13 @@ All notable changes to this project will be documented in this file.
 ## [0.4.2] - TBA
 
 ### Added
+- Support for new version 3.7.
 - New method `delete_event` in customer-api v3.6.
 - New methods in configuration-api v3.6 for greetings: `create_greeting`, `delete_greeting`, `get_greeting`, `update_greeting`, `list_greetings`.
 - New methods in agent-api v3.6: `send_thinking_indicator`, `send_message_preview`.
 
 ### Changed
+- Config now points to v3.6 as stable and 3.7 as dev-preview version.
 - Improved websocket response collection + extended logging in the websocket client.
 
 ### Bugfixes
