@@ -49,7 +49,7 @@ class CustomerRtmV36:
         if isinstance(organization_id, str):
             self.ws = WebsocketClient(
                 url=
-                f&#39;wss://{base_url}/v3.5/customer/rtm/ws?organization_id={organization_id}&#39;,
+                f&#39;wss://{base_url}/v3.6/customer/rtm/ws?organization_id={organization_id}&#39;,
                 header=header)
         else:
             raise ValueError(
@@ -242,6 +242,28 @@ class CustomerRtmV36:
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})
+
+    def delete_event(self,
+                     chat_id: str = None,
+                     thread_id: str = None,
+                     event_id: str = None,
+                     payload: dict = None) -&gt; RtmResponse:
+        &#39;&#39;&#39; Deletes an event.
+
+            Args:
+                chat_id (str): ID of the chat from which to delete the event.
+                thread_id (str): ID of the thread from which to delete the event.
+                event_id (str): ID of the event to be deleted.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;delete_event&#39;, &#39;payload&#39;: payload})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -723,7 +745,7 @@ class CustomerRtmV36:
         if isinstance(organization_id, str):
             self.ws = WebsocketClient(
                 url=
-                f&#39;wss://{base_url}/v3.5/customer/rtm/ws?organization_id={organization_id}&#39;,
+                f&#39;wss://{base_url}/v3.6/customer/rtm/ws?organization_id={organization_id}&#39;,
                 header=header)
         else:
             raise ValueError(
@@ -916,6 +938,28 @@ class CustomerRtmV36:
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;send_event&#39;, &#39;payload&#39;: payload})
+
+    def delete_event(self,
+                     chat_id: str = None,
+                     thread_id: str = None,
+                     event_id: str = None,
+                     payload: dict = None) -&gt; RtmResponse:
+        &#39;&#39;&#39; Deletes an event.
+
+            Args:
+                chat_id (str): ID of the chat from which to delete the event.
+                thread_id (str): ID of the thread from which to delete the event.
+                event_id (str): ID of the event to be deleted.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({&#39;action&#39;: &#39;delete_event&#39;, &#39;payload&#39;: payload})
 
     def send_rich_message_postback(self,
                                    chat_id: str = None,
@@ -1559,6 +1603,56 @@ It overrides all other parameters provided for the method.</dd>
         &#39;action&#39;: &#39;delete_chat_properties&#39;,
         &#39;payload&#39;: payload
     })</code></pre>
+</details>
+</dd>
+<dt id="livechat.customer.rtm.api.v36.CustomerRtmV36.delete_event"><code class="name flex">
+<span>def <span class="ident">delete_event</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deletes an event.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat from which to delete the event.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread from which to delete the event.</dd>
+<dt><strong><code>event_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the event to be deleted.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_event(self,
+                 chat_id: str = None,
+                 thread_id: str = None,
+                 event_id: str = None,
+                 payload: dict = None) -&gt; RtmResponse:
+    &#39;&#39;&#39; Deletes an event.
+
+        Args:
+            chat_id (str): ID of the chat from which to delete the event.
+            thread_id (str): ID of the thread from which to delete the event.
+            event_id (str): ID of the event to be deleted.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({&#39;action&#39;: &#39;delete_event&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
 <dt id="livechat.customer.rtm.api.v36.CustomerRtmV36.delete_event_properties"><code class="name flex">
@@ -2775,6 +2869,7 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="livechat.customer.rtm.api.v36.CustomerRtmV36.close_connection" href="#livechat.customer.rtm.api.v36.CustomerRtmV36.close_connection">close_connection</a></code></li>
 <li><code><a title="livechat.customer.rtm.api.v36.CustomerRtmV36.deactivate_chat" href="#livechat.customer.rtm.api.v36.CustomerRtmV36.deactivate_chat">deactivate_chat</a></code></li>
 <li><code><a title="livechat.customer.rtm.api.v36.CustomerRtmV36.delete_chat_properties" href="#livechat.customer.rtm.api.v36.CustomerRtmV36.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="livechat.customer.rtm.api.v36.CustomerRtmV36.delete_event" href="#livechat.customer.rtm.api.v36.CustomerRtmV36.delete_event">delete_event</a></code></li>
 <li><code><a title="livechat.customer.rtm.api.v36.CustomerRtmV36.delete_event_properties" href="#livechat.customer.rtm.api.v36.CustomerRtmV36.delete_event_properties">delete_event_properties</a></code></li>
 <li><code><a title="livechat.customer.rtm.api.v36.CustomerRtmV36.delete_thread_properties" href="#livechat.customer.rtm.api.v36.CustomerRtmV36.delete_thread_properties">delete_thread_properties</a></code></li>
 <li><code><a title="livechat.customer.rtm.api.v36.CustomerRtmV36.get_chat" href="#livechat.customer.rtm.api.v36.CustomerRtmV36.get_chat">get_chat</a></code></li>
