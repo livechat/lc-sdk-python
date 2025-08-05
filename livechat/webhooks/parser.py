@@ -15,7 +15,7 @@ stable_version = CONFIG.get('stable')
 def parse_webhook(
     wh_body: dict,
     version: str = stable_version,
-) -> Union[WebhookV33, WebhookV34, WebhookV35, WebhookV36]:
+) -> Union[WebhookV33, WebhookV34, WebhookV35, WebhookV36, WebhookV37]:
     ''' Parses provided `wh_body` to a `Webhook` data class.
 
         Args:
