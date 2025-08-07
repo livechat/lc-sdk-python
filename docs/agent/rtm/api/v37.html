@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>livechat.agent.rtm.api.v36 API documentation</title>
-<meta name="description" content="Module containing Agent RTM API client implementation for v3.6." />
+<title>livechat.agent.rtm.api.v37 API documentation</title>
+<meta name="description" content="Module containing Agent RTM API client implementation for v3.7." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,15 +19,15 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>livechat.agent.rtm.api.v36</code></h1>
+<h1 class="title">Module <code>livechat.agent.rtm.api.v37</code></h1>
 </header>
 <section id="section-intro">
-<p>Module containing Agent RTM API client implementation for v3.6.</p>
+<p>Module containing Agent RTM API client implementation for v3.7.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#39;&#39;&#39; Module containing Agent RTM API client implementation for v3.6. &#39;&#39;&#39;
+<pre><code class="python">&#39;&#39;&#39; Module containing Agent RTM API client implementation for v3.7. &#39;&#39;&#39;
 
 from typing import Any, Callable, Optional, Union
 
@@ -38,15 +38,15 @@ from livechat.utils.ws_client import WebsocketClient
 # pylint: disable=unused-argument, too-many-arguments, invalid-name, redefined-builtin
 
 
-class AgentRtmV36:
-    &#39;&#39;&#39; Agent RTM API Class containing methods in version 3.6. &#39;&#39;&#39;
+class AgentRtmV37:
+    &#39;&#39;&#39; Agent RTM API Class containing methods in version 3.7. &#39;&#39;&#39;
     def __init__(
         self,
         url: str,
         header: Union[list, dict, Callable, None],
     ):
         self.ws = WebsocketClient(
-            url=f&#39;wss://{url}/v3.6/agent/rtm/ws&#39;,
+            url=f&#39;wss://{url}/v3.7/agent/rtm/ws&#39;,
             header=header,
         )
 
@@ -1086,25 +1086,25 @@ class AgentRtmV36:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36"><code class="flex name class">
-<span>class <span class="ident">AgentRtmV36</span></span>
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37"><code class="flex name class">
+<span>class <span class="ident">AgentRtmV37</span></span>
 <span>(</span><span>url: str, header: Union[list, dict, Callable, None])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Agent RTM API Class containing methods in version 3.6.</p></div>
+<div class="desc"><p>Agent RTM API Class containing methods in version 3.7.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class AgentRtmV36:
-    &#39;&#39;&#39; Agent RTM API Class containing methods in version 3.6. &#39;&#39;&#39;
+<pre><code class="python">class AgentRtmV37:
+    &#39;&#39;&#39; Agent RTM API Class containing methods in version 3.7. &#39;&#39;&#39;
     def __init__(
         self,
         url: str,
         header: Union[list, dict, Callable, None],
     ):
         self.ws = WebsocketClient(
-            url=f&#39;wss://{url}/v3.6/agent/rtm/ws&#39;,
+            url=f&#39;wss://{url}/v3.7/agent/rtm/ws&#39;,
             header=header,
         )
 
@@ -2136,7 +2136,7 @@ class AgentRtmV36:
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.add_user_to_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.add_user_to_chat"><code class="name flex">
 <span>def <span class="ident">add_user_to_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, visibility: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2202,7 +2202,7 @@ the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;add_user_to_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.ban_customer"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.ban_customer"><code class="name flex">
 <span>def <span class="ident">ban_customer</span></span>(<span>self, id: str = None, ban: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2250,7 +2250,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;ban_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.change_push_notifications"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.change_push_notifications"><code class="name flex">
 <span>def <span class="ident">change_push_notifications</span></span>(<span>self, firebase_token: str = None, platform: str = None, enabled: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2303,7 +2303,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.close_connection"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.close_connection"><code class="name flex">
 <span>def <span class="ident">close_connection</span></span>(<span>self) ‑> None</span>
 </code></dt>
 <dd>
@@ -2317,7 +2317,7 @@ It overrides all other parameters provided for the method.</dd>
     self.ws.close()</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.create_customer"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.create_customer"><code class="name flex">
 <span>def <span class="ident">create_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2373,7 +2373,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;create_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.deactivate_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.deactivate_chat"><code class="name flex">
 <span>def <span class="ident">deactivate_chat</span></span>(<span>self, id: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2421,7 +2421,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;deactivate_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.delete_chat_properties"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.delete_chat_properties"><code class="name flex">
 <span>def <span class="ident">delete_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2470,7 +2470,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.delete_event_properties"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.delete_event_properties"><code class="name flex">
 <span>def <span class="ident">delete_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2527,7 +2527,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.delete_thread_properties"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.delete_thread_properties"><code class="name flex">
 <span>def <span class="ident">delete_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2580,7 +2580,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.follow_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.follow_chat"><code class="name flex">
 <span>def <span class="ident">follow_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2620,7 +2620,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;follow_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.follow_customer"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.follow_customer"><code class="name flex">
 <span>def <span class="ident">follow_customer</span></span>(<span>self, id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2662,7 +2662,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;follow_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.get_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.get_chat"><code class="name flex">
 <span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2708,7 +2708,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;get_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.get_customer"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.get_customer"><code class="name flex">
 <span>def <span class="ident">get_customer</span></span>(<span>self, id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2750,7 +2750,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;get_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.list_agents_for_transfer"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.list_agents_for_transfer"><code class="name flex">
 <span>def <span class="ident">list_agents_for_transfer</span></span>(<span>self, chat_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2795,7 +2795,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.list_archives"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.list_archives"><code class="name flex">
 <span>def <span class="ident">list_archives</span></span>(<span>self, filters: dict = None, page_id: str = None, sort_order: str = None, limit: int = None, highlights: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2857,7 +2857,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;list_archives&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.list_chats"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.list_chats"><code class="name flex">
 <span>def <span class="ident">list_chats</span></span>(<span>self, filters: dict = None, sort_order: str = None, limit: int = None, page_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2915,7 +2915,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;list_chats&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.list_routing_statuses"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.list_routing_statuses"><code class="name flex">
 <span>def <span class="ident">list_routing_statuses</span></span>(<span>self, filters: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -2960,7 +2960,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.list_threads"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.list_threads"><code class="name flex">
 <span>def <span class="ident">list_threads</span></span>(<span>self, chat_id: str = None, sort_order: str = None, limit: int = None, page_id: str = None, min_events_count: int = None, filters: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3026,7 +3026,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;list_threads&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.login"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.login"><code class="name flex">
 <span>def <span class="ident">login</span></span>(<span>self, token: Union[livechat.utils.structures.AccessToken, str] = None, timezone: str = None, reconnect: bool = None, push_notifications: dict = None, application: dict = None, away: bool = None, customer_monitoring_level: str = None, pushes: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3110,7 +3110,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;login&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.logout"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.logout"><code class="name flex">
 <span>def <span class="ident">logout</span></span>(<span>self, agent_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3152,7 +3152,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;logout&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.mark_events_as_seen"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.mark_events_as_seen"><code class="name flex">
 <span>def <span class="ident">mark_events_as_seen</span></span>(<span>self, chat_id: str = None, seen_up_to: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3201,7 +3201,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.multicast"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.multicast"><code class="name flex">
 <span>def <span class="ident">multicast</span></span>(<span>self, recipients: dict = None, content: Any = None, type: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3251,7 +3251,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;multicast&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.open_connection"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.open_connection"><code class="name flex">
 <span>def <span class="ident">open_connection</span></span>(<span>self, origin: dict = None, ping_timeout: Union[float, int] = 3, ping_interval: Union[float, int] = 5, ws_conn_timeout: Union[float, int] = 10, keep_alive: bool = True, response_timeout: Union[float, int] = 3) ‑> None</span>
 </code></dt>
 <dd>
@@ -3303,7 +3303,7 @@ by default sets to 3 seconds.</dd>
                  keep_alive, response_timeout)</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.remove_user_from_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.remove_user_from_chat"><code class="name flex">
 <span>def <span class="ident">remove_user_from_chat</span></span>(<span>self, chat_id: str = None, user_id: str = None, user_type: str = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3362,7 +3362,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.resume_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.resume_chat"><code class="name flex">
 <span>def <span class="ident">resume_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3412,7 +3412,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;resume_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.send_event"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.send_event"><code class="name flex">
 <span>def <span class="ident">send_event</span></span>(<span>self, chat_id: str = None, event: dict = None, attach_to_last_thread: bool = None, author_id: Optional[str] = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3475,7 +3475,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.send_event_preview"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.send_event_preview"><code class="name flex">
 <span>def <span class="ident">send_event_preview</span></span>(<span>self, chat_id: str = None, event: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3524,7 +3524,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.send_rich_message_postback"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.send_rich_message_postback"><code class="name flex">
 <span>def <span class="ident">send_rich_message_postback</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, postback: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3581,7 +3581,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.send_thinking_indicator"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.send_thinking_indicator"><code class="name flex">
 <span>def <span class="ident">send_thinking_indicator</span></span>(<span>self, chat_id: str = None, visibility: str = None, title: str = None, description: str = None, custom_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3642,7 +3642,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.send_typing_indicator"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.send_typing_indicator"><code class="name flex">
 <span>def <span class="ident">send_typing_indicator</span></span>(<span>self, chat_id: str = None, visibility: str = None, is_typing: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3695,7 +3695,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.set_away_status"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.set_away_status"><code class="name flex">
 <span>def <span class="ident">set_away_status</span></span>(<span>self, away: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3737,7 +3737,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;set_away_status&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.set_routing_status"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.set_routing_status"><code class="name flex">
 <span>def <span class="ident">set_routing_status</span></span>(<span>self, status: str = None, agent_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3788,7 +3788,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.start_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.start_chat"><code class="name flex">
 <span>def <span class="ident">start_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3838,7 +3838,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;start_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.tag_thread"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.tag_thread"><code class="name flex">
 <span>def <span class="ident">tag_thread</span></span>(<span>self, chat_id: str = None, thread_id: str = None, tag: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3888,7 +3888,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;tag_thread&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.transfer_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.transfer_chat"><code class="name flex">
 <span>def <span class="ident">transfer_chat</span></span>(<span>self, id: str = None, target: dict = None, ignore_agents_availability: bool = None, ignore_requester_presence: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3948,7 +3948,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;transfer_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.unfollow_chat"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_chat"><code class="name flex">
 <span>def <span class="ident">unfollow_chat</span></span>(<span>self, id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -3990,7 +3990,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;unfollow_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.unfollow_customer"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_customer"><code class="name flex">
 <span>def <span class="ident">unfollow_customer</span></span>(<span>self, id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -4035,7 +4035,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.untag_thread"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.untag_thread"><code class="name flex">
 <span>def <span class="ident">untag_thread</span></span>(<span>self, chat_id: str = None, thread_id: str = None, tag: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -4085,7 +4085,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;untag_thread&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.update_chat_properties"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.update_chat_properties"><code class="name flex">
 <span>def <span class="ident">update_chat_properties</span></span>(<span>self, id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -4134,7 +4134,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.update_customer"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.update_customer"><code class="name flex">
 <span>def <span class="ident">update_customer</span></span>(<span>self, id: str = None, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -4194,7 +4194,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;update_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.update_event_properties"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.update_event_properties"><code class="name flex">
 <span>def <span class="ident">update_event_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, event_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -4251,7 +4251,7 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.update_session"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.update_session"><code class="name flex">
 <span>def <span class="ident">update_session</span></span>(<span>self, token: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -4295,7 +4295,7 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;update_session&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v36.AgentRtmV36.update_thread_properties"><code class="name flex">
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.update_thread_properties"><code class="name flex">
 <span>def <span class="ident">update_thread_properties</span></span>(<span>self, chat_id: str = None, thread_id: str = None, properties: dict = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
@@ -4367,51 +4367,51 @@ It overrides all other parameters provided for the method.</dd>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36" href="#livechat.agent.rtm.api.v36.AgentRtmV36">AgentRtmV36</a></code></h4>
+<h4><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37" href="#livechat.agent.rtm.api.v37.AgentRtmV37">AgentRtmV37</a></code></h4>
 <ul class="">
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.add_user_to_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.add_user_to_chat">add_user_to_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.ban_customer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.ban_customer">ban_customer</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.change_push_notifications" href="#livechat.agent.rtm.api.v36.AgentRtmV36.change_push_notifications">change_push_notifications</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.close_connection" href="#livechat.agent.rtm.api.v36.AgentRtmV36.close_connection">close_connection</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.create_customer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.create_customer">create_customer</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.deactivate_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.deactivate_chat">deactivate_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.delete_chat_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.delete_chat_properties">delete_chat_properties</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.delete_event_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.delete_event_properties">delete_event_properties</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.delete_thread_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.delete_thread_properties">delete_thread_properties</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.follow_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.follow_chat">follow_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.follow_customer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.follow_customer">follow_customer</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.get_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.get_chat">get_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.get_customer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.get_customer">get_customer</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_agents_for_transfer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_archives" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_archives">list_archives</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_chats" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_chats">list_chats</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_routing_statuses" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_routing_statuses">list_routing_statuses</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.list_threads" href="#livechat.agent.rtm.api.v36.AgentRtmV36.list_threads">list_threads</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.login" href="#livechat.agent.rtm.api.v36.AgentRtmV36.login">login</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.logout" href="#livechat.agent.rtm.api.v36.AgentRtmV36.logout">logout</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.mark_events_as_seen" href="#livechat.agent.rtm.api.v36.AgentRtmV36.mark_events_as_seen">mark_events_as_seen</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.multicast" href="#livechat.agent.rtm.api.v36.AgentRtmV36.multicast">multicast</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.open_connection" href="#livechat.agent.rtm.api.v36.AgentRtmV36.open_connection">open_connection</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.remove_user_from_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.remove_user_from_chat">remove_user_from_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.resume_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.resume_chat">resume_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.send_event" href="#livechat.agent.rtm.api.v36.AgentRtmV36.send_event">send_event</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.send_event_preview" href="#livechat.agent.rtm.api.v36.AgentRtmV36.send_event_preview">send_event_preview</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.send_rich_message_postback" href="#livechat.agent.rtm.api.v36.AgentRtmV36.send_rich_message_postback">send_rich_message_postback</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.send_thinking_indicator" href="#livechat.agent.rtm.api.v36.AgentRtmV36.send_thinking_indicator">send_thinking_indicator</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.send_typing_indicator" href="#livechat.agent.rtm.api.v36.AgentRtmV36.send_typing_indicator">send_typing_indicator</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.set_away_status" href="#livechat.agent.rtm.api.v36.AgentRtmV36.set_away_status">set_away_status</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.set_routing_status" href="#livechat.agent.rtm.api.v36.AgentRtmV36.set_routing_status">set_routing_status</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.start_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.start_chat">start_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.tag_thread" href="#livechat.agent.rtm.api.v36.AgentRtmV36.tag_thread">tag_thread</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.transfer_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.transfer_chat">transfer_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.unfollow_chat" href="#livechat.agent.rtm.api.v36.AgentRtmV36.unfollow_chat">unfollow_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.unfollow_customer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.unfollow_customer">unfollow_customer</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.untag_thread" href="#livechat.agent.rtm.api.v36.AgentRtmV36.untag_thread">untag_thread</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_chat_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_chat_properties">update_chat_properties</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_customer" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_customer">update_customer</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_event_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_event_properties">update_event_properties</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_session" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_session">update_session</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v36.AgentRtmV36.update_thread_properties" href="#livechat.agent.rtm.api.v36.AgentRtmV36.update_thread_properties">update_thread_properties</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.add_user_to_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.add_user_to_chat">add_user_to_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.ban_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.ban_customer">ban_customer</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.change_push_notifications" href="#livechat.agent.rtm.api.v37.AgentRtmV37.change_push_notifications">change_push_notifications</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.close_connection" href="#livechat.agent.rtm.api.v37.AgentRtmV37.close_connection">close_connection</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.create_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.create_customer">create_customer</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.deactivate_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.deactivate_chat">deactivate_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.delete_chat_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.delete_chat_properties">delete_chat_properties</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.delete_event_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.delete_event_properties">delete_event_properties</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.delete_thread_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.delete_thread_properties">delete_thread_properties</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.follow_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.follow_chat">follow_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.follow_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.follow_customer">follow_customer</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.get_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.get_chat">get_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.get_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.list_agents_for_transfer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.list_archives" href="#livechat.agent.rtm.api.v37.AgentRtmV37.list_archives">list_archives</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.list_chats" href="#livechat.agent.rtm.api.v37.AgentRtmV37.list_chats">list_chats</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.list_routing_statuses" href="#livechat.agent.rtm.api.v37.AgentRtmV37.list_routing_statuses">list_routing_statuses</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.list_threads" href="#livechat.agent.rtm.api.v37.AgentRtmV37.list_threads">list_threads</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.login" href="#livechat.agent.rtm.api.v37.AgentRtmV37.login">login</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.logout" href="#livechat.agent.rtm.api.v37.AgentRtmV37.logout">logout</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.mark_events_as_seen" href="#livechat.agent.rtm.api.v37.AgentRtmV37.mark_events_as_seen">mark_events_as_seen</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.multicast" href="#livechat.agent.rtm.api.v37.AgentRtmV37.multicast">multicast</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.open_connection" href="#livechat.agent.rtm.api.v37.AgentRtmV37.open_connection">open_connection</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.remove_user_from_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.remove_user_from_chat">remove_user_from_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.resume_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.resume_chat">resume_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.send_event" href="#livechat.agent.rtm.api.v37.AgentRtmV37.send_event">send_event</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.send_event_preview" href="#livechat.agent.rtm.api.v37.AgentRtmV37.send_event_preview">send_event_preview</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.send_rich_message_postback" href="#livechat.agent.rtm.api.v37.AgentRtmV37.send_rich_message_postback">send_rich_message_postback</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.send_thinking_indicator" href="#livechat.agent.rtm.api.v37.AgentRtmV37.send_thinking_indicator">send_thinking_indicator</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.send_typing_indicator" href="#livechat.agent.rtm.api.v37.AgentRtmV37.send_typing_indicator">send_typing_indicator</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.set_away_status" href="#livechat.agent.rtm.api.v37.AgentRtmV37.set_away_status">set_away_status</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.set_routing_status" href="#livechat.agent.rtm.api.v37.AgentRtmV37.set_routing_status">set_routing_status</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.start_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.start_chat">start_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.tag_thread" href="#livechat.agent.rtm.api.v37.AgentRtmV37.tag_thread">tag_thread</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.transfer_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.transfer_chat">transfer_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_chat">unfollow_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_customer">unfollow_customer</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.untag_thread" href="#livechat.agent.rtm.api.v37.AgentRtmV37.untag_thread">untag_thread</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.update_chat_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.update_chat_properties">update_chat_properties</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.update_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.update_customer">update_customer</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.update_event_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.update_event_properties">update_event_properties</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.update_session" href="#livechat.agent.rtm.api.v37.AgentRtmV37.update_session">update_session</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.update_thread_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.update_thread_properties">update_thread_properties</a></code></li>
 </ul>
 </li>
 </ul>

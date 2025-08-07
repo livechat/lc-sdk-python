@@ -13,6 +13,7 @@ from livechat.configuration.api.v33 import ConfigurationApiV33
 from livechat.configuration.api.v34 import ConfigurationApiV34
 from livechat.configuration.api.v35 import ConfigurationApiV35
 from livechat.configuration.api.v36 import ConfigurationApiV36
+from livechat.configuration.api.v37 import ConfigurationApiV37
 from livechat.utils.structures import AccessToken
 
 stable_version = CONFIG.get('stable')
@@ -33,7 +34,7 @@ class ConfigurationApi:
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
     ) -> Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
-               ConfigurationApiV36]:
+               ConfigurationApiV36, ConfigurationApiV37]:
         ''' Returns client for specific Configuration API version.
 
             Args:
@@ -70,6 +71,9 @@ class ConfigurationApi:
                                 disable_logging, timeout),
             '3.6':
             ConfigurationApiV36(token, base_url, http2, proxies, verify,
+                                disable_logging, timeout),
+            '3.7':
+            ConfigurationApiV37(token, base_url, http2, proxies, verify,
                                 disable_logging, timeout),
         }.get(version)
         if not client:

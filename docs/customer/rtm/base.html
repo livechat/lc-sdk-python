@@ -38,6 +38,7 @@ from livechat.customer.rtm.api.v33 import CustomerRtmV33
 from livechat.customer.rtm.api.v34 import CustomerRtmV34
 from livechat.customer.rtm.api.v35 import CustomerRtmV35
 from livechat.customer.rtm.api.v36 import CustomerRtmV36
+from livechat.customer.rtm.api.v37 import CustomerRtmV37
 
 stable_version = CONFIG.get(&#39;stable&#39;)
 api_url = CONFIG.get(&#39;url&#39;)
@@ -52,7 +53,8 @@ class CustomerRTM:
         license_id: int = None,
         organization_id: str = None,
         header: Union[list, dict, Callable, None] = None,
-    ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36]:
+    ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36,
+               CustomerRtmV37]:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
@@ -74,6 +76,7 @@ class CustomerRTM:
             &#39;3.4&#39;: CustomerRtmV34,
             &#39;3.5&#39;: CustomerRtmV35,
             &#39;3.6&#39;: CustomerRtmV36,
+            &#39;3.7&#39;: CustomerRtmV37,
         }.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
@@ -89,6 +92,10 @@ class CustomerRTM:
                 &#39;base_url&#39;: base_url
             },
             &#39;3.6&#39;: {
+                &#39;organization_id&#39;: organization_id,
+                &#39;base_url&#39;: base_url
+            },
+            &#39;3.7&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;base_url&#39;: base_url
             },
@@ -125,7 +132,8 @@ class CustomerRTM:
         license_id: int = None,
         organization_id: str = None,
         header: Union[list, dict, Callable, None] = None,
-    ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36]:
+    ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36,
+               CustomerRtmV37]:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
@@ -147,6 +155,7 @@ class CustomerRTM:
             &#39;3.4&#39;: CustomerRtmV34,
             &#39;3.5&#39;: CustomerRtmV35,
             &#39;3.6&#39;: CustomerRtmV36,
+            &#39;3.7&#39;: CustomerRtmV37,
         }.get(version)
         client_kwargs = {
             &#39;3.3&#39;: {
@@ -165,6 +174,10 @@ class CustomerRTM:
                 &#39;organization_id&#39;: organization_id,
                 &#39;base_url&#39;: base_url
             },
+            &#39;3.7&#39;: {
+                &#39;organization_id&#39;: organization_id,
+                &#39;base_url&#39;: base_url
+            },
         }.get(version)
         if client:
             return client(**client_kwargs, header=header)
@@ -173,7 +186,7 @@ class CustomerRTM:
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.rtm.base.CustomerRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.5', base_url: str = 'api.livechatinc.com', license_id: int = None, organization_id: str = None, header: Union[list, dict, Callable, None] = None) ‑> Union[<a title="livechat.customer.rtm.api.v33.CustomerRtmV33" href="api/v33.html#livechat.customer.rtm.api.v33.CustomerRtmV33">CustomerRtmV33</a>, <a title="livechat.customer.rtm.api.v34.CustomerRtmV34" href="api/v34.html#livechat.customer.rtm.api.v34.CustomerRtmV34">CustomerRtmV34</a>, <a title="livechat.customer.rtm.api.v35.CustomerRtmV35" href="api/v35.html#livechat.customer.rtm.api.v35.CustomerRtmV35">CustomerRtmV35</a>, <a title="livechat.customer.rtm.api.v36.CustomerRtmV36" href="api/v36.html#livechat.customer.rtm.api.v36.CustomerRtmV36">CustomerRtmV36</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.6', base_url: str = 'api.livechatinc.com', license_id: int = None, organization_id: str = None, header: Union[list, dict, Callable, None] = None) ‑> Union[<a title="livechat.customer.rtm.api.v33.CustomerRtmV33" href="api/v33.html#livechat.customer.rtm.api.v33.CustomerRtmV33">CustomerRtmV33</a>, <a title="livechat.customer.rtm.api.v34.CustomerRtmV34" href="api/v34.html#livechat.customer.rtm.api.v34.CustomerRtmV34">CustomerRtmV34</a>, <a title="livechat.customer.rtm.api.v35.CustomerRtmV35" href="api/v35.html#livechat.customer.rtm.api.v35.CustomerRtmV35">CustomerRtmV35</a>, <a title="livechat.customer.rtm.api.v36.CustomerRtmV36" href="api/v36.html#livechat.customer.rtm.api.v36.CustomerRtmV36">CustomerRtmV36</a>, <a title="livechat.customer.rtm.api.v37.CustomerRtmV37" href="api/v37.html#livechat.customer.rtm.api.v37.CustomerRtmV37">CustomerRtmV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Customer RTM version.</p>
@@ -209,7 +222,8 @@ def get_client(
     license_id: int = None,
     organization_id: str = None,
     header: Union[list, dict, Callable, None] = None,
-) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36]:
+) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36,
+           CustomerRtmV37]:
     &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
         Args:
@@ -231,6 +245,7 @@ def get_client(
         &#39;3.4&#39;: CustomerRtmV34,
         &#39;3.5&#39;: CustomerRtmV35,
         &#39;3.6&#39;: CustomerRtmV36,
+        &#39;3.7&#39;: CustomerRtmV37,
     }.get(version)
     client_kwargs = {
         &#39;3.3&#39;: {
@@ -246,6 +261,10 @@ def get_client(
             &#39;base_url&#39;: base_url
         },
         &#39;3.6&#39;: {
+            &#39;organization_id&#39;: organization_id,
+            &#39;base_url&#39;: base_url
+        },
+        &#39;3.7&#39;: {
             &#39;organization_id&#39;: organization_id,
             &#39;base_url&#39;: base_url
         },

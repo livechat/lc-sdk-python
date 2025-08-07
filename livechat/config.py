@@ -2,6 +2,6 @@
 
 CONFIG = {
     'url': 'api.livechatinc.com',
-    'stable': '3.5',
-    'dev': '3.6',
+    'stable': '3.6',
+    'dev': '3.7',
 }

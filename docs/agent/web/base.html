@@ -40,6 +40,7 @@ from livechat.agent.web.api.v33 import AgentWebV33
 from livechat.agent.web.api.v34 import AgentWebV34
 from livechat.agent.web.api.v35 import AgentWebV35
 from livechat.agent.web.api.v36 import AgentWebV36
+from livechat.agent.web.api.v37 import AgentWebV37
 from livechat.config import CONFIG
 from livechat.utils.structures import AccessToken
 
@@ -60,7 +61,8 @@ class AgentWeb:
         verify: bool = True,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36]:
+    ) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36,
+               AgentWebV37]:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
@@ -97,6 +99,9 @@ class AgentWeb:
                         disable_logging, timeout),
             &#39;3.6&#39;:
             AgentWebV36(access_token, base_url, http2, proxies, verify,
+                        disable_logging, timeout),
+            &#39;3.7&#39;:
+            AgentWebV37(access_token, base_url, http2, proxies, verify,
                         disable_logging, timeout),
         }.get(version)
         if not client:
@@ -136,7 +141,8 @@ API version.</p></div>
         verify: bool = True,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36]:
+    ) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36,
+               AgentWebV37]:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
@@ -174,6 +180,9 @@ API version.</p></div>
             &#39;3.6&#39;:
             AgentWebV36(access_token, base_url, http2, proxies, verify,
                         disable_logging, timeout),
+            &#39;3.7&#39;:
+            AgentWebV37(access_token, base_url, http2, proxies, verify,
+                        disable_logging, timeout),
         }.get(version)
         if not client:
             raise ValueError(&#39;Provided version does not exist.&#39;)
@@ -182,7 +191,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.agent.web.base.AgentWeb.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>access_token: Union[AccessToken, str], version: str = '3.5', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.agent.web.api.v33.AgentWebV33" href="api/v33.html#livechat.agent.web.api.v33.AgentWebV33">AgentWebV33</a>, <a title="livechat.agent.web.api.v34.AgentWebV34" href="api/v34.html#livechat.agent.web.api.v34.AgentWebV34">AgentWebV34</a>, <a title="livechat.agent.web.api.v35.AgentWebV35" href="api/v35.html#livechat.agent.web.api.v35.AgentWebV35">AgentWebV35</a>, <a title="livechat.agent.web.api.v36.AgentWebV36" href="api/v36.html#livechat.agent.web.api.v36.AgentWebV36">AgentWebV36</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>access_token: Union[AccessToken, str], version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.agent.web.api.v33.AgentWebV33" href="api/v33.html#livechat.agent.web.api.v33.AgentWebV33">AgentWebV33</a>, <a title="livechat.agent.web.api.v34.AgentWebV34" href="api/v34.html#livechat.agent.web.api.v34.AgentWebV34">AgentWebV34</a>, <a title="livechat.agent.web.api.v35.AgentWebV35" href="api/v35.html#livechat.agent.web.api.v35.AgentWebV35">AgentWebV35</a>, <a title="livechat.agent.web.api.v36.AgentWebV36" href="api/v36.html#livechat.agent.web.api.v36.AgentWebV36">AgentWebV36</a>, <a title="livechat.agent.web.api.v37.AgentWebV37" href="api/v37.html#livechat.agent.web.api.v37.AgentWebV37">AgentWebV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific API version.</p>
@@ -232,7 +241,8 @@ def get_client(
     verify: bool = True,
     disable_logging: bool = False,
     timeout: float = httpx.Timeout(15)
-) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36]:
+) -&gt; Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36,
+           AgentWebV37]:
     &#39;&#39;&#39; Returns client for specific API version.
 
         Args:
@@ -269,6 +279,9 @@ def get_client(
                     disable_logging, timeout),
         &#39;3.6&#39;:
         AgentWebV36(access_token, base_url, http2, proxies, verify,
+                    disable_logging, timeout),
+        &#39;3.7&#39;:
+        AgentWebV37(access_token, base_url, http2, proxies, verify,
                     disable_logging, timeout),
     }.get(version)
     if not client:

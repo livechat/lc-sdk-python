@@ -9,6 +9,7 @@ from livechat.agent.rtm.api.v33 import AgentRtmV33
 from livechat.agent.rtm.api.v34 import AgentRtmV34
 from livechat.agent.rtm.api.v35 import AgentRtmV35
 from livechat.agent.rtm.api.v36 import AgentRtmV36
+from livechat.agent.rtm.api.v37 import AgentRtmV37
 from livechat.config import CONFIG
 
 stable_version = CONFIG.get('stable')
@@ -22,7 +23,8 @@ class AgentRTM:
         version: str = stable_version,
         base_url: str = api_url,
         header: Union[list, dict, Callable, None] = None,
-    ) -> Union[AgentRtmV33, AgentRtmV34, AgentRtmV35, AgentRtmV36]:
+    ) -> Union[AgentRtmV33, AgentRtmV34, AgentRtmV35, AgentRtmV36,
+               AgentRtmV37]:
         ''' Returns client for specific Agent RTM version.
 
             Args:
@@ -42,6 +44,7 @@ class AgentRTM:
             '3.4': AgentRtmV34,
             '3.5': AgentRtmV35,
             '3.6': AgentRtmV36,
+            '3.7': AgentRtmV37,
         }.get(version)
         if not client:
             raise ValueError('Provided version does not exist.')

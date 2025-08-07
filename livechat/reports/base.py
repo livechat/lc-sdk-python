@@ -14,6 +14,7 @@ from livechat.reports.api.v33 import ReportsApiV33
 from livechat.reports.api.v34 import ReportsApiV34
 from livechat.reports.api.v35 import ReportsApiV35
 from livechat.reports.api.v36 import ReportsApiV36
+from livechat.reports.api.v37 import ReportsApiV37
 from livechat.utils.structures import AccessToken
 
 stable_version = CONFIG.get('stable')
@@ -33,7 +34,8 @@ class ReportsApi:
         verify: bool = True,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -> Union[ReportsApiV33, ReportsApiV34, ReportsApiV35, ReportsApiV36]:
+    ) -> Union[ReportsApiV33, ReportsApiV34, ReportsApiV35, ReportsApiV36,
+               ReportsApiV37]:
         ''' Returns client for specific Reports API version.
 
             Args:
@@ -70,6 +72,9 @@ class ReportsApi:
                           disable_logging, timeout),
             '3.6':
             ReportsApiV36(token, base_url, http2, proxies, verify,
+                          disable_logging, timeout),
+            '3.7':
+            ReportsApiV37(token, base_url, http2, proxies, verify,
                           disable_logging, timeout),
         }.get(version)
         if not client:
