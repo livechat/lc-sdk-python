@@ -651,31 +651,6 @@ class AgentRtmV37:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_customer&#39;, &#39;payload&#39;: payload})
 
-    def create_customer(self,
-                        name: str = None,
-                        email: str = None,
-                        avatar: str = None,
-                        session_fields: list = None,
-                        payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Creates a new Customer user type.
-
-            Args:
-                name (str): Customer&#39;s name.
-                email (str): Customer&#39;s email.
-                avatar (str): URL of the Customer&#39;s avatar.
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                        Respects the order of items.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;create_customer&#39;, &#39;payload&#39;: payload})
-
     def update_customer(self,
                         id: str = None,
                         name: str = None,
@@ -1709,31 +1684,6 @@ class AgentRtmV37:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;get_customer&#39;, &#39;payload&#39;: payload})
 
-    def create_customer(self,
-                        name: str = None,
-                        email: str = None,
-                        avatar: str = None,
-                        session_fields: list = None,
-                        payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Creates a new Customer user type.
-
-            Args:
-                name (str): Customer&#39;s name.
-                email (str): Customer&#39;s email.
-                avatar (str): URL of the Customer&#39;s avatar.
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                        Respects the order of items.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;create_customer&#39;, &#39;payload&#39;: payload})
-
     def update_customer(self,
                         id: str = None,
                         name: str = None,
@@ -2315,62 +2265,6 @@ It overrides all other parameters provided for the method.</dd>
 <pre><code class="python">def close_connection(self) -&gt; None:
     &#39;&#39;&#39; Closes WebSocket connection. &#39;&#39;&#39;
     self.ws.close()</code></pre>
-</details>
-</dd>
-<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.create_customer"><code class="name flex">
-<span>def <span class="ident">create_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Creates a new Customer user type.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Customer's name.</dd>
-<dt><strong><code>email</code></strong> :&ensp;<code>str</code></dt>
-<dd>Customer's email.</dd>
-<dt><strong><code>avatar</code></strong> :&ensp;<code>str</code></dt>
-<dd>URL of the Customer's avatar.</dd>
-<dt><strong><code>session_fields</code></strong> :&ensp;<code>list</code></dt>
-<dd>An array of custom object-enclosed key:value pairs.
-Respects the order of items.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>RtmResponse</code></dt>
-<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
-<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def create_customer(self,
-                    name: str = None,
-                    email: str = None,
-                    avatar: str = None,
-                    session_fields: list = None,
-                    payload: dict = None) -&gt; RtmResponse:
-    &#39;&#39;&#39; Creates a new Customer user type.
-
-        Args:
-            name (str): Customer&#39;s name.
-            email (str): Customer&#39;s email.
-            avatar (str): URL of the Customer&#39;s avatar.
-            session_fields (list): An array of custom object-enclosed key:value pairs.
-                    Respects the order of items.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            RtmResponse: RTM response structure (`request_id`, `action`,
-                         `type`, `success` and `payload` properties)
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({&#39;action&#39;: &#39;create_customer&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v37.AgentRtmV37.deactivate_chat"><code class="name flex">
@@ -4373,7 +4267,6 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.ban_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.ban_customer">ban_customer</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.change_push_notifications" href="#livechat.agent.rtm.api.v37.AgentRtmV37.change_push_notifications">change_push_notifications</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.close_connection" href="#livechat.agent.rtm.api.v37.AgentRtmV37.close_connection">close_connection</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.create_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.create_customer">create_customer</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.deactivate_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.deactivate_chat">deactivate_chat</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.delete_chat_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.delete_chat_properties">delete_chat_properties</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.delete_event_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.delete_event_properties">delete_event_properties</a></code></li>
