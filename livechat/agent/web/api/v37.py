@@ -732,37 +732,6 @@ class AgentWebV37(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def create_customer(self,
-                        name: str = None,
-                        email: str = None,
-                        avatar: str = None,
-                        session_fields: list = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
-        ''' Creates a new Customer user type.
-
-            Args:
-                name (str): Customer's name.
-                email (str): Customer's email.
-                avatar (str): URL of the Customer's avatar
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                                       Respects the order of items.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/create_customer',
-                                 json=payload,
-                                 headers=headers)
-
     def update_customer(self,
                         id: str = None,
                         name: str = None,

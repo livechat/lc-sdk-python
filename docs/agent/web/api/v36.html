@@ -761,37 +761,6 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def create_customer(self,
-                        name: str = None,
-                        email: str = None,
-                        avatar: str = None,
-                        session_fields: list = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Creates a new Customer user type.
-
-            Args:
-                name (str): Customer&#39;s name.
-                email (str): Customer&#39;s email.
-                avatar (str): URL of the Customer&#39;s avatar
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                                       Respects the order of items.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/create_customer&#39;,
-                                 json=payload,
-                                 headers=headers)
-
     def update_customer(self,
                         id: str = None,
                         name: str = None,
@@ -1883,37 +1852,6 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def create_customer(self,
-                        name: str = None,
-                        email: str = None,
-                        avatar: str = None,
-                        session_fields: list = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Creates a new Customer user type.
-
-            Args:
-                name (str): Customer&#39;s name.
-                email (str): Customer&#39;s email.
-                avatar (str): URL of the Customer&#39;s avatar
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                                       Respects the order of items.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/create_customer&#39;,
-                                 json=payload,
-                                 headers=headers)
-
     def update_customer(self,
                         id: str = None,
                         name: str = None,
@@ -2405,72 +2343,6 @@ which contains a server’s response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/ban_customer&#39;,
-                             json=payload,
-                             headers=headers)</code></pre>
-</details>
-</dd>
-<dt id="livechat.agent.web.api.v36.AgentWebV36.create_customer"><code class="name flex">
-<span>def <span class="ident">create_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Creates a new Customer user type.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>Customer's name.</dd>
-<dt><strong><code>email</code></strong> :&ensp;<code>str</code></dt>
-<dd>Customer's email.</dd>
-<dt><strong><code>avatar</code></strong> :&ensp;<code>str</code></dt>
-<dd>URL of the Customer's avatar</dd>
-<dt><strong><code>session_fields</code></strong> :&ensp;<code>list</code></dt>
-<dd>An array of custom object-enclosed key:value pairs.
-Respects the order of items.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def create_customer(self,
-                    name: str = None,
-                    email: str = None,
-                    avatar: str = None,
-                    session_fields: list = None,
-                    payload: dict = None,
-                    headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Creates a new Customer user type.
-
-        Args:
-            name (str): Customer&#39;s name.
-            email (str): Customer&#39;s email.
-            avatar (str): URL of the Customer&#39;s avatar
-            session_fields (list): An array of custom object-enclosed key:value pairs.
-                                   Respects the order of items.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/create_customer&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -4605,7 +4477,6 @@ which contains a server’s response to an HTTP request.</dd>
 <ul class="">
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.add_user_to_chat" href="#livechat.agent.web.api.v36.AgentWebV36.add_user_to_chat">add_user_to_chat</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.ban_customer" href="#livechat.agent.web.api.v36.AgentWebV36.ban_customer">ban_customer</a></code></li>
-<li><code><a title="livechat.agent.web.api.v36.AgentWebV36.create_customer" href="#livechat.agent.web.api.v36.AgentWebV36.create_customer">create_customer</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.deactivate_chat" href="#livechat.agent.web.api.v36.AgentWebV36.deactivate_chat">deactivate_chat</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.delete_chat_properties" href="#livechat.agent.web.api.v36.AgentWebV36.delete_chat_properties">delete_chat_properties</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.delete_event_properties" href="#livechat.agent.web.api.v36.AgentWebV36.delete_event_properties">delete_event_properties</a></code></li>

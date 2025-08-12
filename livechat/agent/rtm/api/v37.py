@@ -622,31 +622,6 @@ class AgentRtmV37:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'get_customer', 'payload': payload})
 
-    def create_customer(self,
-                        name: str = None,
-                        email: str = None,
-                        avatar: str = None,
-                        session_fields: list = None,
-                        payload: dict = None) -> RtmResponse:
-        ''' Creates a new Customer user type.
-
-            Args:
-                name (str): Customer's name.
-                email (str): Customer's email.
-                avatar (str): URL of the Customer's avatar.
-                session_fields (list): An array of custom object-enclosed key:value pairs.
-                        Respects the order of items.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'create_customer', 'payload': payload})
-
     def update_customer(self,
                         id: str = None,
                         name: str = None,
