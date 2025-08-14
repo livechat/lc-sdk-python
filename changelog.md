@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - Removed support for billing-api.
 - Support for `create_customer` method removed in agent-api v3.6 and later.
+- Support for `incoming_customer` webhook removed in v3.6 and later.
 
 ## [0.4.1] - 2025-04-23
 

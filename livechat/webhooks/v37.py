@@ -178,11 +178,6 @@ class RoutingStatusSet:
 
 
 @dataclass
-class IncomingCustomer:
-    customer: dict
-
-
-@dataclass
 class CustomerSessionFieldsUpdated:
     id: str
     session_fields: list
@@ -370,7 +365,6 @@ action_to_data_class_mapping_v_37 = {
     'thread_tagged': ThreadTagged,
     'thread_untagged': ThreadUntagged,
     'routing_status_set': RoutingStatusSet,
-    'incoming_customer': IncomingCustomer,
     'customer_session_fields_updated': CustomerSessionFieldsUpdated,
     'agent_created': AgentCreated,
     'agent_approved': AgentApproved,
