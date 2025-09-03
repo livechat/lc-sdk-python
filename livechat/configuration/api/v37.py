@@ -13,6 +13,7 @@ from livechat.utils.structures import AccessToken
 
 class ConfigurationApiV37(HttpClient):
     ''' Configuration API client class in version 3.7. '''
+
     def __init__(self,
                  token: Union[AccessToken, str],
                  base_url: str,
@@ -1865,7 +1866,6 @@ class ConfigurationApiV37(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-
 # Greetings
 
     def create_greeting(self,
@@ -2027,5 +2027,126 @@ class ConfigurationApiV37(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f'{self.api_url}/update_greeting',
+                                 json=payload,
+                                 headers=headers)
+
+
+# Canned responses
+
+    def create_canned_response(self,
+                               text: str = None,
+                               tags: list[str] = None,
+                               group_id: int = None,
+                               is_private: bool = None,
+                               payload: dict = None,
+                               headers: dict = None) -> httpx.Response:
+        ''' Creates a new canned response.
+
+            Args:
+                text (str): Canned response text content (max 2000 characters).
+                tags (list[str]): Array of tags (max 20 tags, each max 50 characters).
+                group_id (int): ID of the group the canned response belongs to.
+                is_private (bool): Whether the canned response is private (default: `false`).
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/create_canned_response',
+                                 json=payload,
+                                 headers=headers)
+
+    def update_canned_response(self,
+                               id: int = None,
+                               text: str = None,
+                               tags: list[str] = None,
+                               group_id: int = None,
+                               is_private: bool = None,
+                               payload: dict = None,
+                               headers: dict = None) -> httpx.Response:
+        ''' Updates an existing canned response. All parameters are optional -
+            only provided parameters will be updated.
+
+            Args:
+                id (int): ID of the canned response to update.
+                text (str): New canned response text (max 2000 characters).
+                tags (list[str]): Array of tags (max 20 tags, each max 50 characters).
+                group_id (int): New group ID for the canned response.
+                is_private (bool): Whether the canned response is private.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/update_canned_response',
+                                 json=payload,
+                                 headers=headers)
+
+    def list_canned_responses(self,
+                              group_ids: list[int] = None,
+                              include_private: bool = None,
+                              limit: int = None,
+                              page_id: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -> httpx.Response:
+        ''' Returns a paginated list of canned responses.
+
+            Args:
+                group_ids (list[int]): Filter by specific group IDs
+                                       (if not provided, uses user's accessible groups).
+                include_private (bool): Include private canned responses (default: `false`).
+                limit (int): Number of results per page (1-100, default: 100).
+                page_id (str): Page ID for pagination.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/list_canned_responses',
+                                 json=payload,
+                                 headers=headers)
+
+    def delete_canned_response(self,
+                               id: int = None,
+                               payload: dict = None,
+                               headers: dict = None) -> httpx.Response:
+        ''' Deletes an existing canned response.
+
+            Args:
+                id (int): ID of the canned response to delete.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request.
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/delete_canned_response',
                                  json=payload,
                                  headers=headers)
