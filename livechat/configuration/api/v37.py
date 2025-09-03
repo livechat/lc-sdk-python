@@ -2035,7 +2035,7 @@ class ConfigurationApiV37(HttpClient):
 
     def create_canned_response(self,
                                text: str = None,
-                               tags: list[str] = None,
+                               tags: List[str] = None,
                                group_id: int = None,
                                is_private: bool = None,
                                payload: dict = None,
@@ -2044,7 +2044,7 @@ class ConfigurationApiV37(HttpClient):
 
             Args:
                 text (str): Canned response text content (max 2000 characters).
-                tags (list[str]): Array of tags (max 20 tags, each max 50 characters).
+                tags (List[str]): Array of tags (max 20 tags, each max 50 characters).
                 group_id (int): ID of the group the canned response belongs to.
                 is_private (bool): Whether the canned response is private (default: `false`).
                 payload (dict): Custom payload to be used as request's data.
@@ -2066,7 +2066,7 @@ class ConfigurationApiV37(HttpClient):
     def update_canned_response(self,
                                id: int = None,
                                text: str = None,
-                               tags: list[str] = None,
+                               tags: List[str] = None,
                                group_id: int = None,
                                is_private: bool = None,
                                payload: dict = None,
@@ -2077,7 +2077,7 @@ class ConfigurationApiV37(HttpClient):
             Args:
                 id (int): ID of the canned response to update.
                 text (str): New canned response text (max 2000 characters).
-                tags (list[str]): Array of tags (max 20 tags, each max 50 characters).
+                tags (List[str]): Array of tags (max 20 tags, each max 50 characters).
                 group_id (int): New group ID for the canned response.
                 is_private (bool): Whether the canned response is private.
                 payload (dict): Custom payload to be used as request's data.
@@ -2097,7 +2097,7 @@ class ConfigurationApiV37(HttpClient):
                                  headers=headers)
 
     def list_canned_responses(self,
-                              group_ids: list[int] = None,
+                              group_ids: List[int] = None,
                               include_private: bool = None,
                               limit: int = None,
                               page_id: str = None,
@@ -2106,7 +2106,7 @@ class ConfigurationApiV37(HttpClient):
         ''' Returns a paginated list of canned responses.
 
             Args:
-                group_ids (list[int]): Filter by specific group IDs
+                group_ids (List[int]): Filter by specific group IDs
                                        (if not provided, uses user's accessible groups).
                 include_private (bool): Include private canned responses (default: `false`).
                 limit (int): Number of results per page (1-100, default: 100).
