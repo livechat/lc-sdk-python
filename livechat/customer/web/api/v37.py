@@ -245,10 +245,10 @@ class CustomerWebV37(HttpClient):
            '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f'{self.api_url}/get_dynamic_configuration{self.query_string}',
-            params=payload,
-            headers=headers)
+        payload['organization_id'] = self.organization_id
+        return self.session.get(f'{self.api_url}/get_dynamic_configuration',
+                                params=payload,
+                                headers=headers)
 
     def get_configuration(self,
                           group_id: int = None,
@@ -273,10 +273,10 @@ class CustomerWebV37(HttpClient):
          '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f'{self.api_url}/get_configuration{self.query_string}',
-            params=payload,
-            headers=headers)
+        payload['organization_id'] = self.organization_id
+        return self.session.get(f'{self.api_url}/get_configuration',
+                                params=payload,
+                                headers=headers)
 
 # Events
 
@@ -442,10 +442,10 @@ class CustomerWebV37(HttpClient):
                                 which contains a server’s response to an HTTP request. '''
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f'{self.api_url}/get_localization{self.query_string}',
-            params=payload,
-            headers=headers)
+        payload['organization_id'] = self.organization_id
+        return self.session.get(f'{self.api_url}/get_localization',
+                                params=payload,
+                                headers=headers)
 
 # Properties
 
