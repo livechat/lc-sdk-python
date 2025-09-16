@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bugfixes
 - Fixed version in websocket url for customer-api v3.4 and v3.6.
+- Fixed passing query_params in customer-api WEB client for httpx v0.28.0 compatibility.
 
 ### Removed
 - Removed support for billing-api.
