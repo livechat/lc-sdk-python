@@ -404,6 +404,29 @@ class AgentRtmV36:
             'payload': payload
         })
 
+    def request_thread_summary(self,
+                               chat_id: str = None,
+                               thread_id: str = None,
+                               payload: dict = None) -> RtmResponse:
+        ''' Requests a thread summary.
+
+            Args:
+                chat_id (str): ID of the chat to request thread summary for.
+                thread_id (str): ID of the thread to request summary for.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'request_thread_summary',
+            'payload': payload
+        })
+
 # Properties
 
     def update_chat_properties(self,
