@@ -57,12 +57,12 @@ class AgentRtmV36:
                    limit: int = None,
                    page_id: str = None,
                    payload: dict = None) -> RtmResponse:
-        ''' Returns summaries of the chats an Agent has access to.
+        ''' Returns chat info for the chats an Agent has access to.
 
             Args:
                 filters (dict): Possible request filters. Mustn't change between requests for subsequent pages.
                         Otherwise, the behavior is undefined.
-                sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
+                sort_order (str): Possible values: asc, desc (default). Chat info entries are sorted by the
                         creation date of its last thread.
                 limit (int): Chats limit per page. Default: 10, maximum: 100.
                 page_id (str): Page ID.
