@@ -5,7 +5,6 @@
 from typing import Callable, Union
 
 from livechat.config import CONFIG
-from livechat.customer.rtm.api.v33 import CustomerRtmV33
 from livechat.customer.rtm.api.v34 import CustomerRtmV34
 from livechat.customer.rtm.api.v35 import CustomerRtmV35
 from livechat.customer.rtm.api.v36 import CustomerRtmV36
@@ -21,17 +20,14 @@ class CustomerRTM:
     def get_client(
         version: str = stable_version,
         base_url: str = api_url,
-        license_id: int = None,
         organization_id: str = None,
         header: Union[list, dict, Callable, None] = None,
-    ) -> Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36,
-               CustomerRtmV37]:
+    ) -> Union[CustomerRtmV34, CustomerRtmV35, CustomerRtmV36, CustomerRtmV37]:
         ''' Returns client for specific Customer RTM version.
 
             Args:
                 version (str): API's version. Defaults to the stable version of API.
                 base_url (str): API's base url. Defaults to API's production URL.
-                license_id (int): License ID. Required to use for API version <= 3.3.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
                 header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
                         If the parameter is a callable object, it is called just before the connection attempt.
@@ -43,17 +39,12 @@ class CustomerRTM:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': CustomerRtmV33,
             '3.4': CustomerRtmV34,
             '3.5': CustomerRtmV35,
             '3.6': CustomerRtmV36,
             '3.7': CustomerRtmV37,
         }.get(version)
         client_kwargs = {
-            '3.3': {
-                'license_id': license_id,
-                'base_url': base_url
-            },
             '3.4': {
                 'organization_id': organization_id,
                 'base_url': base_url

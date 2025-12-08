@@ -5,7 +5,6 @@ from __future__ import annotations
 
 from typing import Callable, Union
 
-from livechat.agent.rtm.api.v33 import AgentRtmV33
 from livechat.agent.rtm.api.v34 import AgentRtmV34
 from livechat.agent.rtm.api.v35 import AgentRtmV35
 from livechat.agent.rtm.api.v36 import AgentRtmV36
@@ -23,8 +22,7 @@ class AgentRTM:
         version: str = stable_version,
         base_url: str = api_url,
         header: Union[list, dict, Callable, None] = None,
-    ) -> Union[AgentRtmV33, AgentRtmV34, AgentRtmV35, AgentRtmV36,
-               AgentRtmV37]:
+    ) -> Union[AgentRtmV34, AgentRtmV35, AgentRtmV36, AgentRtmV37]:
         ''' Returns client for specific Agent RTM version.
 
             Args:
@@ -40,7 +38,6 @@ class AgentRTM:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': AgentRtmV33,
             '3.4': AgentRtmV34,
             '3.5': AgentRtmV35,
             '3.6': AgentRtmV36,

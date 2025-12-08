@@ -7,7 +7,6 @@ from typing import Union
 
 import httpx
 
-from livechat.agent.web.api.v33 import AgentWebV33
 from livechat.agent.web.api.v34 import AgentWebV34
 from livechat.agent.web.api.v35 import AgentWebV35
 from livechat.agent.web.api.v36 import AgentWebV36
@@ -32,8 +31,7 @@ class AgentWeb:
         verify: bool = True,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -> Union[AgentWebV33, AgentWebV34, AgentWebV35, AgentWebV36,
-               AgentWebV37]:
+    ) -> Union[AgentWebV34, AgentWebV35, AgentWebV36, AgentWebV37]:
         ''' Returns client for specific API version.
 
             Args:
@@ -59,9 +57,6 @@ class AgentWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3':
-            AgentWebV33(access_token, base_url, http2, proxies, verify,
-                        disable_logging, timeout),
             '3.4':
             AgentWebV34(access_token, base_url, http2, proxies, verify,
                         disable_logging, timeout),
