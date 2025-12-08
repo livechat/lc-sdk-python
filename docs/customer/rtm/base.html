@@ -34,7 +34,6 @@
 from typing import Callable, Union
 
 from livechat.config import CONFIG
-from livechat.customer.rtm.api.v33 import CustomerRtmV33
 from livechat.customer.rtm.api.v34 import CustomerRtmV34
 from livechat.customer.rtm.api.v35 import CustomerRtmV35
 from livechat.customer.rtm.api.v36 import CustomerRtmV36
@@ -50,17 +49,14 @@ class CustomerRTM:
     def get_client(
         version: str = stable_version,
         base_url: str = api_url,
-        license_id: int = None,
         organization_id: str = None,
         header: Union[list, dict, Callable, None] = None,
-    ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36,
-               CustomerRtmV37]:
+    ) -&gt; Union[CustomerRtmV34, CustomerRtmV35, CustomerRtmV36, CustomerRtmV37]:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
                 version (str): API&#39;s version. Defaults to the stable version of API.
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
-                license_id (int): License ID. Required to use for API version &lt;= 3.3.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
                 header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
                         If the parameter is a callable object, it is called just before the connection attempt.
@@ -72,17 +68,12 @@ class CustomerRTM:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: CustomerRtmV33,
             &#39;3.4&#39;: CustomerRtmV34,
             &#39;3.5&#39;: CustomerRtmV35,
             &#39;3.6&#39;: CustomerRtmV36,
             &#39;3.7&#39;: CustomerRtmV37,
         }.get(version)
         client_kwargs = {
-            &#39;3.3&#39;: {
-                &#39;license_id&#39;: license_id,
-                &#39;base_url&#39;: base_url
-            },
             &#39;3.4&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;base_url&#39;: base_url
@@ -129,17 +120,14 @@ class CustomerRTM:
     def get_client(
         version: str = stable_version,
         base_url: str = api_url,
-        license_id: int = None,
         organization_id: str = None,
         header: Union[list, dict, Callable, None] = None,
-    ) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36,
-               CustomerRtmV37]:
+    ) -&gt; Union[CustomerRtmV34, CustomerRtmV35, CustomerRtmV36, CustomerRtmV37]:
         &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
             Args:
                 version (str): API&#39;s version. Defaults to the stable version of API.
                 base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
-                license_id (int): License ID. Required to use for API version &lt;= 3.3.
                 organization_id (str): Organization ID, replaced license ID in v3.4.
                 header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
                         If the parameter is a callable object, it is called just before the connection attempt.
@@ -151,17 +139,12 @@ class CustomerRTM:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: CustomerRtmV33,
             &#39;3.4&#39;: CustomerRtmV34,
             &#39;3.5&#39;: CustomerRtmV35,
             &#39;3.6&#39;: CustomerRtmV36,
             &#39;3.7&#39;: CustomerRtmV37,
         }.get(version)
         client_kwargs = {
-            &#39;3.3&#39;: {
-                &#39;license_id&#39;: license_id,
-                &#39;base_url&#39;: base_url
-            },
             &#39;3.4&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;base_url&#39;: base_url
@@ -186,7 +169,7 @@ class CustomerRTM:
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.rtm.base.CustomerRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.6', base_url: str = 'api.livechatinc.com', license_id: int = None, organization_id: str = None, header: Union[list, dict, Callable, None] = None) ‑> Union[<a title="livechat.customer.rtm.api.v33.CustomerRtmV33" href="api/v33.html#livechat.customer.rtm.api.v33.CustomerRtmV33">CustomerRtmV33</a>, <a title="livechat.customer.rtm.api.v34.CustomerRtmV34" href="api/v34.html#livechat.customer.rtm.api.v34.CustomerRtmV34">CustomerRtmV34</a>, <a title="livechat.customer.rtm.api.v35.CustomerRtmV35" href="api/v35.html#livechat.customer.rtm.api.v35.CustomerRtmV35">CustomerRtmV35</a>, <a title="livechat.customer.rtm.api.v36.CustomerRtmV36" href="api/v36.html#livechat.customer.rtm.api.v36.CustomerRtmV36">CustomerRtmV36</a>, <a title="livechat.customer.rtm.api.v37.CustomerRtmV37" href="api/v37.html#livechat.customer.rtm.api.v37.CustomerRtmV37">CustomerRtmV37</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.6', base_url: str = 'api.livechatinc.com', organization_id: str = None, header: Union[list, dict, Callable, None] = None) ‑> Union[<a title="livechat.customer.rtm.api.v34.CustomerRtmV34" href="api/v34.html#livechat.customer.rtm.api.v34.CustomerRtmV34">CustomerRtmV34</a>, <a title="livechat.customer.rtm.api.v35.CustomerRtmV35" href="api/v35.html#livechat.customer.rtm.api.v35.CustomerRtmV35">CustomerRtmV35</a>, <a title="livechat.customer.rtm.api.v36.CustomerRtmV36" href="api/v36.html#livechat.customer.rtm.api.v36.CustomerRtmV36">CustomerRtmV36</a>, <a title="livechat.customer.rtm.api.v37.CustomerRtmV37" href="api/v37.html#livechat.customer.rtm.api.v37.CustomerRtmV37">CustomerRtmV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Customer RTM version.</p>
@@ -196,8 +179,6 @@ class CustomerRTM:
 <dd>API's version. Defaults to the stable version of API.</dd>
 <dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
 <dd>API's base url. Defaults to API's production URL.</dd>
-<dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>License ID. Required to use for API version &lt;= 3.3.</dd>
 <dt><strong><code>organization_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>Organization ID, replaced license ID in v3.4.</dd>
 <dt><strong><code>header</code></strong> :&ensp;<code>Union[list, dict, Callable, None]</code></dt>
@@ -219,17 +200,14 @@ If the parameter is a callable object, it is called just before the connection a
 def get_client(
     version: str = stable_version,
     base_url: str = api_url,
-    license_id: int = None,
     organization_id: str = None,
     header: Union[list, dict, Callable, None] = None,
-) -&gt; Union[CustomerRtmV33, CustomerRtmV34, CustomerRtmV35, CustomerRtmV36,
-           CustomerRtmV37]:
+) -&gt; Union[CustomerRtmV34, CustomerRtmV35, CustomerRtmV36, CustomerRtmV37]:
     &#39;&#39;&#39; Returns client for specific Customer RTM version.
 
         Args:
             version (str): API&#39;s version. Defaults to the stable version of API.
             base_url (str): API&#39;s base url. Defaults to API&#39;s production URL.
-            license_id (int): License ID. Required to use for API version &lt;= 3.3.
             organization_id (str): Organization ID, replaced license ID in v3.4.
             header (Union[list, dict, Callable, None]): Custom header for websocket handshake.
                     If the parameter is a callable object, it is called just before the connection attempt.
@@ -241,17 +219,12 @@ def get_client(
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-        &#39;3.3&#39;: CustomerRtmV33,
         &#39;3.4&#39;: CustomerRtmV34,
         &#39;3.5&#39;: CustomerRtmV35,
         &#39;3.6&#39;: CustomerRtmV36,
         &#39;3.7&#39;: CustomerRtmV37,
     }.get(version)
     client_kwargs = {
-        &#39;3.3&#39;: {
-            &#39;license_id&#39;: license_id,
-            &#39;base_url&#39;: base_url
-        },
         &#39;3.4&#39;: {
             &#39;organization_id&#39;: organization_id,
             &#39;base_url&#39;: base_url

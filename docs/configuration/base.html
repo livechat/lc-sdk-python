@@ -40,7 +40,6 @@ from typing import Union
 import httpx
 
 from livechat.config import CONFIG
-from livechat.configuration.api.v33 import ConfigurationApiV33
 from livechat.configuration.api.v34 import ConfigurationApiV34
 from livechat.configuration.api.v35 import ConfigurationApiV35
 from livechat.configuration.api.v36 import ConfigurationApiV36
@@ -64,8 +63,8 @@ class ConfigurationApi:
         verify: bool = True,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
-               ConfigurationApiV36, ConfigurationApiV37]:
+    ) -&gt; Union[ConfigurationApiV34, ConfigurationApiV35, ConfigurationApiV36,
+               ConfigurationApiV37]:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
@@ -91,9 +90,6 @@ class ConfigurationApi:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;:
-            ConfigurationApiV33(token, base_url, http2, proxies, verify,
-                                disable_logging, timeout),
             &#39;3.4&#39;:
             ConfigurationApiV34(token, base_url, http2, proxies, verify,
                                 disable_logging, timeout),
@@ -144,8 +140,8 @@ API version.</p></div>
         verify: bool = True,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
-               ConfigurationApiV36, ConfigurationApiV37]:
+    ) -&gt; Union[ConfigurationApiV34, ConfigurationApiV35, ConfigurationApiV36,
+               ConfigurationApiV37]:
         &#39;&#39;&#39; Returns client for specific Configuration API version.
 
             Args:
@@ -171,9 +167,6 @@ API version.</p></div>
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;:
-            ConfigurationApiV33(token, base_url, http2, proxies, verify,
-                                disable_logging, timeout),
             &#39;3.4&#39;:
             ConfigurationApiV34(token, base_url, http2, proxies, verify,
                                 disable_logging, timeout),
@@ -194,7 +187,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.configuration.base.ConfigurationApi.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>token: Union[AccessToken, str], version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.configuration.api.v33.ConfigurationApiV33" href="api/v33.html#livechat.configuration.api.v33.ConfigurationApiV33">ConfigurationApiV33</a>, <a title="livechat.configuration.api.v34.ConfigurationApiV34" href="api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a>, <a title="livechat.configuration.api.v35.ConfigurationApiV35" href="api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a>, <a title="livechat.configuration.api.v36.ConfigurationApiV36" href="api/v36.html#livechat.configuration.api.v36.ConfigurationApiV36">ConfigurationApiV36</a>, <a title="livechat.configuration.api.v37.ConfigurationApiV37" href="api/v37.html#livechat.configuration.api.v37.ConfigurationApiV37">ConfigurationApiV37</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>token: Union[AccessToken, str], version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.configuration.api.v34.ConfigurationApiV34" href="api/v34.html#livechat.configuration.api.v34.ConfigurationApiV34">ConfigurationApiV34</a>, <a title="livechat.configuration.api.v35.ConfigurationApiV35" href="api/v35.html#livechat.configuration.api.v35.ConfigurationApiV35">ConfigurationApiV35</a>, <a title="livechat.configuration.api.v36.ConfigurationApiV36" href="api/v36.html#livechat.configuration.api.v36.ConfigurationApiV36">ConfigurationApiV36</a>, <a title="livechat.configuration.api.v37.ConfigurationApiV37" href="api/v37.html#livechat.configuration.api.v37.ConfigurationApiV37">ConfigurationApiV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Configuration API version.</p>
@@ -247,8 +240,8 @@ def get_client(
     verify: bool = True,
     disable_logging: bool = False,
     timeout: float = httpx.Timeout(15)
-) -&gt; Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
-           ConfigurationApiV36, ConfigurationApiV37]:
+) -&gt; Union[ConfigurationApiV34, ConfigurationApiV35, ConfigurationApiV36,
+           ConfigurationApiV37]:
     &#39;&#39;&#39; Returns client for specific Configuration API version.
 
         Args:
@@ -274,9 +267,6 @@ def get_client(
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-        &#39;3.3&#39;:
-        ConfigurationApiV33(token, base_url, http2, proxies, verify,
-                            disable_logging, timeout),
         &#39;3.4&#39;:
         ConfigurationApiV34(token, base_url, http2, proxies, verify,
                             disable_logging, timeout),

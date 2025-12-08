@@ -34,7 +34,6 @@ from __future__ import annotations
 
 from typing import Callable, Union
 
-from livechat.agent.rtm.api.v33 import AgentRtmV33
 from livechat.agent.rtm.api.v34 import AgentRtmV34
 from livechat.agent.rtm.api.v35 import AgentRtmV35
 from livechat.agent.rtm.api.v36 import AgentRtmV36
@@ -52,8 +51,7 @@ class AgentRTM:
         version: str = stable_version,
         base_url: str = api_url,
         header: Union[list, dict, Callable, None] = None,
-    ) -&gt; Union[AgentRtmV33, AgentRtmV34, AgentRtmV35, AgentRtmV36,
-               AgentRtmV37]:
+    ) -&gt; Union[AgentRtmV34, AgentRtmV35, AgentRtmV36, AgentRtmV37]:
         &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
             Args:
@@ -69,7 +67,6 @@ class AgentRTM:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: AgentRtmV33,
             &#39;3.4&#39;: AgentRtmV34,
             &#39;3.5&#39;: AgentRtmV35,
             &#39;3.6&#39;: AgentRtmV36,
@@ -105,8 +102,7 @@ class AgentRTM:
         version: str = stable_version,
         base_url: str = api_url,
         header: Union[list, dict, Callable, None] = None,
-    ) -&gt; Union[AgentRtmV33, AgentRtmV34, AgentRtmV35, AgentRtmV36,
-               AgentRtmV37]:
+    ) -&gt; Union[AgentRtmV34, AgentRtmV35, AgentRtmV36, AgentRtmV37]:
         &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
             Args:
@@ -122,7 +118,6 @@ class AgentRTM:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: AgentRtmV33,
             &#39;3.4&#39;: AgentRtmV34,
             &#39;3.5&#39;: AgentRtmV35,
             &#39;3.6&#39;: AgentRtmV36,
@@ -135,7 +130,7 @@ class AgentRTM:
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.agent.rtm.base.AgentRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.6', base_url: str = 'api.livechatinc.com', header: Union[list, dict, Callable, None] = None) ‑> Union[<a title="livechat.agent.rtm.api.v33.AgentRtmV33" href="api/v33.html#livechat.agent.rtm.api.v33.AgentRtmV33">AgentRtmV33</a>, <a title="livechat.agent.rtm.api.v34.AgentRtmV34" href="api/v34.html#livechat.agent.rtm.api.v34.AgentRtmV34">AgentRtmV34</a>, <a title="livechat.agent.rtm.api.v35.AgentRtmV35" href="api/v35.html#livechat.agent.rtm.api.v35.AgentRtmV35">AgentRtmV35</a>, <a title="livechat.agent.rtm.api.v36.AgentRtmV36" href="api/v36.html#livechat.agent.rtm.api.v36.AgentRtmV36">AgentRtmV36</a>, <a title="livechat.agent.rtm.api.v37.AgentRtmV37" href="api/v37.html#livechat.agent.rtm.api.v37.AgentRtmV37">AgentRtmV37</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.6', base_url: str = 'api.livechatinc.com', header: Union[list, dict, Callable, None] = None) ‑> Union[<a title="livechat.agent.rtm.api.v34.AgentRtmV34" href="api/v34.html#livechat.agent.rtm.api.v34.AgentRtmV34">AgentRtmV34</a>, <a title="livechat.agent.rtm.api.v35.AgentRtmV35" href="api/v35.html#livechat.agent.rtm.api.v35.AgentRtmV35">AgentRtmV35</a>, <a title="livechat.agent.rtm.api.v36.AgentRtmV36" href="api/v36.html#livechat.agent.rtm.api.v36.AgentRtmV36">AgentRtmV36</a>, <a title="livechat.agent.rtm.api.v37.AgentRtmV37" href="api/v37.html#livechat.agent.rtm.api.v37.AgentRtmV37">AgentRtmV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Agent RTM version.</p>
@@ -165,8 +160,7 @@ def get_client(
     version: str = stable_version,
     base_url: str = api_url,
     header: Union[list, dict, Callable, None] = None,
-) -&gt; Union[AgentRtmV33, AgentRtmV34, AgentRtmV35, AgentRtmV36,
-           AgentRtmV37]:
+) -&gt; Union[AgentRtmV34, AgentRtmV35, AgentRtmV36, AgentRtmV37]:
     &#39;&#39;&#39; Returns client for specific Agent RTM version.
 
         Args:
@@ -182,7 +176,6 @@ def get_client(
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-        &#39;3.3&#39;: AgentRtmV33,
         &#39;3.4&#39;: AgentRtmV34,
         &#39;3.5&#39;: AgentRtmV35,
         &#39;3.6&#39;: AgentRtmV36,

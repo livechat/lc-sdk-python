@@ -274,10 +274,10 @@ class CustomerWebV37(HttpClient):
            &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f&#39;{self.api_url}/get_dynamic_configuration{self.query_string}&#39;,
-            params=payload,
-            headers=headers)
+        payload[&#39;organization_id&#39;] = self.organization_id
+        return self.session.get(f&#39;{self.api_url}/get_dynamic_configuration&#39;,
+                                params=payload,
+                                headers=headers)
 
     def get_configuration(self,
                           group_id: int = None,
@@ -302,10 +302,10 @@ class CustomerWebV37(HttpClient):
          &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f&#39;{self.api_url}/get_configuration{self.query_string}&#39;,
-            params=payload,
-            headers=headers)
+        payload[&#39;organization_id&#39;] = self.organization_id
+        return self.session.get(f&#39;{self.api_url}/get_configuration&#39;,
+                                params=payload,
+                                headers=headers)
 
 # Events
 
@@ -471,10 +471,10 @@ class CustomerWebV37(HttpClient):
                                 which contains a server’s response to an HTTP request. &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f&#39;{self.api_url}/get_localization{self.query_string}&#39;,
-            params=payload,
-            headers=headers)
+        payload[&#39;organization_id&#39;] = self.organization_id
+        return self.session.get(f&#39;{self.api_url}/get_localization&#39;,
+                                params=payload,
+                                headers=headers)
 
 # Properties
 
@@ -1278,10 +1278,10 @@ class CustomerWebV37(HttpClient):
            &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f&#39;{self.api_url}/get_dynamic_configuration{self.query_string}&#39;,
-            params=payload,
-            headers=headers)
+        payload[&#39;organization_id&#39;] = self.organization_id
+        return self.session.get(f&#39;{self.api_url}/get_dynamic_configuration&#39;,
+                                params=payload,
+                                headers=headers)
 
     def get_configuration(self,
                           group_id: int = None,
@@ -1306,10 +1306,10 @@ class CustomerWebV37(HttpClient):
          &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f&#39;{self.api_url}/get_configuration{self.query_string}&#39;,
-            params=payload,
-            headers=headers)
+        payload[&#39;organization_id&#39;] = self.organization_id
+        return self.session.get(f&#39;{self.api_url}/get_configuration&#39;,
+                                params=payload,
+                                headers=headers)
 
 # Events
 
@@ -1475,10 +1475,10 @@ class CustomerWebV37(HttpClient):
                                 which contains a server’s response to an HTTP request. &#39;&#39;&#39;
         if payload is None:
             payload = prepare_payload(locals())
-        return self.session.get(
-            f&#39;{self.api_url}/get_localization{self.query_string}&#39;,
-            params=payload,
-            headers=headers)
+        payload[&#39;organization_id&#39;] = self.organization_id
+        return self.session.get(f&#39;{self.api_url}/get_localization&#39;,
+                                params=payload,
+                                headers=headers)
 
 # Properties
 
@@ -2613,10 +2613,10 @@ which contains a server’s response to an HTTP request.</dd>
      &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.session.get(
-        f&#39;{self.api_url}/get_configuration{self.query_string}&#39;,
-        params=payload,
-        headers=headers)</code></pre>
+    payload[&#39;organization_id&#39;] = self.organization_id
+    return self.session.get(f&#39;{self.api_url}/get_configuration&#39;,
+                            params=payload,
+                            headers=headers)</code></pre>
 </details>
 </dd>
 <dt id="livechat.customer.web.api.v37.CustomerWebV37.get_customer"><code class="name flex">
@@ -2728,10 +2728,10 @@ which contains a server’s response to an HTTP request.</dd>
        &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.session.get(
-        f&#39;{self.api_url}/get_dynamic_configuration{self.query_string}&#39;,
-        params=payload,
-        headers=headers)</code></pre>
+    payload[&#39;organization_id&#39;] = self.organization_id
+    return self.session.get(f&#39;{self.api_url}/get_dynamic_configuration&#39;,
+                            params=payload,
+                            headers=headers)</code></pre>
 </details>
 </dd>
 <dt id="livechat.customer.web.api.v37.CustomerWebV37.get_form"><code class="name flex">
@@ -2846,10 +2846,10 @@ which contains a server’s response to an HTTP request.</dd>
                             which contains a server’s response to an HTTP request. &#39;&#39;&#39;
     if payload is None:
         payload = prepare_payload(locals())
-    return self.session.get(
-        f&#39;{self.api_url}/get_localization{self.query_string}&#39;,
-        params=payload,
-        headers=headers)</code></pre>
+    payload[&#39;organization_id&#39;] = self.organization_id
+    return self.session.get(f&#39;{self.api_url}/get_localization&#39;,
+                            params=payload,
+                            headers=headers)</code></pre>
 </details>
 </dd>
 <dt id="livechat.customer.web.api.v37.CustomerWebV37.get_predicted_agent"><code class="name flex">
