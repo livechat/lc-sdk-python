@@ -24,7 +24,6 @@ class CustomerWeb:
         API version. '''
     @staticmethod
     def get_client(
-        license_id: int = None,
         access_token: Optional[Union[AccessToken, str]] = None,
         version: str = stable_version,
         base_url: str = api_url,
@@ -67,48 +66,16 @@ class CustomerWeb:
             '3.6': CustomerWebV36,
             '3.7': CustomerWebV37,
         }.get(version)
-        client_kwargs = {
-            '3.4': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-            '3.5': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-            '3.6': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-            '3.7': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-        }.get(version)
         if client:
+            client_kwargs = {
+                'organization_id': organization_id,
+                'access_token': access_token,
+                'base_url': base_url,
+                'http2': http2,
+                'proxies': proxies,
+                'verify': verify,
+                'disable_logging': disable_logging,
+                'timeout': timeout
+            }
             return client(**client_kwargs)
         raise ValueError('Provided version does not exist.')

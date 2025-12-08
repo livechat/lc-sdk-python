@@ -44,24 +44,10 @@ class CustomerRTM:
             '3.6': CustomerRtmV36,
             '3.7': CustomerRtmV37,
         }.get(version)
-        client_kwargs = {
-            '3.4': {
-                'organization_id': organization_id,
-                'base_url': base_url
-            },
-            '3.5': {
-                'organization_id': organization_id,
-                'base_url': base_url
-            },
-            '3.6': {
-                'organization_id': organization_id,
-                'base_url': base_url
-            },
-            '3.7': {
-                'organization_id': organization_id,
-                'base_url': base_url
-            },
-        }.get(version)
         if client:
+            client_kwargs = {
+                'organization_id': organization_id,
+                'base_url': base_url
+            }
             return client(**client_kwargs, header=header)
         raise ValueError('Provided version does not exist.')
