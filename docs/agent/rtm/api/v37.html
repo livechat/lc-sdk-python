@@ -433,6 +433,29 @@ class AgentRtmV37:
             &#39;payload&#39;: payload
         })
 
+    def request_thread_summary(self,
+                               chat_id: str = None,
+                               thread_id: str = None,
+                               payload: dict = None) -&gt; RtmResponse:
+        &#39;&#39;&#39; Requests a thread summary.
+
+            Args:
+                chat_id (str): ID of the chat to request thread summary for.
+                thread_id (str): ID of the thread to request summary for.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;request_thread_summary&#39;,
+            &#39;payload&#39;: payload
+        })
+
 # Properties
 
     def update_chat_properties(self,
@@ -1463,6 +1486,29 @@ class AgentRtmV37:
             payload = prepare_payload(locals())
         return self.ws.send({
             &#39;action&#39;: &#39;send_rich_message_postback&#39;,
+            &#39;payload&#39;: payload
+        })
+
+    def request_thread_summary(self,
+                               chat_id: str = None,
+                               thread_id: str = None,
+                               payload: dict = None) -&gt; RtmResponse:
+        &#39;&#39;&#39; Requests a thread summary.
+
+            Args:
+                chat_id (str): ID of the chat to request thread summary for.
+                thread_id (str): ID of the thread to request summary for.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;request_thread_summary&#39;,
             &#39;payload&#39;: payload
         })
 
@@ -3256,6 +3302,55 @@ It overrides all other parameters provided for the method.</dd>
     })</code></pre>
 </details>
 </dd>
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.request_thread_summary"><code class="name flex">
+<span>def <span class="ident">request_thread_summary</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Requests a thread summary.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat to request thread summary for.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread to request summary for.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def request_thread_summary(self,
+                           chat_id: str = None,
+                           thread_id: str = None,
+                           payload: dict = None) -&gt; RtmResponse:
+    &#39;&#39;&#39; Requests a thread summary.
+
+        Args:
+            chat_id (str): ID of the chat to request thread summary for.
+            thread_id (str): ID of the thread to request summary for.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({
+        &#39;action&#39;: &#39;request_thread_summary&#39;,
+        &#39;payload&#39;: payload
+    })</code></pre>
+</details>
+</dd>
 <dt id="livechat.agent.rtm.api.v37.AgentRtmV37.resume_chat"><code class="name flex">
 <span>def <span class="ident">resume_chat</span></span>(<span>self, chat: dict = None, active: bool = None, continuous: bool = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
@@ -4286,6 +4381,7 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.multicast" href="#livechat.agent.rtm.api.v37.AgentRtmV37.multicast">multicast</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.open_connection" href="#livechat.agent.rtm.api.v37.AgentRtmV37.open_connection">open_connection</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.remove_user_from_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.remove_user_from_chat">remove_user_from_chat</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.request_thread_summary" href="#livechat.agent.rtm.api.v37.AgentRtmV37.request_thread_summary">request_thread_summary</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.resume_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.resume_chat">resume_chat</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.send_event" href="#livechat.agent.rtm.api.v37.AgentRtmV37.send_event">send_event</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.send_event_preview" href="#livechat.agent.rtm.api.v37.AgentRtmV37.send_event_preview">send_event_preview</a></code></li>

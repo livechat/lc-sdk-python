@@ -37,7 +37,6 @@ from typing import Optional, Union
 import httpx
 
 from livechat.config import CONFIG
-from livechat.customer.web.api.v33 import CustomerWebV33
 from livechat.customer.web.api.v34 import CustomerWebV34
 from livechat.customer.web.api.v35 import CustomerWebV35
 from livechat.customer.web.api.v36 import CustomerWebV36
@@ -64,12 +63,10 @@ class CustomerWeb:
         organization_id: str = None,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -&gt; Union[CustomerWebV33, CustomerWebV34, CustomerWebV35, CustomerWebV36,
-               CustomerWebV37]:
+    ) -&gt; Union[CustomerWebV34, CustomerWebV35, CustomerWebV36, CustomerWebV37]:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
-                license_id (int): License ID. Required to use for API version &lt;= 3.3.
                 access_token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
                 version (str): API&#39;s version. Defaults to the stable version of API.
@@ -94,23 +91,12 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: CustomerWebV33,
             &#39;3.4&#39;: CustomerWebV34,
             &#39;3.5&#39;: CustomerWebV35,
             &#39;3.6&#39;: CustomerWebV36,
             &#39;3.7&#39;: CustomerWebV37,
         }.get(version)
         client_kwargs = {
-            &#39;3.3&#39;: {
-                &#39;license_id&#39;: license_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
             &#39;3.4&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;access_token&#39;: access_token,
@@ -191,12 +177,10 @@ API version.</p></div>
         organization_id: str = None,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -&gt; Union[CustomerWebV33, CustomerWebV34, CustomerWebV35, CustomerWebV36,
-               CustomerWebV37]:
+    ) -&gt; Union[CustomerWebV34, CustomerWebV35, CustomerWebV36, CustomerWebV37]:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
-                license_id (int): License ID. Required to use for API version &lt;= 3.3.
                 access_token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
                 version (str): API&#39;s version. Defaults to the stable version of API.
@@ -221,23 +205,12 @@ API version.</p></div>
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.3&#39;: CustomerWebV33,
             &#39;3.4&#39;: CustomerWebV34,
             &#39;3.5&#39;: CustomerWebV35,
             &#39;3.6&#39;: CustomerWebV36,
             &#39;3.7&#39;: CustomerWebV37,
         }.get(version)
         client_kwargs = {
-            &#39;3.3&#39;: {
-                &#39;license_id&#39;: license_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
             &#39;3.4&#39;: {
                 &#39;organization_id&#39;: organization_id,
                 &#39;access_token&#39;: access_token,
@@ -286,14 +259,12 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.web.base.CustomerWeb.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: Optional[Union[AccessToken, str]] = None, version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.customer.web.api.v33.CustomerWebV33" href="api/v33.html#livechat.customer.web.api.v33.CustomerWebV33">CustomerWebV33</a>, <a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>, <a title="livechat.customer.web.api.v36.CustomerWebV36" href="api/v36.html#livechat.customer.web.api.v36.CustomerWebV36">CustomerWebV36</a>, <a title="livechat.customer.web.api.v37.CustomerWebV37" href="api/v37.html#livechat.customer.web.api.v37.CustomerWebV37">CustomerWebV37</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: Optional[Union[AccessToken, str]] = None, version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>, <a title="livechat.customer.web.api.v36.CustomerWebV36" href="api/v36.html#livechat.customer.web.api.v36.CustomerWebV36">CustomerWebV36</a>, <a title="livechat.customer.web.api.v37.CustomerWebV37" href="api/v37.html#livechat.customer.web.api.v37.CustomerWebV37">CustomerWebV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific API version.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>license_id</code></strong> :&ensp;<code>int</code></dt>
-<dd>License ID. Required to use for API version &lt;= 3.3.</dd>
 <dt><strong><code>access_token</code></strong> :&ensp;<code>str</code></dt>
 <dd>Full token with type (Bearer/Basic) that will be
 used as <code>Authorization</code> header in requests to API.</dd>
@@ -343,12 +314,10 @@ def get_client(
     organization_id: str = None,
     disable_logging: bool = False,
     timeout: float = httpx.Timeout(15)
-) -&gt; Union[CustomerWebV33, CustomerWebV34, CustomerWebV35, CustomerWebV36,
-           CustomerWebV37]:
+) -&gt; Union[CustomerWebV34, CustomerWebV35, CustomerWebV36, CustomerWebV37]:
     &#39;&#39;&#39; Returns client for specific API version.
 
         Args:
-            license_id (int): License ID. Required to use for API version &lt;= 3.3.
             access_token (str): Full token with type (Bearer/Basic) that will be
                          used as `Authorization` header in requests to API.
             version (str): API&#39;s version. Defaults to the stable version of API.
@@ -373,23 +342,12 @@ def get_client(
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-        &#39;3.3&#39;: CustomerWebV33,
         &#39;3.4&#39;: CustomerWebV34,
         &#39;3.5&#39;: CustomerWebV35,
         &#39;3.6&#39;: CustomerWebV36,
         &#39;3.7&#39;: CustomerWebV37,
     }.get(version)
     client_kwargs = {
-        &#39;3.3&#39;: {
-            &#39;license_id&#39;: license_id,
-            &#39;access_token&#39;: access_token,
-            &#39;base_url&#39;: base_url,
-            &#39;http2&#39;: http2,
-            &#39;proxies&#39;: proxies,
-            &#39;verify&#39;: verify,
-            &#39;disable_logging&#39;: disable_logging,
-            &#39;timeout&#39;: timeout
-        },
         &#39;3.4&#39;: {
             &#39;organization_id&#39;: organization_id,
             &#39;access_token&#39;: access_token,

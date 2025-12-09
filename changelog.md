@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - Fixed passing query params in customer-api WEB client for httpx v0.28.0 compatibility.
 
 ### Removed
+- Support for version 3.3.
 - Removed support for billing-api.
 - Support for `create_customer` method removed in agent-api v3.6 and later.
 - Support for `incoming_customer` webhook removed in v3.6 and later.

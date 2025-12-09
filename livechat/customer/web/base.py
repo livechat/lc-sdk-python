@@ -8,7 +8,6 @@ from typing import Optional, Union
 import httpx
 
 from livechat.config import CONFIG
-from livechat.customer.web.api.v33 import CustomerWebV33
 from livechat.customer.web.api.v34 import CustomerWebV34
 from livechat.customer.web.api.v35 import CustomerWebV35
 from livechat.customer.web.api.v36 import CustomerWebV36
@@ -25,7 +24,6 @@ class CustomerWeb:
         API version. '''
     @staticmethod
     def get_client(
-        license_id: int = None,
         access_token: Optional[Union[AccessToken, str]] = None,
         version: str = stable_version,
         base_url: str = api_url,
@@ -35,12 +33,10 @@ class CustomerWeb:
         organization_id: str = None,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -> Union[CustomerWebV33, CustomerWebV34, CustomerWebV35, CustomerWebV36,
-               CustomerWebV37]:
+    ) -> Union[CustomerWebV34, CustomerWebV35, CustomerWebV36, CustomerWebV37]:
         ''' Returns client for specific API version.
 
             Args:
-                license_id (int): License ID. Required to use for API version <= 3.3.
                 access_token (str): Full token with type (Bearer/Basic) that will be
                              used as `Authorization` header in requests to API.
                 version (str): API's version. Defaults to the stable version of API.
@@ -65,64 +61,21 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3': CustomerWebV33,
             '3.4': CustomerWebV34,
             '3.5': CustomerWebV35,
             '3.6': CustomerWebV36,
             '3.7': CustomerWebV37,
         }.get(version)
-        client_kwargs = {
-            '3.3': {
-                'license_id': license_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-            '3.4': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-            '3.5': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-            '3.6': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-            '3.7': {
-                'organization_id': organization_id,
-                'access_token': access_token,
-                'base_url': base_url,
-                'http2': http2,
-                'proxies': proxies,
-                'verify': verify,
-                'disable_logging': disable_logging,
-                'timeout': timeout
-            },
-        }.get(version)
         if client:
+            client_kwargs = {
+                'organization_id': organization_id,
+                'access_token': access_token,
+                'base_url': base_url,
+                'http2': http2,
+                'proxies': proxies,
+                'verify': verify,
+                'disable_logging': disable_logging,
+                'timeout': timeout
+            }
             return client(**client_kwargs)
         raise ValueError('Provided version does not exist.')

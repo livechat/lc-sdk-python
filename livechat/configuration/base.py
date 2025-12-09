@@ -9,7 +9,6 @@ from typing import Union
 import httpx
 
 from livechat.config import CONFIG
-from livechat.configuration.api.v33 import ConfigurationApiV33
 from livechat.configuration.api.v34 import ConfigurationApiV34
 from livechat.configuration.api.v35 import ConfigurationApiV35
 from livechat.configuration.api.v36 import ConfigurationApiV36
@@ -33,8 +32,8 @@ class ConfigurationApi:
         verify: bool = True,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -> Union[ConfigurationApiV33, ConfigurationApiV34, ConfigurationApiV35,
-               ConfigurationApiV36, ConfigurationApiV37]:
+    ) -> Union[ConfigurationApiV34, ConfigurationApiV35, ConfigurationApiV36,
+               ConfigurationApiV37]:
         ''' Returns client for specific Configuration API version.
 
             Args:
@@ -60,9 +59,6 @@ class ConfigurationApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.3':
-            ConfigurationApiV33(token, base_url, http2, proxies, verify,
-                                disable_logging, timeout),
             '3.4':
             ConfigurationApiV34(token, base_url, http2, proxies, verify,
                                 disable_logging, timeout),
