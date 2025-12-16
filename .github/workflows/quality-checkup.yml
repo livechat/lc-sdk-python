@@ -3,6 +3,9 @@
 
 name: Quality checkup
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ master ]
@@ -12,11 +15,11 @@ jobs:
     name: Setup Python, install dependencies, run linter and tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v5
+    - name: Set up Python 3.13.0
+      uses: actions/setup-python@v6
       with:
-         python-version: "3.8"
+         python-version: "3.13.0"
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
