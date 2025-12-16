@@ -23,7 +23,7 @@ def test_get_client_without_args():
         ConfigurationApi.get_client()
     assert str(
         exception.value
-    ) == "get_client() missing 1 required positional argument: 'token'"
+    ) == "ConfigurationApi.get_client() missing 1 required positional argument: 'token'"
 
 
 def test_get_client_without_token():
@@ -32,7 +32,7 @@ def test_get_client_without_token():
         ConfigurationApi.get_client(version='test')
     assert str(
         exception.value
-    ) == "get_client() missing 1 required positional argument: 'token'"
+    ) == "ConfigurationApi.get_client() missing 1 required positional argument: 'token'"
 
 
 def test_get_client_with_non_existing_version():
