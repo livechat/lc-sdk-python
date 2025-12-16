@@ -12,6 +12,9 @@ All notable changes to this project will be documented in this file.
 - New method `request_thread_summary` in agent-api v3.6 and v3.7.
 
 ### Changed
+- Udated python version from 3.8 to 3.13.0 (version 3.8 was unsupported since 2024-10-07).
+- Updated urllib3 dependency to a version which fixes a potential vulnerability.
+- Updated dependencies: websocket-client, certifi, exceptiongroup, h11, h2, hpack, httpcore, hyperframe.
 - Config now points to v3.6 as a stable and 3.7 as a dev-preview version.
 - Improved websocket response collection + extended logging in the websocket client.
 
