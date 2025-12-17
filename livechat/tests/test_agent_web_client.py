@@ -24,7 +24,7 @@ def test_get_client_without_args():
         AgentWeb.get_client()
     assert str(
         exception.value
-    ) == "get_client() missing 1 required positional argument: 'access_token'"
+    ) == "AgentWeb.get_client() missing 1 required positional argument: 'access_token'"
 
 
 def test_get_client_without_access_token():
@@ -33,7 +33,7 @@ def test_get_client_without_access_token():
         AgentWeb.get_client(version='test')
     assert str(
         exception.value
-    ) == "get_client() missing 1 required positional argument: 'access_token'"
+    ) == "AgentWeb.get_client() missing 1 required positional argument: 'access_token'"
 
 
 def test_get_client_with_non_existing_version():
