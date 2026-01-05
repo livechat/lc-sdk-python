@@ -605,6 +605,22 @@ class CustomerRtmV36:
             'action': 'get_predicted_agent',
             'payload': {} if payload is None else payload
         })
+    
+    def request_welcome_message(self, payload: dict = None) -> RtmResponse:
+        ''' Requests a welcome message.
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        return self.ws.send({
+            'action': 'request_welcome_message',
+            'payload': {} if payload is None else payload
+        })
 
     def get_url_info(self,
                      url: str = None,
