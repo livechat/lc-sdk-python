@@ -590,8 +590,8 @@ class CustomerRtmV37:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'get_form', 'payload': payload})
 
-    def get_predicted_agent(self, payload: dict = None) -> RtmResponse:
-        ''' Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+    def request_welcome_message(self, payload: dict = None) -> RtmResponse:
+        ''' Requests a welcome message.
 
             Args:
                 payload (dict): Custom payload to be used as request's data.
@@ -602,7 +602,7 @@ class CustomerRtmV37:
                              `type`, `success` and `payload` properties)
         '''
         return self.ws.send({
-            'action': 'get_predicted_agent',
+            'action': 'request_welcome_message',
             'payload': {} if payload is None else payload
         })
 

@@ -846,10 +846,10 @@ class CustomerWebV37(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def get_predicted_agent(self,
+    def request_welcome_message(self,
                             payload: dict = None,
                             headers: dict = None) -> httpx.Response:
-        ''' Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+        ''' Requests a welcome message.
             To use this method, the Customer needs to be logged in, which can be done via the `login` method.
 
             Args:
@@ -864,7 +864,7 @@ class CustomerWebV37(HttpClient):
                                 which contains a server’s response to an HTTP request.
         '''
         return self.session.post(
-            f'{self.api_url}/get_predicted_agent{self.query_string}',
+            f'{self.api_url}/request_welcome_message{self.query_string}',
             json={} if payload is None else payload,
             headers=headers)
 
