@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Support for new version 3.7.
+- New method `request_welcome_message` in customer-api v3.6 and v3.7.
 - New method `delete_event` in customer-api v3.6.
 - New methods in configuration-api v3.6 for greetings: `create_greeting`, `delete_greeting`, `get_greeting`, `update_greeting`, `list_greetings`.
 - New methods in agent-api v3.6: `send_thinking_indicator`, `send_message_preview`.
@@ -25,6 +26,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - Support for version 3.3.
 - Removed support for billing-api.
+- Support `get_predicted_agent` in customer-api v3.7.
 - Support for `create_customer` method removed in agent-api v3.6 and later.
 - Support for `incoming_customer` webhook removed in v3.6 and later.
 

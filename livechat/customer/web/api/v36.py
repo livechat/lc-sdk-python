@@ -867,6 +867,28 @@ class CustomerWebV36(HttpClient):
             f'{self.api_url}/get_predicted_agent{self.query_string}',
             json={} if payload is None else payload,
             headers=headers)
+    
+    def request_welcome_message(self,
+                            payload: dict = None,
+                            headers: dict = None) -> httpx.Response:
+        ''' Requests a welcome message.
+            To use this method, the Customer needs to be logged in, which can be done via the `login` method.
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server’s response to an HTTP request.
+        '''
+        return self.session.post(
+            f'{self.api_url}/request_welcome_message{self.query_string}',
+            json={} if payload is None else payload,
+            headers=headers)
 
     def get_url_info(self,
                      url: str = None,
