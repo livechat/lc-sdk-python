@@ -46,12 +46,12 @@ class CustomerWebV36(HttpClient):
                    page_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -> httpx.Response:
-        ''' Returns summaries of the chats a Customer participated in.
+        ''' Returns chat info for the chats a Customer participated in.
 
             Args:
                 limit (int): Limit of results per page. Default: 10, maximum: 25.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date of its last thread.
+                                  Chat info entries are sorted by the creation date of its last thread.
                 page_id (str): ID of the page with paginated results.
                 payload (dict): Custom payload to be used as request's data.
                                 It overrides all other parameters provided for the method.
@@ -84,7 +84,7 @@ class CustomerWebV36(HttpClient):
                 chat_id (str): ID of the chat for which threads are to be listed.
                 limit (str): Limit of results per page. Default: 10, maximum: 25.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date of its last thread.
+                                  Chat info entries are sorted by the creation date of its last thread.
                 page_id (str): ID of the page with paginated results.
                 min_events_count (int): Range: 1-100;
                     Specifies the minimum number of events to be returned in the response.
