@@ -721,45 +721,6 @@ class AgentRtmV34:
             payload = prepare_payload(locals())
         return self.ws.send({'action': 'ban_customer', 'payload': payload})
 
-    def follow_customer(self,
-                        id: str = None,
-                        payload: dict = None) -> RtmResponse:
-        ''' Marks a customer as followed.
-
-            Args:
-                id (str): ID of the Customer. UUID v4 format is required.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({'action': 'follow_customer', 'payload': payload})
-
-    def unfollow_customer(self,
-                          id: str = None,
-                          payload: dict = None) -> RtmResponse:
-        ''' Removes the agent from the list of customer's followers.
-
-            Args:
-                id (str): ID of the Customer. UUID v4 format is required.
-                payload (dict): Custom payload to be used as request's data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            'action': 'unfollow_customer',
-            'payload': payload
-        })
-
 # Status
 
     def login(self,
