@@ -37,14 +37,14 @@ class AgentWebV36(HttpClient):
                    page_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -> httpx.Response:
-        ''' Returns summaries of the chats an Agent has access to.
+        ''' Returns chat info for the chats an Agent has access to.
 
             Args:
                 filters (dict): Possible request filters. Mustn't change between
                                 requests for subsequent pages. Otherwise,
                                 the behavior is undefined.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation
+                                  Chat info entries are sorted by the creation
                                   date of its last thread.
                 limit (int): Limit of results per page. Default: 10, maximum: 100.
                 page_id (str): ID of the page with paginated results.
@@ -142,7 +142,7 @@ class AgentWebV36(HttpClient):
                 filters (dict): Possible request filters.
                 page_id (str): ID of the page with paginated results.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date
+                                  Chat info entries are sorted by the creation date
                                   of its last thread.
                 limit (str): Limit of results per page. Default: 10, maximum: 100.
                 highlights (dict): Use it to highlight the match of filters.query.

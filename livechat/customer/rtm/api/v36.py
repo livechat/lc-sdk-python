@@ -62,11 +62,11 @@ class CustomerRtmV36:
                    sort_order: str = None,
                    page_id: str = None,
                    payload: dict = None) -> RtmResponse:
-        ''' It returns summaries of the chats a Customer participated in.
+        ''' It returns chat info for the chats a Customer participated in.
 
             Args:
                 limit (int): Chat limit. Default: 10, maximum: 25.
-                sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
+                sort_order (str): Possible values: asc, desc (default). Chat info entries are sorted by the
                         creation date of its last thread.
                 page_id (str): Page ID.
                 payload (dict): Custom payload to be used as request's data.
