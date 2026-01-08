@@ -819,60 +819,6 @@ class AgentWebV37(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def follow_customer(self,
-                        id: str = None,
-                        payload: dict = None,
-                        headers: dict = None) -> httpx.Response:
-        ''' Marks a customer as followed. As a result, the requester (an agent)
-            will receive the info about all the changes related to that customer
-            via pushes. Once the customer leaves the website or is unfollowed,
-            the agent will no longer receive that information.
-
-            Args:
-                id (str): ID of the Customer.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/follow_customer',
-                                 json=payload,
-                                 headers=headers)
-
-    def unfollow_customer(self,
-                          id: str = None,
-                          payload: dict = None,
-                          headers: dict = None) -> httpx.Response:
-        ''' Removes the agent from the list of customer's followers. Calling this
-            method on a customer the agent's chatting with will result in success,
-            however, the agent will still receive pushes about the customer's data
-            updates. The unfollowing will take effect once the chat ends.
-
-            Args:
-                id (str): ID of the Customer.
-                payload (dict): Custom payload to be used as request's data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        '''
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f'{self.api_url}/unfollow_customer',
-                                 json=payload,
-                                 headers=headers)
-
 # Status
 
     def set_routing_status(self,
