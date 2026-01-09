@@ -700,6 +700,7 @@ class CustomerWebV36(HttpClient):
 
     def update_customer(self,
                         name: str = None,
+                        name_is_default: bool = None,
                         email: str = None,
                         avatar: str = None,
                         session_fields: list = None,
@@ -709,6 +710,7 @@ class CustomerWebV36(HttpClient):
 
             Args:
                 name (str): Name of the customer.
+                name_is_default (bool): Flag which states if the name is default.
                 email (str): Email of the customer.
                 avatar (str): The URL of the Customer's avatar.
                 session_fields (list): An array of custom object-enclosed key:value pairs.

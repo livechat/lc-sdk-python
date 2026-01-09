@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 websocket-client= "==1.9.0"
-urllib3 = "==2.6.2"
+urllib3 = "==2.6.3"
 loguru = "==0.7.3"
 idna = "==3.10"
 anyio = "==4.5.2"
