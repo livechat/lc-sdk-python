@@ -439,6 +439,7 @@ class CustomerRtmV37:
 
     def update_customer(self,
                         name: str = None,
+                        name_is_default: bool = None,
                         email: str = None,
                         avatar: str = None,
                         session_fields: list = None,
@@ -447,6 +448,7 @@ class CustomerRtmV37:
 
             Args:
                 name (str): Customer`s name.
+                name_is_default (bool): Flag which states if the name is default.
                 email (str): Customer`s email.
                 avatar (str): Customer`s avatar.
                 session_fields (list): An array of custom object-enclosed key:value pairs.
