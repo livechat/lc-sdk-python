@@ -188,11 +188,11 @@
         },
         "filelock": {
             "hashes": [
-                "sha256:a2241ff4ddde2a7cebddf78e39832509cb045d18ec1a09d7248d6bfc6bfbbe64",
-                "sha256:fbba7237d6ea277175a32c54bb71ef814a8546d8601269e1bfc388de333974e8"
+                "sha256:18c57ee915c7ec61cff0ecf7f0f869936c7c30191bb0cf406f1341778d0834e1",
+                "sha256:4b0dda527ee31078689fc205ec4f1c1bf7d56cf88b6dc9426c4f230e46c2dce1"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==3.20.2"
+            "version": "==3.20.3"
         },
         "flake8": {
             "hashes": [
@@ -519,11 +519,12 @@
         },
         "virtualenv": {
             "hashes": [
-                "sha256:a3601f540b515a7983508113f14e78993841adc3d83710fa70f0ac50f43b23ed",
-                "sha256:e7ded577f3af534fd0886d4ca03277f5542053bedb98a70a989d3c22cfa5c9ac"
+                "sha256:575a8d6b124ef88f6f51d56d656132389f961062a9177016a50e4f507bbcc19f",
+                "sha256:8befb5c81842c641f8ee658481e42641c68b5eab3521d8e092d18320902466ba"
             ],
+            "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==20.36.0"
+            "version": "==20.36.1"
         }
     }
 }
