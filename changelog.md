@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Support for new version 3.7.
+- New method `activate_customer_page` in customer-api v3.6 and v3.7 (rtm).
+- New method `deactivate_customer_page` in customer-api v3.6 and v3.7 (rtm).
 - New method `request_welcome_message` in customer-api v3.6 and v3.7.
 - New method `delete_event` in customer-api v3.6.
 - New methods in configuration-api v3.6 for greetings: `create_greeting`, `delete_greeting`, `get_greeting`, `update_greeting`, `list_greetings`.
