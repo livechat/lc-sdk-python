@@ -562,15 +562,11 @@ class CustomerRtmV37:
 
     def login(self,
               token: Optional[Union[AccessToken, str]] = None,
-              customer_page: dict = None,
-              tab_id: str = None,
               payload: dict = None) -> RtmResponse:
         ''' Logs in customer.
 
             Args:
                 token (str) : OAuth token from the Customer's account.
-                customer_page (dict): Customer's current page with `url` and `title` keys.
-                tab_id (str): Identifier of the customer's browser tab.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 
