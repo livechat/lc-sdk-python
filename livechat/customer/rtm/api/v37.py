@@ -487,6 +487,40 @@ class CustomerRtmV37:
             'payload': payload
         })
 
+    def activate_customer_page(self,
+                               payload: dict = None) -> RtmResponse:
+        ''' Marks the current Customer's page tab as active (focused).
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        return self.ws.send({
+            'action': 'activate_customer_page',
+            'payload': {} if payload is None else payload
+        })
+
+    def deactivate_customer_page(self,
+                                 payload: dict = None) -> RtmResponse:
+        ''' Marks the current Customer's page tab as inactive (unfocused).
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        return self.ws.send({
+            'action': 'deactivate_customer_page',
+            'payload': {} if payload is None else payload
+        })
+
     def set_customer_session_fields(self,
                                     session_fields: list = None,
                                     payload: dict = None) -> RtmResponse:
@@ -528,11 +562,15 @@ class CustomerRtmV37:
 
     def login(self,
               token: Optional[Union[AccessToken, str]] = None,
+              customer_page: dict = None,
+              tab_id: str = None,
               payload: dict = None) -> RtmResponse:
         ''' Logs in customer.
 
             Args:
                 token (str) : OAuth token from the Customer's account.
+                customer_page (dict): Customer's current page with `url` and `title` keys.
+                tab_id (str): Identifier of the customer's browser tab.
                 payload (dict): Custom payload to be used as request's data.
                         It overrides all other parameters provided for the method.
 

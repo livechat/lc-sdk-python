@@ -487,6 +487,40 @@ class CustomerRtmV36:
             'payload': payload
         })
 
+    def activate_customer_page(self,
+                               payload: dict = None) -> RtmResponse:
+        ''' Marks the current Customer's page tab as active (focused).
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        return self.ws.send({
+            'action': 'activate_customer_page',
+            'payload': {} if payload is None else payload
+        })
+
+    def deactivate_customer_page(self,
+                                 payload: dict = None) -> RtmResponse:
+        ''' Marks the current Customer's page tab as inactive (unfocused).
+
+            Args:
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        return self.ws.send({
+            'action': 'deactivate_customer_page',
+            'payload': {} if payload is None else payload
+        })
+
     def set_customer_session_fields(self,
                                     session_fields: list = None,
                                     payload: dict = None) -> RtmResponse:
