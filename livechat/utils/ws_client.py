@@ -79,10 +79,10 @@ class WebsocketClient(WebSocketApp):
             'ping_interval': ping_interval,
         }
         if keep_alive:
-            ws_thread = threading.Thread(target=self.run_forever,
+            ping_thread = threading.Thread(target=self.run_forever,
                                          kwargs=run_forever_kwargs,
                                          daemon=True)
-            ws_thread.start()
+            ping_thread.start()
             self._wait_till_sock_connected(ws_conn_timeout)
             return
         self.run_forever(**run_forever_kwargs)
