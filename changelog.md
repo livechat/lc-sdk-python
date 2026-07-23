@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - New methods in configuration-api v3.7 for canned responses: `create_canned_response`, `update_canned_response`, `list_canned_responses`, `delete_canned_response`.
 - New method `request_thread_summary` in agent-api v3.6 and v3.7.
 - New flag `name_is_default` in method `update_customer` in customer-api v3.6 and v3.7.
+- New field `phone_number` in method `update_customer` in customer-api v3.6 and v3.7.
 - New method in reports-api v3.7: report `campaigns_conversion`.
 
 ### Changed

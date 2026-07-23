@@ -702,6 +702,7 @@ class CustomerWebV36(HttpClient):
                         name: str = None,
                         name_is_default: bool = None,
                         email: str = None,
+                        phone_number: str = None,
                         avatar: str = None,
                         session_fields: list = None,
                         payload: dict = None,
@@ -712,6 +713,7 @@ class CustomerWebV36(HttpClient):
                 name (str): Name of the customer.
                 name_is_default (bool): Flag which states if the name is default.
                 email (str): Email of the customer.
+                phone_number (str): Phone number of the customer.
                 avatar (str): The URL of the Customer's avatar.
                 session_fields (list): An array of custom object-enclosed key:value pairs.
                                        Respects the order of items.

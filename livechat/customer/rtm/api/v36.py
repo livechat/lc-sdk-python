@@ -441,6 +441,7 @@ class CustomerRtmV36:
                         name: str = None,
                         name_is_default: bool = None,
                         email: str = None,
+                        phone_number: str = None,
                         avatar: str = None,
                         session_fields: list = None,
                         payload: dict = None) -> RtmResponse:
@@ -450,6 +451,7 @@ class CustomerRtmV36:
                 name (str): Customer`s name.
                 name_is_default (bool): Flag which states if the name is default.
                 email (str): Customer`s email.
+                phone_number (str): Customer`s phone number.
                 avatar (str): Customer`s avatar.
                 session_fields (list): An array of custom object-enclosed key:value pairs.
                         Respects the order of items.
