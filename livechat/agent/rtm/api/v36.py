@@ -427,6 +427,29 @@ class AgentRtmV36:
             'payload': payload
         })
 
+    def get_thread_transcript(self,
+                              chat_id: str = None,
+                              thread_id: str = None,
+                              payload: dict = None) -> RtmResponse:
+        ''' Returns a plain-text transcript of a given thread.
+
+            Args:
+                chat_id (str): ID of the chat the thread belongs to.
+                thread_id (str): ID of the thread to return the transcript for.
+                payload (dict): Custom payload to be used as request's data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            'action': 'get_thread_transcript',
+            'payload': payload
+        })
+
 # Properties
 
     def update_chat_properties(self,
