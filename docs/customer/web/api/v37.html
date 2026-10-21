@@ -75,12 +75,12 @@ class CustomerWebV37(HttpClient):
                    page_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns summaries of the chats a Customer participated in.
+        &#39;&#39;&#39; Returns chat info for the chats a Customer participated in.
 
             Args:
                 limit (int): Limit of results per page. Default: 10, maximum: 25.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date of its last thread.
+                                  Chat info entries are sorted by the creation date of its last thread.
                 page_id (str): ID of the page with paginated results.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
@@ -113,7 +113,7 @@ class CustomerWebV37(HttpClient):
                 chat_id (str): ID of the chat for which threads are to be listed.
                 limit (str): Limit of results per page. Default: 10, maximum: 25.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date of its last thread.
+                                  Chat info entries are sorted by the creation date of its last thread.
                 page_id (str): ID of the page with paginated results.
                 min_events_count (int): Range: 1-100;
                     Specifies the minimum number of events to be returned in the response.
@@ -729,7 +729,9 @@ class CustomerWebV37(HttpClient):
 
     def update_customer(self,
                         name: str = None,
+                        name_is_default: bool = None,
                         email: str = None,
+                        phone_number: str = None,
                         avatar: str = None,
                         session_fields: list = None,
                         payload: dict = None,
@@ -738,7 +740,9 @@ class CustomerWebV37(HttpClient):
 
             Args:
                 name (str): Name of the customer.
+                name_is_default (bool): Flag which states if the name is default.
                 email (str): Email of the customer.
+                phone_number (str): Phone number of the customer.
                 avatar (str): The URL of the Customer&#39;s avatar.
                 session_fields (list): An array of custom object-enclosed key:value pairs.
                                        Respects the order of items.
@@ -875,10 +879,10 @@ class CustomerWebV37(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def get_predicted_agent(self,
+    def request_welcome_message(self,
                             payload: dict = None,
                             headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+        &#39;&#39;&#39; Requests a welcome message.
             To use this method, the Customer needs to be logged in, which can be done via the `login` method.
 
             Args:
@@ -893,7 +897,7 @@ class CustomerWebV37(HttpClient):
                                 which contains a server’s response to an HTTP request.
         &#39;&#39;&#39;
         return self.session.post(
-            f&#39;{self.api_url}/get_predicted_agent{self.query_string}&#39;,
+            f&#39;{self.api_url}/request_welcome_message{self.query_string}&#39;,
             json={} if payload is None else payload,
             headers=headers)
 
@@ -1079,12 +1083,12 @@ class CustomerWebV37(HttpClient):
                    page_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns summaries of the chats a Customer participated in.
+        &#39;&#39;&#39; Returns chat info for the chats a Customer participated in.
 
             Args:
                 limit (int): Limit of results per page. Default: 10, maximum: 25.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date of its last thread.
+                                  Chat info entries are sorted by the creation date of its last thread.
                 page_id (str): ID of the page with paginated results.
                 payload (dict): Custom payload to be used as request&#39;s data.
                                 It overrides all other parameters provided for the method.
@@ -1117,7 +1121,7 @@ class CustomerWebV37(HttpClient):
                 chat_id (str): ID of the chat for which threads are to be listed.
                 limit (str): Limit of results per page. Default: 10, maximum: 25.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date of its last thread.
+                                  Chat info entries are sorted by the creation date of its last thread.
                 page_id (str): ID of the page with paginated results.
                 min_events_count (int): Range: 1-100;
                     Specifies the minimum number of events to be returned in the response.
@@ -1733,7 +1737,9 @@ class CustomerWebV37(HttpClient):
 
     def update_customer(self,
                         name: str = None,
+                        name_is_default: bool = None,
                         email: str = None,
+                        phone_number: str = None,
                         avatar: str = None,
                         session_fields: list = None,
                         payload: dict = None,
@@ -1742,7 +1748,9 @@ class CustomerWebV37(HttpClient):
 
             Args:
                 name (str): Name of the customer.
+                name_is_default (bool): Flag which states if the name is default.
                 email (str): Email of the customer.
+                phone_number (str): Phone number of the customer.
                 avatar (str): The URL of the Customer&#39;s avatar.
                 session_fields (list): An array of custom object-enclosed key:value pairs.
                                        Respects the order of items.
@@ -1879,10 +1887,10 @@ class CustomerWebV37(HttpClient):
                                  json=payload,
                                  headers=headers)
 
-    def get_predicted_agent(self,
+    def request_welcome_message(self,
                             payload: dict = None,
                             headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
+        &#39;&#39;&#39; Requests a welcome message.
             To use this method, the Customer needs to be logged in, which can be done via the `login` method.
 
             Args:
@@ -1897,7 +1905,7 @@ class CustomerWebV37(HttpClient):
                                 which contains a server’s response to an HTTP request.
         &#39;&#39;&#39;
         return self.session.post(
-            f&#39;{self.api_url}/get_predicted_agent{self.query_string}&#39;,
+            f&#39;{self.api_url}/request_welcome_message{self.query_string}&#39;,
             json={} if payload is None else payload,
             headers=headers)
 
@@ -2852,55 +2860,6 @@ which contains a server’s response to an HTTP request.</dd>
                             headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.customer.web.api.v37.CustomerWebV37.get_predicted_agent"><code class="name flex">
-<span>def <span class="ident">get_predicted_agent</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gets the predicted Agent - the one the Customer will chat with when the chat starts.
-To use this method, the Customer needs to be logged in, which can be done via the <code>login</code> method.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_predicted_agent(self,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Gets the predicted Agent - the one the Customer will chat with when the chat starts.
-        To use this method, the Customer needs to be logged in, which can be done via the `login` method.
-
-        Args:
-            payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    return self.session.post(
-        f&#39;{self.api_url}/get_predicted_agent{self.query_string}&#39;,
-        json={} if payload is None else payload,
-        headers=headers)</code></pre>
-</details>
-</dd>
 <dt id="livechat.customer.web.api.v37.CustomerWebV37.get_url_info"><code class="name flex">
 <span>def <span class="ident">get_url_info</span></span>(<span>self, url: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -2957,14 +2916,14 @@ which contains a server’s response to an HTTP request.</dd>
 <span>def <span class="ident">list_chats</span></span>(<span>self, limit: int = None, sort_order: str = None, page_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns summaries of the chats a Customer participated in.</p>
+<div class="desc"><p>Returns chat info for the chats a Customer participated in.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
 <dd>Limit of results per page. Default: 10, maximum: 25.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: asc, desc (default).
-Chat summaries are sorted by the creation date of its last thread.</dd>
+Chat info entries are sorted by the creation date of its last thread.</dd>
 <dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the page with paginated results.</dd>
 <dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
@@ -2991,12 +2950,12 @@ which contains a server’s response to an HTTP request.</dd>
                page_id: str = None,
                payload: dict = None,
                headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns summaries of the chats a Customer participated in.
+    &#39;&#39;&#39; Returns chat info for the chats a Customer participated in.
 
         Args:
             limit (int): Limit of results per page. Default: 10, maximum: 25.
             sort_order (str): Possible values: asc, desc (default).
-                              Chat summaries are sorted by the creation date of its last thread.
+                              Chat info entries are sorted by the creation date of its last thread.
             page_id (str): ID of the page with paginated results.
             payload (dict): Custom payload to be used as request&#39;s data.
                             It overrides all other parameters provided for the method.
@@ -3199,7 +3158,7 @@ which contains a server’s response to an HTTP request.</dd>
 <dd>Limit of results per page. Default: 10, maximum: 25.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: asc, desc (default).
-Chat summaries are sorted by the creation date of its last thread.</dd>
+Chat info entries are sorted by the creation date of its last thread.</dd>
 <dt><strong><code>page_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>ID of the page with paginated results.</dd>
 <dt><strong><code>min_events_count</code></strong> :&ensp;<code>int</code></dt>
@@ -3237,7 +3196,7 @@ which contains a server’s response to an HTTP request.</dd>
             chat_id (str): ID of the chat for which threads are to be listed.
             limit (str): Limit of results per page. Default: 10, maximum: 25.
             sort_order (str): Possible values: asc, desc (default).
-                              Chat summaries are sorted by the creation date of its last thread.
+                              Chat info entries are sorted by the creation date of its last thread.
             page_id (str): ID of the page with paginated results.
             min_events_count (int): Range: 1-100;
                 Specifies the minimum number of events to be returned in the response.
@@ -3366,6 +3325,55 @@ which contains a server’s response to an HTTP request.</dd>
     return self.session.post(
         f&#39;{self.api_url}/request_email_verification{self.query_string}&#39;,
         json=payload,
+        headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.customer.web.api.v37.CustomerWebV37.request_welcome_message"><code class="name flex">
+<span>def <span class="ident">request_welcome_message</span></span>(<span>self, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Requests a welcome message.
+To use this method, the Customer needs to be logged in, which can be done via the <code>login</code> method.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server’s response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def request_welcome_message(self,
+                        payload: dict = None,
+                        headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Requests a welcome message.
+        To use this method, the Customer needs to be logged in, which can be done via the `login` method.
+
+        Args:
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server’s response to an HTTP request.
+    &#39;&#39;&#39;
+    return self.session.post(
+        f&#39;{self.api_url}/request_welcome_message{self.query_string}&#39;,
+        json={} if payload is None else payload,
         headers=headers)</code></pre>
 </details>
 </dd>
@@ -3793,7 +3801,7 @@ which contains a server’s response to an HTTP request.</dd>
 </details>
 </dd>
 <dt id="livechat.customer.web.api.v37.CustomerWebV37.update_customer"><code class="name flex">
-<span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, email: str = None, avatar: str = None, session_fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+<span>def <span class="ident">update_customer</span></span>(<span>self, name: str = None, name_is_default: bool = None, email: str = None, phone_number: str = None, avatar: str = None, session_fields: list = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates Customer's properties.</p>
@@ -3801,8 +3809,12 @@ which contains a server’s response to an HTTP request.</dd>
 <dl>
 <dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
 <dd>Name of the customer.</dd>
+<dt><strong><code>name_is_default</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Flag which states if the name is default.</dd>
 <dt><strong><code>email</code></strong> :&ensp;<code>str</code></dt>
 <dd>Email of the customer.</dd>
+<dt><strong><code>phone_number</code></strong> :&ensp;<code>str</code></dt>
+<dd>Phone number of the customer.</dd>
 <dt><strong><code>avatar</code></strong> :&ensp;<code>str</code></dt>
 <dd>The URL of the Customer's avatar.</dd>
 <dt><strong><code>session_fields</code></strong> :&ensp;<code>list</code></dt>
@@ -3828,7 +3840,9 @@ which contains a server’s response to an HTTP request.</dd>
 </summary>
 <pre><code class="python">def update_customer(self,
                     name: str = None,
+                    name_is_default: bool = None,
                     email: str = None,
+                    phone_number: str = None,
                     avatar: str = None,
                     session_fields: list = None,
                     payload: dict = None,
@@ -3837,7 +3851,9 @@ which contains a server’s response to an HTTP request.</dd>
 
         Args:
             name (str): Name of the customer.
+            name_is_default (bool): Flag which states if the name is default.
             email (str): Email of the customer.
+            phone_number (str): Phone number of the customer.
             avatar (str): The URL of the Customer&#39;s avatar.
             session_fields (list): An array of custom object-enclosed key:value pairs.
                                    Respects the order of items.
@@ -4066,7 +4082,6 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.get_dynamic_configuration" href="#livechat.customer.web.api.v37.CustomerWebV37.get_dynamic_configuration">get_dynamic_configuration</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.get_form" href="#livechat.customer.web.api.v37.CustomerWebV37.get_form">get_form</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.get_localization" href="#livechat.customer.web.api.v37.CustomerWebV37.get_localization">get_localization</a></code></li>
-<li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.get_predicted_agent" href="#livechat.customer.web.api.v37.CustomerWebV37.get_predicted_agent">get_predicted_agent</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.get_url_info" href="#livechat.customer.web.api.v37.CustomerWebV37.get_url_info">get_url_info</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.list_chats" href="#livechat.customer.web.api.v37.CustomerWebV37.list_chats">list_chats</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.list_group_properties" href="#livechat.customer.web.api.v37.CustomerWebV37.list_group_properties">list_group_properties</a></code></li>
@@ -4075,6 +4090,7 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.list_threads" href="#livechat.customer.web.api.v37.CustomerWebV37.list_threads">list_threads</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.mark_events_as_seen" href="#livechat.customer.web.api.v37.CustomerWebV37.mark_events_as_seen">mark_events_as_seen</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.request_email_verification" href="#livechat.customer.web.api.v37.CustomerWebV37.request_email_verification">request_email_verification</a></code></li>
+<li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.request_welcome_message" href="#livechat.customer.web.api.v37.CustomerWebV37.request_welcome_message">request_welcome_message</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.resume_chat" href="#livechat.customer.web.api.v37.CustomerWebV37.resume_chat">resume_chat</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.send_event" href="#livechat.customer.web.api.v37.CustomerWebV37.send_event">send_event</a></code></li>
 <li><code><a title="livechat.customer.web.api.v37.CustomerWebV37.send_rich_message_postback" href="#livechat.customer.web.api.v37.CustomerWebV37.send_rich_message_postback">send_rich_message_postback</a></code></li>

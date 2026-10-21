@@ -73,25 +73,11 @@ class CustomerRTM:
             &#39;3.6&#39;: CustomerRtmV36,
             &#39;3.7&#39;: CustomerRtmV37,
         }.get(version)
-        client_kwargs = {
-            &#39;3.4&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;base_url&#39;: base_url
-            },
-            &#39;3.5&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;base_url&#39;: base_url
-            },
-            &#39;3.6&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;base_url&#39;: base_url
-            },
-            &#39;3.7&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;base_url&#39;: base_url
-            },
-        }.get(version)
         if client:
+            client_kwargs = {
+                &#39;organization_id&#39;: organization_id,
+                &#39;base_url&#39;: base_url
+            }
             return client(**client_kwargs, header=header)
         raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>
@@ -144,32 +130,18 @@ class CustomerRTM:
             &#39;3.6&#39;: CustomerRtmV36,
             &#39;3.7&#39;: CustomerRtmV37,
         }.get(version)
-        client_kwargs = {
-            &#39;3.4&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;base_url&#39;: base_url
-            },
-            &#39;3.5&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;base_url&#39;: base_url
-            },
-            &#39;3.6&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;base_url&#39;: base_url
-            },
-            &#39;3.7&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;base_url&#39;: base_url
-            },
-        }.get(version)
         if client:
+            client_kwargs = {
+                &#39;organization_id&#39;: organization_id,
+                &#39;base_url&#39;: base_url
+            }
             return client(**client_kwargs, header=header)
         raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.rtm.base.CustomerRTM.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.6', base_url: str = 'api.livechatinc.com', organization_id: str = None, header: Union[list, dict, Callable, None] = None) ‑> Union[<a title="livechat.customer.rtm.api.v34.CustomerRtmV34" href="api/v34.html#livechat.customer.rtm.api.v34.CustomerRtmV34">CustomerRtmV34</a>, <a title="livechat.customer.rtm.api.v35.CustomerRtmV35" href="api/v35.html#livechat.customer.rtm.api.v35.CustomerRtmV35">CustomerRtmV35</a>, <a title="livechat.customer.rtm.api.v36.CustomerRtmV36" href="api/v36.html#livechat.customer.rtm.api.v36.CustomerRtmV36">CustomerRtmV36</a>, <a title="livechat.customer.rtm.api.v37.CustomerRtmV37" href="api/v37.html#livechat.customer.rtm.api.v37.CustomerRtmV37">CustomerRtmV37</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>version: str = '3.6', base_url: str = 'api.livechatinc.com', organization_id: str = None, header: Union[list, dict, Callable, ForwardRef(None)] = None) ‑> Union[<a title="livechat.customer.rtm.api.v34.CustomerRtmV34" href="api/v34.html#livechat.customer.rtm.api.v34.CustomerRtmV34">CustomerRtmV34</a>, <a title="livechat.customer.rtm.api.v35.CustomerRtmV35" href="api/v35.html#livechat.customer.rtm.api.v35.CustomerRtmV35">CustomerRtmV35</a>, <a title="livechat.customer.rtm.api.v36.CustomerRtmV36" href="api/v36.html#livechat.customer.rtm.api.v36.CustomerRtmV36">CustomerRtmV36</a>, <a title="livechat.customer.rtm.api.v37.CustomerRtmV37" href="api/v37.html#livechat.customer.rtm.api.v37.CustomerRtmV37">CustomerRtmV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific Customer RTM version.</p>
@@ -224,25 +196,11 @@ def get_client(
         &#39;3.6&#39;: CustomerRtmV36,
         &#39;3.7&#39;: CustomerRtmV37,
     }.get(version)
-    client_kwargs = {
-        &#39;3.4&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;base_url&#39;: base_url
-        },
-        &#39;3.5&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;base_url&#39;: base_url
-        },
-        &#39;3.6&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;base_url&#39;: base_url
-        },
-        &#39;3.7&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;base_url&#39;: base_url
-        },
-    }.get(version)
     if client:
+        client_kwargs = {
+            &#39;organization_id&#39;: organization_id,
+            &#39;base_url&#39;: base_url
+        }
         return client(**client_kwargs, header=header)
     raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>

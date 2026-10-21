@@ -53,7 +53,6 @@ class CustomerWeb:
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(
-        license_id: int = None,
         access_token: Optional[Union[AccessToken, str]] = None,
         version: str = stable_version,
         base_url: str = api_url,
@@ -96,49 +95,17 @@ class CustomerWeb:
             &#39;3.6&#39;: CustomerWebV36,
             &#39;3.7&#39;: CustomerWebV37,
         }.get(version)
-        client_kwargs = {
-            &#39;3.4&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
-            &#39;3.5&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
-            &#39;3.6&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
-            &#39;3.7&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
-        }.get(version)
         if client:
+            client_kwargs = {
+                &#39;organization_id&#39;: organization_id,
+                &#39;access_token&#39;: access_token,
+                &#39;base_url&#39;: base_url,
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify,
+                &#39;disable_logging&#39;: disable_logging,
+                &#39;timeout&#39;: timeout
+            }
             return client(**client_kwargs)
         raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>
@@ -167,7 +134,6 @@ API version.</p></div>
         API version. &#39;&#39;&#39;
     @staticmethod
     def get_client(
-        license_id: int = None,
         access_token: Optional[Union[AccessToken, str]] = None,
         version: str = stable_version,
         base_url: str = api_url,
@@ -210,56 +176,24 @@ API version.</p></div>
             &#39;3.6&#39;: CustomerWebV36,
             &#39;3.7&#39;: CustomerWebV37,
         }.get(version)
-        client_kwargs = {
-            &#39;3.4&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
-            &#39;3.5&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
-            &#39;3.6&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
-            &#39;3.7&#39;: {
-                &#39;organization_id&#39;: organization_id,
-                &#39;access_token&#39;: access_token,
-                &#39;base_url&#39;: base_url,
-                &#39;http2&#39;: http2,
-                &#39;proxies&#39;: proxies,
-                &#39;verify&#39;: verify,
-                &#39;disable_logging&#39;: disable_logging,
-                &#39;timeout&#39;: timeout
-            },
-        }.get(version)
         if client:
+            client_kwargs = {
+                &#39;organization_id&#39;: organization_id,
+                &#39;access_token&#39;: access_token,
+                &#39;base_url&#39;: base_url,
+                &#39;http2&#39;: http2,
+                &#39;proxies&#39;: proxies,
+                &#39;verify&#39;: verify,
+                &#39;disable_logging&#39;: disable_logging,
+                &#39;timeout&#39;: timeout
+            }
             return client(**client_kwargs)
         raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.web.base.CustomerWeb.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>license_id: int = None, access_token: Optional[Union[AccessToken, str]] = None, version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>, <a title="livechat.customer.web.api.v36.CustomerWebV36" href="api/v36.html#livechat.customer.web.api.v36.CustomerWebV36">CustomerWebV36</a>, <a title="livechat.customer.web.api.v37.CustomerWebV37" href="api/v37.html#livechat.customer.web.api.v37.CustomerWebV37">CustomerWebV37</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>access_token: Optional[Union[AccessToken, str]] = None, version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>, <a title="livechat.customer.web.api.v36.CustomerWebV36" href="api/v36.html#livechat.customer.web.api.v36.CustomerWebV36">CustomerWebV36</a>, <a title="livechat.customer.web.api.v37.CustomerWebV37" href="api/v37.html#livechat.customer.web.api.v37.CustomerWebV37">CustomerWebV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific API version.</p>
@@ -304,7 +238,6 @@ Defaults to 15 seconds.</dd>
 </summary>
 <pre><code class="python">@staticmethod
 def get_client(
-    license_id: int = None,
     access_token: Optional[Union[AccessToken, str]] = None,
     version: str = stable_version,
     base_url: str = api_url,
@@ -347,49 +280,17 @@ def get_client(
         &#39;3.6&#39;: CustomerWebV36,
         &#39;3.7&#39;: CustomerWebV37,
     }.get(version)
-    client_kwargs = {
-        &#39;3.4&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;access_token&#39;: access_token,
-            &#39;base_url&#39;: base_url,
-            &#39;http2&#39;: http2,
-            &#39;proxies&#39;: proxies,
-            &#39;verify&#39;: verify,
-            &#39;disable_logging&#39;: disable_logging,
-            &#39;timeout&#39;: timeout
-        },
-        &#39;3.5&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;access_token&#39;: access_token,
-            &#39;base_url&#39;: base_url,
-            &#39;http2&#39;: http2,
-            &#39;proxies&#39;: proxies,
-            &#39;verify&#39;: verify,
-            &#39;disable_logging&#39;: disable_logging,
-            &#39;timeout&#39;: timeout
-        },
-        &#39;3.6&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;access_token&#39;: access_token,
-            &#39;base_url&#39;: base_url,
-            &#39;http2&#39;: http2,
-            &#39;proxies&#39;: proxies,
-            &#39;verify&#39;: verify,
-            &#39;disable_logging&#39;: disable_logging,
-            &#39;timeout&#39;: timeout
-        },
-        &#39;3.7&#39;: {
-            &#39;organization_id&#39;: organization_id,
-            &#39;access_token&#39;: access_token,
-            &#39;base_url&#39;: base_url,
-            &#39;http2&#39;: http2,
-            &#39;proxies&#39;: proxies,
-            &#39;verify&#39;: verify,
-            &#39;disable_logging&#39;: disable_logging,
-            &#39;timeout&#39;: timeout
-        },
-    }.get(version)
     if client:
+        client_kwargs = {
+            &#39;organization_id&#39;: organization_id,
+            &#39;access_token&#39;: access_token,
+            &#39;base_url&#39;: base_url,
+            &#39;http2&#39;: http2,
+            &#39;proxies&#39;: proxies,
+            &#39;verify&#39;: verify,
+            &#39;disable_logging&#39;: disable_logging,
+            &#39;timeout&#39;: timeout
+        }
         return client(**client_kwargs)
     raise ValueError(&#39;Provided version does not exist.&#39;)</code></pre>
 </details>
