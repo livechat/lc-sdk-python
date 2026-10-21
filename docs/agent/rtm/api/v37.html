@@ -86,12 +86,12 @@ class AgentRtmV37:
                    limit: int = None,
                    page_id: str = None,
                    payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
+        &#39;&#39;&#39; Returns chat info for the chats an Agent has access to.
 
             Args:
                 filters (dict): Possible request filters. Mustn&#39;t change between requests for subsequent pages.
                         Otherwise, the behavior is undefined.
-                sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
+                sort_order (str): Possible values: asc, desc (default). Chat info entries are sorted by the
                         creation date of its last thread.
                 limit (int): Chats limit per page. Default: 10, maximum: 100.
                 page_id (str): Page ID.
@@ -456,6 +456,29 @@ class AgentRtmV37:
             &#39;payload&#39;: payload
         })
 
+    def get_thread_transcript(self,
+                              chat_id: str = None,
+                              thread_id: str = None,
+                              payload: dict = None) -&gt; RtmResponse:
+        &#39;&#39;&#39; Returns a plain-text transcript of a given thread.
+
+            Args:
+                chat_id (str): ID of the chat the thread belongs to.
+                thread_id (str): ID of the thread to return the transcript for.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;get_thread_transcript&#39;,
+            &#39;payload&#39;: payload
+        })
+
 # Properties
 
     def update_chat_properties(self,
@@ -721,45 +744,6 @@ class AgentRtmV37:
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;ban_customer&#39;, &#39;payload&#39;: payload})
-
-    def follow_customer(self,
-                        id: str = None,
-                        payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Marks a customer as followed.
-
-            Args:
-                id (str): ID of the Customer. UUID v4 format is required.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;follow_customer&#39;, &#39;payload&#39;: payload})
-
-    def unfollow_customer(self,
-                          id: str = None,
-                          payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers.
-
-            Args:
-                id (str): ID of the Customer. UUID v4 format is required.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;unfollow_customer&#39;,
-            &#39;payload&#39;: payload
-        })
 
 # Status
 
@@ -1086,7 +1070,7 @@ class AgentRtmV37:
 <dl>
 <dt id="livechat.agent.rtm.api.v37.AgentRtmV37"><code class="flex name class">
 <span>class <span class="ident">AgentRtmV37</span></span>
-<span>(</span><span>url: str, header: Union[list, dict, Callable, None])</span>
+<span>(</span><span>url: str, header: Union[list, dict, Callable, ForwardRef(None)])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Agent RTM API Class containing methods in version 3.7.</p></div>
@@ -1142,12 +1126,12 @@ class AgentRtmV37:
                    limit: int = None,
                    page_id: str = None,
                    payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
+        &#39;&#39;&#39; Returns chat info for the chats an Agent has access to.
 
             Args:
                 filters (dict): Possible request filters. Mustn&#39;t change between requests for subsequent pages.
                         Otherwise, the behavior is undefined.
-                sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
+                sort_order (str): Possible values: asc, desc (default). Chat info entries are sorted by the
                         creation date of its last thread.
                 limit (int): Chats limit per page. Default: 10, maximum: 100.
                 page_id (str): Page ID.
@@ -1512,6 +1496,29 @@ class AgentRtmV37:
             &#39;payload&#39;: payload
         })
 
+    def get_thread_transcript(self,
+                              chat_id: str = None,
+                              thread_id: str = None,
+                              payload: dict = None) -&gt; RtmResponse:
+        &#39;&#39;&#39; Returns a plain-text transcript of a given thread.
+
+            Args:
+                chat_id (str): ID of the chat the thread belongs to.
+                thread_id (str): ID of the thread to return the transcript for.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+
+            Returns:
+                RtmResponse: RTM response structure (`request_id`, `action`,
+                             `type`, `success` and `payload` properties)
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.ws.send({
+            &#39;action&#39;: &#39;get_thread_transcript&#39;,
+            &#39;payload&#39;: payload
+        })
+
 # Properties
 
     def update_chat_properties(self,
@@ -1777,45 +1784,6 @@ class AgentRtmV37:
         if payload is None:
             payload = prepare_payload(locals())
         return self.ws.send({&#39;action&#39;: &#39;ban_customer&#39;, &#39;payload&#39;: payload})
-
-    def follow_customer(self,
-                        id: str = None,
-                        payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Marks a customer as followed.
-
-            Args:
-                id (str): ID of the Customer. UUID v4 format is required.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({&#39;action&#39;: &#39;follow_customer&#39;, &#39;payload&#39;: payload})
-
-    def unfollow_customer(self,
-                          id: str = None,
-                          payload: dict = None) -&gt; RtmResponse:
-        &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers.
-
-            Args:
-                id (str): ID of the Customer. UUID v4 format is required.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                        It overrides all other parameters provided for the method.
-
-            Returns:
-                RtmResponse: RTM response structure (`request_id`, `action`,
-                             `type`, `success` and `payload` properties)
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.ws.send({
-            &#39;action&#39;: &#39;unfollow_customer&#39;,
-            &#39;payload&#39;: payload
-        })
 
 # Status
 
@@ -2560,48 +2528,6 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;follow_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.follow_customer"><code class="name flex">
-<span>def <span class="ident">follow_customer</span></span>(<span>self, id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Marks a customer as followed.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the Customer. UUID v4 format is required.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>RtmResponse</code></dt>
-<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
-<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def follow_customer(self,
-                    id: str = None,
-                    payload: dict = None) -&gt; RtmResponse:
-    &#39;&#39;&#39; Marks a customer as followed.
-
-        Args:
-            id (str): ID of the Customer. UUID v4 format is required.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            RtmResponse: RTM response structure (`request_id`, `action`,
-                         `type`, `success` and `payload` properties)
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({&#39;action&#39;: &#39;follow_customer&#39;, &#39;payload&#39;: payload})</code></pre>
-</details>
-</dd>
 <dt id="livechat.agent.rtm.api.v37.AgentRtmV37.get_chat"><code class="name flex">
 <span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
@@ -2688,6 +2614,55 @@ It overrides all other parameters provided for the method.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.ws.send({&#39;action&#39;: &#39;get_customer&#39;, &#39;payload&#39;: payload})</code></pre>
+</details>
+</dd>
+<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.get_thread_transcript"><code class="name flex">
+<span>def <span class="ident">get_thread_transcript</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a plain-text transcript of a given thread.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat the thread belongs to.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread to return the transcript for.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>RtmResponse</code></dt>
+<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
+<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_thread_transcript(self,
+                          chat_id: str = None,
+                          thread_id: str = None,
+                          payload: dict = None) -&gt; RtmResponse:
+    &#39;&#39;&#39; Returns a plain-text transcript of a given thread.
+
+        Args:
+            chat_id (str): ID of the chat the thread belongs to.
+            thread_id (str): ID of the thread to return the transcript for.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                    It overrides all other parameters provided for the method.
+
+        Returns:
+            RtmResponse: RTM response structure (`request_id`, `action`,
+                         `type`, `success` and `payload` properties)
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.ws.send({
+        &#39;action&#39;: &#39;get_thread_transcript&#39;,
+        &#39;payload&#39;: payload
+    })</code></pre>
 </details>
 </dd>
 <dt id="livechat.agent.rtm.api.v37.AgentRtmV37.list_agents_for_transfer"><code class="name flex">
@@ -2801,14 +2776,14 @@ It overrides all other parameters provided for the method.</dd>
 <span>def <span class="ident">list_chats</span></span>(<span>self, filters: dict = None, sort_order: str = None, limit: int = None, page_id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns summaries of the chats an Agent has access to.</p>
+<div class="desc"><p>Returns chat info for the chats an Agent has access to.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Possible request filters. Mustn't change between requests for subsequent pages.
 Otherwise, the behavior is undefined.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
-<dd>Possible values: asc, desc (default). Chat summaries are sorted by the
+<dd>Possible values: asc, desc (default). Chat info entries are sorted by the
 creation date of its last thread.</dd>
 <dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
 <dd>Chats limit per page. Default: 10, maximum: 100.</dd>
@@ -2834,12 +2809,12 @@ It overrides all other parameters provided for the method.</dd>
                limit: int = None,
                page_id: str = None,
                payload: dict = None) -&gt; RtmResponse:
-    &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
+    &#39;&#39;&#39; Returns chat info for the chats an Agent has access to.
 
         Args:
             filters (dict): Possible request filters. Mustn&#39;t change between requests for subsequent pages.
                     Otherwise, the behavior is undefined.
-            sort_order (str): Possible values: asc, desc (default). Chat summaries are sorted by the
+            sort_order (str): Possible values: asc, desc (default). Chat info entries are sorted by the
                     creation date of its last thread.
             limit (int): Chats limit per page. Default: 10, maximum: 100.
             page_id (str): Page ID.
@@ -3979,51 +3954,6 @@ It overrides all other parameters provided for the method.</dd>
     return self.ws.send({&#39;action&#39;: &#39;unfollow_chat&#39;, &#39;payload&#39;: payload})</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_customer"><code class="name flex">
-<span>def <span class="ident">unfollow_customer</span></span>(<span>self, id: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Removes the agent from the list of customer's followers.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the Customer. UUID v4 format is required.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>RtmResponse</code></dt>
-<dd>RTM response structure (<code>request_id</code>, <code>action</code>,
-<code>type</code>, <code>success</code> and <code>payload</code> properties)</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def unfollow_customer(self,
-                      id: str = None,
-                      payload: dict = None) -&gt; RtmResponse:
-    &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers.
-
-        Args:
-            id (str): ID of the Customer. UUID v4 format is required.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                    It overrides all other parameters provided for the method.
-
-        Returns:
-            RtmResponse: RTM response structure (`request_id`, `action`,
-                         `type`, `success` and `payload` properties)
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.ws.send({
-        &#39;action&#39;: &#39;unfollow_customer&#39;,
-        &#39;payload&#39;: payload
-    })</code></pre>
-</details>
-</dd>
 <dt id="livechat.agent.rtm.api.v37.AgentRtmV37.untag_thread"><code class="name flex">
 <span>def <span class="ident">untag_thread</span></span>(<span>self, chat_id: str = None, thread_id: str = None, tag: str = None, payload: dict = None) ‑> livechat.utils.structures.RtmResponse</span>
 </code></dt>
@@ -4367,9 +4297,9 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.delete_event_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.delete_event_properties">delete_event_properties</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.delete_thread_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.delete_thread_properties">delete_thread_properties</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.follow_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.follow_chat">follow_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.follow_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.follow_customer">follow_customer</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.get_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.get_chat">get_chat</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.get_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.get_thread_transcript" href="#livechat.agent.rtm.api.v37.AgentRtmV37.get_thread_transcript">get_thread_transcript</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.list_agents_for_transfer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.list_archives" href="#livechat.agent.rtm.api.v37.AgentRtmV37.list_archives">list_archives</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.list_chats" href="#livechat.agent.rtm.api.v37.AgentRtmV37.list_chats">list_chats</a></code></li>
@@ -4394,7 +4324,6 @@ It overrides all other parameters provided for the method.</dd>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.tag_thread" href="#livechat.agent.rtm.api.v37.AgentRtmV37.tag_thread">tag_thread</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.transfer_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.transfer_chat">transfer_chat</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_chat" href="#livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_chat">unfollow_chat</a></code></li>
-<li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.unfollow_customer">unfollow_customer</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.untag_thread" href="#livechat.agent.rtm.api.v37.AgentRtmV37.untag_thread">untag_thread</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.update_chat_properties" href="#livechat.agent.rtm.api.v37.AgentRtmV37.update_chat_properties">update_chat_properties</a></code></li>
 <li><code><a title="livechat.agent.rtm.api.v37.AgentRtmV37.update_customer" href="#livechat.agent.rtm.api.v37.AgentRtmV37.update_customer">update_customer</a></code></li>

@@ -568,6 +568,38 @@ class ReportsApiV37(HttpClient):
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/customers/unique_visitors&#39;,
                                  json=payload,
+                                 headers=headers)
+
+# Campaigns
+
+    def campaigns_conversion(self,
+                             distribution: str = None,
+                             timezone: str = None,
+                             filters: dict = None,
+                             payload: dict = None,
+                             headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Shows the number of campaigns sent and how many of those resulted in a chat or a goal.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/campaigns/campaigns_conversion&#39;,
+                                 json=payload,
                                  headers=headers)</code></pre>
 </details>
 </section>
@@ -1118,6 +1150,38 @@ class ReportsApiV37(HttpClient):
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/customers/unique_visitors&#39;,
                                  json=payload,
+                                 headers=headers)
+
+# Campaigns
+
+    def campaigns_conversion(self,
+                             distribution: str = None,
+                             timezone: str = None,
+                             filters: dict = None,
+                             payload: dict = None,
+                             headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Shows the number of campaigns sent and how many of those resulted in a chat or a goal.
+
+        Args:
+            distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+            timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                            Defaults to the requester&#39;s timezone.
+                            When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+            filters (dict): If none provided, your report will span the last seven days.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request.
+        &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/campaigns/campaigns_conversion&#39;,
+                                 json=payload,
                                  headers=headers)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -1186,6 +1250,70 @@ which contains a server's response to an HTTP request.</dd>
     if payload is None:
         payload = prepare_payload(locals())
     return self.session.post(f&#39;{self.api_url}/agents/availability&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
+<dt id="livechat.reports.api.v37.ReportsApiV37.campaigns_conversion"><code class="name flex">
+<span>def <span class="ident">campaigns_conversion</span></span>(<span>self, distribution: str = None, timezone: str = None, filters: dict = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the number of campaigns sent and how many of those resulted in a chat or a goal.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>distribution</code></strong> :&ensp;<code>str</code></dt>
+<dd>Allowed values: <code>hour</code>, <code>day</code>, <code>day-hours</code>, <code>month</code> or <code>year</code>. Defaults to <code>day</code>.</dd>
+<dt><strong><code>timezone</code></strong> :&ensp;<code>str</code></dt>
+<dd>IANA Time Zone (e.g. America/Phoenix).
+Defaults to the requester's timezone.
+When the requester's timezone isn't present, then <code>filters.from</code> is parsed to get the timezone.</dd>
+<dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
+<dd>If none provided, your report will span the last seven days.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def campaigns_conversion(self,
+                         distribution: str = None,
+                         timezone: str = None,
+                         filters: dict = None,
+                         payload: dict = None,
+                         headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Shows the number of campaigns sent and how many of those resulted in a chat or a goal.
+
+    Args:
+        distribution (str): Allowed values: `hour`, `day`, `day-hours`, `month` or `year`. Defaults to `day`.
+        timezone (str): IANA Time Zone (e.g. America/Phoenix).
+                        Defaults to the requester&#39;s timezone.
+                        When the requester&#39;s timezone isn&#39;t present, then `filters.from` is parsed to get the timezone.
+        filters (dict): If none provided, your report will span the last seven days.
+        payload (dict): Custom payload to be used as request&#39;s data.
+                        It overrides all other parameters provided for the method.
+        headers (dict): Custom headers to be used with session headers.
+                        They will be merged with session-level values that are set,
+                        however, these method-level parameters will not be persisted across requests.
+
+    Returns:
+        httpx.Response: The Response object from `httpx` library,
+                        which contains a server&#39;s response to an HTTP request.
+    &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/campaigns/campaigns_conversion&#39;,
                              json=payload,
                              headers=headers)</code></pre>
 </details>
@@ -2229,6 +2357,7 @@ which contains a server's response to an HTTP request.</dd>
 <h4><code><a title="livechat.reports.api.v37.ReportsApiV37" href="#livechat.reports.api.v37.ReportsApiV37">ReportsApiV37</a></code></h4>
 <ul class="">
 <li><code><a title="livechat.reports.api.v37.ReportsApiV37.availability" href="#livechat.reports.api.v37.ReportsApiV37.availability">availability</a></code></li>
+<li><code><a title="livechat.reports.api.v37.ReportsApiV37.campaigns_conversion" href="#livechat.reports.api.v37.ReportsApiV37.campaigns_conversion">campaigns_conversion</a></code></li>
 <li><code><a title="livechat.reports.api.v37.ReportsApiV37.chat_usage" href="#livechat.reports.api.v37.ReportsApiV37.chat_usage">chat_usage</a></code></li>
 <li><code><a title="livechat.reports.api.v37.ReportsApiV37.duration" href="#livechat.reports.api.v37.ReportsApiV37.duration">duration</a></code></li>
 <li><code><a title="livechat.reports.api.v37.ReportsApiV37.engagement" href="#livechat.reports.api.v37.ReportsApiV37.engagement">engagement</a></code></li>

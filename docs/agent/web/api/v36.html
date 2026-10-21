@@ -66,14 +66,14 @@ class AgentWebV36(HttpClient):
                    page_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
+        &#39;&#39;&#39; Returns chat info for the chats an Agent has access to.
 
             Args:
                 filters (dict): Possible request filters. Mustn&#39;t change between
                                 requests for subsequent pages. Otherwise,
                                 the behavior is undefined.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation
+                                  Chat info entries are sorted by the creation
                                   date of its last thread.
                 limit (int): Limit of results per page. Default: 10, maximum: 100.
                 page_id (str): ID of the page with paginated results.
@@ -171,7 +171,7 @@ class AgentWebV36(HttpClient):
                 filters (dict): Possible request filters.
                 page_id (str): ID of the page with paginated results.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date
+                                  Chat info entries are sorted by the creation date
                                   of its last thread.
                 limit (str): Limit of results per page. Default: 10, maximum: 100.
                 highlights (dict): Use it to highlight the match of filters.query.
@@ -537,6 +537,31 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def get_thread_transcript(self,
+                              chat_id: str = None,
+                              thread_id: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns a plain-text transcript of a given thread.
+
+            Args:
+                chat_id (str): ID of the chat the thread belongs to.
+                thread_id (str): ID of the thread to return the transcript for.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_thread_transcript&#39;,
+                                 json=payload,
+                                 headers=headers)
+
 # Properties
 
     def update_chat_properties(self,
@@ -845,60 +870,6 @@ class AgentWebV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/ban_customer&#39;,
-                                 json=payload,
-                                 headers=headers)
-
-    def follow_customer(self,
-                        id: str = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Marks a customer as followed. As a result, the requester (an agent)
-            will receive the info about all the changes related to that customer
-            via pushes. Once the customer leaves the website or is unfollowed,
-            the agent will no longer receive that information.
-
-            Args:
-                id (str): ID of the Customer.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/follow_customer&#39;,
-                                 json=payload,
-                                 headers=headers)
-
-    def unfollow_customer(self,
-                          id: str = None,
-                          payload: dict = None,
-                          headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers. Calling this
-            method on a customer the agent&#39;s chatting with will result in success,
-            however, the agent will still receive pushes about the customer&#39;s data
-            updates. The unfollowing will take effect once the chat ends.
-
-            Args:
-                id (str): ID of the Customer.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/unfollow_customer&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -1182,14 +1153,14 @@ class AgentWebV36(HttpClient):
                    page_id: str = None,
                    payload: dict = None,
                    headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
+        &#39;&#39;&#39; Returns chat info for the chats an Agent has access to.
 
             Args:
                 filters (dict): Possible request filters. Mustn&#39;t change between
                                 requests for subsequent pages. Otherwise,
                                 the behavior is undefined.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation
+                                  Chat info entries are sorted by the creation
                                   date of its last thread.
                 limit (int): Limit of results per page. Default: 10, maximum: 100.
                 page_id (str): ID of the page with paginated results.
@@ -1287,7 +1258,7 @@ class AgentWebV36(HttpClient):
                 filters (dict): Possible request filters.
                 page_id (str): ID of the page with paginated results.
                 sort_order (str): Possible values: asc, desc (default).
-                                  Chat summaries are sorted by the creation date
+                                  Chat info entries are sorted by the creation date
                                   of its last thread.
                 limit (str): Limit of results per page. Default: 10, maximum: 100.
                 highlights (dict): Use it to highlight the match of filters.query.
@@ -1653,6 +1624,31 @@ class AgentWebV36(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def get_thread_transcript(self,
+                              chat_id: str = None,
+                              thread_id: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -&gt; httpx.Response:
+        &#39;&#39;&#39; Returns a plain-text transcript of a given thread.
+
+            Args:
+                chat_id (str): ID of the chat the thread belongs to.
+                thread_id (str): ID of the thread to return the transcript for.
+                payload (dict): Custom payload to be used as request&#39;s data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server&#39;s response to an HTTP request. &#39;&#39;&#39;
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f&#39;{self.api_url}/get_thread_transcript&#39;,
+                                 json=payload,
+                                 headers=headers)
+
 # Properties
 
     def update_chat_properties(self,
@@ -1961,60 +1957,6 @@ class AgentWebV36(HttpClient):
         if payload is None:
             payload = prepare_payload(locals())
         return self.session.post(f&#39;{self.api_url}/ban_customer&#39;,
-                                 json=payload,
-                                 headers=headers)
-
-    def follow_customer(self,
-                        id: str = None,
-                        payload: dict = None,
-                        headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Marks a customer as followed. As a result, the requester (an agent)
-            will receive the info about all the changes related to that customer
-            via pushes. Once the customer leaves the website or is unfollowed,
-            the agent will no longer receive that information.
-
-            Args:
-                id (str): ID of the Customer.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/follow_customer&#39;,
-                                 json=payload,
-                                 headers=headers)
-
-    def unfollow_customer(self,
-                          id: str = None,
-                          payload: dict = None,
-                          headers: dict = None) -&gt; httpx.Response:
-        &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers. Calling this
-            method on a customer the agent&#39;s chatting with will result in success,
-            however, the agent will still receive pushes about the customer&#39;s data
-            updates. The unfollowing will take effect once the chat ends.
-
-            Args:
-                id (str): ID of the Customer.
-                payload (dict): Custom payload to be used as request&#39;s data.
-                                It overrides all other parameters provided for the method.
-                headers (dict): Custom headers to be used with session headers.
-                                They will be merged with session-level values that are set,
-                                however, these method-level parameters will not be persisted across requests.
-
-            Returns:
-                httpx.Response: The Response object from `httpx` library,
-                                which contains a server’s response to an HTTP request.
-        &#39;&#39;&#39;
-        if payload is None:
-            payload = prepare_payload(locals())
-        return self.session.post(f&#39;{self.api_url}/unfollow_customer&#39;,
                                  json=payload,
                                  headers=headers)
 
@@ -2690,64 +2632,6 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.web.api.v36.AgentWebV36.follow_customer"><code class="name flex">
-<span>def <span class="ident">follow_customer</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Marks a customer as followed. As a result, the requester (an agent)
-will receive the info about all the changes related to that customer
-via pushes. Once the customer leaves the website or is unfollowed,
-the agent will no longer receive that information.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the Customer.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def follow_customer(self,
-                    id: str = None,
-                    payload: dict = None,
-                    headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Marks a customer as followed. As a result, the requester (an agent)
-        will receive the info about all the changes related to that customer
-        via pushes. Once the customer leaves the website or is unfollowed,
-        the agent will no longer receive that information.
-
-        Args:
-            id (str): ID of the Customer.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/follow_customer&#39;,
-                             json=payload,
-                             headers=headers)</code></pre>
-</details>
-</dd>
 <dt id="livechat.agent.web.api.v36.AgentWebV36.get_chat"><code class="name flex">
 <span>def <span class="ident">get_chat</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -2855,6 +2739,61 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
+<dt id="livechat.agent.web.api.v36.AgentWebV36.get_thread_transcript"><code class="name flex">
+<span>def <span class="ident">get_thread_transcript</span></span>(<span>self, chat_id: str = None, thread_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a plain-text transcript of a given thread.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chat_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the chat the thread belongs to.</dd>
+<dt><strong><code>thread_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>ID of the thread to return the transcript for.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom payload to be used as request's data.
+It overrides all other parameters provided for the method.</dd>
+<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Custom headers to be used with session headers.
+They will be merged with session-level values that are set,
+however, these method-level parameters will not be persisted across requests.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>httpx.Response</code></dt>
+<dd>The Response object from <code>httpx</code> library,
+which contains a server's response to an HTTP request.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_thread_transcript(self,
+                          chat_id: str = None,
+                          thread_id: str = None,
+                          payload: dict = None,
+                          headers: dict = None) -&gt; httpx.Response:
+    &#39;&#39;&#39; Returns a plain-text transcript of a given thread.
+
+        Args:
+            chat_id (str): ID of the chat the thread belongs to.
+            thread_id (str): ID of the thread to return the transcript for.
+            payload (dict): Custom payload to be used as request&#39;s data.
+                            It overrides all other parameters provided for the method.
+            headers (dict): Custom headers to be used with session headers.
+                            They will be merged with session-level values that are set,
+                            however, these method-level parameters will not be persisted across requests.
+
+        Returns:
+            httpx.Response: The Response object from `httpx` library,
+                            which contains a server&#39;s response to an HTTP request. &#39;&#39;&#39;
+    if payload is None:
+        payload = prepare_payload(locals())
+    return self.session.post(f&#39;{self.api_url}/get_thread_transcript&#39;,
+                             json=payload,
+                             headers=headers)</code></pre>
+</details>
+</dd>
 <dt id="livechat.agent.web.api.v36.AgentWebV36.list_agents_for_transfer"><code class="name flex">
 <span>def <span class="ident">list_agents_for_transfer</span></span>(<span>self, chat_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -2920,7 +2859,7 @@ Together with a chat, the events of one thread from this chat are returned.</p>
 <dd>ID of the page with paginated results.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: asc, desc (default).
-Chat summaries are sorted by the creation date
+Chat info entries are sorted by the creation date
 of its last thread.</dd>
 <dt><strong><code>limit</code></strong> :&ensp;<code>str</code></dt>
 <dd>Limit of results per page. Default: 10, maximum: 100.</dd>
@@ -2961,7 +2900,7 @@ which contains a server’s response to an HTTP request.</dd>
             filters (dict): Possible request filters.
             page_id (str): ID of the page with paginated results.
             sort_order (str): Possible values: asc, desc (default).
-                              Chat summaries are sorted by the creation date
+                              Chat info entries are sorted by the creation date
                               of its last thread.
             limit (str): Limit of results per page. Default: 10, maximum: 100.
             highlights (dict): Use it to highlight the match of filters.query.
@@ -2988,7 +2927,7 @@ which contains a server’s response to an HTTP request.</dd>
 <span>def <span class="ident">list_chats</span></span>(<span>self, filters: dict = None, sort_order: str = None, limit: int = None, page_id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns summaries of the chats an Agent has access to.</p>
+<div class="desc"><p>Returns chat info for the chats an Agent has access to.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>filters</code></strong> :&ensp;<code>dict</code></dt>
@@ -2997,7 +2936,7 @@ requests for subsequent pages. Otherwise,
 the behavior is undefined.</dd>
 <dt><strong><code>sort_order</code></strong> :&ensp;<code>str</code></dt>
 <dd>Possible values: asc, desc (default).
-Chat summaries are sorted by the creation
+Chat info entries are sorted by the creation
 date of its last thread.</dd>
 <dt><strong><code>limit</code></strong> :&ensp;<code>int</code></dt>
 <dd>Limit of results per page. Default: 10, maximum: 100.</dd>
@@ -3029,14 +2968,14 @@ which contains a server’s response to an HTTP request.</dd>
                page_id: str = None,
                payload: dict = None,
                headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Returns summaries of the chats an Agent has access to.
+    &#39;&#39;&#39; Returns chat info for the chats an Agent has access to.
 
         Args:
             filters (dict): Possible request filters. Mustn&#39;t change between
                             requests for subsequent pages. Otherwise,
                             the behavior is undefined.
             sort_order (str): Possible values: asc, desc (default).
-                              Chat summaries are sorted by the creation
+                              Chat info entries are sorted by the creation
                               date of its last thread.
             limit (int): Limit of results per page. Default: 10, maximum: 100.
             page_id (str): ID of the page with paginated results.
@@ -4145,64 +4084,6 @@ which contains a server’s response to an HTTP request.</dd>
                              headers=headers)</code></pre>
 </details>
 </dd>
-<dt id="livechat.agent.web.api.v36.AgentWebV36.unfollow_customer"><code class="name flex">
-<span>def <span class="ident">unfollow_customer</span></span>(<span>self, id: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Removes the agent from the list of customer's followers. Calling this
-method on a customer the agent's chatting with will result in success,
-however, the agent will still receive pushes about the customer's data
-updates. The unfollowing will take effect once the chat ends.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>id</code></strong> :&ensp;<code>str</code></dt>
-<dd>ID of the Customer.</dd>
-<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom payload to be used as request's data.
-It overrides all other parameters provided for the method.</dd>
-<dt><strong><code>headers</code></strong> :&ensp;<code>dict</code></dt>
-<dd>Custom headers to be used with session headers.
-They will be merged with session-level values that are set,
-however, these method-level parameters will not be persisted across requests.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>httpx.Response</code></dt>
-<dd>The Response object from <code>httpx</code> library,
-which contains a server’s response to an HTTP request.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def unfollow_customer(self,
-                      id: str = None,
-                      payload: dict = None,
-                      headers: dict = None) -&gt; httpx.Response:
-    &#39;&#39;&#39; Removes the agent from the list of customer&#39;s followers. Calling this
-        method on a customer the agent&#39;s chatting with will result in success,
-        however, the agent will still receive pushes about the customer&#39;s data
-        updates. The unfollowing will take effect once the chat ends.
-
-        Args:
-            id (str): ID of the Customer.
-            payload (dict): Custom payload to be used as request&#39;s data.
-                            It overrides all other parameters provided for the method.
-            headers (dict): Custom headers to be used with session headers.
-                            They will be merged with session-level values that are set,
-                            however, these method-level parameters will not be persisted across requests.
-
-        Returns:
-            httpx.Response: The Response object from `httpx` library,
-                            which contains a server’s response to an HTTP request.
-    &#39;&#39;&#39;
-    if payload is None:
-        payload = prepare_payload(locals())
-    return self.session.post(f&#39;{self.api_url}/unfollow_customer&#39;,
-                             json=payload,
-                             headers=headers)</code></pre>
-</details>
-</dd>
 <dt id="livechat.agent.web.api.v36.AgentWebV36.untag_thread"><code class="name flex">
 <span>def <span class="ident">untag_thread</span></span>(<span>self, chat_id: str = None, thread_id: str = None, tag: str = None, payload: dict = None, headers: dict = None) ‑> httpx.Response</span>
 </code></dt>
@@ -4587,9 +4468,9 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.delete_event_properties" href="#livechat.agent.web.api.v36.AgentWebV36.delete_event_properties">delete_event_properties</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.delete_thread_properties" href="#livechat.agent.web.api.v36.AgentWebV36.delete_thread_properties">delete_thread_properties</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.follow_chat" href="#livechat.agent.web.api.v36.AgentWebV36.follow_chat">follow_chat</a></code></li>
-<li><code><a title="livechat.agent.web.api.v36.AgentWebV36.follow_customer" href="#livechat.agent.web.api.v36.AgentWebV36.follow_customer">follow_customer</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.get_chat" href="#livechat.agent.web.api.v36.AgentWebV36.get_chat">get_chat</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.get_customer" href="#livechat.agent.web.api.v36.AgentWebV36.get_customer">get_customer</a></code></li>
+<li><code><a title="livechat.agent.web.api.v36.AgentWebV36.get_thread_transcript" href="#livechat.agent.web.api.v36.AgentWebV36.get_thread_transcript">get_thread_transcript</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_agents_for_transfer" href="#livechat.agent.web.api.v36.AgentWebV36.list_agents_for_transfer">list_agents_for_transfer</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_archives" href="#livechat.agent.web.api.v36.AgentWebV36.list_archives">list_archives</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.list_chats" href="#livechat.agent.web.api.v36.AgentWebV36.list_chats">list_chats</a></code></li>
@@ -4611,7 +4492,6 @@ which contains a server’s response to an HTTP request.</dd>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.tag_thread" href="#livechat.agent.web.api.v36.AgentWebV36.tag_thread">tag_thread</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.transfer_chat" href="#livechat.agent.web.api.v36.AgentWebV36.transfer_chat">transfer_chat</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.unfollow_chat" href="#livechat.agent.web.api.v36.AgentWebV36.unfollow_chat">unfollow_chat</a></code></li>
-<li><code><a title="livechat.agent.web.api.v36.AgentWebV36.unfollow_customer" href="#livechat.agent.web.api.v36.AgentWebV36.unfollow_customer">unfollow_customer</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.untag_thread" href="#livechat.agent.web.api.v36.AgentWebV36.untag_thread">untag_thread</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.update_chat_properties" href="#livechat.agent.web.api.v36.AgentWebV36.update_chat_properties">update_chat_properties</a></code></li>
 <li><code><a title="livechat.agent.web.api.v36.AgentWebV36.update_customer" href="#livechat.agent.web.api.v36.AgentWebV36.update_customer">update_customer</a></code></li>

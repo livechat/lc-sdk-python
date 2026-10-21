@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.4.2] - TBA
+## [0.4.2] - 2026-10-21
 
 ### Added
 - Support for new version 3.7.
@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 - New method in reports-api v3.7: report `campaigns_conversion`.
 
 ### Changed
-- Udated python version from 3.8 to 3.13.0 (version 3.8 was unsupported since 2024-10-07).
+- Updated python version from 3.8 to 3.13.0 (version 3.8 was unsupported since 2024-10-07).
 - Updated urllib3 dependency to a version which fixes a potential vulnerability.
 - Updated dependencies: websocket-client, certifi, exceptiongroup, h11, h2, hpack, httpcore, hyperframe.
 - Config now points to v3.6 as a stable and 3.7 as a dev-preview version.
@@ -32,7 +32,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - Support for versions 3.3 and 3.4.
 - Removed support for billing-api.
-- Support `get_predicted_agent` in customer-api v3.7.
+- Support for `get_predicted_agent` in customer-api v3.7.
 - Support for `create_customer` method removed in agent-api v3.6 and later.
 - Support for `incoming_customer` webhook removed in v3.6 and later.
 
