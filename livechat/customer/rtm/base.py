@@ -5,7 +5,6 @@
 from typing import Callable, Union
 
 from livechat.config import CONFIG
-from livechat.customer.rtm.api.v34 import CustomerRtmV34
 from livechat.customer.rtm.api.v35 import CustomerRtmV35
 from livechat.customer.rtm.api.v36 import CustomerRtmV36
 from livechat.customer.rtm.api.v37 import CustomerRtmV37
@@ -22,7 +21,7 @@ class CustomerRTM:
         base_url: str = api_url,
         organization_id: str = None,
         header: Union[list, dict, Callable, None] = None,
-    ) -> Union[CustomerRtmV34, CustomerRtmV35, CustomerRtmV36, CustomerRtmV37]:
+    ) -> Union[CustomerRtmV35, CustomerRtmV36, CustomerRtmV37]:
         ''' Returns client for specific Customer RTM version.
 
             Args:
@@ -39,7 +38,6 @@ class CustomerRTM:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.4': CustomerRtmV34,
             '3.5': CustomerRtmV35,
             '3.6': CustomerRtmV36,
             '3.7': CustomerRtmV37,

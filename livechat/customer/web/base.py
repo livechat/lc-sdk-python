@@ -8,7 +8,6 @@ from typing import Optional, Union
 import httpx
 
 from livechat.config import CONFIG
-from livechat.customer.web.api.v34 import CustomerWebV34
 from livechat.customer.web.api.v35 import CustomerWebV35
 from livechat.customer.web.api.v36 import CustomerWebV36
 from livechat.customer.web.api.v37 import CustomerWebV37
@@ -33,7 +32,7 @@ class CustomerWeb:
         organization_id: str = None,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -> Union[CustomerWebV34, CustomerWebV35, CustomerWebV36, CustomerWebV37]:
+    ) -> Union[CustomerWebV35, CustomerWebV36, CustomerWebV37]:
         ''' Returns client for specific API version.
 
             Args:
@@ -61,7 +60,6 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.4': CustomerWebV34,
             '3.5': CustomerWebV35,
             '3.6': CustomerWebV36,
             '3.7': CustomerWebV37,
