@@ -6,7 +6,6 @@ import pytest
 
 from livechat.config import CONFIG
 from livechat.webhooks.parser import parse_webhook
-from livechat.webhooks.v34 import WebhookV34, action_to_data_class_mapping_v_34
 from livechat.webhooks.v35 import WebhookV35, action_to_data_class_mapping_v_35
 from livechat.webhooks.v36 import WebhookV36, action_to_data_class_mapping_v_36
 
@@ -36,7 +35,6 @@ def webhook_data_class_and_mapping() -> tuple:
     ''' Returns a tuple with webhook data class and actions to payload's
         data classes mapping for the stable version. '''
     return {
-        '3.4': (WebhookV34, action_to_data_class_mapping_v_34),
         '3.5': (WebhookV35, action_to_data_class_mapping_v_35),
         '3.6': (WebhookV36, action_to_data_class_mapping_v_36),
     }.get(stable_version)
