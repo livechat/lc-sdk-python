@@ -508,6 +508,31 @@ class AgentWebV37(HttpClient):
                                  json=payload,
                                  headers=headers)
 
+    def get_thread_transcript(self,
+                              chat_id: str = None,
+                              thread_id: str = None,
+                              payload: dict = None,
+                              headers: dict = None) -> httpx.Response:
+        ''' Returns a plain-text transcript of a given thread.
+
+            Args:
+                chat_id (str): ID of the chat the thread belongs to.
+                thread_id (str): ID of the thread to return the transcript for.
+                payload (dict): Custom payload to be used as request's data.
+                                It overrides all other parameters provided for the method.
+                headers (dict): Custom headers to be used with session headers.
+                                They will be merged with session-level values that are set,
+                                however, these method-level parameters will not be persisted across requests.
+
+            Returns:
+                httpx.Response: The Response object from `httpx` library,
+                                which contains a server's response to an HTTP request. '''
+        if payload is None:
+            payload = prepare_payload(locals())
+        return self.session.post(f'{self.api_url}/get_thread_transcript',
+                                 json=payload,
+                                 headers=headers)
+
 # Properties
 
     def update_chat_properties(self,
