@@ -10,7 +10,6 @@ from typing import Union
 import httpx
 
 from livechat.config import CONFIG
-from livechat.reports.api.v34 import ReportsApiV34
 from livechat.reports.api.v35 import ReportsApiV35
 from livechat.reports.api.v36 import ReportsApiV36
 from livechat.reports.api.v37 import ReportsApiV37
@@ -33,7 +32,7 @@ class ReportsApi:
         verify: bool = True,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -> Union[ReportsApiV34, ReportsApiV35, ReportsApiV36, ReportsApiV37]:
+    ) -> Union[ReportsApiV35, ReportsApiV36, ReportsApiV37]:
         ''' Returns client for specific Reports API version.
 
             Args:
@@ -59,9 +58,6 @@ class ReportsApi:
                 ValueError: If the specified version does not exist.
         '''
         client = {
-            '3.4':
-            ReportsApiV34(token, base_url, http2, proxies, verify,
-                          disable_logging, timeout),
             '3.5':
             ReportsApiV35(token, base_url, http2, proxies, verify,
                           disable_logging, timeout),
