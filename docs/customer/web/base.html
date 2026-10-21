@@ -37,7 +37,6 @@ from typing import Optional, Union
 import httpx
 
 from livechat.config import CONFIG
-from livechat.customer.web.api.v34 import CustomerWebV34
 from livechat.customer.web.api.v35 import CustomerWebV35
 from livechat.customer.web.api.v36 import CustomerWebV36
 from livechat.customer.web.api.v37 import CustomerWebV37
@@ -62,7 +61,7 @@ class CustomerWeb:
         organization_id: str = None,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -&gt; Union[CustomerWebV34, CustomerWebV35, CustomerWebV36, CustomerWebV37]:
+    ) -&gt; Union[CustomerWebV35, CustomerWebV36, CustomerWebV37]:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
@@ -90,7 +89,6 @@ class CustomerWeb:
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.4&#39;: CustomerWebV34,
             &#39;3.5&#39;: CustomerWebV35,
             &#39;3.6&#39;: CustomerWebV36,
             &#39;3.7&#39;: CustomerWebV37,
@@ -143,7 +141,7 @@ API version.</p></div>
         organization_id: str = None,
         disable_logging: bool = False,
         timeout: float = httpx.Timeout(15)
-    ) -&gt; Union[CustomerWebV34, CustomerWebV35, CustomerWebV36, CustomerWebV37]:
+    ) -&gt; Union[CustomerWebV35, CustomerWebV36, CustomerWebV37]:
         &#39;&#39;&#39; Returns client for specific API version.
 
             Args:
@@ -171,7 +169,6 @@ API version.</p></div>
                 ValueError: If the specified version does not exist.
         &#39;&#39;&#39;
         client = {
-            &#39;3.4&#39;: CustomerWebV34,
             &#39;3.5&#39;: CustomerWebV35,
             &#39;3.6&#39;: CustomerWebV36,
             &#39;3.7&#39;: CustomerWebV37,
@@ -193,7 +190,7 @@ API version.</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="livechat.customer.web.base.CustomerWeb.get_client"><code class="name flex">
-<span>def <span class="ident">get_client</span></span>(<span>access_token: Optional[Union[AccessToken, str]] = None, version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.customer.web.api.v34.CustomerWebV34" href="api/v34.html#livechat.customer.web.api.v34.CustomerWebV34">CustomerWebV34</a>, <a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>, <a title="livechat.customer.web.api.v36.CustomerWebV36" href="api/v36.html#livechat.customer.web.api.v36.CustomerWebV36">CustomerWebV36</a>, <a title="livechat.customer.web.api.v37.CustomerWebV37" href="api/v37.html#livechat.customer.web.api.v37.CustomerWebV37">CustomerWebV37</a>]</span>
+<span>def <span class="ident">get_client</span></span>(<span>access_token: Optional[Union[AccessToken, str]] = None, version: str = '3.6', base_url: str = 'api.livechatinc.com', http2: bool = False, proxies: dict = None, verify: bool = True, organization_id: str = None, disable_logging: bool = False, timeout: float = Timeout(timeout=15)) ‑> Union[<a title="livechat.customer.web.api.v35.CustomerWebV35" href="api/v35.html#livechat.customer.web.api.v35.CustomerWebV35">CustomerWebV35</a>, <a title="livechat.customer.web.api.v36.CustomerWebV36" href="api/v36.html#livechat.customer.web.api.v36.CustomerWebV36">CustomerWebV36</a>, <a title="livechat.customer.web.api.v37.CustomerWebV37" href="api/v37.html#livechat.customer.web.api.v37.CustomerWebV37">CustomerWebV37</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns client for specific API version.</p>
@@ -247,7 +244,7 @@ def get_client(
     organization_id: str = None,
     disable_logging: bool = False,
     timeout: float = httpx.Timeout(15)
-) -&gt; Union[CustomerWebV34, CustomerWebV35, CustomerWebV36, CustomerWebV37]:
+) -&gt; Union[CustomerWebV35, CustomerWebV36, CustomerWebV37]:
     &#39;&#39;&#39; Returns client for specific API version.
 
         Args:
@@ -275,7 +272,6 @@ def get_client(
             ValueError: If the specified version does not exist.
     &#39;&#39;&#39;
     client = {
-        &#39;3.4&#39;: CustomerWebV34,
         &#39;3.5&#39;: CustomerWebV35,
         &#39;3.6&#39;: CustomerWebV36,
         &#39;3.7&#39;: CustomerWebV37,
